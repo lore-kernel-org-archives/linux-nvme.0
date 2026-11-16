@@ -2,56 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D18606A32F
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDA1606A31C
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ZAKm4Iz8;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gqYeWMoi
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=slSs2umZ;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i6Pqa6AK
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=VWUjc/lm6IOzTKu/XrjxEXkA+3TDHZe6UgBZOCqPWKg=; b=ZAKm4Iz8nkbESm
-	yype2HjWVXmCkiIMLMW+w002CPtFrCq4pTb7Bo6Z/g6zSkYX3YHZNPQpLd01M8Ggh4to1QiqJbpoO
-	qZ1jiQyqXv+VSG69JXldWDmnurTvwG8Kiet+ovwcYxE95O9Q3Ry34g9fuNczN95/8n19iPZxJECOb
-	lSaQkC8TUoSbjJoRXEz01F73f6bL4FGjgtDuLUuq/9HdOFg1JjxNuiE+GHVIawStN6G1wGwgZU2OL
-	y6OqQEWlxx36a95Py5d4YVuwOr7Z239o7MwK2QATF2Y+l/lSMFZ/VaQkA5n2vE777+FaiB/oDS47v
-	FbggNzp57iUtIGhomGMA==;
+	List-Owner; bh=unDyG99Rc2/QnFjGnYYD038yieUDExHdgCgrjykz2ZY=; b=slSs2umZrTDHt3
+	z4/9pjG804dwmoEZHEH6LhKEpX7G4yz3z837imycwwIrPvawTtEs8RisJLofkmoC1NpOQrO00vgMg
+	vjVzpoJsOr2ki0GARqd/IFvkGE5s7/bULQj2vDD7OhIiNq+P5aDpUmFGFcoj/KZBW7UWBgDthY+m4
+	thJfMxwGQ0isnhEiPY3N+6vopGnGHooPtZ4osyBe6aBD+bMg/iUkmXWlikEKRnc5EK+8b0FIjcd2J
+	Q8u4/bpCHqARHXfaDmYIep4B1KSRrWh/g/tO3Rcw6ogCN7Z5oZeqAnqFAkNiG+D7vGUz6n99cU8jD
+	tJz23yqNJ96ul5723i3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSvzX-00000002Nj9-0k6F;
-	Mon, 16 Nov 2026 12:39:23 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xSvzY-00000002Nnl-2lVp;
+	Mon, 16 Nov 2026 12:39:24 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSuXV-000000026OM-2GAy
+	id 1xSuYh-000000026tE-1wPp
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 11:06:21 +0000
+	Mon, 16 Nov 2026 11:07:35 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 026636293C;
-	Mon, 16 Nov 2026 11:06:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1CE11F000C4;
-	Mon, 16 Nov 2026 11:06:13 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id E389F62957;
+	Mon, 16 Nov 2026 11:07:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22F1A1F000C6;
+	Mon, 16 Nov 2026 11:07:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827180;
-	bh=VWUjc/lm6IOzTKu/XrjxEXkA+3TDHZe6UgBZOCqPWKg=;
+	s=k20260515; t=1794827254;
+	bh=unDyG99Rc2/QnFjGnYYD038yieUDExHdgCgrjykz2ZY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=gqYeWMoiimKnvtxsZfDhW+FmTOi7BTYxF7bo1d97YCVIcFzQE/1quY4S5XouMi3vB
-	 mIvfX8HLza9wbhVfQveoZSPNYa7EZm6PUCmHQ7skz2lmq1+o5ujqB3Qz/i2/xmyuvR
-	 0b4/gWtXnDtYIY3WrioVdCD8nsc4XHXOdDDcY2gKhZ/KosrpWqVHiN6+7kfAXc2Ahu
-	 If9E+wIs0Kg08YhaHkaKtxLqpKU3MXnTXiDfJS25gkPWQfrBhMW81NVuUjfaEMsu6P
-	 vgEPDQeb4sn9onP21h80NsMHJnf9A+r8P+Co4bTECH6PFFrHeRa5TxSI1gVwQGLhtT
-	 OalR/X8sFsCZQ==
+	b=i6Pqa6AKqSvC4ebvXTzRd7oi7aJBBmSogD2MCZUz+Gnyciubja82o8kqkhXx7dmbJ
+	 YZ3OFzxMqg5vhnUqEdYWnGqrDZ2761QlIJx4ugYu46+wc79S1rLXYRAojCd2F8EJPv
+	 rWtXzwXgonLmkOAYpmxDxXhGHf+SRv06DZqPMXss0nKRguX50b8hr52CXLrvIrsQJb
+	 R/MzhbgN9X3LeDn2FNzkkLWBu7qU92XxamIU3Wyj+KWteLIrApxDfwLHL4PnSlVBp4
+	 4nMXDHWmRdwXEYpIJfXlUPY7gsKx2DcnOYAbzXZIfzq7R9duuuzTBHHeDujfTitnZh
+	 SUS1JrRQ5cEaw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:04:35 +0100
-Subject: [PATCH RFC v3 02/44] nvmet: check that the file backend supports
- ->{read,write}_iter
+Date: Mon, 16 Nov 2026 12:04:45 +0100
+Subject: [PATCH RFC v3 12/44] rust_binderfs: use fc_init_pseudo()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-loop-pseudo-v3-2-8cbbea1cf34f@kernel.org>
+Message-Id: <20261116-work-loop-pseudo-v3-12-8cbbea1cf34f@kernel.org>
 References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 In-Reply-To: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -70,15 +69,14 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
  Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
  linux-kselftest@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, 
- Chris Down <chris@chrisdown.name>
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1339; i=brauner@kernel.org;
- h=from:subject:message-id; bh=EG8EaOiS0vQgTkKg5XSiMzmkRFf0paS6Df2fYJxqpSs=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9epzAcWr709tb5k+1mZtXOrOoKe7FjPPX93rnL01cc
- mp3sNpj3o5SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJxH1n+Ke3fG/p7vfHb83W
- Mp77jIfTTjdGPfuMqexdx60Xbl2XDD/E8D9576foPweu5yU+nf3y9bU/t+YHf7W8oOhp5cy3bNl
- qq+9cAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1351; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=Se/hTFkDp0LtS3ScLeBDxadBnc0o/SVsPeEgiuoeVFc=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9epyT8M69m8XXMjpjcWzYNVUegbmXD+1dF+byklHpx
+ K5cB/M7HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABPpmcfwP+mi0U8hwxbvvU4l
+ Hkm1cav/vpjiVt8euFTLYsOZ/GWeHxgZXjDYxa6vVr+1U1HGOv+SmujnxRGNLG7xKmG5Rrx2IlK
+ MAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Mon, 16 Nov 2026 04:39:20 -0800
@@ -100,41 +98,43 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The file backend calls ->read_iter() and ->write_iter() of the backing
-file directly but never checks that they exist. Everything that isn't a
-block device ends up in the file backend. So a namespace pointing to a
-file without them calls a NULL pointer on its first I/O. Only
-buffered_io=1 gets that far as the O_DIRECT open fails for such files.
+Initialize binderfs as a pseudo filesystem instead of raising SB_I_NOEXEC
+by hand. This adds SB_I_PSEUDO. binderfs_fill_super() keeps clearing
+SB_I_NODEV for the binder device nodes.
 
-Refuse them when the namespace is enabled the same way zloop does since
-commit 0c10f8a1a7ae ("zloop: check that the zone backing file support
-->{read,write}_iter").
-
-Fixes: d5eff33ee6f8 ("nvmet: add simple file backed ns support")
-Reviewed-by: Jan Kara <jack@suse.cz>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Chris Down <chris@chrisdown.name>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- drivers/nvme/target/io-cmd-file.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/android/binder/rust_binderfs.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index 695963dd932ee..dfa8aa46188c8 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -47,6 +47,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
- 		return ret;
- 	}
+diff --git a/drivers/android/binder/rust_binderfs.c b/drivers/android/binder/rust_binderfs.c
+index 5f020226720db..04468c5b5c116 100644
+--- a/drivers/android/binder/rust_binderfs.c
++++ b/drivers/android/binder/rust_binderfs.c
+@@ -3,6 +3,7 @@
+ #include <linux/compiler_types.h>
+ #include <linux/errno.h>
+ #include <linux/fs.h>
++#include <linux/pseudo_fs.h>
+ #include <linux/fsnotify.h>
+ #include <linux/gfp.h>
+ #include <linux/idr.h>
+@@ -667,7 +668,6 @@ static int binderfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	 * necessary and safe.
+ 	 */
+ 	sb->s_iflags &= ~SB_I_NODEV;
+-	sb->s_iflags |= SB_I_NOEXEC;
+ 	sb->s_magic = RUST_BINDERFS_SUPER_MAGIC;
+ 	sb->s_op = &binderfs_super_ops;
+ 	sb->s_time_gran = 1;
+@@ -759,6 +759,7 @@ static int binderfs_init_fs_context(struct fs_context *fc)
+ 	ctx->stats_mode = binderfs_stats_mode_unset;
  
-+	if (!ns->file->f_op->read_iter || !ns->file->f_op->write_iter) {
-+		ret = -EINVAL;
-+		goto err;
-+	}
-+
- 	nvmet_file_ns_revalidate(ns);
+ 	fc->fs_private = ctx;
++	fc_init_pseudo(fc);
+ 	fc->ops = &binderfs_fs_context_ops;
  
- 	/*
+ 	return 0;
 
 -- 
 2.53.0
