@@ -2,56 +2,56 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707DE606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F128E606A337
 	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=DnQZpRD+;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NaYwloll
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mdVAl/Qk;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tsq4iuTK
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=zLEVq+Bpv9BnXZuXWTCC/0nvI0V4xS0vAuEcIsGc5V4=; b=DnQZpRD+cFKVtc
-	w5kztW3aaEIqjeOGzFNEnoaSrRMlCr5x8BixlLUyqAOdU12Qqnm4/mUTUkdPhBvquWbZlHDeoygOS
-	7FgdkBU484jkYtXK62b4Rw/Uad6XaDwOJVOfF0K3TrFISfqw9JfQ3S9TOT5SR49lAHnSB73u9NzQM
-	HyzqMud0y9NZ1yqFvfjplAwPgffPNiumBkopltpee/LF8vnyrelaN1PM+l98k3IG8pZuO30M33JCv
-	PDvnmnLvSM8xpZtF7Bxifk+Ic4qnkPF8+Eb+dfLtPimxlBOlwTim7W3FSKNWVOC+L5b1JZjm7+gji
-	KCUZBkEPAJ3o1r7aau3Q==;
+	List-Owner; bh=BY87H/RnXilQq13XAhtvlglG6136WbkekRPXJvo2I3U=; b=mdVAl/QkFeLODE
+	nojX5Jnwb14afGlkCQKIL2i7YinPCECj52/W4BNGa+H2QrB89VjEDPl/SAIY2FHKJUMRz9RZ0FH5g
+	6YmtenYinfqy9ggpv2QHQ69z53BlgJmlMM2PfrpLj2czaWaWG1WIQb67B4BEfLL8ggaFiw4eTAzip
+	DJBdKDkybE4DHlcJZDigJ8BKLvA4RJ8aom39SPJ1GT5C8JmmPdTf4kUUukFoP2RnHLhFS0pbJouF5
+	zAGV2b206vfBuGVAAVWAjRxGyNVydF7K5qVs4smhytqNVpBxJbv4dE0CDR3HS01oB4OrmqL9Hqd3s
+	sYvwZJUNAHNc8qqR7Beg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSvzw-00000002Owb-2cWi;
-	Mon, 16 Nov 2026 12:39:48 +0000
+	id 1xSvzx-00000002Oyt-0ARM;
+	Mon, 16 Nov 2026 12:39:49 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSubn-000000027sj-2aBT
+	id 1xSubv-000000027uM-0H3b
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 11:10:47 +0000
+	Mon, 16 Nov 2026 11:10:55 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 1333A6296B;
+	by tor.source.kernel.org (Postfix) with ESMTP id 82A4762972;
+	Mon, 16 Nov 2026 11:10:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 416851F000C5;
 	Mon, 16 Nov 2026 11:10:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16C3E1F000C4;
-	Mon, 16 Nov 2026 11:10:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827446;
-	bh=zLEVq+Bpv9BnXZuXWTCC/0nvI0V4xS0vAuEcIsGc5V4=;
+	s=k20260515; t=1794827454;
+	bh=BY87H/RnXilQq13XAhtvlglG6136WbkekRPXJvo2I3U=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=NaYwlolld2jESWvGwOaWTxEbVaAHPZNh1LLvFE6S5MpCcqk+cf+N1nQf8Dku2zsdc
-	 XyHOtJ8BMGc1mA3Vrxn4Eg8Q093MTrz9Iup09iiuZHg7wX4L2QsIw7SS3rcteqNV4x
-	 b2D0jxB3MFKFxVIJVhXxLhRSg7PnHC/W5FlkEc/+kxEk8S4+luBw2VcOlfQxewVtA2
-	 Je4f2PghzObAunRtq7HCf0FD4sQiGwd31Mb5U6ODKV2wDoPSHpEqY7liE2IB/srDhO
-	 TJV0xsiM7pK3poFBzZlAc0Ax4uP8AaKDIftyXzMvuQ3xcrXUli/E6mrcx/WrTrnOUK
-	 ao8EBSnzLQ2lQ==
+	b=Tsq4iuTKRhulkomOLwfJCGY7RSUTospv3OqWJbcYQQFjEoKupjSCxw6Yy3rPq4pB9
+	 +LrXvKA4rBly7ufMqZGGURI/PkATv40fMYkjtpqcL/tNHRyeTByFbJTZmujbH0d7/Q
+	 HXCq2zQGevHC5tGi3GM/YXAFadxr211gKZs+efK2OMgZEBHzheaSEy+WXOjCe8RO5r
+	 TJ2bRHJjwjB/ITjzevhBLxBTbfuTMUOIvIjO5xZFZMBmnzadWnSvOl1+uUswfItRJz
+	 cvn+ZB4G6vMTJzmJfSaWRJJZDIQQXhCz05Bm/gc8LbBO51UdG9XgtkJRygpVExqJdR
+	 0R8YByohYWTAQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:05:11 +0100
-Subject: [PATCH RFC v3 38/44] nvmet: refuse files on pseudo filesystems as
- namespace backing files
+Date: Mon, 16 Nov 2026 12:05:12 +0100
+Subject: [PATCH RFC v3 39/44] target: fileio: refuse files on pseudo
+ filesystems as backing files
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-loop-pseudo-v3-38-8cbbea1cf34f@kernel.org>
+Message-Id: <20261116-work-loop-pseudo-v3-39-8cbbea1cf34f@kernel.org>
 References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 In-Reply-To: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -71,14 +71,14 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
  linux-kselftest@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>, 
- Chris Down <chris@chrisdown.name>
+ Sashiko <sashiko-bot@kernel.org>, Chris Down <chris@chrisdown.name>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1522; i=brauner@kernel.org;
- h=from:subject:message-id; bh=tRTfMWpi6lEvvGl+lxY+pO25cW/8KtdlIZFwjvLJslM=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9etxtsODnTr4jerrvH7gkzS+68Piv7P69JfsYWHfKz
- ZL03KHzv6OUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAiu6oZ/nC0OV4+zWbuG5Od
- WKaZOmHv+rI3Rj5uPGlXu0xNsxL5oxgZJuv++PSw7/mNRcX/gqK/z/nk5+TzYvUj1cNC/H+yOEQ
- Y+AA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2223; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=11gfWGw/ZwPDfVFtqD+CkdePFs+glK5xVNQbp3ek2T8=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9etzj8cs54I/rlC7xuCARluu5a1aodKvyswTvkD6zv
+ 1dfVPVMRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwETirBj+e2jMajfMFJqpekRG
+ aqlo40Pe5TUVy7c/+DD7XlLpsaZOLoa/knzXPN++Mv3K99Ndbp9ymKjRnUWue9I2sb1mqWq5pLu
+ bHQA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Mon, 16 Nov 2026 04:39:20 -0800
@@ -100,43 +100,59 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The file backend takes any file that can be opened for reading and
-writing. With buffered_io=1 that includes files on procfs or sysfs which
-then get read and written by a kernel worker on behalf of the host.
-Refuse files on pseudo filesystems just like loop does by switching to
-file_check_backing().
+fd_dev_name can name any file including files on procfs or sysfs. The
+initiator then gets to read and write kernel interfaces through the LUN
+with kernel credentials. Refuse files on pseudo filesystems just like
+loop does by switching to file_check_backing().
 
-Note that the helper only accepts regular files and block devices. A
-block device ends up in the file backend when buffered_io is set. But
-so far the file backend also took anything else with ->read_iter() and
-->write_iter() such as character devices and FIFOs. The size of the
-namespace is the size of the inode which is zero for all of them. So
-such a namespace was unusable anyway. Refuse them.
+Do the same for the protection file. With DIF protection enabled the
+fileio backend keeps the protection information in a second file. It is
+named like the backing file with ".protection" appended and
+fd_init_prot() opens it by path. Whatever that path leads to was taken
+without any checks.
 
+Note that the helper only accepts regular files and block devices as
+backing file and only regular files as protection file. So far the
+backing file could be anything with ->read_iter() and ->write_iter()
+including character devices and FIFOs.
+
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://lore.kernel.org/all/sashiko-outbox-206765@kernel.org
 Reviewed-by: Chris Down <chris@chrisdown.name>
 Tested-by: Chris Down <chris@chrisdown.name>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- drivers/nvme/target/io-cmd-file.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/target/target_core_file.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index dfa8aa46188c8..2249ad3bb46d8 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -47,10 +47,9 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+diff --git a/drivers/target/target_core_file.c b/drivers/target/target_core_file.c
+index a5391e57e9aa5..c747cc4a647ff 100644
+--- a/drivers/target/target_core_file.c
++++ b/drivers/target/target_core_file.c
+@@ -145,8 +145,8 @@ static int fd_configure_device(struct se_device *dev)
+ 	}
+ 	fd_dev->fd_file = file;
+ 
+-	if (!file->f_op->read_iter || !file->f_op->write_iter) {
+-		pr_err("FILEIO: %s lacks ->read_iter or ->write_iter\n",
++	if (file_check_backing(file, FMODE_READ | FMODE_WRITE, S_IFBLK)) {
++		pr_err("FILEIO: %s can't be used as a backing file\n",
+ 		       fd_dev->fd_dev_name);
+ 		ret = -EINVAL;
+ 		goto fail;
+@@ -861,6 +861,12 @@ static int fd_init_prot(struct se_device *dev)
+ 		ret = PTR_ERR(prot_file);
  		return ret;
  	}
++
++	if (file_check_backing(prot_file, FMODE_READ | FMODE_WRITE, 0)) {
++		pr_err("FILEIO: %s can't be used as a protection file\n", buf);
++		filp_close(prot_file, NULL);
++		return -EINVAL;
++	}
+ 	fd_dev->fd_prot_file = prot_file;
  
--	if (!ns->file->f_op->read_iter || !ns->file->f_op->write_iter) {
--		ret = -EINVAL;
-+	ret = file_check_backing(ns->file, FMODE_READ | FMODE_WRITE, S_IFBLK);
-+	if (ret)
- 		goto err;
--	}
- 
- 	nvmet_file_ns_revalidate(ns);
- 
+ 	return 0;
 
 -- 
 2.53.0
