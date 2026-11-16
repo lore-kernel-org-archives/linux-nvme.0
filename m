@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE79606A31C
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 23:17:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C81606A32C
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 23:19:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=s6SIu8Xe;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=aHv/r8lE
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=jdRlpzCs;
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=dbYEl6ry
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
@@ -14,84 +14,85 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=VUtXluh5oLaQga2mDElt3F7B3MTKErkoGZJ+ACHq9d4=; b=s6SIu8XeLcnSrn4isFX/qI0RTP
-	+61+cRD0MWsmrxjq5Q2N6gJqj49/7iunhQhMbCTjGJsk7FPIqhaLmGWCD4Xb8xhx5kF4UPfRv+OjZ
-	xLQ6ZD/6g2v8UD+I0GEQAQt6ItsI1I1vV5MEx2OWIFbOkyQwo80px6VtFRfnukQ4Fbgln1C63ZfR1
-	sZgi7NqgoofESXOVxZC7vRSmQZf7naGatg5bXdBhH7osBqLqapqgl/6pQGxO4WO27PiKPNecaYXYx
-	/h2Pg9xMvq0YuhHQg1DcCHOC5odMoXfzLmwd4De+sx/QtuHofvAUuabo2S4YYmkDRDhbQlSgNkjcj
-	o5knPZEA==;
+	bh=8iePJ2j9hYRhBFpXy6COEqiXeGRhguwoRsD0/kPxjro=; b=jdRlpzCs5LBqGkL25tPmqq6ot3
+	lDsG0XdPh8UArS5+X3zvIXvTJjfdsPgaOve6OMV9mV81Dz9vpVGwahCn2lBhk99Rv1QrqHr2l+wOc
+	3XxO4H3MpH6IZIvOP2VvYnFr1YsETFRejFRthT49QuoL6uzs+VkiXWFdKP6ancWJb1KLwM4UnTgKX
+	tWkVfGYBniaqr8syEv/SNnnjSMJuDIL7nRd/3N3QyZeYatwT7tZNgaUp0JJRYqxX71neD2XhHMvYh
+	/a2YqIbeQ/0ggnspZVmiUnMMOp5upySroFm688BjFfninJnsknlRnonL9aIDdsN7Q44PGAUKQw2Sc
+	cNPdn92A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xT5wl-000000048wI-2VB7;
-	Mon, 16 Nov 2026 23:17:11 +0000
-Received: from mail-dy1-x1332.google.com ([2607:f8b0:4864:20::1332])
+	id 1xT5yz-000000049b7-2X79;
+	Mon, 16 Nov 2026 23:19:29 +0000
+Received: from mail-dl1-x122e.google.com ([2607:f8b0:4864:20::122e])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xT5wi-000000048vB-1CGG
+	id 1xT5yx-000000049Zt-1TCb
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 23:17:10 +0000
-Received: by mail-dy1-x1332.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso1736176eec.0
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Nov 2026 15:17:07 -0800 (PST)
+	Mon, 16 Nov 2026 23:19:28 +0000
+Received: by mail-dl1-x122e.google.com with SMTP id a92af1059eb24-14394530ec6so5071902c88.1
+        for <linux-nvme@lists.infradead.org>; Mon, 16 Nov 2026 15:19:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1794871026; x=1795475826; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1794871166; x=1795475966; darn=lists.infradead.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VUtXluh5oLaQga2mDElt3F7B3MTKErkoGZJ+ACHq9d4=;
-        b=aHv/r8lEKcrijEZK2TvjTnEQSTp/FDbdHfdGoQPsMHYMcd0+K7yK1HcJl4PswrjpSg
-         WzNIN1pVBjP90Cdc7eXH3q4f3sAYb7mu+NJQ+0vIuxk9bvs74HyMahNwuWboyDfZIZzf
-         ZXdB5ABPxmzBD8NE0gACMqF+jKrupec45/YVexCuRyqrAOKXdPvZMJgcxbQiGeozfIV/
-         AiVC0YY5hysevnamNw6xS0wKiTJdrXdsoMuPddG6i8eIlKCNaryJ1M398pN/Av4ZvA+G
-         QmTE3l9/lQDbCe3e441JdJah6iUNB8NxapVHvAmbpip+DZnBkqGDb5dwhd01+f1Dq/AH
-         OxPw==
+        bh=8iePJ2j9hYRhBFpXy6COEqiXeGRhguwoRsD0/kPxjro=;
+        b=dbYEl6rybDsVL+L/6Z6jcdCI00jLc5TK+6pDHaBgPqODhwx171SVHcz01Ht+vQftuP
+         kHqv/4Ma9eNcbM4Q1X2TGn38A4EzGF4vDu8fKFQOASsdvK1aPXYE7/q399RociSdroPz
+         LiL3QiHwtsPEP+wpsZRHsFRoYM8cfSUe20fh7AflkekX3YeS4MMVT9hDX/dNQh4TXBYR
+         zr3XHXKabTzoHlXe/LTf0qVsy+DFJE+yG/56+1F2h6HV64vJcaGGrld0tF8Pt7rlMFSd
+         N0qJFn+I29aVFQQmoJGeMbfQcJy9RBHMO4gDVyqVWCMpwkzTKdgVJTj+I1Myi07BXVRC
+         iyiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794871026; x=1795475826;
+        d=1e100.net; s=20260707; t=1794871166; x=1795475966;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=VUtXluh5oLaQga2mDElt3F7B3MTKErkoGZJ+ACHq9d4=;
-        b=tFsuUxNHpnaY6p1x0sPaBeHbkkoZbXNWN/4KxzruDQxEOxxPaQFkTXevIxrjSpg5la
-         m+25zaIW/hh/1pE1FS8AZi95h+qC/Isrk0PRw7aEY+Lms4TWOlYJMSQzO/UEILU/mwH0
-         o5lMIaXXsIVCI7pHpUfiLu/+1EhJ21iv1rg1fhXvnlMhxy1R9gptqRDp91obakFpOV9j
-         opW3p4mvG1tXFlGy3zpNod8IAHEoxZqfsv8V3BZzRf8f4rTe7F6C2Q7zZF7uyZHQ+XjX
-         SNvupZ7GRN4NpxrxIzxVA4AUwjqw6HrLabdmWH46P60LigLNngPXKtemK1azOJYs9Hh9
-         Ks+Q==
-X-Gm-Message-State: APuU4Z8aDGsU+9aqP+6152JWtI8gy68km4a8j/OP+exqcjtclJejdWSD
-	VwP7BHeYrbv73anga1N98feYDYwXyGz4GlygjButpwtJzaXrVYc16hkm1UP1yG3Xd78=
-X-Gm-Gg: AYBFou2NtF5s3+oEB67qNXTWJFHbfR0rgRZRCmLDX4s9KtocwLaZja+USS1p+EI/hZg
-	ZSCeifWetgbzTBufs4EoBQ4j6o9UmKaY72obJAcp2EJ1V73IpzhK0g740BGSFjBaXLuutjn8RmC
-	lf4BKNBwsPs3YdMMG8KwXNcyGpTFiTeEOXiLGjE6qyLac7AjUokONSB1/mvdhjSVVC+noa1+1kS
-	rCzNRVd1Urp4PvrL/XulkmTuQkDbEcttiZDOKRZOSQoRUkEmS3Qiank4VDt88gMrx9DnkZio2qu
-	VNpYFAtVmmkMOJPC/sYyvYXifCnwlbKBlRx+e/oVisEMoK0z1nSwc6Kr2A59KKnR3GDSceCokAV
-	X4h/x2rjqWwtZbT5/tUmPfP63A+Dv4t88NkW3hA3SL4GLy99faGTIQOcr3NiBO3f0Ol4OXukhxZ
-	9z/Ljd0MT0J4mowqedqwrucseHaeZQNfc2LV0SVewxusKRtazJyVRzIXJn0OLTbpURPUDC673e+
-	6WKzbuUx6Ywf+YhpZul18kSUYRn93sFLN0goEFsVAN9q9BmXQYuoXpBUXf8PV3GXiok45O4xhRo
-	zbz5/584fw+OxrYlGPXf2T1Uag9wa7ytdUDMpZo0g2W2pqvGoA==
-X-Received: by 2002:a05:7300:6b28:b0:376:bcc4:774b with SMTP id 5a478bee46e88-3796638ab4emr12333373eec.23.1794871025916;
-        Mon, 16 Nov 2026 15:17:05 -0800 (PST)
+        bh=8iePJ2j9hYRhBFpXy6COEqiXeGRhguwoRsD0/kPxjro=;
+        b=e05j9AwIQzQCOoA80Qt/Y30aVaI6t93NEXxYY4STmfwcnHlbtB0VeshInNQ4wRvaMH
+         gvl020Ovj19C1MMeb0lU27GnrKnjhUF2bI551gJ3eTFy2hkw6kvCE+/8cVbREZdnR6VE
+         JeMPiZqkF9oejoks+nYFbPvF/Afm8d2Rl+H96ALqvpkbEgNgjIAE544DZhnnbzmh2mH0
+         Xljfq8t9pgiL8Hz/owB9wIKqmTatPf6jk0t4NXoKCfgzFm+jdxzMwhaXmkH5h1FQWr83
+         yVYljlyZCOFl/WkhEjmyaZSfURrfHpy/gw/soXqJgzGp8c6DitTLRXgZ1lKpGoA85Mmz
+         KswQ==
+X-Gm-Message-State: APuU4Z+HK6RqElwG2fpJUQFCgsLeu4nZw9ZpAO6fa3zYn879wJnxC7kC
+	wYXE2GHY/WgDCP1E67lV3k7OpG1ABPkPc+GWaD6hLrFIXt3Xevb6Qq5JRRSa8+4ZljUDUU6H7rn
+	ztAyU
+X-Gm-Gg: AYBFou1X6EzCaYPuwVNp37k2KX7qVI9KEiJ/uvoXHCCtnZJM/5Ag5/paT/wmpSf9yCE
+	RNcIx4eVHKfVMn7UNzU8aWpdE4ZKwUi9GUu0y+eLRrcOc+kv8MHPq3WY9pTdU7FZ0tk94jIl6TH
+	ueqn9rG/bFGOLDTfLgQBu2rp9vdzlQb+z21ZtxS3evGOTTt5UhH3Ooj1Sq+25QRa/6yp+Z7Hlep
+	AJ2CjXPUWrSmhOWOayUrwCcZRYd3ziAPF19TX/SeBHuuXXSu5r6WG75JbaSWuy4+nENUCSRDAHM
+	/WkdZcj9YbJXhsaRGTAbXISdM3bkkFsN1on30btr1+GhR3nCyeCTD2PjXX0cpCMxMIESPK5AUrR
+	K8IRo+1RKvVbGUg4JgfGHxCcVcefGphEyK51ZcJlHrCBl+P2Rwfq7l9dMa3nmQcxwDYdN+vnrPF
+	apw5x/vbxDUXSzitMcAc4CSaa2xBnjT7+bRwUopCWyCSicphlSbmKGhtPogwOHo5e1hK5asuX/C
+	DHL2wAaq9uC9Z0FPcPIILRiQgeEl7YDqQhegitz8eFl8vrg21kiPebvjD4k5Ku2Pazu03FjTF6c
+	la7hh4Q2qi8DKESaSfqyPMQcAeir4h4Iwu0EeZmx+bQ0YIRk4Q==
+X-Received: by 2002:a05:7023:a89:b0:1b2:4da6:bccd with SMTP id a92af1059eb24-1b50312b2f7mr13094928c88.34.1794871165920;
+        Mon, 16 Nov 2026 15:19:25 -0800 (PST)
 Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-380e0fdcc36sm2832887eec.25.2026.11.16.15.17.04
+        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-1b50319d40asm36020092c88.11.2026.11.16.15.19.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 15:17:05 -0800 (PST)
-Date: Mon, 16 Nov 2026 15:17:03 -0800
+        Mon, 16 Nov 2026 15:19:25 -0800 (PST)
+Date: Mon, 16 Nov 2026 15:19:24 -0800
 From: Mohamed Khalfella <mkhalfella@purestorage.com>
 To: sashiko-reviews@lists.linux.dev
 Cc: linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v7 01/17] nvmet: Rapid Path Failure Recovery set
- controller identify fields
-Message-ID: <20261116231703.GA1670230-mkhalfella@purestorage.com>
+Subject: Re: [PATCH v7 02/17] nvmet/debugfs: Export controller CIU and CIRN
+ via debugfs
+Message-ID: <20261116231924.GB1670230-mkhalfella@purestorage.com>
 References: <20261114030454.2836543-1-mkhalfella@purestorage.com>
- <20261114030454.2836543-2-mkhalfella@purestorage.com>
- <sashiko-outbox-214092@kernel.org>
+ <20261114030454.2836543-3-mkhalfella@purestorage.com>
+ <sashiko-outbox-214069@kernel.org>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <sashiko-outbox-214092@kernel.org>
+In-Reply-To: <sashiko-outbox-214069@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261116_151708_482703_B6E911A1 
-X-CRM114-Status: GOOD (  18.46  )
+X-CRM114-CacheID: sfid-20261116_151927_418779_E9F6D7FF 
+X-CRM114-Status: GOOD (  18.45  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -110,60 +111,64 @@ X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Sat 2026-11-14 03:17:21 +0000, sashiko-bot@kernel.org wrote:
+On Sat 2026-11-14 03:12:01 +0000, sashiko-bot@kernel.org wrote:
 > Thank you for your contribution! Sashiko AI review found 1 potential
 > issue to consider:
-> - [Medium] nvmet: missing TP8028 field overrides in
->   nvmet_passthru_override_id_ctrl()
+> - [Low] nvmet: torn 64-bit read of ctrl->cirn in
+>   nvmet_ctrl_instance_cirn_show()
 > --
 > 
-> commit b07e2fdf2211131fb02142faf21d5cf7328792da
+> commit 70231338c7dc52cc534009767cd7997ab988025e
 > Author: Mohamed Khalfella <mkhalfella@purestorage.com>
 > 
-> nvmet: Rapid Path Failure Recovery set controller identify fields
+> nvmet/debugfs: Export controller CIU and CIRN via debugfs
 > 
-> This commit adds the TP8028 Rapid Path Failure Recovery fields (ciu, cirn,
-> and ccrl) to struct nvme_id_ctrl, initializes ciu and cirn on controller
-> allocation and start, and populates them in the Identify Controller
-> response for non-discovery subsystems.
+> This commit exports a target controller's CIU and CIRN fields as debugfs
+> attributes under the controller's debugfs directory.
 > 
-> > diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> > index f12d830986446..5710ae53eb83a 100644
-> > --- a/drivers/nvme/target/admin-cmd.c
-> > +++ b/drivers/nvme/target/admin-cmd.c
-> > @@ -702,6 +702,11 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
-> >  	id->mdts = nvmet_ctrl_mdts(req);
-> >  	id->cntlid = cpu_to_le16(ctrl->cntlid);
-> >  	id->ver = cpu_to_le32(ctrl->subsys->ver);
-> > +	if (!nvmet_is_disc_subsys(ctrl->subsys)) {
-> > +		id->ciu = ctrl->ciu;
-> > +		id->cirn = cpu_to_le64(ctrl->cirn);
-> > +		id->ccrl = NVMF_CCR_LIMIT;
-> > +	}
+> > diff --git a/drivers/nvme/target/debugfs.c b/drivers/nvme/target/debugfs.c
+> > index e85fe1d4c9f8d..221fa81e124fe 100644
+> > --- a/drivers/nvme/target/debugfs.c
+> > +++ b/drivers/nvme/target/debugfs.c
+> > @@ -153,6 +153,24 @@ static int nvmet_ctrl_tls_concat_show(struct seq_file *m, void *p)
+> >  NVMET_DEBUGFS_ATTR(nvmet_ctrl_tls_concat);
+> >  #endif
+> >  
+> > +static int nvmet_ctrl_instance_ciu_show(struct seq_file *m, void *p)
+> > +{
+> > +	struct nvmet_ctrl *ctrl = m->private;
+> > +
+> > +	seq_printf(m, "%02x\n", ctrl->ciu);
+> > +	return 0;
+> > +}
+> > +NVMET_DEBUGFS_ATTR(nvmet_ctrl_instance_ciu);
+> > +
+> > +static int nvmet_ctrl_instance_cirn_show(struct seq_file *m, void *p)
+> > +{
+> > +	struct nvmet_ctrl *ctrl = m->private;
+> > +
+> > +	seq_printf(m, "%016llx\n", ctrl->cirn);
+> > +	return 0;
+> > +}
+> > +NVMET_DEBUGFS_ATTR(nvmet_ctrl_instance_cirn);
 > 
-> [Severity: Medium]
-> Should nvmet_passthru_override_id_ctrl() also override id->ciu, id->cirn,
-> and id->ccrl?
+> [Severity: Low]
+> Can nvmet_ctrl_instance_cirn_show() observe a torn 64-bit read of
+> ctrl->cirn on 32-bit architectures?
 > 
-> On a passthrough subsystem, Identify Controller runs through
-> nvmet_passthru_execute_cmd_work() -> nvmet_passthru_override_id_ctrl(),
-> which overrides id->cntlid and id->ver but leaves id->ciu, id->cirn, and
-> id->ccrl with whatever the backend controller returned.  Every fabric
-> controller connected to the passthrough subsystem will report the backend
-> device's ciu and cirn instead of ctrl->ciu and ctrl->cirn, and if the
-> backend controller advertises a non-zero ccrl, hosts will issue
-> Cross-Controller Reset commands that nvmet_parse_passthru_admin_cmd()
-> rejects.
+> nvmet_alloc_ctrl() calls nvmet_debugfs_ctrl_setup() before the host
+> enables the controller, and nvmet_update_cc() -> nvmet_start_ctrl() later
+> writes a new 64-bit value to ctrl->cirn under ctrl->lock whenever the
+> controller is enabled or re-enabled.  Reading ctrl->cirn without holding
+> ctrl->lock races with that update and can report a corrupted mix of the
+> old and new values to userspace.
 
-Makes sense. Will update nvmet_passthru_override_id_ctrl() to set
-id->ciu, id->cirn, id->ccrl, and id->cqt to zero. This way a passthu
-controller exprted say over nvmet-tcp does not claim to support CCR/CQT.
-
-I will break the change into fixups to two commits
-- nvmet: Rapid Path Failure Recovery set controller identify fields
-- nvmet: Add support for CQT to nvme target
+Not worth it IMO. I will keep the code at it is. If we are considering a
+race with a controller that is becoming ready, then the value will
+change and old values are stale because CIRN and CIU are random
+variables.
 
 > 
 > -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20261114030454.2836543-1-mkhalfella@purestorage.com?part=1
+> Sashiko AI review · https://sashiko.dev/#/patchset/20261114030454.2836543-1-mkhalfella@purestorage.com?part=2
 
