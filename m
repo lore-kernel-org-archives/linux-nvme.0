@@ -2,55 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFEC6606A331
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD16606A31C
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=E6ppE0bY;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WAHd6iSb
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2TIovoay;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ThaPefJk
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=CQcOz9pf9yUAnUZyyI8ZqFilBp97onIP4xdHL0RQnuE=; b=E6ppE0bYaAIv3V
-	ArXz+VxhbkEbzwb26l1h6AeQNO2rbHg3EpvPsAik7sC0gdV1eZHwrVdI0D+xnRC/bwc2oKm/RG8Hp
-	dqqtBuhL5K/BGohW1OHMZp9LOKO/PNXzDw4O92jfcqOD+XDCo2WIaFbp1lLvO85Becj0RcbAPvXCb
-	BldPYmO6+hMfQJzVGX8HhVLBVeFt+79Dqm3o0mClNYKS+0gQUynXYHR+aqA3Ftc83gFiz1J91O0mV
-	fEPuOWHqqlSwgRXSWuZe4t4sXs3yMviKCLsvsEHVUS6qi7JwdvvaB7e1q02GZALIDcadoaXeWq8Ab
-	3H+V9EM5fFs7gmxBXAmA==;
+	List-Owner; bh=/UpKqXd1Q8PiwEiW91lGeEUdsRaeGgHVBpYK/fx91FQ=; b=2TIovoayeABMee
+	9latdEEMq6af90nWUr5jwUTys8qtYRsYmAnOWyPwiqV/r2qKad1m62hRz7uJH0q+g2i3Vogb0q0vU
+	7OkECspYngwoHuQPhX26lStiGRtnnNmz6Futjnao2ibgeChR+4a9rp+F47prL4NF5vOojdsTTpUgT
+	hlONAa+eYgbCZmYbCY7fXLC50/bdCC2WDVff65it3CMnUXdQGnHDYkH88wEGzzJVNO5D5DRG2K/JY
+	pn5JLPuqM12WwH9XjKcVTtGpnPKRSWg1l95c6EFVwISSJBlX1ZKPVk8k1eyGActlBH/E7hnlwwTyy
+	2fWZ4vzOX19Y8MI4mL7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSvzY-00000002Nk1-0OGS;
-	Mon, 16 Nov 2026 12:39:24 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xSvzZ-00000002NqE-28ZX;
+	Mon, 16 Nov 2026 12:39:25 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSuYT-000000026os-0KaK
+	id 1xSuZB-0000000273T-3AzZ
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 11:07:21 +0000
+	Mon, 16 Nov 2026 11:08:05 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 806126295D;
-	Mon, 16 Nov 2026 11:07:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F1991F000C6;
-	Mon, 16 Nov 2026 11:07:13 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 82E44462CB;
+	Mon, 16 Nov 2026 11:08:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E153D1F000C4;
+	Mon, 16 Nov 2026 11:07:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827240;
-	bh=CQcOz9pf9yUAnUZyyI8ZqFilBp97onIP4xdHL0RQnuE=;
+	s=k20260515; t=1794827285;
+	bh=/UpKqXd1Q8PiwEiW91lGeEUdsRaeGgHVBpYK/fx91FQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=WAHd6iSbCEtifefZMSqk0cXPnktLAZIBAaCQy60YJ2nJaxqT8DKgVk5VsUN67+gWm
-	 z8mxW0ifANULaEn6eoO1YSyCH77pTBjTLQpEuHRCSgNzBdVAIhSKqn4sWkQPFyXdBt
-	 tXJ1An451qL0NHQ9VXwP8ewze057R4HqD/VydKBcBWfCdpBT29zz5SWbRmbhPZIy7t
-	 krh0rS/lszKzpG2HbfXO42srT3A406priAC+52NrNl/HXbwY35qFpwU2cri/sdCERB
-	 F2qr5cKieSSqcVwo+4jbRcbTuZvJ374VxYIuXO00ayF/nT6+GuMDVyrWKkf+vRGeEh
-	 HJAAygLW0S83g==
+	b=ThaPefJkzYID6A/gJ8BD95JHrrRcoJDueFApgfCzzf6m8AFEdrOPX1V/N0Ou5MSFE
+	 3MisKv2jAnh8Lq68niVuDDcQgUlU9KBmq1TWQenImwyQsFWqYvNjMCUA6JECgAVC5Z
+	 eCzHZrAVshZEsT9OLL1LKL8EXLhOWYBuwDyPsI88o0Rflk04BSpkmzvraWAQ+wW1P4
+	 lJTEA6hSyLJvmV54IXpt4SUS6mx/j+/M7f4C24pf7Qhx12uczYw4UemP32oaW2sS5n
+	 2peCadUpW/SatJlkDR04CbDtgimV2EQJ4ss/0BvVQFYbPY9qCuNlO9CEhSFfF6dtOq
+	 nUL3+tjJpm9Gg==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:04:43 +0100
-Subject: [PATCH RFC v3 10/44] nullfs: use fc_init_pseudo()
+Date: Mon, 16 Nov 2026 12:04:49 +0100
+Subject: [PATCH RFC v3 16/44] configfs: use fc_init_pseudo()
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-loop-pseudo-v3-10-8cbbea1cf34f@kernel.org>
+Message-Id: <20261116-work-loop-pseudo-v3-16-8cbbea1cf34f@kernel.org>
 References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 In-Reply-To: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -70,15 +70,15 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
  linux-kselftest@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>, 
- Alexander Mikhalitsyn <alex@amutable.com>, 
+ Breno Leitao <leitao@debian.org>, Alexander Mikhalitsyn <alex@amutable.com>, 
  Chris Down <chris@chrisdown.name>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1090; i=brauner@kernel.org;
- h=from:subject:message-id; bh=r8cREnFKSRz4SaxSdJTVTJtjPA949EUN40oz/vuaT38=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9epx17FvHFoV3U5iXzd8/4c/mG66STx2Sspkf5j38u
- eHRZFGGWR2lLAxiXAyyYoosDu0m4XLLeSo2G2VqwMxhZQIZwsDFKQATmR/NyHDKmqvQXFLhWaON
- 1Yr9emFz317b8/vF0rgo9uCmt549tVoMf/hXbrBsap/pJMm51TgxM3VdUKfemt6Ay/afb55aob/
- BigkA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1100; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=arBHZovnHktbx+8dxEhh1iDCO+7a7q/uQBzsyfGCKl8=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9elz4yo7/8fTyqPtLu0x0Zv8tjtQzyl68wOHUusK4U
+ 1piFu/4O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACayW5nhn4LuCbVth/nnv61W
+ jll948YM7hL1TRmv/gSG7k93fv59SRTDP6tHgrPsfflmcXKeOZ47jc/ugU3PlsV14pWbp3dNO/K
+ lkwUA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Mon, 16 Nov 2026 04:39:20 -0800
@@ -100,39 +100,39 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Initialize nullfs as a pseudo filesystem instead of raising
-SB_I_NOEXEC and SB_I_NODEV by hand. This adds SB_I_PSEUDO.
+Initialize configfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+also SB_I_NOEXEC and SB_I_NODEV. configfs never holds executables or
+device nodes.
 
 Reviewed-by: Jan Kara <jack@suse.cz>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Breno Leitao <leitao@debian.org>
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 Reviewed-by: Chris Down <chris@chrisdown.name>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/nullfs.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ fs/configfs/mount.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/fs/nullfs.c b/fs/nullfs.c
-index 319c2f5c5a671..2fe24cb97160e 100644
---- a/fs/nullfs.c
-+++ b/fs/nullfs.c
-@@ -2,6 +2,7 @@
- /* Copyright (c) 2026 Christian Brauner <brauner@kernel.org> */
- #include <linux/fs/super_types.h>
+diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
+index d8cac1cbf3bd5..60ba24e7ae2b9 100644
+--- a/fs/configfs/mount.c
++++ b/fs/configfs/mount.c
+@@ -13,6 +13,7 @@
+ #include <linux/module.h>
+ #include <linux/mount.h>
  #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
- #include <linux/magic.h>
- #include <linux/splice.h>
- #include <linux/uio.h>
-@@ -174,7 +175,7 @@ static int nullfs_init_fs_context(struct fs_context *fc)
+ #include <linux/pagemap.h>
+ #include <linux/init.h>
+ #include <linux/slab.h>
+@@ -106,6 +107,7 @@ static const struct fs_context_operations configfs_context_ops = {
+ 
+ static int configfs_init_fs_context(struct fs_context *fc)
  {
- 	fc->ops		= &nullfs_fs_context_ops;
- 	fc->sb_flags	|= SB_NOUSER;
--	fc->s_iflags	|= SB_I_NOEXEC | SB_I_NODEV;
 +	fc_init_pseudo(fc);
+ 	fc->ops = &configfs_context_ops;
  	return 0;
  }
- 
 
 -- 
 2.53.0
