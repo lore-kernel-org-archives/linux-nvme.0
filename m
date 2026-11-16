@@ -2,55 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EAA606A32F
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC86606A31C
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=FbY2yFph;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7CXi/T8
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ce6TtUAh;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a0UaCeV2
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=oChNfLTK4rw7xE/V7Z1VAqgEcNGqqiTJ7bEePsgI8+0=; b=FbY2yFphsZhzN9
-	Zx3Z95upDbWVXtZanqf8Os4KJ1Yx4ZTh60tvD3oLrlPrYgdX6Z1a2W4+42KCJZU++c0dDRkyFVD09
-	apE1G2RM7hdP/aYJz+SH3tvYPFAHbD0ad4jihazTpvS+M2Ieb1g9R0zphD7X0UBDXtehmPVMoVD70
-	61Z5W90OWgUrqOHhbY8Vap/Ho5vNtAKGFzoLX0NKds0jcv/RNYC7bkj5qwVZc5UeqDSyjRXgFeRmc
-	28jAvBSQcqzV/znl0TQOLYbbG3tqLmKIM0gCJeXEdQHwiHAkEVoOcumapkUSGZqKZ1/JFyuqia+uo
-	0OTpXOVAUuwz5MjKAIUw==;
+	List-Owner; bh=KgbqG9Caw/hRTAbhKcrEqjiiAiXfjhN0P7+uUEzG5mo=; b=Ce6TtUAhsm4uHV
+	uRo9gS/IhIy9FEIkBw2/KsI3Ovefqplrz1ZdWeAmO1ZkV36E/BspsYUt7oSGfdHNuRQ0V+Z3+fJDK
+	+QQ4Rg6hYZwphETQqDDj1m1xnpPieSMk7ADa74b8NqhmfZx49AzcmpJDe+msd0xsohZ3mKz4mpA1L
+	cW7PbTN2qj4EDi1A40q8OiC7BGJoBVXprsIH24L8LApQR8T/6sBPVX43eP0deuOSYoPEmMFiWw3cM
+	/EQUlbUt10AN5xMbDk0p+NLECbbIUURNL0YhKfnbFJFZkVVYidl2E7D8v0ziQDJOlYxDHG14JTGQn
+	h9G657cjhfyf2HGhYVPg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSvzX-00000002Njb-2qhr;
-	Mon, 16 Nov 2026 12:39:23 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xSvzc-00000002NyQ-3TDP;
+	Mon, 16 Nov 2026 12:39:28 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSuXz-000000026cE-11Ee
+	id 1xSuZu-000000027Gy-3AOz
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 11:06:51 +0000
+	Mon, 16 Nov 2026 11:08:50 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id AD2A16296A;
-	Mon, 16 Nov 2026 11:06:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7387F1F000C9;
-	Mon, 16 Nov 2026 11:06:43 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 824CA408B9;
+	Mon, 16 Nov 2026 11:08:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 768641F000C5;
+	Mon, 16 Nov 2026 11:08:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827210;
-	bh=oChNfLTK4rw7xE/V7Z1VAqgEcNGqqiTJ7bEePsgI8+0=;
+	s=k20260515; t=1794827330;
+	bh=KgbqG9Caw/hRTAbhKcrEqjiiAiXfjhN0P7+uUEzG5mo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=h7CXi/T80VNFQe+1pnYyDyh2qBlV6g5249gmpoEK/oFyp3rxtx7XiOHqGFA0b9uRf
-	 X2xLH2Skg3D0sBNcTtVcs6zgdHUXzZYHUZGaysiF/lwo8EnuSu959abAX0kFQcge1n
-	 Xzw3YR9Um2gylgRrQMFHzZbZ9bBGTBSiwzlLZArzyxBiMKVJuxKyXXmg8B55Dx/aqw
-	 8L1DchIEJLV0I/73xS4ZZ8jYy6MCTeYnKUSLkxd482HOnnHGhdbaf6Ie9oFIoUMwbb
-	 pArvGYXqIS5HCNxl1IyvDitc72nIjyXgcVrUc6r55xEsqjGWvNqc1YcOEP36u0QQE4
-	 PtRiWTT84Yo9w==
+	b=a0UaCeV2WV+QFgrwTGF9+hKqhdNQa9dgGmQSp/rRjo/bQXyy72SriaLw6dWnEcymV
+	 8DP21DNooZ/yHbfrIGqsgMkSLRPQyEkzc0OzcnwWFeuA4kk3ur891oAbusm+Y5TqgI
+	 A9UKuEQLGl22KaXB9J3QM0jgvZ6QZyEhJ1LX5mgmJK+zWSZanNlhUpMAk94F0KldS3
+	 ZAEOkyjJa37fqTHwFK10oUMUYuBTYBoT8ldVJlKKulVTVEcQ6KH6VUczbJeY4+jyMO
+	 SGxWgT7t/Kx8U0Zx7i/0tMnR4OehS/kQiPQrAND2KNfoR/OUuKG2pj8/dQzNF6kliw
+	 coFLuVxRgzfuA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:04:39 +0100
-Subject: [PATCH RFC v3 06/44] proc: use fc_init_pseudo()
+Date: Mon, 16 Nov 2026 12:04:55 +0100
+Subject: [PATCH RFC v3 22/44] sunrpc: use fc_init_pseudo() for rpc_pipefs
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-loop-pseudo-v3-6-8cbbea1cf34f@kernel.org>
+Message-Id: <20261116-work-loop-pseudo-v3-22-8cbbea1cf34f@kernel.org>
 References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 In-Reply-To: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -73,12 +73,12 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  Alexander Mikhalitsyn <alex@amutable.com>, 
  Chris Down <chris@chrisdown.name>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1502; i=brauner@kernel.org;
- h=from:subject:message-id; bh=O+LGaMZ0N6Bs6+mDguHowtHROzAFu69RKO3s/nDEI6A=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9epwa/fyZ5LmIiN+RTC9Pt6wTeMornyQXvpLfz4rhN
- bfymsuTOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACaSeYfhf36ad/RMx0zJi7NO
- u1Wsfsb31Vrvhsy+F3zdv+dbvOJ6WsXwP/DEsU0Xgo+/9awQ+Do190d6wP2jxqUddSK2PFYrS9i
- VGQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1040; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=MpmJ+CmuhOGqFr/rEz4RCZnO8Dm+lCmdYI7UNn+2hFA=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9elwRn1592q8/9Ebu9EUG4e+0Z+x4JNaS4GRWxbRWa
+ I/o/GkXO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZy8hfDbzaJKycFfq3aMa+A
+ /w/npnojOb4g9kWmP5bcj73ysOj+316GPxwVXDnXi12WCXs1r75bJrnrxYX8JK+ld+pbrvadl9F
+ W5wMA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Mon, 16 Nov 2026 04:39:20 -0800
@@ -100,46 +100,35 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Initialize procfs as a pseudo filesystem instead of raising
-SB_I_NOEXEC and SB_I_NODEV by hand. This adds SB_I_PSEUDO.
+Initialize rpc_pipefs as a pseudo filesystem. This raises SB_I_PSEUDO and
+also SB_I_NOEXEC and SB_I_NODEV. rpc_pipefs never holds executables or
+device nodes.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 Reviewed-by: Chris Down <chris@chrisdown.name>
-Tested-by: Chris Down <chris@chrisdown.name>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/proc/root.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ net/sunrpc/rpc_pipe.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/fs/proc/root.c b/fs/proc/root.c
-index 7fbbe92bf73a7..ca0e75081934f 100644
---- a/fs/proc/root.c
-+++ b/fs/proc/root.c
-@@ -17,6 +17,7 @@
- #include <linux/bitops.h>
- #include <linux/user_namespace.h>
+diff --git a/net/sunrpc/rpc_pipe.c b/net/sunrpc/rpc_pipe.c
+index 9d349cfbc4831..37277a6d24156 100644
+--- a/net/sunrpc/rpc_pipe.c
++++ b/net/sunrpc/rpc_pipe.c
+@@ -15,6 +15,7 @@
+ #include <linux/pagemap.h>
+ #include <linux/mount.h>
  #include <linux/fs_context.h>
 +#include <linux/pseudo_fs.h>
- #include <linux/mount.h>
- #include <linux/pid_namespace.h>
- #include <linux/fs_parser.h>
-@@ -265,8 +266,6 @@ static int proc_fill_super(struct super_block *s, struct fs_context *fc)
- 	if (ret)
- 		return ret;
- 
--	/* User space would break if executables or devices appear on proc */
--	s->s_iflags |= SB_I_NOEXEC | SB_I_NODEV;
- 	s->s_flags |= SB_NODIRATIME | SB_NOSUID | SB_NOEXEC;
- 	s->s_blocksize = 1024;
- 	s->s_blocksize_bits = 10;
-@@ -350,6 +349,7 @@ static int proc_init_fs_context(struct fs_context *fc)
+ #include <linux/namei.h>
+ #include <linux/fsnotify.h>
+ #include <linux/kernel.h>
+@@ -1181,6 +1182,7 @@ static int rpc_init_fs_context(struct fs_context *fc)
+ {
  	put_user_ns(fc->user_ns);
- 	fc->user_ns = get_user_ns(ctx->pid_ns->user_ns);
- 	fc->fs_private = ctx;
+ 	fc->user_ns = get_user_ns(fc->net_ns->user_ns);
 +	fc_init_pseudo(fc);
- 	fc->ops = &proc_fs_context_ops;
+ 	fc->ops = &rpc_fs_context_ops;
  	return 0;
  }
 
