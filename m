@@ -2,56 +2,56 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B5160A6F6F
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 11:04:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553A6606F1ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 11:05:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=IWK8pooQ;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YrXKRoj7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ZbO1gvnF;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BNoGazjB
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=CGT6lYWV7+MTFrcd9Hkn4PROzI9r5OHEQYJ/85o2rx4=; b=IWK8pooQXfGq/P
-	i0BwWebXYIbqayDfYSEm+jClZt8cdI8nDLVT4BPS02NkC1ArN99/wXK8XJGRwAWfT3NGtfNvWA8wL
-	PjkkCJg/LN3LuV4dV1YFZP1ATWB07Kwdq2Lt6/fSbfAhlIcwt6GAJCUZ4Tku921oP0yX+ityyFNjj
-	eig48SbPAwisFzbHgpOUAmJ/Xc9I3/vI91uK+AGVjiCJ9cGdgv4l0wwIU2JIbORsQxSehFHf7bwIT
-	pIgzngfRnbJBmBIH+pOvJlwnKKFqoEbPxGr4SFLx+5sGsRl7Ft6BOZ4sBjC1Os9qxw8WQossVLns4
-	hstifZ5VmE63lytEQ2GQ==;
+	List-Owner; bh=rGbOPfT1yqUwvO1m52rPtj56PBfhsl6HwTcjr6r9MlY=; b=ZbO1gvnFXiv/iV
+	J39sasYsBLSok+ss9StFpq36z4XN+vRLGupOL/FnR+fiB0gQzS9yD59ueIWgsnLzbtEe7bW1eotiz
+	ISQDCLldqOEdHPD03oyPXQ7uiZQEeqb2g5GRsI9e7hTly67SseJ22E/qES0YPbKsIgwdyI/yFjAKu
+	oO3BNStTKmGu63pGNS/58MbxI7/59wKCfHtEESZo8ug2IJSMA5LJHgfsa62kyjG9bnm5wnuoWTZmS
+	w64g66Mx1Wjkc2z+BWugV9eNF88c2nLeZ0dJuN18rf1wf4SlM8tug4umZJIjBiInXO2geeA884R9y
+	Qvm64tvzMSd7rIaaCnng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSuW7-000000024wv-2yDM;
-	Mon, 16 Nov 2026 11:04:55 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xSuWB-0000000251K-3tcY;
+	Mon, 16 Nov 2026 11:04:59 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSuW6-000000024vi-05LA
+	id 1xSuWA-00000002509-2Pnw
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 11:04:54 +0000
+	Mon, 16 Nov 2026 11:04:58 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id C256C462A1;
+	by tor.source.kernel.org (Postfix) with ESMTP id 0A76E62954;
+	Mon, 16 Nov 2026 11:04:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B7B81F000C5;
 	Mon, 16 Nov 2026 11:04:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13EAD1F000D3;
-	Mon, 16 Nov 2026 11:04:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827093;
-	bh=CGT6lYWV7+MTFrcd9Hkn4PROzI9r5OHEQYJ/85o2rx4=;
+	s=k20260515; t=1794827097;
+	bh=rGbOPfT1yqUwvO1m52rPtj56PBfhsl6HwTcjr6r9MlY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=YrXKRoj7hYn2+ZjIVHE1rFDcotZKzJGWV+gKQ6yybnV0zsnhl0EdVnEgsaxFR4vz6
-	 v5Fk+DSF36PyDuzTgAAjNYwVOo4qsw7y9UF5g9GZTDM6MJPgp2mNeDYnNDQSTxdfaP
-	 9LNNLGe1QXYP2BMesvZ7a049fB7AMjcJ/h+/wRx/y70ECT8kdyQw5kBx+KswtTfUDS
-	 PBrr48HlhbF5Ehtm+4yZHxsyzRHSBcwIlBO7Ot9/Pz8puLYygyWBrCRbzm4/G9k/uQ
-	 31fHO5+9WfinhzkFbIp1gPtrH4Q6ZRJye+Z2q1Ls5/LmVAm+w0nxbu7wT2dDSd4bGo
-	 kg8Hw+7m3Paig==
+	b=BNoGazjBxWR+CNpzOdNZGQkEHyjMC5rjb3rqOwRQrvHhl4JuTermScglTO41V4rUK
+	 hZndB2qWZxm/m+nVDVm2meccG5hgcZmAhgFPyyCKAWza6Zxtqw9x9QO5gVl2vUD0sp
+	 gJmMvzERCz8KJHDDGOztHplpn6ncwf+KBAqGQ5MCdP9BCzItG0p4dUghIfRRxO01KM
+	 g1NdHIXg77CPcNpQfV2xMrsoxfm32siNqfBzYGzljzXna82cJGpeIQ+DjTjuiC7Y7/
+	 nXfqzRwSL4TsON4GFDoArUv9Sk5x9ALaaafE3GUxdDIaifsqEMHi1T7Q2N7xk685Dk
+	 815Mk1Puw6t7w==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:03:47 +0100
-Subject: [PATCH v2 07/17] target: fileio: take freeze protection for aio
- writes
+Date: Mon, 16 Nov 2026 12:03:48 +0100
+Subject: [PATCH v2 08/17] loop: take freeze protection for discard and
+ write zeroes
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-fs-frozen_writes-v2-7-ecc4a2aac40e@kernel.org>
+Message-Id: <20261116-work-fs-frozen_writes-v2-8-ecc4a2aac40e@kernel.org>
 References: <20261116-work-fs-frozen_writes-v2-0-ecc4a2aac40e@kernel.org>
 In-Reply-To: <20261116-work-fs-frozen_writes-v2-0-ecc4a2aac40e@kernel.org>
 To: Jan Kara <jack@suse.cz>
@@ -65,12 +65,12 @@ Cc: Shakeel Butt <shakeel.butt@linux.dev>,
  linux-nfs@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2554; i=brauner@kernel.org;
- h=from:subject:message-id; bh=odczWWAJfAcRe3p+krtaO8nSx1NU1nb1y8bUX3hioHw=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9eqy6Zcusfy+2fC699Tfy0oulb9drKbn+jX28cU5vB
- kOY0s9TZztKWRjEuBhkxRRZHNpNwuWW81RsNsrUgJnDygQyhIGLUwAmErKWkeHqptw+qyMfJ73Z
- xZz5ffPTKibBHNv96Z/XTVm0///tFiZRhv9OF1qF/dS/ONQIvfWyDeHlOt3mtXOa6VEXjtsaj69
- +vs4EAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1772; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=3iiZH5iMD4I3JcLZEMc4xg7xYKXAAdlzVQQRTB4v7fk=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9eqxW9uBZ9rfzwnIFc5vS2rgZlu3fmji3J3qu6+xgh
+ Rh+zqzXHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABNJTGX4X7v2hsP5RkmlkO5/
+ hxVuzfq9mtlRe6VEzwe/hP7+2lB3Tob/mS+v2z1bcumyVcktC833q/7P6ubZqyifpRq4O8p82p9
+ J/AA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -91,26 +91,22 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-With fd_async_io=1 the fileio backend calls ->write_iter() of the
-backing file without taking freeze protection. So a write to the LUN
-goes through to a filesystem that is frozen. With the backing file on
-ext4:
+Discard and write zeroes requests end up in lo_fallocate() which calls
+->fallocate() of the backing file directly. That skips the freeze
+protection vfs_fallocate() would have taken. So they go straight
+through to a filesystem that is frozen. With the backing file on ext4:
 
-  WARNING: fs/ext4/ext4_jbd2.c:90 at ext4_journal_check_start+0x1f6/0x2d0, CPU#0: kworker/0:2/40
-  Workqueue: target_submission target_queued_submit_work
+  WARNING: fs/ext4/ext4_jbd2.c:90 at ext4_journal_check_start+0x1f6/0x2d0, CPU#3: kworker/u16:1/44
+  Workqueue: loop1 loop_rootcg_workfn
   Call Trace:
    <TASK>
    __ext4_journal_start_sb+0x7a/0x470
    ext4_dirty_inode+0xa1/0x120
    __mark_inode_dirty+0x154/0x1110
    file_update_time_flags+0x3ab/0x4b0
-   ext4_file_write_iter+0xf11/0x1570
-   fd_execute_rw+0xb01/0x1700
-   __target_execute_cmd+0x53/0x190
-   tcm_loop_write_pending+0xe/0x20
-   transport_generic_new_cmd+0x612/0xdb0
-   __target_submit+0x12c/0x380
-   target_queued_submit_work+0x73/0x270
+   ext4_fallocate+0x286/0x3440
+   lo_fallocate+0x13e/0x290
+   loop_process_work+0x486/0xe70
    process_one_work+0x946/0x1820
    worker_thread+0x4f1/0xd60
    kthread+0x364/0x460
@@ -118,44 +114,28 @@ ext4:
    ret_from_fork_asm+0x1a/0x30
    </TASK>
 
-The synchronous path doesn't have that problem. vfs_iter_write() takes
-freeze protection.
+Take freeze protection around ->fallocate() like vfs_fallocate() does.
 
-Submit writes with kiocb_write_iter() and drop freeze protection in the
-completion callback with kiocb_end_write_iter().
-
-Note that the completion callback couldn't tell from the command whether
-it completes a write anyway. COMPARE AND WRITE is a write but reads the
-data to compare first. kiocb_write_iter() marks the kiocb with
-IOCB_WRITE so the callback doesn't need to know.
-
-Fixes: 769031c92c8b ("scsi: target: target/file: Add support of direct and async I/O")
+Fixes: dfaa2ef68e80 ("loop: add discard support for loop devices")
 Cc: stable@vger.kernel.org
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- drivers/target/target_core_file.c | 3 ++-
+ drivers/block/loop.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/target/target_core_file.c b/drivers/target/target_core_file.c
-index 4b23fadd7bb88..e8a44ddf6f5c9 100644
---- a/drivers/target/target_core_file.c
-+++ b/drivers/target/target_core_file.c
-@@ -268,6 +268,7 @@ static void cmd_rw_aio_complete(struct kiocb *iocb, long ret)
- 	struct target_core_file_cmd *cmd;
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index a3325ceab484a..d2f29aadabcc1 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -259,7 +259,8 @@ static int lo_fallocate(struct loop_device *lo, struct request *rq, loff_t pos,
+ 	if (!bdev_max_discard_sectors(lo->lo_device))
+ 		return -EOPNOTSUPP;
  
- 	cmd = container_of(iocb, struct target_core_file_cmd, iocb);
-+	kiocb_end_write_iter(iocb);
- 	cmd->ret = ret;
- 	cmd_rw_aio_put(cmd);
- }
-@@ -311,7 +312,7 @@ fd_execute_rw_aio(struct se_cmd *cmd, struct scatterlist *sgl, u32 sgl_nents,
- 		aio_cmd->iocb.ki_flags |= IOCB_DSYNC;
- 
- 	if (is_write)
--		ret = file->f_op->write_iter(&aio_cmd->iocb, &iter);
-+		ret = kiocb_write_iter(&aio_cmd->iocb, &iter);
- 	else
- 		ret = file->f_op->read_iter(&aio_cmd->iocb, &iter);
+-	ret = file->f_op->fallocate(file, mode, pos, blk_rq_bytes(rq));
++	scoped_guard(file_write, file)
++		ret = file->f_op->fallocate(file, mode, pos, blk_rq_bytes(rq));
+ 	if (unlikely(ret && ret != -EINVAL && ret != -EOPNOTSUPP))
+ 		return -EIO;
  
 
 -- 
