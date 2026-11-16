@@ -2,56 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E0B606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D333606A323
 	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2026 12:39:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=JTSpVUVK;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kXBXegK7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=MGnFzbGn;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kwDqbPlI
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=H9E1u11sECBJWFTmloDJmZ13PYN0Kwn0d7kmiA3OBRM=; b=JTSpVUVKHYGZd1
-	aKPieBaqy6fCOKgKO8HworFpZL02Hs/hVwLF7H2McvK8c22QS3Y7sitRXDiXgwDvjowNHiUuiOyGb
-	vgozgxcwyszGWdjPuh/ch94WzQb6Ya5USZKJPJYwVSU0hHCeD7wKTJIO8cJ7677CskSgziNK+xoze
-	sR53gqpinBu0CP+83HMKtoYx/dVOU6bCsLp3n3/Ie8TLDLuQ2QNr5uIL53tFDRowut1gR148LtBOX
-	pZQOfFHRKvZAfzKkycnCz95WiHBppz18mIWPKak6259MnkxReTNnsYIahV3BPDuixeaTBu57XDBpj
-	JtMbget0DSVTEKfdS2hg==;
+	List-Owner; bh=V82ztJBNlPhaz+Wx849jUF1Fth1Va6laWHBuR1fHMH0=; b=MGnFzbGnE6aIs0
+	UX7mRjsCzpKMvkFnxQGTn6qkH3CYgzkIX3Z7rImsB8Jl0QHey9TpVuTfa6TBJ9/XrZGJp2CHY2AGX
+	NIRboF/ljcClxP/mu0CZsSSYgi8lYkE2cmFqO9ZJSsMJ6F91fUDhJ84O+Qzr5pLWm9ApAXnmRksNm
+	Oa5FHg6wXpDD6O8FXzAgJz5/EliZmBPiDwFdGEmdPszCZ6xLQtqh4DyDH7Zzs5yJh3mCq74OJYu4D
+	ZmZqlebWqtoL5LcmK48/X6qpA7BbrNEUt4q+/G90I4plY2BE1aU9SJ6znALSIkZdz/3XuyodhQTE4
+	ZC1vcRJpMdFhTnhqcoyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSvzX-00000002Nit-07Jj;
+	id 1xSvzX-00000002NjO-1zqU;
 	Mon, 16 Nov 2026 12:39:23 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSuXN-000000026J9-2Rlb
+	id 1xSuXk-000000026VL-1cSh
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Nov 2026 11:06:13 +0000
+	Mon, 16 Nov 2026 11:06:36 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 5719846263;
-	Mon, 16 Nov 2026 11:06:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E916E1F000C5;
-	Mon, 16 Nov 2026 11:06:05 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id CF9C1628FE;
+	Mon, 16 Nov 2026 11:06:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 849FD1F000C7;
+	Mon, 16 Nov 2026 11:06:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827173;
-	bh=H9E1u11sECBJWFTmloDJmZ13PYN0Kwn0d7kmiA3OBRM=;
+	s=k20260515; t=1794827195;
+	bh=V82ztJBNlPhaz+Wx849jUF1Fth1Va6laWHBuR1fHMH0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=kXBXegK7dC1dL/bZ9+nDwuLsEdWqEdkGm3v8QYa4xbauZMWbuGG7TJof+GlVspgc6
-	 FrsnozDmBgYNMx5PleVEdEj2kZOxs0GZRkgg5V0hZc5AB3JrL5tiIO0h1vvhhokZG0
-	 r5PLjrDcCnZ3+X5jM6ZwF5fzae5BhkGDz/vxX/H+//UMQhBi+YsjA2sgBohg411S3f
-	 RN15M3gCu2W0VEVkAPsWZOa8JJoL2By17j+phnGfheP6VMWIuS9AUGqX9gr9kFKR/l
-	 67+V1J8Lq73Ymyu3xj3kOn/Rf1GEfYGbirIZghea1NE/yTr0T0Dq2uoKqDapAJl18F
-	 AxXY+14O7YRpA==
+	b=kwDqbPlIEVin342bCV66mFc7w5TjDAG4QWgv0QPZ1iPybKt1uBx3pT88iGIZJjfxj
+	 zXKtX4RwjRqJ1feSvaMW10OvKhkIbyo50QUFDvmHyOrEfSMH4I4ZB6qtqDGyn4lrKu
+	 raphSXyqDO2TqDVRMJIz3uphpPuYJBCGYPN58KBOkNRA7wFcbm8ORc1aO05+VttQZO
+	 CRCwtXmY1UhCDsMTy8/O3N0kW3QRUk+0ETDpA11tc+X/KUcXy3jKuDwqNRzTIxNSzv
+	 t2YFmGchSCuI3EOQzBUg3DdY+vE7hPRWitKH5GBmz+8uIr8TqLiBn/YfGeAmNho9ae
+	 96VtBlXWqQRPA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:04:34 +0100
-Subject: [PATCH RFC v3 01/44] loop: refuse backing files that aren't open
- for reading
+Date: Mon, 16 Nov 2026 12:04:37 +0100
+Subject: [PATCH RFC v3 04/44] fs: add SB_I_PSEUDO
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-loop-pseudo-v3-1-8cbbea1cf34f@kernel.org>
+Message-Id: <20261116-work-loop-pseudo-v3-4-8cbbea1cf34f@kernel.org>
 References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 In-Reply-To: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -70,16 +69,16 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
  linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
  Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
  linux-kselftest@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, 
  Alexander Mikhalitsyn <alex@amutable.com>, 
  Chris Down <chris@chrisdown.name>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1877; i=brauner@kernel.org;
- h=from:subject:message-id; bh=VBI+uMCHtIBDpXye3IfyuEMYz0sbcx7ROCm69jjOsKw=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9ehy/1dSsii0m7V7enfhfyQ9t559yePWxhStUzHL59
- E16H/9XdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExkexojw+QQwXjlawZzkoPn
- qlueuOPxgnWa9MKE0D0SQYo37ztI+TH8j9bMlUzVqnrt+1BljeVHrpWttpeFOvw6ujdOmSEYuUC
- KAQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3846; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=KiwRkIO1lHh7OMwJFZf89sR/oYY0Mvh//bvL8i/DzWw=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9epx8W8b22xob5YkpkSfFQ9x32eSGl0ndW62pdumBt
+ n5cffzkjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgImIv2X4p3qnbDP/ubu7pL6y
+ n/zaxdfx7Llzz4/KFw8nsVl3n9ynYs7wV9b9vP/cte8eZhW6Fns0bNgW98dW3zP+DKuS3oTs7uQ
+ YDgA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-Mailman-Approved-At: Mon, 16 Nov 2026 04:39:20 -0800
@@ -101,51 +100,95 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-loop_configure() takes any file as long as it implements ->read_iter().
-Loop itself never checked whether the file was actually opened for
-reading. Buffered I/O went through vfs_iter_read() which refuses files
-without FMODE_READ. Direct I/O has called ->read_iter() of the backing
-file directly ever since loop grew support for it.
+Currently, there's no way to tell whether the files of a filesystem
+store data or whether they are kernel interfaces. Files on pseudo
+filesystems such as procfs or sysfs generate their contents when they're
+read and writes to them are commands to the kernel.
 
-Since commit f2fed441c69b ("loop: stop using vfs_iter_{read,write} for
-buffered I/O") buffered I/O calls ->read_iter() directly as well. That
-commit was about O_DIRECT handling and the FMODE_READ check went away
-as a side effect.
+But a few places in the kernel take an arbitrary file and use it as
+storage: loop, zloop, the nvme target's file backend, the scsi target's
+fileio backend, fuse passthrough, the usb mass storage gadget and erofs
+file-backed mounts. At most they check the file type and whether the
+file implements ->read_iter() and ->write_iter(). That's not enough.
+kernfs provides both for every sysfs attribute for example.
 
-So whoever can set up a loop device can read a file it was only allowed
-to open for writing. Open the file O_WRONLY, configure a loop device
-with it and read the contents through the loop device.
+Add SB_I_PSEUDO so a filesystem can state that its regular files are
+kernel interfaces and must not be used as storage.
 
-Refuse backing files that aren't open for reading. Loop always reads
-from its backing file so a write-only backing file never made sense in
-the first place.
+Pseudo filesystems also never hold executables and most of them don't
+hold device nodes either. But currently each of them decides on its own
+whether to raise SB_I_NOEXEC and SB_I_NODEV. Some do, most don't. Add
+fc_init_pseudo() as the common initialization point for all pseudo
+filesystems that raises all three flags and switch init_pseudo() over
+to it. The few pseudo filesystems that do hold device nodes clear
+SB_I_NODEV again when they fill in their superblock. The following
+patches convert the mountable pseudo filesystems.
 
-Fixes: bc07c10a3603 ("block: loop: support DIO & AIO")
-Fixes: f2fed441c69b ("loop: stop using vfs_iter_{read,write} for buffered I/O")
-Cc: stable@vger.kernel.org
+Nothing checks SB_I_PSEUDO yet so no functional changes.
+
 Reviewed-by: Jan Kara <jack@suse.cz>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 Reviewed-by: Chris Down <chris@chrisdown.name>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- drivers/block/loop.c | 3 +++
- 1 file changed, 3 insertions(+)
+ fs/libfs.c                     |  2 +-
+ include/linux/fs/super_types.h |  1 +
+ include/linux/pseudo_fs.h      | 12 ++++++++++++
+ 3 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index a3325ceab484a..c96e35c3ef423 100644
---- a/drivers/block/loop.c
-+++ b/drivers/block/loop.c
-@@ -528,6 +528,9 @@ static void loop_assign_backing_file(struct loop_device *lo, struct file *file)
+diff --git a/fs/libfs.c b/fs/libfs.c
+index 96a6e9b1535fb..8c8789489fdf9 100644
+--- a/fs/libfs.c
++++ b/fs/libfs.c
+@@ -735,7 +735,7 @@ struct pseudo_fs_context *init_pseudo(struct fs_context *fc,
+ 		fc->fs_private = ctx;
+ 		fc->ops = &pseudo_fs_context_ops;
+ 		fc->sb_flags |= SB_NOUSER;
+-		fc->s_iflags |= SB_I_NOEXEC | SB_I_NODEV;
++		fc_init_pseudo(fc);
+ 		fc->global = true;
+ 	}
+ 	return ctx;
+diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
+index 72f4288e16c52..472200bdf081a 100644
+--- a/include/linux/fs/super_types.h
++++ b/include/linux/fs/super_types.h
+@@ -359,5 +359,6 @@ struct super_block {
+ #define SB_I_NOIDMAP	0x00002000	/* No idmapped mounts on this superblock */
+ #define SB_I_ALLOW_HSM	0x00004000	/* Allow HSM events on this superblock */
+ #define SB_I_NO_DATA_INTEGRITY	0x00008000 /* fs cannot guarantee data persistence on sync */
++#define SB_I_PSEUDO	0x00010000	/* regular files are kernel interfaces, not storage */
  
- static int loop_check_backing_file(struct file *file)
- {
-+	if (!(file->f_mode & FMODE_READ))
-+		return -EBADF;
+ #endif /* _LINUX_FS_SUPER_TYPES_H */
+diff --git a/include/linux/pseudo_fs.h b/include/linux/pseudo_fs.h
+index a651e60d94107..e8fb99600d564 100644
+--- a/include/linux/pseudo_fs.h
++++ b/include/linux/pseudo_fs.h
+@@ -2,6 +2,7 @@
+ #define __LINUX_PSEUDO_FS__
+ 
+ #include <linux/fs_context.h>
++#include <linux/fs/super_types.h>
+ 
+ struct pseudo_fs_context {
+ 	const struct super_operations *ops;
+@@ -15,4 +16,15 @@ struct pseudo_fs_context {
+ struct pseudo_fs_context *init_pseudo(struct fs_context *fc,
+ 				      unsigned long magic);
+ 
++/*
++ * Common initialization for all pseudo filesystems, mountable or not. Their
++ * regular files are kernel interfaces. They don't store data and pseudo
++ * filesystems never hold executables. The few that hold device nodes clear
++ * SB_I_NODEV again when they fill in their superblock.
++ */
++static inline void fc_init_pseudo(struct fs_context *fc)
++{
++	fc->s_iflags |= SB_I_PSEUDO | SB_I_NOEXEC | SB_I_NODEV;
++}
 +
- 	if (!file->f_op->read_iter)
- 		return -EINVAL;
- 
+ #endif
 
 -- 
 2.53.0
