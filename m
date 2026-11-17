@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AEF4606A320
-	for <linux-nvme@archiver.kernel.org>; Sat, 21 Nov 2026 16:06:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8272E606A32A
+	for <linux-nvme@archiver.kernel.org>; Sat, 21 Nov 2026 16:06:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=JQDgU+1v;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=tHv9sGob
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Nz9TppBC;
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=ftw4Glsm
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
@@ -14,69 +14,69 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=+cVfVc99Mj9JzDjRqkRlx7bbwk4z1TaP6S9xba6j1G0=; b=JQDgU+1vNO1z2jeqnnn3AZD558
-	Nkq/GaTWAY3l0fkKaa2BQUVt2IR3g45jemifPm1767UOiI1K1GVmxhxw9Yr0cWrEQely4VR+4blhH
-	9MHniV2QtGHAT1Q/jlqLBBGDhkVrajtvWdOLcG98RxSdyNRLmd5reM9nZxYsPR/uJsY5yPAlCIO+d
-	JPNKW3y+QlNFO1rSnb3Znkr8TaoNmYuJHPJTqajHx20bkUbD4hlg6OOCm3UXFm2X+MDhaqbR7MehM
-	rX6oVzmejhk5gtnO5/MO1hPs/2oMsdj4XZZHwsoHv3VDVZakkSFEk3N1LhF7uZLnsBPfsK+sby2NV
-	aR/uZT6g==;
+	bh=AET1JHslkSzLNTOs00e5qdhXA33kuZnL+yhN5Q6hFHY=; b=Nz9TppBCvIh2/G4kf9iiSXXrcD
+	H/I2MjrXyAwgpL27fkdfemukZwZKPf72bnh3fzQq1NsgwtqBu2pBVjRP9yqMg2GLOqY1tZV4oydV8
+	EtvFLZyL8a7hE/Z8/seRY4QeF7zNBYwIAN/HgJr3nYWqPEfQKPTiItYQ/TVKAwEYGCnrbKgeKyc8G
+	Acf6LhMuSvN3xu5fTmQdRS/ghz8LYcK1zvaaRfQgPNgolRipjIDJYjk6EuIv0DgA2+NtlEDaZIQDr
+	kKjnyucofWHqhbPVDVOztp9U4RcGLmBZPTuflG5yaO8zViZ0p3z6u2l1Ql0ivXP6GKgcxO8JcFtv7
+	2QK1eXiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUnbO-0000000HPao-2rRv;
+	id 1xUnbO-0000000HPYt-0S4D;
 	Sat, 21 Nov 2026 16:06:10 +0000
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTEel-00000004uMm-46gF
+	id 1xTEXw-00000004sxs-1JnI
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Nov 2026 08:35:13 +0000
-Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-4919a880834so2252948f8f.0
-        for <linux-nvme@lists.infradead.org>; Tue, 17 Nov 2026 00:35:11 -0800 (PST)
+	Tue, 17 Nov 2026 08:28:09 +0000
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-4bb6c7b6dbdso26232755e9.0
+        for <linux-nvme@lists.infradead.org>; Tue, 17 Nov 2026 00:28:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794904510; x=1795509310; darn=lists.infradead.org;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794904086; x=1795508886; darn=lists.infradead.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=+cVfVc99Mj9JzDjRqkRlx7bbwk4z1TaP6S9xba6j1G0=;
-        b=tHv9sGobpkR+mihzJQd8IlBjbYyfCZZLDIeZn5Xxg12spkGelgzlA8H2wzBzoB5+6d
-         oNgvmzFrjMM/cQlKt9JRjNKXWPWQokJcFLz7RMg0M5gUi6lNNLDAh46UwS6gMxZ4j3Qf
-         qKUSAxRnu0ukzju/LDqLKw/FsvR3prk8FithBmQ/Mf/aOkix916qYlTM4QMqJwJasMdS
-         fUdaCd3Oq/PybJ801Mx+RoeWPYaa8cvZvTPzka7o5qIF3y5pkWUqSvITUfTsK2QzRpAO
-         4gu+lbN54u5mGlXd53ozrB2iJZc3hsvEP7O4ZWVzWG7t1db+ED+zY2nNpgSeK1DY1tAd
-         EhvA==
+        bh=AET1JHslkSzLNTOs00e5qdhXA33kuZnL+yhN5Q6hFHY=;
+        b=ftw4Glsm7GglUSGaYMf1jm/JaHr9lj5UtAWyS+ewkSzaW10yodi2fiQhhpqjehJK4q
+         5PcflEv9p8TRVTLtBzSnXtXeu1Tx1G8BOVrnqXoVj+KEPhvYyDpYYlGKUR7eeb4fbcEy
+         5yAguJHU4NClWMHOaIEX02LDU99evOfI94l0pcPxWMA6IqjwO8OWzWHU+h0y2ximumos
+         ZsLZecd7QobMFovRcEZsD/yY6DagNth4e77iF8bB1lIwgUVq8nYb7NpT9RSrUr+YYuf0
+         kS4gOKyN8QS1EH7ADoE2Brh1m79twTlAzTTkW6TTZlqiKPuk61p3lRwE7FftzC9ANUys
+         veGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794904510; x=1795509310;
+        d=1e100.net; s=20260707; t=1794904086; x=1795508886;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+cVfVc99Mj9JzDjRqkRlx7bbwk4z1TaP6S9xba6j1G0=;
-        b=fojfJv8srmdSRUbPaoCtc3fuc4uLb0iWNN/12tNFAYP59DyNbZWOcl+AYzH6pFGAQu
-         oAtn5sCuSMk92IhGsv0K8XzIbhcle+0p2Od1+tDPnHMNo9o4GXdRMtmRSfJ8/Jl8OZo/
-         NyjZ3Lx/LOhPWuLSgtDUBBiQgmj/NhdVT+vjZpQuJlriNaTJm4a9UqV+MEqc78NC4Nk2
-         3WlPM5kaWMiV5hVt5eKjlXUx0MdV8orYMwzJkesO5SdZZ5fvq5f9cAd8aoDppKDb/Gwo
-         OE2mjGmMutGSNPoExMIbkVxKKRahhCSavHElhCA9ROc8pil9ZhCJ8Xw+A/EDW0eA6/ux
-         +ruw==
-X-Forwarded-Encrypted: i=1; AL+hErGRTt973FBTitDnHL+itaGJJK2N0RQomF+O1Jy1+/RTZNjW5N9yYbTQ1PFGtRJ97wp00g4mtpmLInky@lists.infradead.org
-X-Gm-Message-State: APuU4Z8FH7sa8i6nioCaS2Fs3UOe5P9+GbyAGzaPhsJN8hJ2HZAC9aL+
-	ZZhhksqOKxIs321KtCgThEyJ5zGtXkdymyo7U2XaPS3T3BFa+efg7PkcW20Ae5WtHIt/
-X-Gm-Gg: AZFdTZetltSUgU2eh9LdyjGRd/FfmienXRWYuvp4GbwMPOMqL9gmhWd/hqNiEl7ckFq
-	h56B981SLQZrpIupvKx+DtjZoABt13sZv9rBRDSpZo34y2SLYxziLP2fWjsX5pR0JwWce8MaBvE
-	bCNMxRHoeNUn8d+Hjv+KimDUpWO9VWHvxnjDS2evhYULKw2snKClUWn+/h6fMV90tH8nzkoCVL7
-	Kx5aeUWSSVbeCfZUgVefwSnBFmLx+Rc8rPKtx3JqoYqWnREOsDgIaiaoc8aVNLgt538P4yM1cu3
-	3HyWvxvEhULy4W1GBjk0wsbndKhPmuv5BkdcNCz3bUG0mZV/BR+wKtJySDhuyr6S3WOP5DIjiVC
-	gMVor+VVUqcZxTZwEA/rNhlNVOVs3xk05Sl3Z79Vq8TCS2jUpXNqMd4dSx45TUNOPvJ5lXtlgzR
-	SkscwX00lSNxd5e6Et/6tSzwjS9qlwOjllSlQR9rWmu7j02vPhNyZFXsYM7qwE9sBK9kp2VZR54
-	LbIiqQ7XiTzuIaeNJpM0quM0LMUd7lbgoAWSsIH5n7dJklCQPmvwfbJCUbIQNWf9ntI+KXaZamk
-	TUzJnXLb9ptNPR7Nd6POK3wce3I1t14jF5ubdPtau9iQ1lqrXVK7qxiLZ4au2lU4pn4WeCKeUhf
-	+5Nx+inHas1FD7z4YXi14nv6+iT2Wiq2MW++sRA9Xr9ggg+VZjvpVCmm0
-X-Received: by 2002:adf:e193:0:b0:48c:7306:18e9 with SMTP id ffacd0b85a97d-49c728c6e6amr26569239f8f.43.1794904509932;
-        Tue, 17 Nov 2026 00:35:09 -0800 (PST)
+        bh=AET1JHslkSzLNTOs00e5qdhXA33kuZnL+yhN5Q6hFHY=;
+        b=uQMRHeWGKUMjbT8qTaaoWecqBf5YeRe7iKpG6vtdKBd/0KOw4EJfzST4G6pRyIk7GG
+         CalmfH5Ha8t6qfn3wyxeCYOc0DQysZHfz8q377TvYzpr80eTK8ASsbpYKvBOMEnt1/Wy
+         xkduLRzKFfmUTjI7O9wVpUGmtWgcSXbM22kti+0I/Aa1rhOW3xf5lElwmkkyS+f42PJ+
+         1+C+IiZysPSPHZJNA/UU7jgjD4JEFuOQHTuPKXC0VEldcX/77Lm+mwbPfyiV0554FuBe
+         hjjcVKIhkjsvi63Rhk06KLeS3af2aDF5iaFr9VmueXyzCm5OknWOWJPPrhfp2dcgedT1
+         LO+Q==
+X-Forwarded-Encrypted: i=1; AL+hErHZvLWedwWVwjEGnTrt4IaZB3QWzQP3TT44yBo+Vz5DL+FSMOGjqEUfc2SaG2fZmCcb3DOdwmz8vub+@lists.infradead.org
+X-Gm-Message-State: APuU4Z/Wttl/KyIZCFinesrjv2V1214Ou4ZKVUxVYKJeQzzQJG+GXkEg
+	5fj9vcHnkgoDA7e88INasnPU0sfUuoEkIv4dllhDlSKfXrr+KRbXLr6VruwtLVP93QTp
+X-Gm-Gg: AYBFou3opU02jlUc3gI4ylrlcHeQ8DneTuLaqRNF4DscCLDJWzle+NaAKCDgLbWtxQw
+	Ycg3JQKN0tchrssh8gktrWnNNLUnufrBENSig7wIHexG8Br+mStNIWKNhDxqESJvueA9r22zGMk
+	KFsgOdr2A1nebBgKG967kOLFbVkQI/IbWY2LDNaZRvRB453dTejvYGZMh+Lta8ZvPGlIAkHyoRv
+	2Dz12mEMsvuSQSbDkVRIkL+/HvnHtlEJsmQ25zD2d0RAncMqvctUvJXyJWW0EVS9HtALG+/qkr1
+	ewXJUTgaGmrQBmtTLSrR0DQvuHe9mzh8LYmc8KwPEXD0qT5T0MJQLXeTCnq0Ll8pC8cNS3gwn0m
+	iefmiiakULqVF83j9a+AqjSgTH2MDT7qCsxnS7roRVwq9OSbvUX80swop8QpFeuluUl4O0tvGD2
+	dGj61xHxDQbkHl8SmT3vHZTYmXJLKK+kwBGg0r3cSd9670+RRPjv9szbv4bRQvd2D9qMddXmvBL
+	7Dr/tWZcy8B8m7paLwi/gHCndqJD7qFHv8F2L08utLYEY3MPkug6rpS6rdBH3Hc+rPOX5nGcRFF
+	hiMx5zJ+tGCCBGiEdhBhvrrdeIEgYhwKORedWY4vcb3nnPU2JUxElWL5LSKWl4pnDkDutiBPOJN
+	KqhEb75J3UdWrFBhNlvrNtqd7VQkdmDHw4YVfVEhVNZKHXvHwmnfS9+HU
+X-Received: by 2002:a05:600c:512:b0:4a2:a9:ed87 with SMTP id 5b1f17b1804b1-4bb55a5aa47mr209766355e9.19.1794904086313;
+        Tue, 17 Nov 2026 00:28:06 -0800 (PST)
 Received: from ?IPv6:2003:cf:572c:2800:de4c:6789:33ce:97c2? (p200300cf572c2800de4c678933ce97c2.dip0.t-ipconnect.de. [2003:cf:572c:2800:de4c:6789:33ce:97c2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c603f4e2esm26338505f8f.36.2026.11.17.00.35.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb78418853sm74782845e9.8.2026.11.17.00.28.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 00:35:09 -0800 (PST)
-Message-ID: <b0ec2cd8f9b7a6a2e4a54c6df2fa897bce068cbd.camel@amutable.com>
-Subject: Re: [PATCH RFC v3 28/44] ocfs2: use fc_init_pseudo() for dlmfs
+        Tue, 17 Nov 2026 00:28:05 -0800 (PST)
+Message-ID: <fa0ce0f7ecdbe91cc6773bcbe86be137d2129944.camel@amutable.com>
+Subject: Re: [PATCH RFC v3 21/44] nfsd: use fc_init_pseudo()
 From: Alexander Mikhalitsyn <alex@amutable.com>
 To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
 Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
@@ -93,19 +93,20 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
  ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
  <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
- linux-kselftest@vger.kernel.org, Chris Down	 <chris@chrisdown.name>
-Date: Tue, 17 Nov 2026 09:35:07 +0100
-In-Reply-To: <20261116-work-loop-pseudo-v3-28-8cbbea1cf34f@kernel.org>
+ linux-kselftest@vger.kernel.org, Chuck Lever	 <cel@kernel.org>, Chris Down
+ <chris@chrisdown.name>
+Date: Tue, 17 Nov 2026 09:28:04 +0100
+In-Reply-To: <20261116-work-loop-pseudo-v3-21-8cbbea1cf34f@kernel.org>
 References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
-	 <20261116-work-loop-pseudo-v3-28-8cbbea1cf34f@kernel.org>
+	 <20261116-work-loop-pseudo-v3-21-8cbbea1cf34f@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261117_003512_057745_9DC2617B 
-X-CRM114-Status: GOOD (  13.19  )
+X-CRM114-CacheID: sfid-20261117_002808_373923_5A33A5E6 
+X-CRM114-Status: GOOD (  12.31  )
 X-Spam-Score: -1.9 (-)
 X-Mailman-Approved-At: Sat, 21 Nov 2026 08:05:53 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -125,40 +126,40 @@ X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Mon, 2026-11-16 at 12:05 +0100, Christian Brauner wrote:
-> Initialize dlmfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-> also SB_I_NOEXEC and SB_I_NODEV. dlmfs never holds executables or
-> device nodes.
+On Mon, 2026-11-16 at 12:04 +0100, Christian Brauner wrote:
+> Initialize the nfsd filesystem as a pseudo filesystem. This raises
+> SB_I_PSEUDO and also SB_I_NOEXEC and SB_I_NODEV. It never holds
+> executables or device nodes.
 >=20
-> Reviewed-by: Jan Kara <jack@suse.cz>
+> Acked-by: Chuck Lever <cel@kernel.org>
 > Reviewed-by: Chris Down <chris@chrisdown.name>
 
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 > ---
-> =C2=A0fs/ocfs2/dlmfs/dlmfs.c | 2 ++
+> =C2=A0fs/nfsd/nfsctl.c | 2 ++
 > =C2=A01 file changed, 2 insertions(+)
 >=20
-> diff --git a/fs/ocfs2/dlmfs/dlmfs.c b/fs/ocfs2/dlmfs/dlmfs.c
-> index d3bfcada3e3bf..1789ec96dc130 100644
-> --- a/fs/ocfs2/dlmfs/dlmfs.c
-> +++ b/fs/ocfs2/dlmfs/dlmfs.c
-> @@ -21,6 +21,7 @@
-> =C2=A0#include <linux/module.h>
-> =C2=A0#include <linux/fs.h>
+> diff --git a/fs/nfsd/nfsctl.c b/fs/nfsd/nfsctl.c
+> index f32311f2d7cf9..ce2666deddbd9 100644
+> --- a/fs/nfsd/nfsctl.c
+> +++ b/fs/nfsd/nfsctl.c
+> @@ -9,6 +9,7 @@
+> =C2=A0#include <linux/namei.h>
+> =C2=A0#include <linux/ctype.h>
 > =C2=A0#include <linux/fs_context.h>
 > +#include <linux/pseudo_fs.h>
-> =C2=A0#include <linux/pagemap.h>
-> =C2=A0#include <linux/types.h>
-> =C2=A0#include <linux/slab.h>
-> @@ -563,6 +564,7 @@ static const struct fs_context_operations
-> dlmfs_context_ops =3D {
 > =C2=A0
-> =C2=A0static int dlmfs_init_fs_context(struct fs_context *fc)
+> =C2=A0#include <linux/sunrpc/cache.h>
+> =C2=A0#include <linux/sunrpc/svcsock.h>
+> @@ -1375,6 +1376,7 @@ static int nfsd_init_fs_context(struct
+> fs_context *fc)
 > =C2=A0{
+> =C2=A0	put_user_ns(fc->user_ns);
+> =C2=A0	fc->user_ns =3D get_user_ns(fc->net_ns->user_ns);
 > +	fc_init_pseudo(fc);
-> =C2=A0	fc->ops =3D &dlmfs_context_ops;
-> =C2=A0
+> =C2=A0	fc->ops =3D &nfsd_fs_context_ops;
 > =C2=A0	return 0;
+> =C2=A0}
 
