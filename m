@@ -2,59 +2,78 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E60606A31C
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Nov 2026 11:48:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4D5606A89A
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Nov 2026 13:08:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=vxpUVy3I;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D7vAu3FB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=pbtPDlMn
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
-	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=sYjTNuUy8aIm9y9hvhwwHMxlXxKiv9TzIARPYf8z+nU=; b=vxpUVy3IdX/MiyKvqE01J5j7kd
-	ejgWlp9T9LhXoM7famL39dcF1IccdSqq1SjutB6w/UU/ZsQu/9nR3uU/OsP0xshXauMlWivywR4Ec
-	bX4UTWQ8H7hkIVv2DR6NzaCvEoyEKbkXtKEK7l4RUo6t9+2xQoMWFhsOBAGJf3qAvwotWYXATe8iD
-	1lXGWzd3l4iUVwuThXdZQ9afwf965HzPT6CnsfvJIvETLT1/rF0CRRW3PxpOiRwbExjROIdSmJtja
-	fo2N6Dvp5CGt3r4/3ItGij60IOXxw4L5SLQONdHxfsZI8YIWidGPrQ/Vv3M9sIlcVezbnyNrBeRF3
-	Oore7fOA==;
+	bh=/nt+I/GfSYLIDlAc5SHc+b+HtXRxCdI0A5JmNuCP6hA=; b=pbtPDlMnNdFnSU1OPOVvQQRtY0
+	6IDMVvlahkh9z8mLQ79TqOqrWihhK+chNEVz6ppLGeBrOI0z9Vgv57Mp/Psrpyowsrz99Dcc7zXcc
+	6IHifXlIFWPgiflqeGwcN1dieGzThlZTVdw532NPhnTrXPw90EaYOgVPnar69vo9uKFGuBUDLDA0R
+	5OHJB/cxjYNbFKgqenQsfhVTfCvhofPPVHiEbfS2w0nTxgcSpqhQusB7HGCxzi2qgMs2lZ9iJM9Gu
+	Gg4AoRpIjeV0OwIYGKq1/xihIRQh/jU2xAenDpoVvDZLG0FP5z6YGoSsIrL9e7ck5lHbBkgW/sS8v
+	Fx7DqhOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTHg5-00000005VFD-3go3;
-	Tue, 17 Nov 2026 11:48:45 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xTIvP-00000005qkf-2FJ1;
+	Tue, 17 Nov 2026 13:08:39 +0000
+Received: from dggmsgout13.his.huawei.com ([124.71.94.104])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTHg3-00000005VEt-3jSt
+	id 1xTIv8-00000005qN1-0Uet
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Nov 2026 11:48:43 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 4606141791;
-	Tue, 17 Nov 2026 11:48:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3EEE1F000C4;
-	Tue, 17 Nov 2026 11:48:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794916123;
-	bh=sYjTNuUy8aIm9y9hvhwwHMxlXxKiv9TzIARPYf8z+nU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=D7vAu3FBDx6Y85eil3tHhvQJRnrY/p3AyPMeiFlMXJo6spBafr4Y3u9uRyS+Kocsx
-	 kaZ93XuIH6KhdrxLmXUuHx4GsFkea+h7XEs6rMgCAg8LEiO/cnBiK2e/RPm+/aJkUz
-	 4jM1qYANfSoHDkUySNOX/JauNNPZjI8s6mhYesuRJWaXMeHtnGVp0uCwhXSeTYlqRU
-	 cJ9qSLGADu+cFkHEj7fpoyCH5s9iGr5Mpwz/jF1l8dxz6uvhmmkNVuTpUWC5AiGvpZ
-	 i3q+1XWfvoF+WIBozEa/4d/Q1IYeaoHygT84KgfFDOrSqJerdMNV1smBTk080ebk5s
-	 Zh9hQc83/vd+Q==
-Message-ID: <sashiko-outbox-218731@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] RDMA/cma: Use a separate lockdep class for the
- listening cm_id
-To: =?utf-8?b?U2hpbidpY2hpcm8gS2F3YXNha2k=?= <shinichiro.kawasaki@wdc.com>, linux-rdma@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261117113129.746490-1-shinichiro.kawasaki@wdc.com>
-References: <20261117113129.746490-1-shinichiro.kawasaki@wdc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 11:48:42 +0000
+	Tue, 17 Nov 2026 13:08:38 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggmsgout13.his.huawei.com (SkyGuard) with ESMTP id 4jTQ4R31Klz1rqZB
+	for <linux-nvme@lists.infradead.org>; Tue, 17 Nov 2026 21:07:19 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 0FD504056B
+	for <linux-nvme@lists.infradead.org>; Tue, 17 Nov 2026 21:08:10 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.50.85.136])
+	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgB3tfSfUfxqGBHaEg--.61707S4;
+	Tue, 17 Nov 2026 21:08:09 +0800 (CST)
+From: Hou Tao <houtao@huaweicloud.com>
+To: linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	houtao1@huawei.com,
+	xierenfeng@huawei.com
+Subject: [PATCH] nvme-pci: handle the missed doorbell write due to passthrough req
+Date: Tue, 17 Nov 2026 21:07:43 +0800
+Message-Id: <20261117130743.2871972-1-houtao@huaweicloud.com>
+X-Mailer: git-send-email 2.29.2
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgB3tfSfUfxqGBHaEg--.61707S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cr1xZFy7uFWrZrykJw43KFg_yoW8WF4kpF
+	WrWFyYkF93KF4xta4UJa17Za4Yq3WrGrWxJFWfGw1avr13KrWY9r4rK3WjvF4rXr4v93y3
+	Xr45A3W7Cr15CFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUyGb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2
+	j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7x
+	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0E
+	wIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
+	I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
+	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
+	xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1hSdDUUUUU==
+X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261117_050822_892804_3D96B4E2 
+X-CRM114-Status: GOOD (  11.15  )
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,123 +83,54 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] RDMA/cma: unsafe lockdep_set_class() placement in
-  rdma_listen()
-- [Low] RDMA/cma: unreclassified handler_mutex on
-  nvmet_rdma_enable_port() error
---
+From: Hou Tao <houtao1@huawei.com>
 
-commit d2c299202b2d013f5516cd16c2fdd187fc66e56a
-Author: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Commit 1cc4cdae2a3b ("nvme-pci: fix missed admin queue sq doorbell
+write") lets blk-mq invoke ->commit_rqs when nvme_queue_rq returns
+failure or there are still pending requests in the dispatch list.
+However, it doesn't handle the case when only passthrough reqs are
+queued after the req initiated from nvme_init_ctrl_finish().
+nvme_queue_rq() will return BLK_STS_OK for these passthrough reqs due to
+REQ_FAILFAST_DRIVER flag, and the controller reset will fail.
 
-RDMA/cma: Use a separate lockdep class for the listening cm_id
+Fix it by invoking nvme_commit_rqs when nvme_queue_rq() returns
+BLK_STS_OK and bd->last is true.
 
-This commit assigns a separate lockdep class to id_priv->handler_mutex at t=
-he
-start of rdma_listen() to prevent a false-positive circular locking depende=
-ncy
-warning between listening and connected cm_ids in nvmet-rdma.
+Fixes: 1cc4cdae2a3b ("nvme-pci: fix missed admin queue sq doorbell write")
+Reported-by: Xie Renfeng <xierenfeng@huawei.com>
+Signed-off-by: Hou Tao <houtao1@huawei.com>
+---
+ drivers/nvme/host/pci.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Link: https://lore.kernel.org/linux-nvme/at36um4zrsfOr3kh@shinmob/
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 18b3f1b8541c..c7f6f7989168 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1676,8 +1676,12 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	if (unlikely(!test_bit(NVMEQ_ENABLED, &nvmeq->flags)))
+ 		return BLK_STS_IOERR;
+ 
+-	if (unlikely(!nvme_check_ready(&dev->ctrl, req, true)))
+-		return nvme_fail_nonready_command(&dev->ctrl, req);
++	if (unlikely(!nvme_check_ready(&dev->ctrl, req, true))) {
++		ret = nvme_fail_nonready_command(&dev->ctrl, req);
++		if (ret == BLK_STS_OK && bd->last)
++			nvme_commit_rqs(hctx);
++		return ret;
++	}
+ 
+ 	ret = nvme_prep_rq(req);
+ 	if (unlikely(ret))
+-- 
+2.29.2
 
-> diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
-> index 337a49d1acf72..b3678ddc79a4a 100644
-> --- a/drivers/infiniband/core/cma.c
-> +++ b/drivers/infiniband/core/cma.c
-> @@ -3949,6 +3949,13 @@ int rdma_listen(struct rdma_cm_id *id, int backlog)
->  		container_of(id, struct rdma_id_private, id);
->  	int ret;
-> =20
-> +#ifdef CONFIG_DEBUG_LOCK_ALLOC
-> +	static struct lock_class_key cma_listen_handler_mutex_key;
-> +
-> +	lockdep_set_class(&id_priv->handler_mutex,
-> +			  &cma_listen_handler_mutex_key);
-> +#endif
-> +
->  	if (!cma_comp_exch(id_priv, RDMA_CM_ADDR_BOUND, RDMA_CM_LISTEN)) {
->  		struct sockaddr_in any_in =3D {
->  			.sin_family =3D AF_INET,
-
-[Severity: Medium]
-Can calling lockdep_set_class() here race with concurrent users of
-id_priv->handler_mutex and misclassify non-listening IDs?
-
-rdma_listen() reinitializes id_priv->handler_mutex.dep_map before validating
-id_priv->state and without holding id_priv->handler_mutex.  Through
-ucma_listen(), userspace only holds ctx->mutex and can call rdma_listen() o=
-n a
-cm_id in any state while another thread or CM callback acquires or releases
-id_priv->handler_mutex:
-
-CPU0                                  CPU1
-ucma_listen()                         cma_ib_handler()
-  mutex_lock(&ctx->mutex)               mutex_lock(&id_priv->handler_mutex)
-  rdma_listen()                           look_up_lock_class()
-    lockdep_set_class(&handler_mutex)     ...  <-- data race on dep_map
-    cma_comp_exch() -> fails
-
-Even when id_priv->state is RDMA_CM_ADDR_BOUND, id_priv is already on
-cma_dev->id_list, where cma_send_device_removal_put() or addr_handler() can
-hold id_priv->handler_mutex concurrently.  Mutating dep_map while the mutex=
- is
-being acquired or held can trigger the lockdep WARN_ONCE() in
-look_up_lock_class() or corrupt the held-lock stack on unlock and disable
-lockdep.
-
-In addition, if rdma_listen() fails the state check, fails rdma_bind_addr(),
-or jumps to err: and reverts id_priv->state to RDMA_CM_ADDR_BOUND, a
-non-listening cm_id is left with cma_listen_handler_mutex_key, defeating the
-lock-class separation if the ID is later used for a connection.
-
-[Severity: Low]
-Does reclassifying id_priv->handler_mutex in rdma_listen() still leave the
-false-positive lockdep splat reachable when nvmet_rdma_enable_port() fails
-before reaching rdma_listen()?
-
-nvmet_port_subsys_allow_link() holds nvmet_config_sem across
-nvmet_enable_port() -> nvmet_rdma_add_port() -> nvmet_rdma_enable_port():
-
-drivers/nvme/target/rdma.c:nvmet_rdma_enable_port() {
-    ...
-	ret =3D rdma_bind_addr(cm_id, addr);
-	if (ret) {
-		pr_err("binding CM ID to %pISpcs failed (%d)\n", addr, ret);
-		goto out_destroy_id;
-	}
-
-	ret =3D rdma_listen(cm_id, 128);
-	if (ret) {
-		pr_err("listening to %pISpcs failed (%d)\n", addr, ret);
-		goto out_destroy_id;
-	}
-
-	port->priv =3D cm_id;
-	return 0;
-
-out_destroy_id:
-	rdma_destroy_id(cm_id);
-	return ret;
-}
-
-If rdma_set_afonly() or rdma_bind_addr() fails, rdma_destroy_id(cm_id) locks
-id_priv->handler_mutex under nvmet_config_sem while handler_mutex still has
-the default lockdep class, recording the same nvmet_config_sem ->
-handler_mutex dependency as before.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117113129.7464=
-90-1-shinichiro.kawasaki@wdc.com?part=3D1
 
