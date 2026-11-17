@@ -2,96 +2,63 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCAE606A31C
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Nov 2026 01:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E15A606A31C
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Nov 2026 02:16:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=KU0BPiO+;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dd7PPHtm
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rei+8mz9;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=LCACTMBG
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Unsubscribe-Post:List-Owner;
-	bh=NUhA+uZG5XdxMUQDorM5AwEpculFp+rMbhcc7G7XRe8=; b=KU0BPiO+tQAwmRuG33dw3A68zd
-	uZ2MimqUdK40e15Lm7CpAXg+tFJFF0hJ4xVLq5rdgaSCMdiwDf2Nl2LWhcHxCqrC5OgfEgtsFL9HT
-	hyso68cYLBssBlzeq7Ew2tkAe8YJ7q5vNlJ1ls/mTTdp7HYhJm6XgZX2PCCWOMrpYSvjfF1KohVO9
-	lydWiX2uV2rPMLtBOSDXjsTGr4aq4Whe+fzhTCGdPyR3k3y6YXjF438DkGV71SA/NV0wWiwhjpFlz
-	tzuo+Eis64zSBqUdrz95I7YnzlRdm1uGQUYRyA2Mcnffv380JTd91iKd6wRSFquaMD6uVjAOyV4HN
-	quc2+b3A==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=S17O1sc4t+6r5xSJ/Amlorry29rij7vTqsRl4dT03rs=; b=rei+8mz9M2nmzE
+	aayROyIzKuzOQvpWHErJ3Khk4N1PeqWpViKgI00lnzodf20hhRgwhsn7CVzLexgpdRs3lNo1Ycaxm
+	OxNwCu2uK1JZVKzW6C10/eo1t3ewyH/bNhcD9a0zUQ8bZ6j5+RRlhIqY1msGUXoQNjctkz8yvo56H
+	w0whnNlDa4yBuRMPb2T0cYh/bV93S2SGYe5T/VodtN6GkpQp5p5dfpMhAYCcHtQSz5pyyDmEdVMPn
+	3fX5VuvNOHC/uZvuRn+2cUPEMQnIiQtPsimPEdkX6zixL9v9DaPa4xRPcIejkgnDZ2YGCZhJvrhuv
+	PanWCoyKZy+0FyEUznDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xT7kw-00000004I4Z-2j4l;
-	Tue, 17 Nov 2026 01:13:06 +0000
-Received: from mail-dl1-x1232.google.com ([2607:f8b0:4864:20::1232])
+	id 1xT8kF-00000004O75-3IXe;
+	Tue, 17 Nov 2026 02:16:27 +0000
+Received: from out30-101.freemail.mail.aliyun.com ([115.124.30.101])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xT7kt-00000004I4B-0lJ0
+	id 1xT8kC-00000004O6X-0Fol
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Nov 2026 01:13:04 +0000
-Received: by mail-dl1-x1232.google.com with SMTP id a92af1059eb24-1ae58d17cd9so3284197c88.1
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Nov 2026 17:13:02 -0800 (PST)
+	Tue, 17 Nov 2026 02:16:26 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794877982; x=1795482782; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NUhA+uZG5XdxMUQDorM5AwEpculFp+rMbhcc7G7XRe8=;
-        b=dd7PPHtmchj0aaVPB8r7X6eLhueF659YenvBOM7WwVR0t26QUZ/uoTy7gGX45am2wJ
-         qf7V7XR9/9riggXANuP2gOjnW0ZXg2m9E/NKKq4XVwCSX9dbpuZPz2lM8oIkjuJEotgj
-         ldUkGtAJunnaAwXwtcLAviHC/UbzpMHHKk+2ncHzYFvTcb4pGJnuViYyb7HER27/UWR4
-         9mtD52vzMdI79/nCqmtwkJjv0GklCqgovc2MPx5XbHIZqQEg4JeF2AXz0JqoPmHA0L+1
-         Q8Fy+cKBoqxPbnRcHifSfilK/gNgYwxyyvTkeS2KPZrQJvPeFafs6VDbChHnkrnDjUUQ
-         ///Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794877982; x=1795482782;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NUhA+uZG5XdxMUQDorM5AwEpculFp+rMbhcc7G7XRe8=;
-        b=eKS8hzdZ4tG1hxh8UZ10boKd1g7Rbh+P3B89I97T4IuJStg4aCBeqTZgtnlsW1o27y
-         KmthTBoAwkWLLq3cO5S0MGHvDi9p13ZZE6MNpEAa8x0nOzhzqtzEny+v6+v4U/iKbSzu
-         8Rw4jWFLazFFX/0XyAGarqtytVRX/yMCbQDVLk/35+nQ6blk/TN+7od0xtxmQ57mkb93
-         D49NMX0/3EBJ6e4lqKr9FKS0ft9ZWwI9msA3XsKK2OrbX6q1JfVQqeyO0/XXXeNdRCC9
-         R5YNoI/TFZF8SUS0511I+FwkXwlsBbHO6tJSi5pCmrKjn7TRUmdzB4Dp/gxUwzROBiKF
-         WRwg==
-X-Gm-Message-State: APuU4Z+b4/ZZy6l4x790NJ0Zcct3LHsdfCEGy5VAtvFgfQLL2VnX0YJR
-	ZFP4PIAJ9j851PbOV+5pWEaM86AfEB6fa6t+PKZKOFwCDJfifKV9kY0kQmvf3vNnmh8=
-X-Gm-Gg: AYBFou04N6XC2i4u9h/b/DVBCgd8NolsBfnv6mLNq+tjyJMQKJ+Rpf5GSwFcJt5JQdD
-	F0UHJ0TCKuWUIZ2WzpdcBl1kCsSX3yZ2EaGDJfge0jpBg5P8gGjTaqXs4bDS4dX1LMuL9IMNTRp
-	yiOwqsRgfAAgOY50px3cVimQ+viazbHiPRUqJD+f9FI+IxkuQw6MmF0FsZHFtZHdNNlChwVNflu
-	7nARAvYTXH6Jg1/r6h8Kw2SX23qwrJc/QAYu56XA166w6dQOmHB4MnGXzJ/L4Ix73cCfbJbCcaj
-	8hAlSaW41VyWJ32BJiqe27obeYM8ijZAMOUSqlvDERM9gicL2ltDAYdor0ojdbjPlFNjC20STMV
-	pfDBrj/+X5sAZN5FzU+O81ICdWQJ2QMQFJq1vduyIbwQvGu0f3mFi6sFfRK9hCkvNFgMn2dMJff
-	7zE/ZWBdrzXokilOmMAXcT1b/SaynZtYjhD0VGGKZ7gIZs4Cxh6etqCSEO9YBaIyMQigq3QJoEt
-	vX1ZnhSsK53i2rYeYOQJslx+Hv0EmEWU16ETTVm6iLmkDjZDvis/HTUWwHVJpWF3lfiqa6dfx5A
-	d879+GBZnLI+7FuUQjZUfi/qr1cZTo+EdSGqeSLonvFNCJ3j4sWjRJYvXCe/VluoW/Iy8QtnFMT
-	o7Ah5bDVf1hDZ8yuXyEZCYTo=
-X-Received: by 2002:a05:7022:3c84:b0:1b4:fa58:9d3 with SMTP id a92af1059eb24-1b5030bb43dmr11232487c88.24.1794877981588;
-        Mon, 16 Nov 2026 17:13:01 -0800 (PST)
-Received: from localhost.localdomain ([2601:647:4182:5788:5c03:2bf9:5b8c:32cd])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3815045b90esm1193654eec.13.2026.11.16.17.13.00
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 16 Nov 2026 17:13:01 -0800 (PST)
-From: Ankit Gupta <ankit6791@gmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: Ankit Gupta <ankit6791@gmail.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] nvme: limit Write Zeroes to 65536 logical blocks
-Date: Mon, 16 Nov 2026 17:10:49 -0800
-Message-ID: <20261117011230.10288-1-ankit6791@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	d=linux.alibaba.com; s=default;
+	t=1794881778; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=S17O1sc4t+6r5xSJ/Amlorry29rij7vTqsRl4dT03rs=;
+	b=LCACTMBGwGVArYky2sTDjDMVe9q6bsFWu7Z5GxnFMnlw+UyvylIRio9fT/1PMInv3Lt3VnxolC9alTW9VTEbyzpw75IjqMZD3GuqnMqvRFIO8/bRVD+JJT190Bj6R8CrXZ6wwPrurKzI39cB4sd+sXUM6e15O/eQIJBAyzU8Q54=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XEwaSN4_1794881775;
+Received: from 30.178.69.11(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XEwaSN4_1794881775 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 17 Nov 2026 10:16:16 +0800
+Message-ID: <e048eab7-b8b9-4782-8f91-e79309d8be12@linux.alibaba.com>
+Date: Tue, 17 Nov 2026 10:16:15 +0800
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] nvme-auth: fix data race on ctrl->transaction
+To: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Nilay Shroff <nilay@linux.ibm.com>,
+ Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org
+References: <20261116081211.1757155-1-kanie@linux.alibaba.com>
+ <20261116081211.1757155-3-kanie@linux.alibaba.com>
+ <6dc083eb-7286-418b-92fe-f7245f653ba0@suse.de>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <6dc083eb-7286-418b-92fe-f7245f653ba0@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261116_171303_229454_23D1A30A 
-X-CRM114-Status: GOOD (  16.03  )
-X-Spam-Score: -1.9 (-)
+X-CRM114-CacheID: sfid-20261116_181624_798483_290893F1 
+X-CRM114-Status: GOOD (  14.73  )
+X-Spam-Score: -17.6 (-----------------)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,85 +69,59 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-14.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-With nvme-tcp connected to nvmet-tcp at default settings, the target
-reports MDTS 0 and WZSL 0. A 33 MiB Write Zeroes request on a
-512-byte-LBA namespace then completes successfully after zeroing only
-the first 1 MiB.
 
-The native Write Zeroes command encodes the number of logical blocks
-in a zero-based 16-bit field. The namespace queue can advertise a
-larger limit, either through the MDTS fallback or through WZSL. In
-that case the host truncates the count when building the command and
-reports success after zeroing only part of the requested range.
 
-Cap the native Write Zeroes limit at the number of logical blocks the
-command can encode. Convert that limit to sectors for each namespace
-and retain any smaller controller limit. The DSM deallocation quirk
-continues to use its own limit.
+在 2026/11/16 21:22, Hannes Reinecke 写道:
+> On 11/16/26 9:12 AM, Guixin Liu wrote:
+>> nvme_ctrl_auth_work() queues the DH-HMAC-CHAP exchange of every queue
+>> on nvme-auth-wq without waiting for them, so multiple
+>> nvme_queue_auth_work() instances run concurrently and all increment
+>> ctrl->transaction in nvme_queue_auth_work(). The plain increment is a
+>> data race, and the lost updates hand the same transaction id to
+>> concurrent queues.
+>>
+>> The counter does not need to be shared at all: the controller only
+>> echoes the transaction id within a queue, so a per-queue counter is
+>> sufficient. Increment chap->transaction instead, drop the reset in
+>> nvme_auth_reset_dhchap() so the id stays monotonic across
+>> re-authentication, and remove the now unused ctrl->transaction field.
+>>
+> I disagree. The authentication transaction ID identifies the
+> transaction itself, and is used to differentiate between different
+> transactions. As such it needs to be unique within each queue.
+> But as it carries controller-specific data we should also ensure
+> the ID is unique per controller, ensuring we catch any possible
+> misdirected authentication packet.
+A misdirected packet is caught regardless of the transaction id.
+Each queue's exchange carries its own random challenge:
+nvmet_auth_challenge() fills req->sq->dhcahp_c1 with get_random_bytes()
+per exchange, and the response digest covers that challenge.
+A response computed for queue A fails the digest check on queue B even
+when the transaction id and the step happen to match, because the
+expected digest is different.
 
-Fixes: b94e8cd2e6a9 ("nvme: fix Write Zeroes limitations")
-Cc: stable@vger.kernel.org
-Signed-off-by: Ankit Gupta <ankit6791@gmail.com>
----
-Tested on arm64 at v7.4-rc3 (aebb72744764), over TCP with the stock
-nvmet target. Full-range read-back passed for 1, 32, 33, 64, 256 and
-1024 MiB with 512-byte LBAs, and 256, 257, 512 and 1024 MiB with
-4 KiB LBAs. Host and target traces confirmed the expected command
-splitting. A smaller 1 MiB MDTS-derived limit was preserved, and XFS
-formatted and mounted successfully.
+So controller-level uniqueness would only detect a case the crypto
+layer already rejects, while within a queue the id is unique either
+way.
 
-Claude and Codex assisted with the investigation, patch preparation,
-and validation. I also reproduced the 33 MiB failure and checked the
-trace by hand on an unpatched kernel.
+Best Regards,
+Guixin Liu
+>
+> It should be possible to move the controller value to an atomic
+> value, and then we could do
+>
+> chap->transaction = atomic_inc_return(&ctrl->transaction);
+>
+> Cheers,
+>
+> Hannes
 
-I will follow up with a blktests regression test for this, as
-Christoph suggested.
-
-Changes since v1 (sent to the maintainers off-list):
-  - Move the calculation into nvme_max_write_zeroes_sectors() and
-    derive the maximum block count from the command's length field.
-  - Describe the affected configuration and Cc stable.
-
- drivers/nvme/host/core.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f4aa02869b79..441d70001920 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2093,6 +2093,16 @@ static void nvme_set_ctrl_limits(struct nvme_ctrl *ctrl,
- 		lim->dma_alignment = 3;
- }
- 
-+static sector_t nvme_max_write_zeroes_sectors(struct nvme_ns *ns)
-+{
-+	const size_t nlb_bytes =
-+		sizeof_field(struct nvme_write_zeroes_cmd, length);
-+	const u64 max_lbas = BIT_ULL(BYTES_TO_BITS(nlb_bytes));
-+
-+	return min_t(sector_t, ns->ctrl->max_zeroes_sectors,
-+		     nvme_lba_to_sect(ns->head, max_lbas));
-+}
-+
- static bool nvme_update_disk_info(struct nvme_ns *ns, struct nvme_id_ns *id,
- 		struct nvme_id_ns_nvm *nvm, struct queue_limits *lim)
- {
-@@ -2143,7 +2153,8 @@ static bool nvme_update_disk_info(struct nvme_ns *ns, struct nvme_id_ns *id,
- 	    (ctrl->oncs & NVME_CTRL_ONCS_DSM))
- 		lim->max_write_zeroes_sectors = UINT_MAX;
- 	else
--		lim->max_write_zeroes_sectors = ctrl->max_zeroes_sectors;
-+		lim->max_write_zeroes_sectors =
-+			nvme_max_write_zeroes_sectors(ns);
- 
- 	if (ctrl->dmrsl && ctrl->dmrsl <= nvme_sect_to_lba(ns->head, UINT_MAX))
- 		lim->max_hw_discard_sectors =
 
