@@ -2,170 +2,112 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4EA606A32A
-	for <linux-nvme@archiver.kernel.org>; Sat, 21 Nov 2026 16:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BA7606A32A
+	for <linux-nvme@archiver.kernel.org>; Sat, 21 Nov 2026 16:06:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=up228Ndc;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=bCIAKIpw
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=RvhQzF5I;
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=ILX7m7vp
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Cc:To:
-	In-Reply-To:References:Message-Id:Content-Transfer-Encoding:Content-Type:
-	Subject:Date:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=mLsXexqUf358mA1pQDjjSM5M05CkS3huzFQmePfrOic=; b=up228NdcksAB3hbSYQDZKTR63Q
-	3kBs63gUSj0WGe0NpeSBnGb9tbVM8c7/CQ3nIXNbqeyAP/TglrawUHZPjGWConD/lDC10yXYzZFmb
-	noKDCq2Hze/GSLN4kjH9WMksL3DGtFlh0eP9dZzKBh4TUY5rT7SsijFyR/zYwNHxDmCm2+1zRISg0
-	7yZOfRoiAxDA+92c4FOEibFIbcy/25Ahcve0CiEz97Jgz6NbC2BqMR5ASTBgtl5/Tc1+qXENrDOy6
-	e1n2mYZdA47tmpwHEqQXky1RhILZsI15cXlGxOBUB97q7rxvx/+hPPnq5jtLVtejlVat6+Pf0ujNZ
-	c6oV9WTg==;
+	bh=80nJ9mfJsz3UGKSZAnLQ0A7kD85nyx4H/r5vYSV/3QM=; b=RvhQzF5IkRF4r6FjVXu1J+9hng
+	PB35PyqKX++0y/b2DcRra8mkD9E2JX9er5IxK9LyZgksiHuUaEO0huo8DRRYZXFusJL2Ge2+df/MU
+	RAUbMaMUEpa0cSvdW79bnuFdVFbTjhYArMaXPkfOmyDsOERfBptJ9qlMuSmTKX5iAvkA865noWk0i
+	y1EudU3QUBZYB8tJEBCu57aTkjtrbBUxY0kgvP9IombKkNACnhWrKHxnJNWpptjqfPyXU1Lw705tc
+	qE/SGYvg7mKGzFnvkQNsgexuPyqFdb6KkOWmOj3akWbxZ/OLjaSYh/Bf88pZ5jAuJs6kBZ3lhQRmF
+	4jeyYi/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUnbc-0000000HPvy-3mbr;
-	Sat, 21 Nov 2026 16:06:24 +0000
-Received: from mail-northcentralusazon11013032.outbound.protection.outlook.com ([40.107.201.32] helo=CH4PR04CU002.outbound.protection.outlook.com)
+	id 1xUnbO-0000000HPYz-1FMT;
+	Sat, 21 Nov 2026 16:06:10 +0000
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUHd6-0000000E7N4-0V9w
+	id 1xTEYI-00000004t1I-0hhH
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Nov 2026 05:57:49 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=llwII2jYSKxxerQ/dLxBioPeCySwZ/nXiilAzM6AyjY4BZcdOw+Am62qib38zn43uXs/CRhFs2sbLMsFf6c0kPeJOJkUVUgkDogd3ibCvu2lTColmJDc+x+jyZuUv/XFk39II7HAgZphpyORfE58Bh7p/OIuBIAtlRhXFHunfNTNfHtiJJ+y0Vw8/psGx4lVorC7ke6vgGd+WSQWf50WDlq0KcH2VZqSUapGFEsLdnr7tdL6ZFwgkv+I/TR+pjG3xi6csfd6zxHwpu+enK6ztjJFfFBwKrEknrdFY258io/DDofMBZNnBX5JKGfJwc31V2q33pJlbbegdSTJdcR2gw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mLsXexqUf358mA1pQDjjSM5M05CkS3huzFQmePfrOic=;
- b=KnO2HUMiJuCnJ/okJZhx9Il/G++CWoM9Qd+NPANL/EbqF/EayIG9xzb68u+45y+BiCxLvJaXGzf1yyleJF7cxzIpgFMhoJCaxVD1TStwM5ogfCmiFKE7gXIe8S8gc2bSWsSYN9snORXRkBex9D/wlBZCeNzY0bbNAxOAbyT2/DbZfOGdtzMVh6DPTzqUAu0KwwDyrgTnr7nI/+Tdb6o8DVJAGa3vO6KpcJzTQyOX6Y1QscLK8NE/aCHO6iN7RHhVbRVUHVpQgk1vo5x1uB/XHOSa/g0QjWnb3ATm4fI++pJrR1De9pjsBY86yBg/YPuU28lu/26b5Iy0ypzMRlfpXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mLsXexqUf358mA1pQDjjSM5M05CkS3huzFQmePfrOic=;
- b=bCIAKIpwhXhiB0SU91c7WqX01Q1GhVuuaz3xTJlWskZ0ZIafTKKIanYHm0LvORzR6YzfvAxS8QpSuMIuFivqnSNodQ65EnbjyYxxM0mcQ2H9DxyrtSILzVOOqPbeg4CYBbZn5YztIj63vj2CPWKv9za8jD2NlZvI1Ua4K0YZFpo+RoKT6jrL77CUuns05tOe1y47j8SJ5icN6vBims1EjrJsFGG4f5XgJe9d+qtdVfC1X7hyVJkpEumC67qPT8rdU6KX9M8gYFHfKX65akIVsdvZ7a+WSlHmyEj3dv8UfQwsT6/PxaoEqciglLL5+5lDwopPXh4lzWdjxdNfJXbfDQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SA3PR12MB598757.namprd12.prod.outlook.com
- (2603:10b6:806:52d::14) by IA0PR12MB7675.namprd12.prod.outlook.com
- (2603:10b6:208:433::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Fri, 20 Nov
- 2026 05:57:43 +0000
-Received: from SA3PR12MB598757.namprd12.prod.outlook.com
- ([fe80::e206:100:5946:a777]) by SA3PR12MB598757.namprd12.prod.outlook.com
- ([fe80::e206:100:5946:a777%5]) with mapi id 15.21.0639.011; Fri, 20 Nov 2026
- 05:57:43 +0000
-From: Alistair Popple <apopple@nvidia.com>
-Date: Fri, 20 Nov 2026 16:55:52 +1100
-Subject: [PATCH v3 14/24] drm/omapdrm: Convert to the SGT mapping type
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-dma_mapping_type_v4-v3-14-c0183a409bdf@nvidia.com>
-References: <20261120-dma_mapping_type_v4-v3-0-c0183a409bdf@nvidia.com>
-In-Reply-To: <20261120-dma_mapping_type_v4-v3-0-c0183a409bdf@nvidia.com>
-To: =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Vivek Kasireddy <vivek.kasireddy@intel.com>, 
- Dongwon Kim <dongwon.kim@intel.com>, Kevin Tian <kevin.tian@intel.com>, 
- Xu Yilun <yilun.xu@linux.intel.com>, 
- Karl Mehltretter <kmehltretter@gmail.com>, 
- Baolu Lu <baolu.lu@linux.intel.com>, 
- Felix Kuehling <felix.kuehling@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org, 
- iommu@lists.linux.dev, Keith Busch <kbusch@kernel.org>, 
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Mina Almasry <almasrymina@google.com>, 
- netdev@vger.kernel.org, Alexey Kardashevskiy <aik@amd.com>, 
- zhipingz@meta.com, treding@nvidia.com, jhubbard@nvidia.com, 
- chaitanyak@nvidia.com, Jason Gunthorpe <jgg@ziepe.ca>, 
- Leon Romanovsky <leon@kernel.org>
-Cc: Alistair Popple <apopple@nvidia.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795154186; l=3555;
- i=apopple@nvidia.com; s=20261105; h=from:subject:message-id;
- bh=I1P0JJA8/Ip9uzr48JcFWatJnXbDnNeSYuUse0aM4OU=;
- b=3QlzG/lKtPMCh+aMAuMzqlHGrWUJcaVtoKiBv5H7KBENFtXVy1A4P4iyUdkw82t+tsdv+0b1x
- IdX+ZLhi3qfAFDvUR84x0bejfQgyx319OzRA0PfTguaAfEA3Zhy7Xa/
-X-Developer-Key: i=apopple@nvidia.com; a=ed25519;
- pk=WdWPT9rAq3YNfXldbGv1NSGVLGxzQGFGJvRUiShhNqs=
-X-ClientProxiedBy: SY5P282CA0015.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:208::14) To SA3PR12MB598757.namprd12.prod.outlook.com
- (2603:10b6:806:52d::14)
+	Tue, 17 Nov 2026 08:28:31 +0000
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so27360715e9.3
+        for <linux-nvme@lists.infradead.org>; Tue, 17 Nov 2026 00:28:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794904108; x=1795508908; darn=lists.infradead.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=80nJ9mfJsz3UGKSZAnLQ0A7kD85nyx4H/r5vYSV/3QM=;
+        b=ILX7m7vpCdDFkS6OAva1Oz3owtjXSjr7FJmj4GCkPBM9BW+akLSSyYgVJiIdLT5e6n
+         ALdibWykmFiPurfqkBb3f4IzdZpTJuzZbfTIkdTvM+8lblyxi7oZuXZDSICMbs/r22fq
+         Oti2j/A46/ZJYFwCMVdG0VcYr+ScZQ9ChAUsAXFASQceqv0e/3W4KMiAnRiZIe293z9R
+         X68PX+eypPqNcuwxTH5pivUdBzrtJndauZ7eygFUUUgLqyrhEsHKObV9SQt7ITTuoqkg
+         v9wwbvagVgedSL3LwHLBBWEH/7sqzzCK5RfQMKzxyM5EoMtRqDrsH4zHo6or2NZFPNbK
+         FBpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794904108; x=1795508908;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=80nJ9mfJsz3UGKSZAnLQ0A7kD85nyx4H/r5vYSV/3QM=;
+        b=N5nlMC8G0G4fl0kCMNJsBMCw3gITBXgh2NqAdnjljZQJS9MH7nF8tnBGi6CceeGcU9
+         cpxakrw97VMqTBiVVTHR86+s0kPIWqAeoTx1lnP9MIymybzSPc1EygnYyouj3coFHhW/
+         Tfusri4gKaxvJPJyZGGgVb5D89rvpqt0rWgeDy3T1j3BSe/SP3s4SGk2HwxuQ/42DPeT
+         JaYaaboWAX6ZErpXGxQhy83NObST08pNrRPCrDhiBlL21bPvu/k27OoA3B5o/5TGby2o
+         MDWx9J+Uw8hMdQoHNgwudle4NhIZHT8WJMIAbNyVqBgQUMD7UwQ5HoftY/plFIg2BFut
+         50tw==
+X-Forwarded-Encrypted: i=1; AL+hErFmEC8tWF4poCoA2hJUjMsmouH1I6tVr6q+3wMv+PFS19nhAI7QRtQqFRC9hQK8/UGPkb7qnaxWZhC7@lists.infradead.org
+X-Gm-Message-State: APuU4Z/op4kyu+1yq63Uy/CBwglXmxheixfaoHaJZQtP8eY1V2JOJmkV
+	fvCXKCgRTK3an5Jx1MHY2bAPlhoMxBkk7we5ixvxzIN5DnD9FBidw9dvlqns1ilbLCqH
+X-Gm-Gg: AYBFou1C3OaVk2uAVNprB4WXGNOZ6UQ3StQ98PlDN+1e6A7eVLICL1vzHcBbLzxu1LD
+	2V4+VYi9VzLwWVZ56xswvxQIL3PFRAzwdRmc2N7kH1ua1pzs50IpJX+gD4Xd28X3ACfF0IZpyi9
+	lghArZxCGwX1a6j5uXSRIBW/EyB4AfNULnqQZI+V4lqueyZxLxx9uejexpiZAa2GCeaX6Fym5ex
+	GwsnZlsx/z0ByCZ7cPsgToAZP6PQx7HZbGMMmuYd12sAYLQ23V2nXw2ppO1fB+7MGXoORrzo23s
+	14YhB6wjHLX94WnEiY8Xwk0GIM1YoIFFDtMucKfBo/UkSur4YrPty2Evr6KDpwlencq6BgAASit
+	v/xhjIJ+7I7nyHFr5wb5GPOgniBI6E+3Xl341+PfEucbkRgDGj42bo9gNLoRRGnIYeQTUineBIM
+	jIDmq+u7ySGIdheXrM7c9pCV0ys30TMif+ilW4vGIj1MbPNvNUniKqrs1BP8WusCMsO9s+nff4f
+	jrbE+KchBU7AJvbD7nI09SLt6rG/oBvI8Q53nft256ePqAuwwZGT8zwdmHfZA9u81ytSN2NlvVy
+	F0Ah3dKtnwRyhzTvWf6IO/zTQ0hgwCMRnKkEiMugKxiyqSbJdkkhl19ZrhjOkdsQ3UiIU0CVBQp
+	ATujcdPB0TJawCFENGgntMnjIWffmOnYjWU0QBlXpUlTP0sNzge8SLGqp
+X-Received: by 2002:a05:600c:6286:b0:4a1:7e77:c382 with SMTP id 5b1f17b1804b1-4bb55a5d634mr255399085e9.5.1794904108278;
+        Tue, 17 Nov 2026 00:28:28 -0800 (PST)
+Received: from ?IPv6:2003:cf:572c:2800:de4c:6789:33ce:97c2? (p200300cf572c2800de4c678933ce97c2.dip0.t-ipconnect.de. [2003:cf:572c:2800:de4c:6789:33ce:97c2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb78422d2dsm75197335e9.10.2026.11.17.00.28.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 00:28:27 -0800 (PST)
+Message-ID: <afc070a816e3ae5eb3c9e2d62d4f25c59ee61df2.camel@amutable.com>
+Subject: Re: [PATCH RFC v3 26/44] xenfs: use fc_init_pseudo()
+From: Alexander Mikhalitsyn <alex@amutable.com>
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
+ Bacik	 <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, 	driver-core@lists.linux.dev,
+ linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
+ netdev@vger.kernel.org, 	fuse-devel@lists.linux.dev,
+ linux-efi@vger.kernel.org, 	xen-devel@lists.xenproject.org,
+ ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
+ <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
+ linux-kselftest@vger.kernel.org, Chris Down	 <chris@chrisdown.name>
+Date: Tue, 17 Nov 2026 09:28:26 +0100
+In-Reply-To: <20261116-work-loop-pseudo-v3-26-8cbbea1cf34f@kernel.org>
+References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
+	 <20261116-work-loop-pseudo-v3-26-8cbbea1cf34f@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA3PR12MB598757:EE_|IA0PR12MB7675:EE_
-X-MS-Office365-Filtering-Correlation-Id: 324e2681-a711-43b1-da17-08df46cb314c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|23010399003|7416014|366016|1800799024|921020|10067099003|11063799006|56012099006|261021123027099003|261028144727099003|261022105027099003|261026121527099003|261026140227099003|261022075727099003|261021121427099003|261102130727099003|261102123227099003|261009223027099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 4UT9vm1oxjJyCjBtsyzt/gZkH303WoDgA2BWpCIWkL07c2Cl9/7vZIOXu0qK/DaE2vBs1kvg3tKpRmhzzppFxCS/T59/quRv3ul4K9yRHSJD9l54XiCEEqoUo3mVeD7ffbS9+ZuOSOR1QU8jbS7X4aDMm0KluVO/FFcVCJbn4Lq+fcB1W3ncfNpt0O/ZAzxZTh1xPuJiV5aKMBhqIA0XMwjOU1bxjW7+qGwxGcA0nq75+6YvLJ+JggY2cJUeLnYFzNWjS6l3E0lg+Rq+MixABjQQPCyCfUPhRKFAf3YHDqRWgO5qRooZjscJmoPzc1QKjl1VRkxBA6PoDNJkC55PdyfZBYFr4jy8xn6L7rp0mF4wH3YsE4i4VZWHf04gVjwbDr9W2YB5IjbqXpnPCYIfV+HIw5pNhNowsns/Iu3Ke+bbGWJ85OceoJDq/ltaTOaI78MdSugfzudLGHj5Aomz8/ThX1HoYK3I4U+roQLMVWfKbcbppxYPb0PT+s8ljnEr/H/1LQlb2FFWwlaKIPAkmLyiGqEq3CHc++malAPN9OxjzfjitMdInRe3W/oue2PcyYxO538LzIPwjovcWkHskQU+ef0glnICKTEigJAF+qn4SvvpPxz+vVQscxxp8+7grd8olzNCYFOTgrYtsYnLgtUenIlg/K1JPK9vS+NGDDrrSpnIm0MLTX5uf2MWoXeUdV7/FvZ2bEsCh5x+9wkrsg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR12MB598757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(366016)(1800799024)(921020)(10067099003)(11063799006)(56012099006)(261021123027099003)(261028144727099003)(261022105027099003)(261026121527099003)(261026140227099003)(261022075727099003)(261021121427099003)(261102130727099003)(261102123227099003)(261009223027099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QVBuYmdwTGpiRTRKZEh5MUhzYlRBN1E5alQxemJsd1k5bDQvRExJRm10bFpt?=
- =?utf-8?B?bHUzSjhJUWlOK21kTFYzQjFjWERWTXZoWUk0cTlxV0UxZlNMVVB3TGZJVGFs?=
- =?utf-8?B?NFdjYkZpQk1XdkhtZFZzR0JEWjFQYlV2SndYL1VYbG83WE5yQmRYaGRWT0k3?=
- =?utf-8?B?RlZ5UUNScmQ2a1gvaU1ObS9Rbmlmc3AvY2E3VW5RS1owQkF4RzBmU1lYMHNl?=
- =?utf-8?B?MFFld3ZJODF4SXNoZGdWZGhiWUZ1SW9wc2tGTjRiMXNiTkNUOUVhaXZ2S2N0?=
- =?utf-8?B?TmRNZ3o2T0xjdmZQVCtPZXErSDJBaEtHNSsvSlhTS3h4WFFzTTJiVEsxcElo?=
- =?utf-8?B?K2lJSnlrN0hrU1VPWkZsZ1pvNXNqb1E2TXdoazJ1SWVyRHF5aExXNklLZDhu?=
- =?utf-8?B?V0NaK2lMVlUzVi9ENVY0S2k0akhYRGdpaVhqWmU4YTVPWStKYWpJc21WeWpm?=
- =?utf-8?B?L3ZLRXJVNmRjcE5kSnRlWGxtTXRoYUlWZ2tkN2p2bFhMbFpuTHV3Q0lCaWJG?=
- =?utf-8?B?NDVGUHNFcXNRRExab3pYNW5SdFAyaWpTRXo4bDJ0MXhqa2VlMFV4dkxwY09E?=
- =?utf-8?B?cnpteXVkNVp0ZHhyZ3JCYWhsTmJyUmQ3Nk9kZE1RVU5pNUh3UzlTY2RKMzlq?=
- =?utf-8?B?VjBuQkVJRVllekwwK3prZmd0YXA0RUhQKy9va3NnZ0FKYy9xNiswQkU2cmhy?=
- =?utf-8?B?azVyS2MvR1VKMjZSRkw0TUJmeVc5ZlVyYmJmSHNHOGlTcW5OaXRGcmg2L3l1?=
- =?utf-8?B?d2Exd1FybXJBUkRMdXZnSkpPTnduWDJPV0VvdzVjYXNSOHQvZVpxdG1manQ5?=
- =?utf-8?B?WmxpWFdPa2dxelE5WXM3TWhROFkySndPcVp0UlNZTzNsV2hxSzZKTDI5WGRP?=
- =?utf-8?B?bUY2cHJuemJ3eUduZkNLZEhRRzJLMThmUk5JbWppU3ZMVWtVdzViUmM0eFBB?=
- =?utf-8?B?VkRLRVVQMWFHR0RqSVVZSkxVRzRmQ2x1YnFRVFFzM0JGa2g4TGw5cWhhVWQ1?=
- =?utf-8?B?WEtjVzkwbUovcXRRYjB6MnVvS0JpUEV1aGx2NktkUUQxTmNNUFFaZ1NzVW5y?=
- =?utf-8?B?YlBuQW1BQ0lzTjJzRjFZWjNBMmxZQllUenN5ZUNWMHBiNStDdFUzK2VWVkRa?=
- =?utf-8?B?eEJhUkZQc01peWFPYm9nOC93bDdYMVpMTzU0Tk83MFB0YWFKN3ZkbTRONzR6?=
- =?utf-8?B?ODMvcjFmaWhtSWp4bk5naWVxdzQwSUZMRjJGbUxOWnJhM0hjVE9pdGdXc2Nm?=
- =?utf-8?B?T00xS1FQa0pZby9zeWdmOVFRN1hjTWNKN2N2amhqYytsMkZiZmxGVFdWZldH?=
- =?utf-8?B?cVEwTGxuODQ4YlNZV1h6UkJOZmxESUVYaUZpSDBsSGFCY0FwV0d3TytKL3BD?=
- =?utf-8?B?ZTl5OGNNM0I3MkcwZy9ydVhSa2dKRXhvbk54ZGZqZjA1cjYzM21sQ3JFbTZw?=
- =?utf-8?B?ZFJLcHJadHc2Y1paeDdRelE2YStORThvaFR3RkNKVVF0M0pDT1ZYVWN4NGVw?=
- =?utf-8?B?Q2FDQ3prTUlYQ1FvL2hGY21HbVZkVUVQQ3pqQkx2UnBKYmhDM05VZUFVZGl1?=
- =?utf-8?B?VElhcndMYUtTdmxLanU1NFN6V3pTSWE5SnloTC9Za0RKSmlQUnJZcUlTNjh0?=
- =?utf-8?B?R3NrUHpXa0FiU0ZuSHNlNE5RR1ZkdXJBMFo1MUN1RzdPUlVIRjQ5eG9FT1FT?=
- =?utf-8?B?S3laa1Q5OXF2bUZ2bmV1VU1HOTFNVHFXK3FRQ1QvRGIybDBDUkZXQm1HY0hH?=
- =?utf-8?B?UDdXTDh1bTRkSkJ5bWRFOVFyL0Jvb3ZRWTAyZ2VEUFVtRHhaVUhham9ia29I?=
- =?utf-8?B?ZXQxOEYxNDIyTzlUWndQZ0xCSWVTcWhtRmFNcXc3N1JwSW4vanBnaVF0am9Q?=
- =?utf-8?B?bXZPZlhpOUtIaUpTQkEwRXA5TEdSSGZ4SHVKZ3IzdEF5Vk05TFZ3ajk3RStw?=
- =?utf-8?B?Y2FCVFZDbzNwYmowdjB2cm1QZlBkMTZXQ051NzZ1cHp3MjZiSkVnVVJLUnNC?=
- =?utf-8?B?Z1N4QVFkc1lmUlBraHVPSFA0alA5eDdQTGNVbVM3Sjd2eFRXcGdYL0lraGFO?=
- =?utf-8?B?TUZ3UWJKZzFMazIvTWlDY3BaQlllb1poR3I3cmRUdmwzVDVBSXdrbDR3R0JG?=
- =?utf-8?B?TXhZTm0vZXJJdzBiSEpoS2QvbUxtbk0zd1pndGlLVXYrL29lSFpyNFRuNEdU?=
- =?utf-8?B?YStiVW1INnVrajZYZXZBWituWW85TE1zQ01TNWtZbm5TMWgrWDdEa3hKNEJL?=
- =?utf-8?B?OGVrVU52aVcvZTAzWS9NS0VnelhrZjVVTngvdHdBaHVVZ2xYZDZRZTIxK3B0?=
- =?utf-8?B?ekpaek9PT0RCSUNYcVRLTzRiRk8rNERCQ29RZmdpL2hCOTJheHFJZz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 324e2681-a711-43b1-da17-08df46cb314c
-X-MS-Exchange-CrossTenant-AuthSource: SA3PR12MB598757.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 05:57:43.1693
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yFMFRpQztkP9i+WxWRJ8/TmMXBq+nhTa+tIq2eqjZZCm9jDpRRamgYRQKeRx8cBssgzGlwHSuQ4SFq9wEHRVQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7675
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261119_215748_292385_9B9AE9AF 
-X-CRM114-Status: GOOD (  15.18  )
-X-Spam-Score: -2.1 (--)
-X-Mailman-Approved-At: Sat, 21 Nov 2026 08:05:55 -0800
+X-CRM114-CacheID: sfid-20261117_002830_226375_16CDD138 
+X-CRM114-Status: GOOD (  13.52  )
+X-Spam-Score: -1.9 (-)
+X-Mailman-Approved-At: Sat, 21 Nov 2026 08:05:53 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -176,120 +118,49 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-omapdrm keeps one struct sg_table per object allocated with
-omap_gem_get_sg() and returns it for every attachment. omap_gem_put_sg()
-expects the same pointer back. A mapping is per attachment and per map, so
-it cannot embed or take over that table. Instead allocate a small
-container around struct dma_buf_sgt_mapping in map_dma_buf() to hold a
-copy of the table header whilst sharing the entries.
+On Mon, 2026-11-16 at 12:04 +0100, Christian Brauner wrote:
+> Initialize xenfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+> also SB_I_NOEXEC and SB_I_NODEV. xenfs never holds executables or
+> device nodes.
+>=20
+> SB_I_NOEXEC also refuses PROT_EXEC mappings. xenfs maps the xenstore
+> page and guest memory through privcmd, both data.
+>=20
+> Reviewed-by: Chris Down <chris@chrisdown.name>
 
-This way omap_gem_put_sg() can find the object's mapping to
-free. The map and unmap callbacks move from dma_buf_ops into
-DMA_BUF_SIMPLE_SGT_EXP_MATCH().
+Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 
-Co-developed-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Alistair Popple <apopple@nvidia.com>
----
- drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c | 47 ++++++++++++++++++++++++-------
- 1 file changed, 37 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-index afae0a56da8c..1c03f892dac9 100644
---- a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-+++ b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-@@ -5,6 +5,7 @@
-  */
- 
- #include <linux/dma-buf.h>
-+#include <linux/dma-buf-mapping.h>
- #include <linux/highmem.h>
- 
- #include <drm/drm_prime.h>
-@@ -17,24 +18,50 @@ MODULE_IMPORT_NS("DMA_BUF");
-  * DMABUF Export
-  */
- 
--static struct sg_table *omap_gem_map_dma_buf(
--		struct dma_buf_attachment *attachment,
--		enum dma_data_direction dir)
-+/*
-+ * The object caches one sg_table and hands it to every attachment, so each
-+ * mapping only carries a copy of the table header and remembers the table it
-+ * was taken from for omap_gem_put_sg().
-+ */
-+struct omap_gem_dmabuf_mapping {
-+	struct dma_buf_sgt_mapping base;
-+	struct sg_table *sg;
-+};
-+
-+static struct dma_buf_sgt_mapping *
-+omap_gem_map_dma_buf(struct dma_buf_attachment *attachment,
-+		     enum dma_data_direction dir)
- {
- 	struct drm_gem_object *obj = attachment->dmabuf->priv;
-+	struct omap_gem_dmabuf_mapping *mapping;
- 	struct sg_table *sg;
-+
-+	mapping = kzalloc_obj(*mapping);
-+	if (!mapping)
-+		return ERR_PTR(-ENOMEM);
-+
- 	sg = omap_gem_get_sg(obj, dir);
--	if (IS_ERR(sg))
--		return sg;
-+	if (IS_ERR(sg)) {
-+		kfree(mapping);
-+		return ERR_CAST(sg);
-+	}
- 
--	return sg;
-+	/* Header copy only; the table stays owned by the object. */
-+	mapping->sg = sg;
-+	mapping->base.sgt = *sg;
-+
-+	return &mapping->base;
- }
- 
- static void omap_gem_unmap_dma_buf(struct dma_buf_attachment *attachment,
--		struct sg_table *sg, enum dma_data_direction dir)
-+		struct dma_buf_sgt_mapping *base, enum dma_data_direction dir)
- {
- 	struct drm_gem_object *obj = attachment->dmabuf->priv;
--	omap_gem_put_sg(obj, sg);
-+	struct omap_gem_dmabuf_mapping *mapping =
-+		container_of(base, struct omap_gem_dmabuf_mapping, base);
-+
-+	omap_gem_put_sg(obj, mapping->sg);
-+	kfree(mapping);
- }
- 
- static int omap_gem_dmabuf_begin_cpu_access(struct dma_buf *buffer,
-@@ -69,12 +96,12 @@ static int omap_gem_dmabuf_mmap(struct dma_buf *buffer,
- }
- 
- static const struct dma_buf_ops omap_dmabuf_ops = {
--	.map_dma_buf = omap_gem_map_dma_buf,
--	.unmap_dma_buf = omap_gem_unmap_dma_buf,
- 	.release = drm_gem_dmabuf_release,
- 	.begin_cpu_access = omap_gem_dmabuf_begin_cpu_access,
- 	.end_cpu_access = omap_gem_dmabuf_end_cpu_access,
- 	.mmap = omap_gem_dmabuf_mmap,
-+	DMA_BUF_SIMPLE_SGT_EXP_MATCH(omap_gem_map_dma_buf,
-+				     omap_gem_unmap_dma_buf),
- };
- 
- struct dma_buf *omap_gem_prime_export(struct drm_gem_object *obj, int flags)
-
--- 
-2.54.0
-
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+> =C2=A0drivers/xen/xenfs/super.c | 2 ++
+> =C2=A01 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/xen/xenfs/super.c b/drivers/xen/xenfs/super.c
+> index 37ea7c5c03469..aba7d038ed735 100644
+> --- a/drivers/xen/xenfs/super.c
+> +++ b/drivers/xen/xenfs/super.c
+> @@ -15,6 +15,7 @@
+> =C2=A0#include <linux/module.h>
+> =C2=A0#include <linux/fs.h>
+> =C2=A0#include <linux/fs_context.h>
+> +#include <linux/pseudo_fs.h>
+> =C2=A0#include <linux/magic.h>
+> =C2=A0
+> =C2=A0#include <xen/xen.h>
+> @@ -80,6 +81,7 @@ static const struct fs_context_operations
+> xenfs_context_ops =3D {
+> =C2=A0
+> =C2=A0static int xenfs_init_fs_context(struct fs_context *fc)
+> =C2=A0{
+> +	fc_init_pseudo(fc);
+> =C2=A0	fc->ops =3D &xenfs_context_ops;
+> =C2=A0	return 0;
+> =C2=A0}
 
