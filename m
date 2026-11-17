@@ -2,143 +2,145 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3E2606A31C
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Nov 2026 07:09:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B57606A31C
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Nov 2026 07:23:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=sIPJvoqC;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=sE9HnRkd;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SHKFWJwa;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=sE9HnRkd;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SHKFWJwa
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=THbCL/3c;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Ld4olRjF;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6YL41pu2;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=COkFDrT7;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=/RT5H8SM
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=UfdGpWtgTLDzFQ8nU2mzJ6EvNoOQYOiNgDYthHagyV8=; b=sIPJvoqCKyTZGR
-	ywoHnenEtGgKDx0k5njDnsOAVHNUG4zPgwuAR2Vduo+0b0nbrdHc46RkKUGWvXWlqAPtkE0X/wUt2
-	Q5x0hUt0Mx+64ziOGDGLumP9SXVedgTZOgWCpBNkDnXba5cQBq/9O5oYjK4I9TgnCgyyXuZ0CFnT3
-	XxmIExvS6/EBD91cpxcQjzjEVZV75rRfBoLYJD1CKwzcw/jnohEyX+uRP5rQ8bVt4hOWXRQFEyiLw
-	Gzi99Nnf5nYYgL3KFCxQTQ36729DyKb+KXehSZLQiwFWJqDTEyWXBH3621kDR9V09oFch+zxFZf8l
-	6naKYBbs8Pkn3Ztt2QLQ==;
+	List-Owner; bh=qPzFvGwary6XtF1vhpofaO32V5oBK6kaWHDOY7t80lM=; b=THbCL/3c2X87Ep
+	OJx/G1Ml99ZmWttvt97su8Fqic7LJQAwCqC67ROR9dH3Wges/yvehXdejE7rW4JzpjmC+1NDwWUCg
+	iCDaf/nHdXBNve0+lp2xWtmA5/m7dZ5Ygu9ORWnxxq008WuoFLZvSmqy4/BWVQbhbMktzc4VUA/+5
+	qGqgaecG7709EoALGt8/ZcCJgPZrZp/PEkFOaxieeUOda9N5vvtIWmWC4EMq0Mk15TCxfjE47BO4B
+	Wci14Pvq3r/ZkBa/7BDIzzAlrz8xk0UAzbkZJn2Yp92kag9nPL+alJNkJ3KdpCOGjRj4YiEuOjE2f
+	S58HsCdswCHRLLVrl2zQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTDJt-00000004jzF-1Z7o;
-	Tue, 17 Nov 2026 07:09:33 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1xTDXf-00000004lv9-1N00;
+	Tue, 17 Nov 2026 07:23:47 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTDJq-00000004jxU-47SM;
-	Tue, 17 Nov 2026 07:09:32 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	id 1xTDXc-00000004luB-0ER1
+	for linux-nvme@lists.infradead.org;
+	Tue, 17 Nov 2026 07:23:46 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 85FA422298;
-	Tue, 17 Nov 2026 07:09:28 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 63F2C2234D;
+	Tue, 17 Nov 2026 07:23:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794899368; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794900220; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UfdGpWtgTLDzFQ8nU2mzJ6EvNoOQYOiNgDYthHagyV8=;
-	b=sE9HnRkdS/woZlNm9Wj+G1JECjUCb4rn0MCeryzwIxYvvriUOLX20g6qTuLwEOfayzn3FF
-	8gS9tEF/rSfUtpP91v0tnVBITpbVSzYNCSgAOtqVOd9wglnpbkcP6RdZAIcr0SEvf7jOq+
-	JD5iafcou2p8jT/S1d1cgvrBAwKpbus=
+	bh=qPzFvGwary6XtF1vhpofaO32V5oBK6kaWHDOY7t80lM=;
+	b=Ld4olRjFCqxeOROvTW2RFTtRvw/ijDB/F3Ov/BP6HF2IdRM4srCIH/NPKpLl5jj8U04ynz
+	vCYYXra/D57QCW8NmZmQM63OMMn3FgH+KFqzOF29NeD9SVJzcB8IF6SxRbvfithGXU/MoS
+	Is5zcAmKlWj/pizsN6dZtjkKiMlstKk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794899368;
+	s=susede2_ed25519; t=1794900220;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UfdGpWtgTLDzFQ8nU2mzJ6EvNoOQYOiNgDYthHagyV8=;
-	b=SHKFWJwaSEPnXO5VkGfNu+KZPbGTrLH2h5eRX31uDGs8bcJh37gKlkI7rnjvfSQrgus75S
-	H+5dFeF6B06IL7DA==
+	bh=qPzFvGwary6XtF1vhpofaO32V5oBK6kaWHDOY7t80lM=;
+	b=6YL41pu2Lhseh+OV/9cIwyxvaiYG9/K2ZiKYM36gJXUn+MHlIWQ5YMZOxcVX42L6J96y0q
+	T6OlrQGBbzu0twBQ==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=COkFDrT7;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/RT5H8SM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794899368; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794900219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UfdGpWtgTLDzFQ8nU2mzJ6EvNoOQYOiNgDYthHagyV8=;
-	b=sE9HnRkdS/woZlNm9Wj+G1JECjUCb4rn0MCeryzwIxYvvriUOLX20g6qTuLwEOfayzn3FF
-	8gS9tEF/rSfUtpP91v0tnVBITpbVSzYNCSgAOtqVOd9wglnpbkcP6RdZAIcr0SEvf7jOq+
-	JD5iafcou2p8jT/S1d1cgvrBAwKpbus=
+	bh=qPzFvGwary6XtF1vhpofaO32V5oBK6kaWHDOY7t80lM=;
+	b=COkFDrT7KliRIVbPcoWZUeyoR2ZrKW9c1BJj20FqwhKAIzV4v1+LCevlj/LFCGsMS+j1MA
+	nlEd3X7ZtiaQUyMwfOsxaBeZI7p04ErGKl4z6LGRPjxLJv44vXu+3ltAtmaZvcA8kXxBVN
+	S/Stapj14RrtRMwstU9EEFo9FVp/DoM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794899368;
+	s=susede2_ed25519; t=1794900219;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UfdGpWtgTLDzFQ8nU2mzJ6EvNoOQYOiNgDYthHagyV8=;
-	b=SHKFWJwaSEPnXO5VkGfNu+KZPbGTrLH2h5eRX31uDGs8bcJh37gKlkI7rnjvfSQrgus75S
-	H+5dFeF6B06IL7DA==
+	bh=qPzFvGwary6XtF1vhpofaO32V5oBK6kaWHDOY7t80lM=;
+	b=/RT5H8SMLiZXdziW4dUImNhWfmR4/plJCUAyv2J7V71OgJrJJfINIbe3o/MA13CwIGptX1
+	9jHnCO2JU0YfrrCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A465D1334C;
-	Tue, 17 Nov 2026 07:09:27 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 05A001334C;
+	Tue, 17 Nov 2026 07:23:38 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id JiZ5Gaf9+2pcbgAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 17 Nov 2026 07:09:27 +0000
-Message-ID: <44dcc2bc-e7eb-48c6-9aa0-96f2ad5dcb0b@suse.de>
-Date: Tue, 17 Nov 2026 08:09:27 +0100
+	id HT5iMPoA/GpnfQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 17 Nov 2026 07:23:38 +0000
+Message-ID: <0366b9fc-50b4-4739-9564-53c8783bdb0c@suse.de>
+Date: Tue, 17 Nov 2026 08:23:38 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 03/17] nvmet: Implement CCR nvme command
-To: Mohamed Khalfella <mkhalfella@purestorage.com>,
- Dmitry Bogdanov <d.bogdanov@yadro.com>
-Cc: Mohamed Khalfella <linux-nvme-bounces@lists.infradead.org>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+Subject: Re: [PATCH v3 2/2] nvme-auth: fix data race on ctrl->transaction
+To: Keith Busch <kbusch@kernel.org>
+Cc: Guixin Liu <kanie@linux.alibaba.com>, Jens Axboe <axboe@kernel.dk>,
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Justin Tee <justin.tee@broadcom.com>,
- Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
- Paul Ely <paul.ely@broadcom.com>, Hannes Reinecke <hare@kernel.org>,
- Chaitanya Kulkarni <kch@nvidia.com>, James Smart <jsmart833426@gmail.com>,
- Randy Jennings <randyj@purestorage.com>, Daniel Wagner <dwagner@suse.de>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20261114030454.2836543-1-mkhalfella@purestorage.com>
- <20261114030454.2836543-4-mkhalfella@purestorage.com>
- <20261116084540.GA3655@yadro.com>
- <20261117000348.GD1670230-mkhalfella@purestorage.com>
+ Nilay Shroff <nilay@linux.ibm.com>, Daniel Wagner <dwagner@suse.de>,
+ linux-nvme@lists.infradead.org
+References: <20261116081211.1757155-1-kanie@linux.alibaba.com>
+ <20261116081211.1757155-3-kanie@linux.alibaba.com>
+ <6dc083eb-7286-418b-92fe-f7245f653ba0@suse.de> <avsjKMMlQPPit6IY@kbusch-mbp>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20261117000348.GD1670230-mkhalfella@purestorage.com>
+In-Reply-To: <avsjKMMlQPPit6IY@kbusch-mbp>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 63F2C2234D
 X-Spam-Level: 
-X-Spamd-Result: default: False [-13.29 / 50.00];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-13.50 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	XM_UA_NO_VERSION(0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MID_RHS_MATCH_FROM(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo,grimberg.me:email];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,kernel.dk,lst.de,grimberg.me,broadcom.com,gmail.com,nvidia.com,purestorage.com,suse.de,vger.kernel.org];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
-X-Spam-Score: -13.29
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email]
+X-Spam-Score: -13.50
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261116_230931_381040_D5D786F9 
-X-CRM114-Status: GOOD (  22.09  )
-X-Spam-Score: -4.4 (----)
+X-CRM114-CacheID: sfid-20261116_232344_243725_09303CD6 
+X-CRM114-Status: GOOD (  22.93  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,94 +151,70 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/17/26 1:03 AM, Mohamed Khalfella wrote:
-> On Mon 2026-11-16 11:45:40 +0300, Dmitry Bogdanov wrote:
->> On Fri, Nov 13, 2026 at 07:04:17PM -0800, Mohamed Khalfella wrote:
+On 11/16/26 4:37 PM, Keith Busch wrote:
+> On Mon, Nov 16, 2026 at 02:22:51PM +0100, Hannes Reinecke wrote:
+>> On 11/16/26 9:12 AM, Guixin Liu wrote:
+>>> nvme_ctrl_auth_work() queues the DH-HMAC-CHAP exchange of every queue
+>>> on nvme-auth-wq without waiting for them, so multiple
+>>> nvme_queue_auth_work() instances run concurrently and all increment
+>>> ctrl->transaction in nvme_queue_auth_work(). The plain increment is a
+>>> data race, and the lost updates hand the same transaction id to
+>>> concurrent queues.
 >>>
->>> Defined by TP8028 Rapid Path Failure Recovery, CCR (Cross-Controller
->>> Reset) command is an nvme command issued to source controller by
->>> initiator to reset impacted controller. Implement CCR command for linux
->>> nvme target.
+>>> The counter does not need to be shared at all: the controller only
+>>> echoes the transaction id within a queue, so a per-queue counter is
+>>> sufficient. Increment chap->transaction instead, drop the reset in
+>>> nvme_auth_reset_dhchap() so the id stays monotonic across
+>>> re-authentication, and remove the now unused ctrl->transaction field.
 >>>
->>> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
->>> Reviewed-by: Hannes Reinecke <hare@suse.de>
->>> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
->>> ---
->>>   drivers/nvme/target/admin-cmd.c | 76 ++++++++++++++++++++++++++++++
->>>   drivers/nvme/target/core.c      | 83 +++++++++++++++++++++++++++++++++
->>>   drivers/nvme/target/nvmet.h     | 13 ++++++
->>>   include/linux/nvme.h            | 23 +++++++++
->>>   4 files changed, 195 insertions(+)
->>>
->>> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
->>> index 5710ae53eb83..3df9db454db9 100644
->>> --- a/drivers/nvme/target/admin-cmd.c
->>> +++ b/drivers/nvme/target/admin-cmd.c
->>> @@ -378,6 +378,7 @@ static void nvmet_get_cmd_effects_admin(struct nvmet_ctrl *ctrl,
->>>          log->acs[nvme_admin_get_features] =
->>>          log->acs[nvme_admin_async_event] =
->>>          log->acs[nvme_admin_keep_alive] =
->>> +       log->acs[nvme_admin_cross_ctrl_reset] =
->>>                  cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
->>>   }
->>>
->>> @@ -1629,6 +1630,78 @@ void nvmet_execute_keep_alive(struct nvmet_req *req)
->>>          nvmet_req_complete(req, status);
->>>   }
->>>
->>> +void nvmet_execute_cross_ctrl_reset(struct nvmet_req *req)
->>> +{
->>> +       struct nvmet_ctrl *ictrl, *sctrl = req->sq->ctrl;
->>> +       struct nvme_command *cmd = req->cmd;
->>> +       struct nvmet_ccr *ccr, *new_ccr;
->>> +       int ccr_active, ccr_total;
->>> +       u16 cntlid, status = NVME_SC_SUCCESS;
->>> +
->>> +       if (!nvmet_check_transfer_len(req, 0))
->>> +               return;
->>> +
->>> +       cntlid = le16_to_cpu(cmd->ccr.icid);
->>> +       if (sctrl->cntlid == cntlid) {
->>> +               req->error_loc =
->>> +                       offsetof(struct nvme_cross_ctrl_reset_cmd, icid);
->>> +               status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
->>> +               goto out;
->>> +       }
->>
->> cntlid has to be validated against the configured range of the controller
->> ids (subsys->cntlid_min <= cntlid <= subsys->cntlid_max).
->> That will allow CCR to work correctly on a distributed target.
->>
+>> I disagree. The authentication transaction ID identifies the
+>> transaction itself, and is used to differentiate between different
+>> transactions. As such it needs to be unique within each queue.
 > 
-> Thanks for the review. nvmet_ctrl_find_get_ccr() below will verify
-> ictrl->dntlid == cntlid before proceeding with the reset. Is this not
-> enough?
+> But the proposal *is* unique within the queue. It's just not unique at
+> the controller level, and it sounds like the protocol doesn't need to
+> be.
 > 
-> Adding this check here means if either cntlid_min or cntlid_max change
-> after ictrl has been created, CCR will fail saying the controller was not
-> found. Why do we want to CCR to fail in this case when ictrl might
-> actually be there?
+>> But as it carries controller-specific data we should also ensure
+>> the ID is unique per controller, ensuring we catch any possible
+>> misdirected authentication packet.
 > 
-The point is that in a distributed system the cntlid range is 
-distributed across all nodes in the cluster (as indicated by
-min/max_cntlid).
-While logically all cntlids belong to the same subsystem,
-technically each node can only reach (and reset!) the cntlids
-of controllers local on that node.
-With CCR each node can receive a CCR for any cntlid, but it
-can handle only those cntlids which are local on the node.
+> I don't understand. The qid:T_ID tuple already identifies the
+> transaction. If a controller mixes up transactions across queues, it's
+> already broken in ways we can't fix, so we shouldn't design around it.
+>   
+>> It should be possible to move the controller value to an atomic
+>> value, and then we could do
+> 
+> If there's no protocol reason to require this type of uniqueness, then
+> I'm not seeing why the driver is putting this constraint on itself.
 
-But as we're looking up the actual controller structures
-(which are only present if the cntlid is local to the node)
-I think we should be good here.
+It's somewhat ambiguous.
+Spec says 'carrying the same transaction identifier value for the entire
+authentication transaction' (for AUTH_negotiate), and later on 'carrying
+the same transaction identifier' (for any other AUTH message).
+So actually we just have to make sure they are identical.
+(The random number is '4' ...)
+
+But the overall idea here is to distinguish transactions, so the 
+implication is that each transaction should carry different identifiers.
+And my issue here is precisely 'each transaction'. Surely within each
+queue, but I'd really would want to distinguish _across_ queues, too.
+(And possibly with a random starting value to boot).
+Just to avoid any fuzzers trying to be clever with guessing the 
+authentication ID (or bugs setting the transaction ID to 0 for every
+queue ... same reason why we introduced the 'genctr' for the command
+ID).
+
+But if you don't feel that's an issue, fine, I'll be shutting up.
 
 Cheers,
 
