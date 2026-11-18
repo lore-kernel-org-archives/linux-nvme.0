@@ -2,60 +2,120 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB086606A31C
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Nov 2026 11:57:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D9D606A33A
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Nov 2026 14:28:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=0Nhe2VZR;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M+z3JzAU
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=n4UxP4Ty;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=gj9WUalL
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
-	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=ZDntiBPdbVozbmSy5gqwRh/2LvLM40ExKHAUGpqVQ3I=; b=0Nhe2VZRBBD6xnow/D4F65azTE
-	IX5Q6HS0ZYKsttRBAHVbTfjRKl1X9lC4tnXaWACCm7q+qeflNNl9jy9gh0IxKAd6coHWLbftBc27s
-	3JTuLBvVETfDEN2nlqxQTlC1LOur1uk4A9EBuoHIsXa7fL84FnKkwmycN6o39EbH5PD+KjlBlWWYN
-	//0lM2tPytL2jJGyYhqc8klV6EHtwQka7wOORmQsll0/1+Ia1Gj+RkoaICDOBgTjecuzRGAzx/fqa
-	aS34Y11LVCap4G9IBj7pPhcNMVimiu2dl7w0LRZPuSGA99THeSPfQ52Q89Y6X8MjJNw6wIvnjjgG5
-	MCVPOUmQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=za7z8z9lZ9fii1K97uc1umG0higoyE8X4ITJtDUfk30=; b=n4UxP4Ty0UZHPl
+	ZVlalc9WbtgT+J6gQVpmNasXRhXwBn2QVVQSzI6XxSxHbvPZyAveWcaqfcUpBZNlqB2vj7CWNGf+J
+	QxVOdniUFG6ITdQq1qX5S1xek4ibS7k90KzVRsM5uH9c1aB6NogSkwKMM+DrT/HJVBBUPqWj4EHMB
+	dX8mbZX9PU1vZqaMceya6pqom4QS3BDFqijI/d0qhTtLpL8akDirSfgcKtbUUMZ5XlPyLz+sfikD7
+	sbUJsIsLYOzJTCF105lKi39CtdA8AnQizaLE/5/V9i7CGEWjev6xuH85NWDOGAI2Ki+msJ/hp0HNQ
+	uW7rP7tWlGMT6eS/uIyQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTeHw-00000008lxH-2NhS;
-	Wed, 18 Nov 2026 11:57:20 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xTgeG-000000096gH-1ntM;
+	Wed, 18 Nov 2026 14:28:32 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTeHu-00000008lx4-2VtR
+	id 1xTgeE-000000096ea-1BLL
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Nov 2026 11:57:18 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id B89F462150;
-	Wed, 18 Nov 2026 11:57:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D9A21F000C4;
-	Wed, 18 Nov 2026 11:57:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795003037;
-	bh=ZDntiBPdbVozbmSy5gqwRh/2LvLM40ExKHAUGpqVQ3I=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=M+z3JzAUETIp6lEnB7gaV9Wc3ZIQq9npH5NcbZFn9OWFjdtOpKStF777crQHdtzMx
-	 lmuDCNcaQKE3udymRQv7BJ/BdjfBqvZIVfn0wLb2QEoVnR2A4CRjm06e0al2EhYw7r
-	 +T+R/WwgN4mf2CQss6E30qYKDDf/rKcio4ASVlAH2AwYPXc6H5C3EVbwAR5PU/eDJv
-	 OI7lq5X63Nuc+zWOkp7xvzGkqOAiawHjp58u6LZejSUV/QNodtl+O58wEp4Yx0xlNX
-	 dIhOQPKBMLvewDjv0gXwiqsp1XGPexvjjRwa/KEd4YSzYfJDso2iBAm/t/D/7BvfsJ
-	 1bcz2JEiJDQ8g==
-Message-ID: <sashiko-outbox-220866@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [RFC 4/4] nvme-rdma: support dma-buf backed requests
-To: "Anuj Gupta" <anuj20.g@samsung.com>
-Cc: linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org
-In-Reply-To: <20261118103327.1788667-5-anuj20.g@samsung.com>
-References: <20261118103327.1788667-1-anuj20.g@samsung.com>
- <CGME20261118103457epcas5p17770752b910960b84cc259d007120965@epcas5p1.samsung.com>
- <20261118103327.1788667-5-anuj20.g@samsung.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Nov 2026 11:57:15 +0000
+	Wed, 18 Nov 2026 14:28:31 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIDQT7b1373696;
+	Wed, 18 Nov 2026 14:28:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=za7z8z
+	9lZ9fii1K97uc1umG0higoyE8X4ITJtDUfk30=; b=gj9WUalL+vdGRx7CdyBMCh
+	JJMnSVPntF/23CTdKWrGmm/360kmJ1O0rpJ05zbQZnRNFFt+RXa7iTMz/JEB6dBy
+	ojvNUu2GQ8Pksw1xWC0op/vaRDYKzbk7JvpDZarKTLqVPLqQcinGncDvJkyReI3k
+	1hRruJbckpJy6QaQqdm1mSu1o/W4qy/2NadiDmfMjzTXQR1vMwHSoxRwilPC+cPD
+	uULYDtg76fg8JaDomzbqa9VPMik+g7zbbE8/JdajKTRlNUQgDQHP1sfNE14X1CzS
+	aal8hGW2pFG71REdv9adzsh68IGntj8mxN7W6EPC5ZSk1S2EWV4QmN8DftCVxQQA
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j105naukg-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 18 Nov 2026 14:28:20 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIDZDg1975543;
+	Wed, 18 Nov 2026 14:28:20 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j067ng4ku-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 18 Nov 2026 14:28:20 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AIESJ1C26477086
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 18 Nov 2026 14:28:19 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id ADB9258056;
+	Wed, 18 Nov 2026 14:28:19 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3D70558052;
+	Wed, 18 Nov 2026 14:28:17 +0000 (GMT)
+Received: from [9.61.157.4] (unknown [9.61.157.4])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 18 Nov 2026 14:28:16 +0000 (GMT)
+Message-ID: <5dfddff9-2158-4660-8393-d0670fba5254@linux.ibm.com>
+Date: Wed, 18 Nov 2026 19:58:15 +0530
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/1] nvme-hwmon: notify hwmon alarms on the SMART /
+ Health Status AEN
+To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
+        Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
+        Hannes Reinecke <hare@suse.de>
+Cc: linux-nvme@lists.infradead.org
+References: <20261110110737.3965373-1-kanie@linux.alibaba.com>
+ <20261110110737.3965373-2-kanie@linux.alibaba.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20261110110737.3965373-2-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDA1NyBTYWx0ZWRfX57xMvitohYtR
+ aVo1X94RY7lIx2rqCm79SRv0kVrXMdSdC4Gf4E5zm50dsg6Lwan0HgL8svnqO9CHcdOQP8Q5/Ll
+ jR1rLRNtEohZO8yXgtqF5va+qkWT/V85cryaHHzRrXu/yb2AHxD5o8oGJZVprkGQCMfwYcbltgg
+ m/hUNwOqFAbCEMvOwIFNWpn75zvRRUzxoMwiIial9hmNqfyvE/iUAZnDDJySoS1lSwvDpokQ91G
+ OkRXptMLsRXrXUxVBvrMzJkx81MhE2LRAa1c56iEJqEk87t3xxOUssqBIdSUZr2Qw1I9Zwe0hsS
+ QBVJNgyqbUbX1aUU9YuozABoN/Sr+BXholLwfqRuP/XyFMa/Kjfx70fV5fb3G5brfK1HmuHvucq
+ M6fJk3ATeOfsjB8NspblUlj0Jdm2qFYzIdQnXjUOeyJ8M/mONeklTNNtXqHG8OxX+1rIy2n3S0H
+ iI3vRCpQRUNGOtjFgSQ==
+X-Authority-Analysis: v=2.4 cv=HN9WhYtv c=1 sm=1 tr=0 ts=6afdb605 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=SRrdq9N9AAAA:8
+ a=sLrTT7w_miJAVR8UDjsA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: MQ-hISvJ2U3vj8qC12AKwNiRV8hkQ7Uv
+X-Proofpoint-ORIG-GUID: W5efxOEIAf7-cH_OkCZDDmO1hAuGnM6j
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDA1NyBTYWx0ZWRfX2fENf4zig91j
+ FwEFuwhCvSHXWOHacKsqm36r0axLxjHcbS067iaFaJufCe831YCkLIXOzYffm5We6LodBtt8Ly4
+ FDQyqTQJ+gDlHHPTufZ4FVGdgw/6puc=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-18_04,2026-11-16_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 suspectscore=0 malwarescore=0
+ adultscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611180057
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261118_062830_347790_A83FBDE1 
+X-CRM114-Status: GOOD (  19.01  )
+X-Spam-Score: -2.6 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,147 +125,54 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] nvme-rdma: use-after-free on ctrl->device in
-  nvme_rdma_remove_one()
-- [Medium] nvme-rdma: nvme_rdma_remove_one() fails to wait for
-  nvme_delete_ctrl_sync()
---
+Hi Guixin,
 
-commit 7ad9fcf127f13cdfc7ce401ed605b13cf6ca3225
-Author: Nitesh Shetty <nj.shetty@samsung.com>
+On 11/10/26 4:37 PM, Guixin Liu wrote:
+> The NVMe hwmon support exposes the temperature alarm as a plain sysfs
+> attribute, so monitoring tools have to poll temp1_alarm to learn about
+> a critical temperature condition. The device does send a SMART / Health
+> Status asynchronous event when a critical warning is raised, but the
+> host never enables it in the Asynchronous Event Configuration, and the
+> completion path silently drops the event.
+> 
+> The temperature warning is bit 1 of the SMART / Health Critical
+> Warnings field of the Asynchronous Event Configuration (feature 0x0b,
+> command dword 11 bits 7:0), which mirrors the critical_warning byte of
+> the SMART log. Unlike the notice events, it has no OAES capability bit,
+> so the subscription does not go through ctrl->oaes.
+> 
+> The event stays latched until the SMART log is read with RAE cleared,
+> so the deferred work re-reads it before the completion path re-arms
+> the Asynchronous Event Request, and then calls hwmon_notify_event()
+> on temp1_alarm. hwmon_notify_event() also feeds the thermal zone
+> registered with HWMON_C_REGISTER_TZ and emits the standard hwmon
+> uevent, which a plain sysfs_notify() would skip.
+> 
+> The nvme-pci transport completes asynchronous events from interrupt
+> context, so the completion path only queues the work.
+> 
+> Signed-off-by: Guixin Liu<kanie@linux.alibaba.com>
 
-nvme-rdma: support dma-buf backed requests
+I was looking at this patch and found the temperature alarm notification
+particularly useful. I think this functionality could also be integrated
+into nvme-top.
 
-This commit implements ->init_dma_buf_io_ctx for nvme-rdma so that memory
-exported through dma-buf can be registered with io_uring and used for I/O
-to an nvme-rdma namespace.
+With this change, nvme-top could rely on hwmon uevents to detect NVMe
+temperature alarm changes instead of polling temp1_alarm.
 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 32189fdfc0f51..e7c26bd4f77d0 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
+I also noticed that Sashiko raised a few review comments on this patch,
+which appear valid to me. Are you planning to address those comments and
+send an updated version?
 
-[ ... ]
+Thanks,
+--Nilay
 
-> @@ -2413,7 +2573,7 @@ static void nvme_rdma_remove_one(struct ib_device *=
-ib_device, void *client_data)
->  {
->  	struct nvme_rdma_ctrl *ctrl;
->  	struct nvme_rdma_device *ndev;
-> -	bool found =3D false;
-> +	bool found =3D false, need_flush;
-> =20
->  	mutex_lock(&device_list_mutex);
->  	list_for_each_entry(ndev, &device_list, entry) {
-> @@ -2423,20 +2583,24 @@ static void nvme_rdma_remove_one(struct ib_device=
- *ib_device, void *client_data)
->  		}
->  	}
->  	mutex_unlock(&device_list_mutex);
-> +	need_flush =3D found;
-> =20
-> -	if (!found)
-> -		return;
-> -
-> -	/* Delete all controllers using this device */
-> +	/*
-> +	 * Delete controllers using this device, and controllers that
-> +	 * reconnected elsewhere but still have dma-bufs attached to it.
-> +	 */
->  	mutex_lock(&nvme_rdma_ctrl_mutex);
->  	list_for_each_entry(ctrl, &nvme_rdma_ctrl_list, list) {
-> -		if (ctrl->device->dev !=3D ib_device)
-> +		if (!(found && ctrl->device->dev =3D=3D ib_device) &&
-> +		    !nvme_dmabufs_use_owner(&ctrl->dmabufs, ib_device))
-
-[Severity: High]
-Can dereferencing ctrl->device->dev here cause a use-after-free on
-ctrl->device?
-
-ctrl->device is assigned from ctrl->queues[0].device without its own
-nvme_rdma_device reference, so when nvme_rdma_destroy_admin_queue() frees
-ctrl->queues[0], nvme_rdma_dev_put() can free ctrl->device while leaving
-ctrl->device non-NULL.  With this patch, __nvme_init_dma_buf_io_ctx_locked()
-takes an nvme_get_ctrl() reference that is only dropped in
-nvme_dma_buf_io_release(), keeping deleted controllers on
-nvme_rdma_ctrl_list after their admin queue and ctrl->device have been
-freed (and reconnecting controllers on nvme_rdma_ctrl_list also have no
-admin queue).
-
-When found is true for ib_device, this loop visits every controller on
-nvme_rdma_ctrl_list and reads ctrl->device->dev without holding
-ctrl->dmabufs.lock or checking !ctrl->dmabufs.dead.  Even for a controller
-using ib_device, its admin queue can be torn down after device_list_mutex
-is dropped:
-
-CPU0                                  CPU1
-nvme_rdma_remove_one(ib_device)
-  mutex_lock(&device_list_mutex)
-  found =3D true
-  mutex_unlock(&device_list_mutex)
-                                      nvme_rdma_error_recovery_work()
-                                        nvme_rdma_destroy_admin_queue()
-                                          nvme_rdma_free_queue(&queues[0])
-                                            nvme_rdma_dev_put(device)
-                                              kfree(device)
-  mutex_lock(&nvme_rdma_ctrl_mutex)
-  ctrl->device->dev =3D=3D ib_device  <-- use-after-free
-
-Checking ctrl->device->dev under ctrl->dmabufs.lock only when
-!ctrl->dmabufs.dead would ensure the admin queue and ctrl->device are still
-live.
-
->  			continue;
->  		nvme_delete_ctrl(&ctrl->ctrl);
-> +		need_flush =3D true;
->  	}
->  	mutex_unlock(&nvme_rdma_ctrl_mutex);
-> =20
-> -	flush_workqueue(nvme_delete_wq);
-> +	if (need_flush)
-> +		flush_workqueue(nvme_delete_wq);
->  }
-
-[Severity: Medium]
-Can nvme_rdma_remove_one() return before nvme_remove_dmabufs() detaches
-contexts from ib_device when racing with nvme_delete_ctrl_sync()?
-
-CPU0                                  CPU1
-nvme_sysfs_delete()
-  nvme_delete_ctrl_sync()
-    nvme_change_ctrl_state(...,
-      NVME_CTRL_DELETING)
-    nvme_do_delete_ctrl()
-                                      nvme_rdma_remove_one(ib_device)
-                                        nvme_dmabufs_use_owner(...) =3D=3D =
-true
-                                        nvme_delete_ctrl(&ctrl->ctrl)
-                                          /* returns -EBUSY, already DELETI=
-NG */
-                                        flush_workqueue(nvme_delete_wq)
-                                        /* returns to ib_unregister_device(=
-) */
-      nvme_rdma_delete_ctrl()
-        nvme_remove_dmabufs()  <-- detaches after remove_one() returned
-
-Because nvme_delete_ctrl_sync() runs nvme_do_delete_ctrl() directly in task
-context rather than on nvme_delete_wq, nvme_delete_ctrl() fails to queue
-delete_work and flush_workqueue(nvme_delete_wq) does not wait for the
-in-progress deletion to finish detaching the dma-bufs from ib_device.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118103327.1788=
-667-1-anuj20.g@samsung.com?part=3D4
 
