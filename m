@@ -2,66 +2,87 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C78660A2608
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Nov 2026 15:39:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0CD606A31C
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Nov 2026 16:04:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=gOvSCWaV;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=oiFcQIdk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=EKnASKER
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Date:Message-ID:Subject:References:In-Reply-To:CC:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=BeT8o9zwSlnLtq9j9DgF6ViDJeKsLDw/+4F73EMjHGA=; b=gOvSCWaVpvOZbx
-	O6Q7V/Ubk9wcMBgq4ryfP9Bih+NflbHg9qEjhDuXoRBPwORMhVek01BVLe2onjyJzixbwwjkuM+2K
-	6Trb8vD+v8hNWJ101aUIdG5NUjNKkyDPD86zb8UxxUKQ2K6liMckBoGYoZiADPYssMtFrn6JWya4l
-	+OO32FV/eOZQd0dJRy1Xtu8n7opE5ZTaXw6pmrlyEa0LldxaycDw/NF0V1t4iC3nJT47AfYf3XI2h
-	Mn9NSTC1Y0kNStVzEYN2BOP8wd2FpFcMewo5Lx+ZfWMKwVe6nfHSTCVCYfi5saAbTxUy+oPAv8Gh9
-	AhH1qOY2Ho/Mx5ujgWUw==;
+	List-Owner; bh=jsJeHMkPdNev+Xkq1iaFXCxN4ARySNZFCQlN5OjLmNo=; b=EKnASKER6N/eA4
+	JoO0M2d4Py1DeLXzwFvvZ1bgmgFdPCUF5JmnRHB8kvAwmYuJaXHJGih32XpqkvgjfcD5uN58qTIvq
+	Kk+aUHDysM9WY0E+V52QkjP8QKwogqUuDxgrrftf72+51lcUGZL2hP9u4deZliLmX4BaS3JNc2/fo
+	HHjK8fzbE39tegNmhYh4f7ZMH7dHSbTBPtXQNhUEMhEeBHGriqFcxTFQtOGwE8BsdJr/uG9Sqi0tf
+	v73KWOZbMlXAjpP/e4+5BFe1PTjATPyqopAO+uHjbcb0LU43uIqLcObwP4nWd+k91bL7nAKKdIQd/
+	b4U5gPC0m1HC3vTFnFLQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xThl9-00000009Kxg-1ROA;
-	Wed, 18 Nov 2026 15:39:43 +0000
-Received: from out-129.mta1.migadu.com ([95.215.58.129] helo=mta1.migadu.com)
+	id 1xTi8k-00000009Ozn-1IMh;
+	Wed, 18 Nov 2026 16:04:06 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xThl7-00000009KvW-0l3e
+	id 1xTi8f-00000009Oxo-193D
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Nov 2026 15:39:42 +0000
-X-Envelope-To: linux-nvme@lists.infradead.org
-DKIM-Signature: a=rsa-sha256; bh=wMdnxRH2CVpTLTzKpSfG28VPEZAexl+z8B0TSAsADZI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795016379; v=1; x=1795621179;
- b=oiFcQIdk8MIaMrcy8hisTYwWCPpR+XYmAub/rzoMtm2BbUK4xHq1MVkrNJOV4TnuVOH6V4SC
- dcma58JceBAIByClpLjHXRxqKIt4xpnx74P1G6KKxAdXg+KL4IOcGz7Q/Wyd+IE7Af950uyLgPO
- UK893Se9BOIxYHTxeM9gFAVQ=
-X-Envelope-To: linux-nvme@lists.infradead.org
-Received: by smtp.migadu.com with ESMTPS id cff401f8981e3de6;
-	Wed, 18 Nov 2026 15:39:39 +0000
-X-Mizu-Trace-ID: cff401f8981e3de6
-X-Migadu-Flow: FLOW_OUT
-From: Qiliang Yuan <qiliang.yuan@linux.dev>
-Date: Wed, 18 Nov 2026 10:39:19 -0500
-Subject: [PATCH v4 2/2] nvme-multipath: don't wait for a grace period in
- nvme_mpath_set_live()
+	Wed, 18 Nov 2026 16:04:02 +0000
+Received: from pps.filterd (m0528006.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIE4gtj3100562
+	for <linux-nvme@lists.infradead.org>; Wed, 18 Nov 2026 08:03:49 -0800
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4j0yu66d13-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Wed, 18 Nov 2026 08:03:48 -0800 (PST)
+Received: from twshared18199.01.snb2.facebook.com (2620:10d:c0a8:1b::30) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.56; Wed, 18 Nov 2026 16:03:48 +0000
+Received: from devbig197.nha3.facebook.com (localhost [IPv6:::1])
+	by devbig197.nha3.facebook.com (Postfix) with ESMTP id 673312F281A21;
+	Wed, 18 Nov 2026 08:03:36 -0800 (PST)
+From: Keith Busch <kbusch@kernel.org>
+To: <linux-nvme@lists.infradead.org>, Ankit Gupta <ankit6791@gmail.com>
+CC: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+        Sagi
+ Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+        <stable@vger.kernel.org>
+In-Reply-To: <20261117011230.10288-1-ankit6791@gmail.com>
+References: <20261117011230.10288-1-ankit6791@gmail.com>
+Subject: Re: [PATCH v2] nvme: limit Write Zeroes to 65536 logical blocks
+Message-ID: <179501781641.1620426.13226357559228704463.b4-ty@kernel.org>
+Date: Wed, 18 Nov 2026 08:03:36 -0800
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261118-bug-nvme-mpath-set-live-srcu-v4-2-21f368376c8c@linux.dev>
-References: <20261118-bug-nvme-mpath-set-live-srcu-v4-0-21f368376c8c@linux.dev>
-In-Reply-To: <20261118-bug-nvme-mpath-set-live-srcu-v4-0-21f368376c8c@linux.dev>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
- Nilay Shroff <nilay@linux.ibm.com>, Hannes Reinecke <hare@suse.de>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Qiliang Yuan <qiliang.yuan@linux.dev>, Hannes Reinecke <hare@kernel.org>
 X-Mailer: b4 0.13.0
+X-FB-Internal: Safe
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDA2MyBTYWx0ZWRfX169ZzoG9iHi2
+ /iBPfLTsUEFOpFF5/tyjgfw197lpbD9+mJK6g6ST3dDjTWjeaR1lF0BES46mDIpo4/jA4FmxWJT
+ tXkiA4cESsvoC3SjHA/oM7x8x5B1Y9KjrTYshLdOLTFDLDsoqvtdyD8C17a6ajNewuhf559wv0U
+ ifBxF/yRnkr/H7gTgAjTK63f4fomPBunh5NaX8aSlX0yHrwkd26HE8Ywx4pCIdX765T09v9vXJo
+ f1SSTQ89Qkhv+GyjJRpaJVyivXz0QO5AfNtmhHVFLfbChotnIB4xbBfxsKfW8HayCs9934/9b/a
+ rw2ISY5xnPZkzoCkWI6Z8sPB4R9sFKkd8jrFJ5q9K8jw593ufiY2QQsUT3vVQwKkUuGqgAUoQAn
+ fUDXFJpUcO3vL4GYa5uldbIwX/tbHPHMEWLVIdhoOcBiF1lGCBAzT+ESnCxhnLL1xSwKaIJONj0
+ kwj8wQm5FNOhy+kenSg==
+X-Proofpoint-ORIG-GUID: nHVGxc0-vViuv6RiEip0QBZPZUk48DDM
+X-Authority-Analysis: v=2.4 cv=DrnDa2/+ c=1 sm=1 tr=0 ts=6afdcc64 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=kkcUborcUVj0H7zxAXTl:22
+ a=VwQbUJbxAAAA:8 a=qFBJAfofNFoZCmylNHQA:9 a=QEXdDO2ut3YA:10 a=ZXulRonScM0A:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDA2MyBTYWx0ZWRfX+6tbopfi//k2
+ ui0N5xTIw042z5ZjFV1ZFVLp2Zz4W4oDuB1xCLLc4ksg9rDO4CH6O+AQYemQksnHzKgDsPCYcIL
+ XOfX5zC0t0YlxRTO5TdVmOztp0YCebk=
+X-Proofpoint-GUID: nHVGxc0-vViuv6RiEip0QBZPZUk48DDM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-18_04,2026-11-16_01,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261118_073941_391186_01E746BF 
-X-CRM114-Status: GOOD (  14.19  )
-X-Spam-Score: -2.8 (--)
+X-CRM114-CacheID: sfid-20261118_080401_438274_27F3CB3F 
+X-CRM114-Status: GOOD (  11.01  )
+X-Spam-Score: -1.2 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,103 +93,32 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-When a path goes live, nvme_mpath_set_live() waits for an SRCU grace
-period of the namespace head before kicking the requeue work, so that
-bios which found no usable path are on the requeue list by the time it
-runs.
+On Mon, 16 Nov 2026 17:10:49 -0800, Ankit Gupta wrote:
+> With nvme-tcp connected to nvmet-tcp at default settings, the target
+> reports MDTS 0 and WZSL 0. A 33 MiB Write Zeroes request on a
+> 512-byte-LBA namespace then completes successfully after zeroing only
+> the first 1 MiB.
+> 
+> The native Write Zeroes command encodes the number of logical blocks
+> in a zero-based 16-bit field. The namespace queue can advertise a
+> larger limit, either through the MDTS fallback or through WZSL. In
+> that case the host truncates the count when building the command and
+> reports success after zeroing only part of the requested range.
+> 
+> [...]
 
-The ANA work calls nvme_mpath_set_live() for every namespace that
-becomes optimized or non-optimized, one after another, so an ANA change
-waits for one grace period per namespace.
+Thanks, applied to nvme-7.4.
 
-Start the grace period with start_poll_synchronize_srcu() instead and
-have nvme_requeue_work() wait for it only if it has not completed yet.
-Take the cookie under head->lock, so that concurrent callers store
-their cookies in order and the requeue work never sees an older one.
-The grace periods of all namespaces then run in parallel, and requeue
-work kicked for other reasons finds the cookie completed and does not
-wait.
-
-Flipping an ANA group from inaccessible to optimized ten times on each
-of two boots over nvme-tcp loopback, nvme_read_ana_log() takes (median,
-min-max in parentheses):
-
-  namespaces  before (ms)          after (ms)        change
-         256  52.0 (35.4-74.7)     8.7 (2.5-19.6)      -83%
-        1024  154.3 (123.9-193.8)  43.1 (18.2-58.3)    -72%
-
-Signed-off-by: Qiliang Yuan <qiliang.yuan@linux.dev>
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
----
- drivers/nvme/host/multipath.c | 15 ++++++++++++++-
- drivers/nvme/host/nvme.h      |  1 +
- 2 files changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 881d8a0145255..cf12d76796453 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -712,6 +712,11 @@ static void nvme_requeue_work(struct work_struct *work)
- 		container_of(work, struct nvme_ns_head, requeue_work);
- 	struct bio *bio, *next;
- 
-+	/* Let bios that found no usable path reach the requeue list first. */
-+	if (!poll_state_synchronize_srcu(&head->srcu,
-+					 READ_ONCE(head->requeue_srcu_cookie)))
-+		synchronize_srcu(&head->srcu);
-+
- 	spin_lock_irq(&head->requeue_lock);
- 	next = bio_list_get(&head->requeue_list);
- 	spin_unlock_irq(&head->requeue_lock);
-@@ -767,6 +772,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	mutex_init(&head->lock);
- 	spin_lock_init(&head->requeue_lock);
- 	INIT_WORK(&head->requeue_work, nvme_requeue_work);
-+	head->requeue_srcu_cookie = get_completed_synchronize_srcu();
- 	INIT_WORK(&head->partition_scan_work, nvme_partition_scan_work);
- 	INIT_DELAYED_WORK(&head->remove_work, nvme_remove_head_work);
- 
-@@ -849,9 +855,16 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
- 			__nvme_find_path(head, node);
- 		srcu_read_unlock(&head->srcu, srcu_idx);
- 	}
-+	/*
-+	 * Have nvme_requeue_work() wait for the grace period instead of
-+	 * blocking here, so that namespaces going live together, e.g. on
-+	 * an ANA change, do not wait for one grace period each. Start it
-+	 * under head->lock so that the newest cookie is stored last.
-+	 */
-+	WRITE_ONCE(head->requeue_srcu_cookie,
-+		   start_poll_synchronize_srcu(&head->srcu));
- 	mutex_unlock(&head->lock);
- 
--	synchronize_srcu(&head->srcu);
- 	nvme_mpath_revalidate_zones(head);
- 	kblockd_schedule_work(&head->requeue_work);
- }
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 8833a463f1c84..3fff9b394b1cd 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -587,6 +587,7 @@ struct nvme_ns_head {
- 		__guarded_by(&requeue_lock);
- 	spinlock_t		requeue_lock;
- 	struct work_struct	requeue_work;
-+	unsigned long		requeue_srcu_cookie;
- 	struct work_struct	partition_scan_work;
- 	struct mutex		lock;
- 	unsigned long		flags;
-
--- 
-2.43.0
+[1/1] nvme: limit Write Zeroes to 65536 logical blocks
+      commit: 49a768272ae1445714efc6ab2b23f9de1398d61e
+--
+Keith Busch <kbusch@kernel.org>
 
 
