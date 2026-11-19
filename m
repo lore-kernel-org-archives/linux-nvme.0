@@ -2,63 +2,119 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2653B606A325
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Nov 2026 03:32:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0F3606A320
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Nov 2026 07:03:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=o+82ttlL;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=pwIcxiyu
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ZyWzYrHu;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=UtJ0FR8P
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:From:Cc:Content-Type:
-	In-Reply-To:Subject:To:Mime-Version:Content-Transfer-Encoding:References:
-	Message-Id:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=PJA8HI/26n09BDtdxwvrwKrlkq0uzVECslo8UM0vFOE=; b=o+82ttlLw+p3Cw
-	994pvdi3kRpLASO5WS02sfXZRjNWlqwOGAv/SlVomma9XyJuJyPpHPFIgUzmfVPFk2dB1Y8NM4Jo9
-	2Nqz/Xt8J5xTYGMp+R4ezBLyNFQ2WYaODbjW+v2/YkgX+3YtyDKjoPn/J8JBR5V66IHr0ZRJJr1Fw
-	coJDEOMp8xyRUIDaNcA5rXDQNwi6UjqkUA0Tf6ZfLN66I/GRpS2lQsAlFQkt3g1qIumt2J7Gpo+XR
-	Wy6ZLb115CppxIIm2+9mmwrP+x8MTg/b8Qgxv3ngASxpx1CgIBDGM2u9otFLE+5GwvgbbaoTR5J0E
-	8yD+SocNWcs8PU1z7sBg==;
+	List-Owner; bh=5PgdFhNbn9b0o9svD2HeoyeXJznjk9CJVbL0rae6iFk=; b=ZyWzYrHuoOyaAc
+	/lMCF8oo/8YhZo0O3fspMRVUQC12OsYGpJBHFN1w18whTiSw77DKDlclzE1Qa1cmT7PxhfqSKmrpA
+	S6wy1QIaz8TO/+CSI6/mkAkCE3O5pFYuXTknZpuyzjr8qI7BiG9hDiBZ4o0iJHKottJ3HxKjR1yNP
+	5ygaY2dxlUDj1zwkZiWM/WPfJVTRPydPLl5LhRAE5i3jfu1TRXDib7EAMqiUCbwxxU3p60Vcz34o/
+	Qa/HOD9vdnbshMAkSZX7t8b48V1ci5ereHanCcIFJ8HEWadFj3m5onisa9zrpAyPdgxIgNp9U6zXn
+	8cY0IkugmLJKnviof+wQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTssk-0000000Am7n-23Vf;
-	Thu, 19 Nov 2026 03:32:18 +0000
-Received: from va-1-115.ptr.blmpb.com ([209.127.230.115])
+	id 1xTwBW-0000000B2Ia-3GGD;
+	Thu, 19 Nov 2026 07:03:54 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTssh-0000000Am76-0GjA
+	id 1xTwBU-0000000B2IE-187o
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Nov 2026 03:32:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1795059126; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=PJA8HI/26n09BDtdxwvrwKrlkq0uzVECslo8UM0vFOE=;
- b=pwIcxiyu58O8mtEa60Kd5PHF/aqExu1gO+sMih2b3/WHi55PHH/m53gFeaokF/bfpcURpa
- ibYacbeG4ja6S9EGC0mGjsgT7ACKfZpa8+pomwMnuCGkoo3++m3AA6AGJllBxAzl/BPpFq
- gbtSzE7Pl/ecLr5WSZucAqIT83ivSJlSRHaKbUggMiOSyL6BuB4gw8rwx2Xq+Ax9x0/VgP
- PLBx4ijd90kkfZHPm61rDtcCeKjTzTEI8QVPtZ86spKTrb5M9ykd+U36g2fO/TdrOGS1LB
- 8yahnIZSdGAaneXpkt+jVH8/iH6n2FlV+VhilUllr4FC4UFlFfE3PG2lmzG+gg==
-Message-Id: <e5de8bb4-6605-47f0-98f0-d7246602e566@bytedance.com>
-X-Original-From: Fengnan <changfengnan@bytedance.com>
-References: <20261013223543.395054-1-kbusch@meta.com> <16e8bc03-42c2-4bc8-bce9-dab49aad66b8@bytedance.com> <20261028150712.GA16374@lst.de> <auIRf1QATQjVDtkH@kbusch-mbp> <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.9ea1a2e5.340e.41d7.bbaa.69129ddcead9@bytedance.com> <8d42a690-79f7-4431-bffb-73decfc97dad@bytedance.com>
-Content-Transfer-Encoding: quoted-printable
+	Thu, 19 Nov 2026 07:03:53 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ6uVjV3436385;
+	Thu, 19 Nov 2026 07:03:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=5PgdFh
+	Nbn9b0o9svD2HeoyeXJznjk9CJVbL0rae6iFk=; b=UtJ0FR8PReu9tlcHwMcqBj
+	JSVD+dAb97liNthmTwmkCYLBPzG15JcNBYtPQORbdq0SD0VNncbDPoy01SFXxR4d
+	EuEmPN71aiQv2Ko+cFihAveZYtR+SD/weCmsQg4+9kOOi5LA8gup+4zRFqdXfx1L
+	5jsgn0WMOmjI/CjvdQvEWAfrv7FmKfB2pM1693JaBYbyXw9TgMFm7bwnuwBCFIVV
+	ycV/BWbvHFw+GIviQyqbu/1ZZHoaqOXehvWivF1MmuS1iEDdJvW/RcdMCYGTofKu
+	VbLlcYsP8NHHgEvD5WTgnnCGITyXyxJo1NeLSvocEvVc/07CBvqiTMeZWJNcMpqQ
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j105t769b-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 19 Nov 2026 07:03:34 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ4o3xD3959866;
+	Thu, 19 Nov 2026 07:03:33 GMT
+Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4j1m3ht4u0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 19 Nov 2026 07:03:33 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AJ73Wjo32310006
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 19 Nov 2026 07:03:33 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9989D5805F;
+	Thu, 19 Nov 2026 07:03:32 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A96A75805C;
+	Thu, 19 Nov 2026 07:03:29 +0000 (GMT)
+Received: from [9.123.7.57] (unknown [9.123.7.57])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 19 Nov 2026 07:03:29 +0000 (GMT)
+Message-ID: <6956e2fc-2548-48c4-b7ec-4dc3b58f243f@linux.ibm.com>
+Date: Thu, 19 Nov 2026 12:33:28 +0530
 X-Archived-By: <archiver.kernel.org>
-Mime-Version: 1.0
-To: "Keith Busch" <kbusch@kernel.org>, "Christoph Hellwig" <hch@lst.de>
-Subject: Re: [RFC PATCH 0/3] nvme-pci: dynamic interrupt moderation
-In-Reply-To: <8d42a690-79f7-4431-bffb-73decfc97dad@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Cc: "Keith Busch" <kbusch@meta.com>, <linux-nvme@lists.infradead.org>, 
-	<linux-pci@vger.kernel.org>, <tglx@kernel.org>, 
-	<namjain@linux.microsoft.com>
-From: "Fengnan" <changfengnan@bytedance.com>
-Date: Thu, 19 Nov 2026 11:31:50 +0800
-X-Lms-Return-Path: <lba+26afe6db4+9cd80c+lists.infradead.org+changfengnan@bytedance.com>
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/22] nvmet: add context annotation for nvmet_ns::bdev
+To: Bart Van Assche <bvanassche@acm.org>, kbusch@kernel.org, hch@lst.de,
+        sagi@grimberg.me, axboe@kernel.dk, chaitanyak@nvidia.com
+Cc: gjoyce@linux.ibm.com, elver@google.com, linux-nvme@lists.infradead.org
+References: <20261118073505.288910-1-nilay@linux.ibm.com>
+ <20261118073505.288910-2-nilay@linux.ibm.com>
+ <829201ae-e646-44ee-afc5-39f63117bfe6@acm.org>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <829201ae-e646-44ee-afc5-39f63117bfe6@acm.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=IouL47/g c=1 sm=1 tr=0 ts=6afe9f47 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=0QZfkQ5KzHyPhc5h-g0A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: d1usx6Rz8Qc1ra1EBZ-_KD6vuIx20Fph
+X-Proofpoint-GUID: -kQMPf1mAxsxqDlnPfqF71lnL5-gh63T
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDAyNyBTYWx0ZWRfX4COHEmFSBk5Q
+ t82XZBDto80B34oysmWNXzhr41NljyvGoo8ykcS7UJVubmzxeGRCMHpAbGwLVlpdUlRjibnNT7E
+ 9MN9ityuE4SuwI6DkOE4jYsA6V0t+Tp6h06ybD6OQxMY/GXU87/+MyzfNDoBSY9nhQ5880gzLy9
+ VGpUK4P265o16GkVZTnNcL5f52I10hcsUoEQtetxlWDmArVjvZcFKA8xzMtCn8ABZlSyfl1ZKQe
+ MfZ/y5hJrGwc2gmQgrwSN/316XvHEwbz8dc9M8maXHVZrh56XnR57LySSjLL7gIb4iKlr322mFw
+ VVjWZ0AB3MtZCPKDpLGwmxRxk5R8juheLdXmebkohKa/x4aXvG2k5bV/cW9h7eY8mQGNznXwqB0
+ 28+nkjH7GKcTR7Qr/uk1ZJeoA0ylhPJfcpWqjZ7AnJ/K6zgyeWAB1IAvTjjkvd88fDFgkr/hvS2
+ y0xwt+F471bPZ9yNRaw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDAyNyBTYWx0ZWRfX1UcnwKaWdNp1
+ M3nPOd0o3GiV9XCg6qtcCp6MSEk0dj9arMkK6JwXWrTLV/n9/cmbr6s+Z1K8i8E+ccOu6cX6I+I
+ d3HC4G3VYq62Rta4JiiPXmU5QZc3ZJI=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-19_02,2026-11-16_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 suspectscore=0 phishscore=0 clxscore=1015 malwarescore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611190027
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261118_193215_171927_7B0F894D 
-X-CRM114-Status: GOOD (  21.41  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261118_230352_316707_0ADA846F 
+X-CRM114-Status: GOOD (  16.38  )
+X-Spam-Score: -2.6 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,112 +125,60 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-7.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=4.0.1
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-=E5=9C=A8 02/11/26 20:22, Fengnan =E5=86=99=E9=81=93:
+On 11/19/26 5:55 AM, Bart Van Assche wrote:
+> On 11/17/26 11:34 PM, Nilay Shroff wrote:
+>> +/*
+>> + * The accessors generated by this macro are annotated with __context_unsafe()
+>> + * because they are intended for use in I/O hotpaths and request-processing
+>> + * paths where a namespace reference is held. These paths access namespace
+>> + * fields that are guaranteed not to change while the reference is held and the
+>> + * I/O or request processing is in progress.
+>> + */
+>> +#define NVMET_NS_ACCESSOR(_type, _name)                        \
+>> +static inline _type nvmet_ns_##_name(struct nvmet_ns *ns)            \
+>> +    __context_unsafe(/* access _name after getting ns reference */)        \
+>> +{                                        \
+>> +    return ns->_name;                            \
+>> +}
+> 
+> Lock context analysis enables thread-safety checking at compile time.
+> The accessors defined by NVMET_NS_ACCESSOR() disable compile time
+> thread-safety checks. So these accessors defeat the purpose of this
+> patch series, isn't it?
+> 
+By design, the NVMe target I/O hotpaths access namespace parameters without holding
+subsys->lock. Instead, they acquire a namespace reference before accessing these
+parameters.
 
-Hi Keith:
+The namespace reference provides the required synchronization guarantee: namespace
+parameters cannot be modified while outstanding namespace references exist. When a
+namespace is disabled, the target first prevents new references from being acquired
+and then waits for all outstanding references to drain before allowing namespace
+parameters to be modified. This allows I/O hotpaths to safely access namespace
+parameters without acquiring subsys->lock, avoiding the overhead of taking a mutex
+in the I/O and request-processing paths.
 
-Any comments?
+On the other hand, control paths that access or modify namespace parameters must continue
+to hold subsys->lock. The problem is that Clang's context annotations can express
+lock-based access requirements, but cannot currently express the above reference-
+counting-based synchronization guarantee. That's why I introduced the NVMET_NS_ACCESSOR()
+macro. The accessors generated by this macro are marked with __context_unsafe() to
+explicitly opt out of context checking for these particular accesses. They are intended
+to be used only in I/O hotpaths and request-processing paths where a namespace reference
+has already been acquired.
 
->=20
->=20
-> =E5=9C=A8 29/10/26 10:14, changfengnan =E5=86=99=E9=81=93:
->>
->>> From: "Keith Busch"<kbusch@kernel.org>
->>> Date:=C2=A0 Wed, Oct 28, 2026, 23:15
->>> Subject:=C2=A0 Re: [RFC PATCH 0/3] nvme-pci: dynamic interrupt moderati=
-on
->>> To: "Christoph Hellwig"<hch@lst.de>
->>> Cc: "Fengnan"<changfengnan@bytedance.com>, "Keith Busch"<kbusch@meta.co=
-m>, <linux-nvme@lists.infradead.org>, <linux-pci@vger.kernel.org>, <tglx@ke=
-rnel.org>, <namjain@linux.microsoft.com>
->>> On Wed, Oct 28, 2026 at 04:07:12PM +0100, Christoph Hellwig wrote:
->>>> On Thu, Oct 22, 2026 at 05:43:54PM +0800, Fengnan wrote:
->>>>> Hi Keith:
->>>>> =C2=A0
->>>>> I made some modifications to DIM and then implemented a solution
->>>>> using the DIM framework.=C2=A0
->>>>> Based on current testing, the results are now comparable to those of
->>>>> the previous patch.
->>>>> Here are the preliminary test results:
->>>>> https://docs.google.com/spreadsheets/d/1e8LQPnaDhmv50XlAM3XxI0TMQkhbk=
-0bTZwlJP1Hzzdk/edit?gid=3D188992110#gid=3D188992110
->>>>> =C2=A0
->>>>> If you agree with this approach, I=E2=80=99ll continue testing and op=
-timizing.
->>>> =C2=A0
->>>> =D0=86 can't speak for Keith, but I'd really love to see this going fo=
-rward!
->>> =C2=A0
->>> Same! This is a great problem to solve, but I'm just sorry I don't have
->>> more cycles to work on the cause. I can quickly respin the msix noflush
->>> pre-patches to address the naming issues tglx mentioned, and we can tak=
-e
->>> nvme in whichever direction has the best performance.
->>> =C2=A0
->>
->> That sounds good.
->> I'm currently working on continuously optimizing and testing both
->> approaches (using DIM and not using DIM).=C2=A0
->> I plan to update the code and add new data again next Monday.
->>
->> Thanks.
->=20
->=20
-> Hi Keith and Christoph,
->=20
-> I've prepared two implementations of adaptive IRQ polling: one reusing
-> the DIM tuning state machine and one using an NVMe-specific policy.
->=20
-> I tested both with a 158-case fio matrix and additional latency and
-> CPU-contention tests. The results show broadly similar throughput gains
-> over their respective OFF baselines in the tested workloads.
->=20
-> Test data:
-> [1] Non-DIM version:
-> https://docs.google.com/spreadsheets/d/17kmXH9Zkr2jrN-19BwaInSx53HwOdRPJF=
-rZ-Hjlk0_Y/edit?gid=3D300100#gid=3D300100
->=20
-> [2] DIM version:
-> https://docs.google.com/spreadsheets/d/18JADnBXWAGkffY_3LsPJ6ftA9DGH6qpNb=
-KvP-lQWLnE/edit?gid=3D300200#gid=3D300200
->=20
-> Both implementations are opt-in and choose between IRQ completion and
-> timer-driven polling per I/O queue. They evaluate samples of at least
-> 32,768 completions and use a target polling interval of 10 us. A polling
-> trial must improve the completion rate by more than 1%. Once successful,
-> polling can continue while its rate stays within roughly 1% of the saved
-> IRQ baseline, subject to a completion-progress guard.
->=20
-> Neither implementation uses I/O latency as a tuning metric.
->=20
-> The non-DIM implementation uses explicit rules inside the NVMe driver.
-> It admits polling trials at an IRQ completion rate of about 100k
-> completions/s per queue and applies a fixed completion-count backoff
-> after three consecutive failures.
->=20
-> The DIM implementation uses IRQ and POLL as two profiles. It explores
-> polling without that fixed admission threshold and requires a trial
-> to gain more than both 1% and one completion/ms. While parked on IRQ,
-> it increases the wait between trials from 1 to 2, 4, 8 and then 16 valid
-> IRQ samples. It also discards stale samples and stops the polling timer
-> when the queue drains.
->=20
-> During development, I felt that the version with `dim` required more
-> rules to achieve a similar effect. So, I still prefer the version
-> without `dim` because it=E2=80=99s simpler, easier to understand, and eas=
-ier
-> to maintain.
->=20
-> Which approach would you prefer?
->=20
->=20
-> All the patches are in the attachment.
+This does not eliminate context checking for namespace parameter accesses in general.
+Control-path accesses are still subject to the __guarded_by(&subsys->lock) annotations
+and must satisfy the corresponding locking requirements.
+
+Thanks,
+--Nilay
+
 
