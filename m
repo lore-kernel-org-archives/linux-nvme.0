@@ -2,120 +2,69 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6947D606A320
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Nov 2026 09:10:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01CA606A333
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Nov 2026 11:07:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=g3N/nDro;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Zq9G9+UG
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=vbCvJjEQ;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=MMblfEVv
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=1DKCTjP7BR+DFu8PVux5oix3/4/uV4ok7TA+K67TgHo=; b=g3N/nDrojRu91V
-	Q9YW5IJ0u/zXqPZIvqHm5dHxXWcD/mKntOhHQZVqFqc4147TekMblOb7nUhKmQZtVt5FJPDJqIsUR
-	CaeJ+krwOH1JXRhzwrtlVJJ59K5EdslvtcBwkcVVYXkmkrUHwJT3SU545OzhXDIKWxU5RVOjQ+FiF
-	e7wUMhzAcldqLdwK9R8J0xueVzKKijcbkrd1m8GTPImNalLv66amrwREgiFJUbuW936rjg05dGoOM
-	BYO5rJ8jR7z8QtD8c0TSGlAu16Ys9wbW7BVz+w9+8g2M8/CPragTQfokXwH1sWFiNQvV+IkRcf3fN
-	ETN6VMRZwngu3wzl+juw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Unsubscribe-Post:List-Owner;
+	bh=RS9OuHr1dxcqz7WXLuJ9jvyk4W3FJXhyR6I3+QSBSRk=; b=vbCvJjEQcVYvPwytwUH55SrQTX
+	yzbi6KaLhkAvxitdhtlSspArZ+1zNTvd01W28JWruCyISt6n9CjYMRt/+XP9Fsnyt/3vObCu3rrfG
+	Y+A+byQyz0jCEnoeFZuc7LX2hK5m2qCZffjw3XAxMZ/STcCphHCD+BOXcYHdU+9NfprBQ5OHZ/6JC
+	5I4I90mNo+MTAwl+ffLvVUejMaRyi6h6EcAZiD92ZLXIp4DiDQ1Pnv1GYRO2XJyJDmPGcckLOvJgZ
+	NStYtFnQCoSYh5FzVK5FFy6SJTUWCpwPdz6CZTX/41Fsu+cZJ6rgYrP98rPDjJgUlMj5MY4gw+e7c
+	nnivIoqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTyA9-0000000BMFT-1ezk;
-	Thu, 19 Nov 2026 09:10:37 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1xTzyy-0000000Bf9p-43d6;
+	Thu, 19 Nov 2026 11:07:12 +0000
+Received: from out-53.mta0.migadu.com ([2001:41d0:1004:224b::35] helo=mta0.migadu.com)
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTyA7-0000000BMEu-1zJj
+	id 1xTzyv-0000000Bf8t-1umb
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Nov 2026 09:10:36 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ6uUvx1805513;
-	Thu, 19 Nov 2026 09:10:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=1DKCTj
-	P7BR+DFu8PVux5oix3/4/uV4ok7TA+K67TgHo=; b=Zq9G9+UG9E2ukuizpBqnz/
-	Bb1P4+7JvTsmVtKsUbt+HBtalucp0nuFms1ji95t6d2u9bs9VOIh79BcKD2MppLt
-	NYUp9RmUwFf6Y1hJnRgBasB9zppPzqTpBOIRZquMsR8JXWHLcKhqenJMs64DEdg3
-	FcfJIkQ0lTH2JXrnboQV5GV5g3SkBFN3tbaf+u+bx2pKUuPFNUTS+EbkG+yImBlS
-	g3C0TRid3z86GI1biXd5znMlAQfBe4gXFU0Yknbvg7qSgyvBRiymEEhkyUE/Mnra
-	XDqXAvc5upmg20Unq7AKuF+a3LUAZF0N5p+PMiNscgkWbHJWnQGHU4DXrPWL6q0w
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j105rqujs-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 19 Nov 2026 09:10:17 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ756Oh2161156;
-	Thu, 19 Nov 2026 09:10:17 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j1v9x8mhj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 19 Nov 2026 09:10:17 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
-	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AJ9AG4Y41419348
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 19 Nov 2026 09:10:16 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2E2B658056;
-	Thu, 19 Nov 2026 09:10:16 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 40FE458060;
-	Thu, 19 Nov 2026 09:10:13 +0000 (GMT)
-Received: from [9.123.7.57] (unknown [9.123.7.57])
-	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 19 Nov 2026 09:10:12 +0000 (GMT)
-Message-ID: <8b46ce36-3add-4b2f-8a2f-455f6c70ec30@linux.ibm.com>
-Date: Thu, 19 Nov 2026 14:40:11 +0530
+	Thu, 19 Nov 2026 11:07:11 +0000
+X-Envelope-To: linux-nvme@lists.infradead.org
+DKIM-Signature: a=rsa-sha256; bh=JsHAg6d6Cqa/NH83H8PlasuyEv2XvEqbyZiTKCMiSGU=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795086426; v=1; x=1795691226;
+ b=MMblfEVvZWR/EGEysiTwmEwLlupqu07FWJbz7D6lGgpumJXw8BlCc3jXGroGBz3iec9So7N3
+ GUEHGV7MUyAvb8VHbvdVHQFCJNglYLuv52zyadd/aRi/5pdRBknEUFb8ABVyt87fR3+cKQsCPfG
+ jdFVrlZ4V+Lk7hKeWtiNKoIQ=
+X-Envelope-To: linux-nvme@lists.infradead.org
+Received: by smtp.migadu.com with ESMTPS id 5d0a2c69608c45af;
+	Thu, 19 Nov 2026 11:07:06 +0000
+X-Mizu-Trace-ID: 5d0a2c69608c45af
+X-Migadu-Flow: FLOW_OUT
+From: Qiliang Yuan <qiliang.yuan@linux.dev>
+Subject: [PATCH v5 0/2] nvme-multipath: requeue work fixes
+Date: Thu, 19 Nov 2026 06:06:59 -0500
+Message-Id: <20261119-bug-nvme-mpath-set-live-srcu-v5-0-e1483e2e447f@linux.dev>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/22] nvmet: fix nvmet_ns::bdev access using
- nvmet_subsys::lock
-To: Bart Van Assche <bvanassche@acm.org>, kbusch@kernel.org, hch@lst.de,
-        sagi@grimberg.me, axboe@kernel.dk, chaitanyak@nvidia.com
-Cc: gjoyce@linux.ibm.com, elver@google.com, linux-nvme@lists.infradead.org
-References: <20261118073505.288910-1-nilay@linux.ibm.com>
- <20261118073505.288910-3-nilay@linux.ibm.com>
- <da37a4fa-656f-440a-9ca7-50266619813e@acm.org>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <da37a4fa-656f-440a-9ca7-50266619813e@acm.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: dUy0T5tkxV2BVs9J031X8DsvLDDp38b2
-X-Authority-Analysis: v=2.4 cv=e8uT2qp/ c=1 sm=1 tr=0 ts=6afebcfa cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=WkRjoUyRONK5PHhhxewA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDAzNSBTYWx0ZWRfX4nc20QygQf72
- PrQySFgxilJyRKMdOVVOfkHDbett/cxxzY1EkGndm4xXDKdAgSrQqmg6ORDrcwqaqB1PtJzZUia
- BFxGCetXxJtV6mX64mF6goTTTeLEMZY=
-X-Proofpoint-ORIG-GUID: WYFGNdmZG-PJMNYsSEHXTvs2OyPNvq-b
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDAzNSBTYWx0ZWRfX0XnY0lbHLTq2
- vgNp/X4n296mR12r5GMmucu9jiqRcxld/mPY1sIn/4CvyfrEN5SiMk8WvmJA+7EYbDDJFsikbRh
- rjmspGkuIyRR+ZVl+F1oVNLZOjME/Cq2RyS+wp6YgIWe+zQXVWw0yW5D4XdObWVv0VlXz156BFf
- KaXOEHdIAl3bHW9vBmmZiqDTPDRRqjfZPhA1IMdbUh3+IbdJfN1CPzaC9Sp7zlyDisMkPz+xqvu
- I1lGQFX1g/8ymbSN1yzoSOZznmy9jXDAPo/NwUkCk60glN8B2u20guTzN8E3el7+rt4pyBh4xiR
- fD+OEMYBu/7JUBVGga5DNtVSFLHhmayuovJf5AwE028qSi6799AD3FNu7ly4IbQ+ieyz2Zwu0QH
- /dMnR7vAHx6zhsQ5Js628AVTJ/dJVYjb7hsrFdYvg/X4NnZprz4p2a3EKye5DnQmWLLXc4+T2eN
- 9hQUGz5QEZZ/Pa5Ra6A==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-19_02,2026-11-16_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 suspectscore=0 phishscore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 bulkscore=0 malwarescore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611190035
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFPY/moC/43NPY7CMBCG4asg1zsrj//iUHEPREHsMbEECbITC
+ 4Ry9zVUEU1WU71TPN+LZUqRMtvvXixRiTmOQw39s2OuPw8XguhrM8GFQUQO3XyBodwIbvfz1EO
+ mCa6xEOTkZnCdt63RAZVuWCXuiUJ8fPjjqXYf8zSm52et4Pv7T7gg1Avadorrjgd7uMZhfvx6K
+ uwNF7HGcAMTwCG4phEtKi9a+Y3JNaY2MFkxb5XR6MlIqb4xtcbsBqYqJjBIY2VjnHVrbFmWP0j
+ oVhWvAQAA
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Nilay Shroff <nilay@linux.ibm.com>, Hannes Reinecke <hare@suse.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Qiliang Yuan <qiliang.yuan@linux.dev>, Hannes Reinecke <hare@kernel.org>
+X-Mailer: b4 0.13.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261119_011035_516138_6E452DDC 
-X-CRM114-Status: GOOD (  14.71  )
-X-Spam-Score: -2.6 (--)
+X-CRM114-CacheID: sfid-20261119_030709_703963_354E1693 
+X-CRM114-Status: GOOD (  13.30  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,34 +75,70 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/19/26 5:38 AM, Bart Van Assche wrote:
-> On 11/17/26 11:34 PM, Nilay Shroff wrote:
->> +        /*
->> +         * Both ctrl->subsys->lock and ns->subsys->lock refer to the
->> +         * same lock. However there's no way for us to annotate such
->> +         * locking semantics using clang context annotation. So
->> +         * explicitly assert the capability.
->> +         */
->> +        __assume_ctx_lock(&ns->subsys->lock);
-> 
-> __assume_ctx_lock() should be avoided whenever possible. Please either
-> modify this function such that "subsys" is passed as an argument or use
-> lockdep_assert_held().
-> 
+Patch 1 applies a new delayed_removal_secs to a head removal that is
+already pending, so that clearing it fails the I/O queued without a
+path right away instead of when the old delay expires.
 
-Yes, okay. I need to extract the namespace iteration into a helper function
-and pass subsys as an argument. This will allow to annotate the helper with
-  __must_hold(&subsys->lock) and then use lockdep_assert_held() to establish
-the context for accessing namespace fields, avoiding the explicit use of
-  __assume_ctx_lock().
+Patch 2 stops nvme_mpath_set_live() from waiting for an SRCU grace
+period per namespace, which makes an ANA change with many namespaces
+take tens to hundreds of milliseconds.
 
-Thanks,
---Nilay
+Signed-off-by: Qiliang Yuan <qiliang.yuan@linux.dev>
+---
+V4 -> V5:
+- Cancel the pending head removal under subsys->lock in
+  nvme_init_ns_head() and drop the list_empty() check and module_put()
+  from delayed_removal_secs_store() (Nilay Shroff)
+- Rebase onto v7.4-rc3-230-g4405c18c95d2 and update the numbers of
+  patch 1 from a new run
+
+V3 -> V4:
+- Don't requeue the head removal in patch 1 if a path came back before
+  nvme_init_ns_head() cancelled it, drop the module reference it held
+  instead (race reported by Sashiko)
+- Rebase onto v7.4-rc3-178-g20eef29b7c84 and update the numbers of
+  patch 1 from a new run
+
+V2 -> V3:
+- Requeue a pending head removal with the new delayed_removal_secs
+  instead of only kicking the requeue work when it is cleared
+- Rebase onto v7.4-rc2-470-g7e1392a42ea2 and update the numbers from a
+  new run
+- Don't carry Hannes's Reviewed-by on the v2 patch 1, which is rewritten
+
+V1 -> V2:
+- Add patch 1
+- Take the SRCU cookie under head->lock in patch 2 (Sashiko)
+- Rerun the tests
+
+v4: https://lore.kernel.org/r/20261118-bug-nvme-mpath-set-live-srcu-v4-0-21f368376c8c@linux.dev
+v3: https://lore.kernel.org/r/20261114-bug-nvme-mpath-set-live-srcu-v3-0-d84651de6334@linux.dev
+v2: https://lore.kernel.org/r/20261111-bug-nvme-mpath-set-live-srcu-v2-0-fc772914d293@linux.dev
+v1: https://lore.kernel.org/r/20261110-bug-nvme-mpath-set-live-srcu-v1-1-1f58b405b0f8@linux.dev
+
+---
+Qiliang Yuan (2):
+      nvme-multipath: apply delayed_removal_secs changes to a pending removal
+      nvme-multipath: don't wait for a grace period in nvme_mpath_set_live()
+
+ drivers/nvme/host/core.c      |  7 +++++--
+ drivers/nvme/host/multipath.c | 21 ++++++++++++++++++++-
+ drivers/nvme/host/nvme.h      |  1 +
+ 3 files changed, 26 insertions(+), 3 deletions(-)
+---
+base-commit: 4405c18c95d2d0f99f6c581ef0ee8591a1aa6ccd
+change-id: 20261110-bug-nvme-mpath-set-live-srcu-cbd8965f1457
+
+Best regards,
+-- 
+Qiliang Yuan <qiliang.yuan@linux.dev>
+
 
