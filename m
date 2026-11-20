@@ -2,60 +2,62 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AF8606A320
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 02:43:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008E8606A330
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 08:06:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=RxKPUd80;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TZxjX2Dc
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=sTVj/gc8;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=GuYxsKKp
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:To:Subject:From
-	:Message-ID:Cc:MIME-Version:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=MvKGYFn44nLBmp5gVMRZHWmkvoqsHonCJrDJdxX86W0=; b=RxKPUd80W7u+FDvCos7jA02Y3Q
-	rf8iZZa0DpvQLCACn+cu5oOavwrWZZbzIeyLvCE6S1VwJfXiKT+1FF57G4iREWPJLIbiizFBJpLOp
-	eC413ynfEYxSEsqjrtxEgDfGYmQYPUSW2a0UOV32c/ZayOpSE1QrPiHp8ka1xl5anyne3JlOz1g5p
-	beESQStYY/EFI+z56kSrpZdkwBWggn6t06gxBLFoIVei1iBScIA2xGXu6v1XX3mExm6EHAFshFEUi
-	joqdKcdBbgief4/GB2ZZ9xsCUe8GwxF/YsbOfCKX5QQHNx2mjdfOMk52ULDst5kheYE3RXWekCJ7D
-	DRZ9NVmw==;
+	bh=wUF3/8IILID0HLkvIG8NXcs9zjVwCzowa8kfUtE9rNg=; b=sTVj/gc8CM6Zb66kzd5JJJyHbY
+	PdQuE2Id/Js+5T3/yNzw5MhV+zpluKImvSWxa7D7ray5Nr57CiffCLtDhi7i+DF/AohPa/ma5onjE
+	16/I087sehZMXl1wDr45qL3OZ0Ocxz9vCXk1JR3wisyPCF7pWpr03qLO9o1GsEcvrAwYOvP75qXlW
+	AF12UHDDEOeHDyC4Sy/yvU5z+Rym207sDfqjACFLgmnxwg2B4F9d//YICrD4ipp+ublJ9f7OmpbtY
+	4/wvSs2C09EWA7Xxxc8OqclCs8yYZXla4Uru2ZUg4dzGXJgcJSrMJqBldg5OPfdGYGhPOxb3A+VxP
+	h4DVkoLA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUEbP-0000000DuDz-2NnE;
-	Fri, 20 Nov 2026 02:43:51 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xUJdC-0000000EIC5-33sz;
+	Fri, 20 Nov 2026 08:06:02 +0000
+Received: from out30-99.freemail.mail.aliyun.com ([115.124.30.99])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUEbO-0000000DuDt-2xWz
+	id 1xUJd4-0000000EI9T-32fJ
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Nov 2026 02:43:50 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id A7928601C9;
-	Fri, 20 Nov 2026 02:43:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 379701F000CA;
-	Fri, 20 Nov 2026 02:43:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795142629;
-	bh=MvKGYFn44nLBmp5gVMRZHWmkvoqsHonCJrDJdxX86W0=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=TZxjX2Dc3/zk3fq/2Us0Fof6p9nPLNAWwdZ9PkW1C6B6xGokpAUAtHdC07dlYjkuI
-	 Vb+VRl0trljKk6Tu4HV8P74ZieUMuZDFRco0NGCyR4UBvF66VdXKhSkuJ4PF18EtR7
-	 FWLnX2pnQP9SdXvsflBwq/ErGoThUH5xtUgGZdaZm3Mdd1qwUqil65bneIu5JDI9nX
-	 UfSSljHdWfIhDMco3n6exTFgVzxBXBEdW64LC69sI9RZI/WSbKmbOiKs1baM/KgILn
-	 rAcVd/2Q8H02+epbwpzXUtjTY/65n2XtC6iTIfkK0zMkGJWedpvzKPc/EMASxGtMPe
-	 jWQDaRgsqfWvA==
-Message-ID: <sashiko-outbox-224377@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] RDMA/cma: Use a separate lockdep class for the
- listening cm_id
-To: =?utf-8?b?U2hpbidpY2hpcm8gS2F3YXNha2k=?= <shinichiro.kawasaki@wdc.com>, linux-rdma@vger.kernel.org, linux-nvme@lists.infradead.org
-In-Reply-To: <av-vJXx2CZppcnAW@shinmob>
-References: <20261117113129.746490-1-shinichiro.kawasaki@wdc.com>
- <sashiko-outbox-218731@kernel.org> <av2QarZ0_u32MHzM@shinmob>
- <av-vJXx2CZppcnAW@shinmob>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 02:43:48 +0000
+	Fri, 20 Nov 2026 08:05:57 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1795161947; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=wUF3/8IILID0HLkvIG8NXcs9zjVwCzowa8kfUtE9rNg=;
+	b=GuYxsKKpoivslQ9TbJkTzIpn6QnoDdrRgEcyXtMg9uP0JVLUa5TtL3m8rb+Mg3xIahhjQJcHm9HSX6nKwi5uqN3/i2I4q9g8U1CPWRNQ8iPcv4k8nrh/r4+RLdP7zlb++buFYDvScDZDzx84kCOHX34Q4JdfMqMNNcnaAbwFNkg=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XF5jgQJ_1795161945;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XF5jgQJ_1795161945 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 20 Nov 2026 16:05:45 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	Daniel Wagner <dwagner@suse.de>,
+	Hannes Reinecke <hare@suse.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH] nvmet-fc: skip hostport handling when the LLDD provides no hosthandle
+Date: Fri, 20 Nov 2026 16:05:40 +0800
+Message-ID: <20261120080540.1177154-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.7
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261120_000555_655061_34A31454 
+X-CRM114-Status: GOOD (  11.69  )
+X-Spam-Score: -17.6 (-----------------)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,112 +67,79 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-26.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=4.0.1
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] RDMA/cma: missing Signed-off-by trailer in commit message
-- [High] RDMA: debug msleep() in siw_accept(), nvme_rdma_alloc_queue(),
-  and nvmet_rdma
---
+nvmet_fc_alloc_hostport() returns NULL when the LLDD does not implement
+the hosthandle abstraction, but the association lifetime code assumes
+an association always has a hostport:
 
-commit e60962bf8161cfd3de3b001dc6bdc13944ed9245
-Author: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+  - nvmet_fc_xmt_disconnect_assoc() reads assoc->hostport->invalid
+  - nvmet_fc_target_assoc_free() drops the hostport reference
+    unconditionally
+  - nvmet_fc_invalidate_host() compares assoc->hostport->hosthandle
+    while scanning the association list
 
-> RDMA/cma: Use a separate lockdep class for the listening cm_id
->
-> On Nov 18, 2026 / 20:53, Shin'ichiro Kawasaki wrote:
-> > On Nov 17, 2026 / 11:48, sashiko-bot@kernel.org wrote:
-> > > Thank you for your contribution! Sashiko AI review found 2 potential
-> > > issues to consider:
-> > > - [Medium] RDMA/cma: unsafe lockdep_set_class() placement in
-> > >   rdma_listen()
-> > > - [Low] RDMA/cma: unreclassified handler_mutex on
-> > >   nvmet_rdma_enable_port() error
-> >
-> > I think the two issues are valid. The first one means that the approach
-> > to reclassify ids in rdma_listen() does not work well. I will think abo=
-ut other
-> > solutions. One idea is to go back to the solutions to add a new functio=
-n to
-> > create rdma id. The other idea is to reclassify the rdma ids not for
-> > listening. I will try if these approach can address the sashiko issues.
->
-> While I worked on the new patch to reclassify the rdma ids not for listen=
-ing
-> but for other requests, I ran a local Sashiko review on it before posting.
-> Sashiko made the comment below, quote:
+The first and the third dereference were introduced by removing the
+NULL checks on the assumption that an association always has a
+hostport, and the second by inlining nvmet_fc_free_hostport(), which
+dropped the pointer check of the inlined helper.  A Create Association
+failure on such a transport then crashes the target.
 
-[Severity: High]
-The commit message is missing a Signed-off-by: trailer, which is required
-under the Developer's Certificate of Origin.
+Restore the checks: skip the Disconnect Association exchange, skip the
+hostport reference drop (there is no reference to balance, the
+association never took one), and skip hosthandle matching in the
+invalidation scan.
 
-> diff --git a/drivers/infiniband/sw/siw/siw_cm.c b/drivers/infiniband/sw/s=
-iw/siw_cm.c
-> index ed49818793dde..bea7c7aacd678 100644
-> --- a/drivers/infiniband/sw/siw/siw_cm.c
-> +++ b/drivers/infiniband/sw/siw/siw_cm.c
-> @@ -1738,6 +1738,7 @@ int siw_accept(struct iw_cm_id *id, struct iw_cm_co=
-nn_param *params)
->  		siw_sk_assign_rtr_upcalls(cep);
->  	} else {
->  		siw_qp_socket_assoc(cep, qp);
-> +		msleep(300); /* REPRO: let the host send before ESTABLISHED */
->  		rv =3D siw_cm_upcall(cep, IW_CM_EVENT_ESTABLISHED, 0);
->  		if (rv)
->  			goto error;
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 32189fdfc0f51..e8c55dfad9d54 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -583,6 +583,8 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_que=
-ue *queue)
->  	struct sockaddr *src_addr =3D NULL;
->  	int ret;
-> =20
-> +	if (idx =3D=3D 2)
-> +		msleep(1000); /* REPRO: connect I/O queue 2 later */
->  	mutex_init(&queue->queue_lock);
->  	if (idx && ctrl->ctrl.max_integrity_segments)
->  		queue->pi_support =3D true;
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index f386c388da188..cde0315ae71e4 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -1673,6 +1673,8 @@ static void nvmet_rdma_queue_established(struct nvm=
-et_rdma_queue *queue)
->  {
->  	unsigned long flags;
-> =20
-> +	if (queue->host_qid)
-> +		msleep(10000); /* REPRO: give time to unlink the port */
->  	spin_lock_irqsave(&queue->state_lock, flags);
->  	if (queue->state !=3D NVMET_RDMA_Q_CONNECTING) {
->  		pr_warn("trying to establish a connected queue\n");
+Fixes: 50b474e1faff5 ("nvmet-fc: remove null hostport pointer check")
+Fixes: 88517565b5929 ("nvmet-fc: inline nvmet_fc_free_hostport")
+Cc: stable@vger.kernel.org
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+---
+ drivers/nvme/target/fc.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-[Severity: High]
-Were these debug reproducer msleep() calls committed by mistake instead of
-the lockdep class change described in the subject?
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 5d6c1c79508a..3fb4f5b318fe 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -481,6 +481,8 @@ nvmet_fc_xmt_disconnect_assoc(struct nvmet_fc_tgt_assoc *assoc)
+ 	 * message is normal. Otherwise, send unless the hostport has
+ 	 * already been invalidated by the lldd.
+ 	 */
++	if (!assoc->hostport)
++		return;
+ 	if (!tgtport->ops->ls_req || assoc->hostport->invalid)
+ 		return;
+ 
+@@ -1183,7 +1185,8 @@ nvmet_fc_target_assoc_free(struct kref *ref)
+ 	/* Send Disconnect now that all i/o has completed */
+ 	nvmet_fc_xmt_disconnect_assoc(assoc);
+ 
+-	nvmet_fc_hostport_put(assoc->hostport);
++	if (assoc->hostport)
++		nvmet_fc_hostport_put(assoc->hostport);
+ 	spin_lock_irqsave(&tgtport->lock, flags);
+ 	oldls = assoc->rcv_disconn;
+ 	spin_unlock_irqrestore(&tgtport->lock, flags);
+@@ -1533,7 +1536,8 @@ nvmet_fc_invalidate_host(struct nvmet_fc_target_port *target_port,
+ 	spin_lock_irqsave(&tgtport->lock, flags);
+ 	list_for_each_entry_safe(assoc, next,
+ 				&tgtport->assoc_list, a_list) {
+-		if (assoc->hostport->hosthandle != hosthandle)
++		if (!assoc->hostport ||
++		    assoc->hostport->hosthandle != hosthandle)
+ 			continue;
+ 		if (!nvmet_fc_tgt_a_get(assoc))
+ 			continue;
+-- 
+2.43.7
 
-In nvmet_rdma_queue_established(), sleeping for 10 seconds on every I/O
-queue runs inside the RDMA_CM_EVENT_ESTABLISHED callback under
-id_priv->handler_mutex on the single-threaded ordered iwcm_wq workqueue.
-This stalls CM event processing and rdma_destroy_id() for 10 seconds per
-I/O queue, exceeds the default 5-second NVMe admin keep-alive timeout, and
-forces open the nvmet_config_sem deadlock window.  siw_accept() and
-nvme_rdma_alloc_queue() likewise add unconditional 300 ms and 1000 ms
-delays during connection establishment.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/av-vJXx2CZppcnAW@sh=
-inmob?part=3D1
 
