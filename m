@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00580606A32C
-	for <linux-nvme@archiver.kernel.org>; Sat, 21 Nov 2026 16:06:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DED5606A320
+	for <linux-nvme@archiver.kernel.org>; Sat, 21 Nov 2026 16:06:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1XkfTE6l;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=DNGADqEm
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=M/mNhC4D;
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=c7NETS7s
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Cc:To:
@@ -14,54 +14,53 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Subject:Date:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=gh9UMk+P12oc5pffW1Tfli+5ZIDE2BR9DrQfG3dJ3Jw=; b=1XkfTE6lY2r3Q2DyUbWgaZPgLx
-	iVaBZmYpVV6JWjtk7O/xjiS6CWnGVKn9PfTJT5ZpL38PJhkXt9B3oGo51xyCbcNSddEJd54/zXbd8
-	GElo9GnWS5c7MNDVEAcvYsTLXBrickFhLd/mbyPI8MWinVBsZN2O6wLAXtWq/jGTT/KPXMNaWaLQr
-	kz853OdvSH5bFBavGcpV1lCURA/SOJgSfdKaYcreM3VEwKnlnZhdq+TAsgK6pYk2OKC0iWWorrFFZ
-	sOg33e7JW825PHJJJD0A1gbbZZ5MnWFsL3c7dp1Xg7O5JkyusJWn8D/qoPKFuR9f84it0X9Pf+NGz
-	bumz1gOA==;
+	bh=YhbwySng7lrQxamXpZMo2Q+hxGy77+m9k+59D9Q9ldI=; b=M/mNhC4DXunsAxZ8gdi8RJKCSc
+	yOzV6EDFF6hYn0vfi81V7aXoeF8crRq6/TMShDlJepEx3l5hfvNva74/F3klGxbnor5wGBIU/O3Gr
+	NwJlKt3ICNTRELi7K83d/g/jPb+JoTFnwmslNtMqRTCScAzY0Vfgl7R/wZib8g4+e1leu3tR8WKop
+	rEka+TrW/MW4SUx/Oba629sKQJU4ZqJwY5VIzMHMmFXhJK9NJHxoH92UXI4u0env9E5q0iSHE6RDW
+	eHyJdYCywctPaojAn77693wP6yI8dJvsixYTFc5r1KUgQsWwaxMZsvXOujoKZNn1/nGUU039BFWJO
+	BsZZuSqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUnba-0000000HPmM-29hn;
-	Sat, 21 Nov 2026 16:06:22 +0000
-Received: from mail-westcentralusazlp170130007.outbound.protection.outlook.com ([2a01:111:f403:c112::7] helo=CY3PR05CU001.outbound.protection.outlook.com)
+	id 1xUnbc-0000000HPuC-0VX0;
+	Sat, 21 Nov 2026 16:06:24 +0000
+Received: from mail-westcentralusazlp170100005.outbound.protection.outlook.com ([2a01:111:f403:c112::5] helo=CY7PR03CU001.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUHck-0000000E7HN-2wJe
+	id 1xUHd2-0000000E7La-1lHV
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Nov 2026 05:57:28 +0000
+	Fri, 20 Nov 2026 05:57:45 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VOTjwqvUygv1gIlZb0To7V9ECL39Xsqxv4N9mWf4EgcmSL3bwJh3QM5ppvqgkScI0jObwBDIS1rKnYE2KvekTbiCv1WJK8CWIdpqcCpUFsiJK6UCuNsyj0uJDqmBSsYhYtS6JdLK1nRjzTyw5azr7D9wNA/He7bBejmeZUaAxmwIN05pAcSMAQc6LjUPf/lmJPZKUwy5kAL5QqEQraoajzk/lJ8G9xPJfG47r+LUTZAXlbZvJhxLVzbw+eD7XMfn1kSdngWDD04YQ5xwHxvT0sfStcgXVrGhRPt5YPKC+TAWXtcoveyo/thB67fQngSFUg8RoALAVxToVSxl6zeQCA==
+ b=j3qUnGIzSGpE2XT1ciH07kHHVt1HmJJF7IwrQEjJrAOr33SUztpumjMYuyA7D0LogjriLU/D2f3fRyj1IA2V5uPzWsOSfRKNkUXnmH8jLPWswXn/x6f3O9G4QyI5oHzxgGDXWuLTMrcpozw2u8LRSO+mAV5VHlcDz+keluF3vUtUe5Qre9dEoct8HNpZoSzi8ZbdBoTaO90DbcjGCCgJj/FFN3FpPg9JwMPlHPLEnJjd/qC7Pqy7h76GWxJcmOp/HDEw8Si8NPHaidtrNn1o0bQjoy5AHav7NvEV2WFJvXFb7u74HmlpBzHuF2Xs4qY022PHuPWjxnIsS22GUoNooQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gh9UMk+P12oc5pffW1Tfli+5ZIDE2BR9DrQfG3dJ3Jw=;
- b=iF2nSoBGFI7ZMULeW+vKMWLewyoEh5hriZrHDhezH09ozc66MVPsga/CUZfzEGRYiIvqXeKnojcNMcNdFsd/VjozzJ5RjCVQTPO7SKSo/ozA5q5+xv1dWy9G19vD+1JEOPnG440R3B7Xny9kHgfGqFp8i+SKyRcf4BZYcKxqsQP1xbpe8FANw16+gkqwg4UnQxlH8sZ496bT5vCtSHvaHOfk1APVAxZMmFX5PbCP4uE/K/NKp9HHgSXiBie6yN6eDJhbgXHX4+FktyMuN7HZF5K1Q8NXAuvHrMAyBE/5Bz/UxqOjMaW5dd+8ZGfsrhnRsAiYENX35Whp89slD5V7Bg==
+ bh=YhbwySng7lrQxamXpZMo2Q+hxGy77+m9k+59D9Q9ldI=;
+ b=SgUotCTTARY58GFTW/pHFLhfvAzwyHk4z2yzbD6Q/TxV9aFCDPBdEeHDPlIpFXR8zpX0dAV6+NK6itG8birf1ZaSPjtfDBWw7GYDGrS2OkOZogMuTw/G23W203ql8jY9QP0WwlYkIo7Mi9j3adHhrgKGJPuRDBDneenzbWqWI2qYk3dwYqRR4IhsSqPkEow9eK4b/unAs9HFpJvXVgkvbkNFs6LYtaukHe2bEdk9I0hVYDHInQozy5U6IJjU7PjufG0ROpc4FhxIECA3FQFFBina7OxQJQ/d0VV9Gtn3V6HthD6raED50Pvux6Tz3GbWr3Qqe8Y2NEeg+bJ79Xv+fw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gh9UMk+P12oc5pffW1Tfli+5ZIDE2BR9DrQfG3dJ3Jw=;
- b=DNGADqEmqg2pgDQFmAq2jVUa4ouVe/lyQg+fL+uF2sUEaVv3eEuT5bVPC7SsSLAm0/JooTy4w7D1oW0mGDkzEqCLk906AQq9oaDjX54cxrXFJ2a2aOM+zry9GQ17k4DjLw11+yv3IzZsJCMxOKuQ1v0C4FVWGqWcQ4oo6/fYB2EKDjWUPjpCY4PnHZXVqIj3u1Ru71DK9VrO6D+WGa82UQ+AHVSKRNMgaM/CcAfBhGCk7/WPUi4Ll/J2Vbm/tYE0lL6xf6xSK5wTS+86VO34m0fYaNpjDornr5Nzde0Zg1vZ19VZ0viPVDDJTCPwcAnMYJYnfgEV9lzYDpE2wJuo8A==
+ bh=YhbwySng7lrQxamXpZMo2Q+hxGy77+m9k+59D9Q9ldI=;
+ b=c7NETS7sSsa3cQeEal322xl58rHFf0MXgNZXNI44M00ips3VLtNpEIVLyiNU3uzKV027uKz8DwE5jbDX9bVLwODaH5Pd12IxEQ+kds0DR3MdU1WGGI8gsgXqAp3BkI4A2xGsAi7YZegheL8DiVhNvjiUTHe+khthHcldrm/C/Pk5YZyMZJLltd5GsWfxoEgmiqgMbU57HxeMhL7eOh79IUwJ0WpcTNE4P+vuxLZf8+4jqqNxmkybmpuXR5cHUR9/3mY5w5DUna6uZMdLwcQEPK1XS0H/Hvg8FuRUM6eTKu0w1NkMiAxb3bMHD88LdDPwgwHwNo5aZ1qSFCfqXad2DA==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SA3PR12MB598757.namprd12.prod.outlook.com
  (2603:10b6:806:52d::14) by IA0PR12MB7675.namprd12.prod.outlook.com
  (2603:10b6:208:433::9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Fri, 20 Nov
- 2026 05:57:18 +0000
+ 2026 05:57:37 +0000
 Received: from SA3PR12MB598757.namprd12.prod.outlook.com
  ([fe80::e206:100:5946:a777]) by SA3PR12MB598757.namprd12.prod.outlook.com
  ([fe80::e206:100:5946:a777%5]) with mapi id 15.21.0639.011; Fri, 20 Nov 2026
- 05:57:18 +0000
+ 05:57:37 +0000
 From: Alistair Popple <apopple@nvidia.com>
-Date: Fri, 20 Nov 2026 16:55:47 +1100
-Subject: [PATCH v3 09/24] dma-buf: Convert exporters keeping a table per
- attachment to the SGT mapping type
+Date: Fri, 20 Nov 2026 16:55:51 +1100
+Subject: [PATCH v3 13/24] udmabuf: Convert to the SGT mapping type
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-dma_mapping_type_v4-v3-9-c0183a409bdf@nvidia.com>
+Message-Id: <20261120-dma_mapping_type_v4-v3-13-c0183a409bdf@nvidia.com>
 References: <20261120-dma_mapping_type_v4-v3-0-c0183a409bdf@nvidia.com>
 In-Reply-To: <20261120-dma_mapping_type_v4-v3-0-c0183a409bdf@nvidia.com>
 To: =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
@@ -91,80 +90,80 @@ To: =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Leon Romanovsky <leon@kernel.org>
 Cc: Alistair Popple <apopple@nvidia.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795154186; l=31468;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795154186; l=4814;
  i=apopple@nvidia.com; s=20261105; h=from:subject:message-id;
- bh=z9wu0CJpUJK864/ARIXaxsAQWnsqirU58jSflKMxwc4=;
- b=Yt3rwNEpGCRIvvlnljSrmIutgr3KQ8/arhnI3Jh/Eg2LFQV+jOspBMzvuU+VAV/7VmtptEtNQ
- zrCe8XKhMQiC9JDQah0WKEXW8pK4dKVCC6wC5qrC5UkoUA55XlFufSj
+ bh=6gupyPQp9juTCFNaa4zUkZXqkc9NXJfK1p1GN1rGsCM=;
+ b=3lJ0EzqZX7FG005Qg0pByqpkmh903uhUdYjizLUR46xDVDfkA0TmJw6Eg7RguSHTJmOzf64xs
+ VgWwolBmOEZBtwV44+uP9cFGTw/jSvr7ktbDaPbUR7SrrAeDz08n9Bu
 X-Developer-Key: i=apopple@nvidia.com; a=ed25519;
  pk=WdWPT9rAq3YNfXldbGv1NSGVLGxzQGFGJvRUiShhNqs=
-X-ClientProxiedBy: SY5PR01CA0090.ausprd01.prod.outlook.com
- (2603:10c6:10:1f5::11) To SA3PR12MB598757.namprd12.prod.outlook.com
+X-ClientProxiedBy: SY8P282CA0011.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:29b::8) To SA3PR12MB598757.namprd12.prod.outlook.com
  (2603:10b6:806:52d::14)
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SA3PR12MB598757:EE_|IA0PR12MB7675:EE_
-X-MS-Office365-Filtering-Correlation-Id: 879f2cf5-d23e-4c8d-e17c-08df46cb2249
+X-MS-Office365-Filtering-Correlation-Id: db89cf61-3b2b-4019-d0b3-08df46cb2e1a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|23010399003|7416014|366016|1800799024|921020|10067099003|11063799006|5023799004|56012099006|261021123027099003|261028144727099003|261022105027099003|261026121527099003|261026140227099003|261022075727099003|261021121427099003|261102130727099003|261102123227099003|261009220027099003|261009223027099003|261009221727099003|261009221227099003|261009223327099003|22082099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info: WSJunC6Le0epbAnvmXE+VySUr0pydkCaiRPlb6Ws462ZItKvHil919U7FPWhOk7WyNAR9wrbKe2kYnCaK786VCCxz3Ks28bsm+InnpDIePQ4YGYXqmKAVeE2AuLoCXOZfBP/Qk8NHsDYs+v3p4VLs3jZLC85w8Z7PBAcF959Q3wiP+01F7Xn/IdiHr1xw46QaX87tTwqhCz/+ZXRi8GZ2m2IhIZ7aoscD8+ZaqzMyhfnpMuGuluqpA2mSSxITFVQQz+OTwc72c1Ftphb+BY+dINYEkdXqlnnB/j9wxRw1jSAcVw8VrJmDF/wJ3oYX3BQbyQc3hppaC6WALrwce/AUL4joiW6dJjgSXNcD6fhHShUOI27ErwMywKb6m9Npg6svqS7rKqF3aPzloyQnM9cEqq1RRMZT3SPzgLG9dzYQrSxlniwqOd4q5bvs/G9hhr2wBwcrEqNhl7QMQbD+OvaiTHorN9RCtQqJS548jAYWD2XtSPCw4EtTTxcJgTJA48rmqsMY5gA1+MJQPHqRQBGTfsezUDebPhO4P0aol/So+Uhe8qHeO7llK+WEmxjjRvwfkh8mYIJnE4Uhl0MrAzM8HhLkq1IxfSvF/aLSRykwzJbLYBGV6W/RrxbXXsd5OQdgpN/JdAzHdljp4dhPtYN1zeM4PkUwo8eartHVPT7e/RceuzNsG3Ce+6UdCGatZvx5YZ7RVL1UkKHYLPUKKUoJA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR12MB598757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(366016)(1800799024)(921020)(10067099003)(11063799006)(5023799004)(56012099006)(261021123027099003)(261028144727099003)(261022105027099003)(261026121527099003)(261026140227099003)(261022075727099003)(261021121427099003)(261102130727099003)(261102123227099003)(261009220027099003)(261009223027099003)(261009221727099003)(261009221227099003)(261009223327099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|23010399003|7416014|366016|1800799024|921020|10067099003|11063799006|56012099006|261021123027099003|261028144727099003|261022105027099003|261026121527099003|261026140227099003|261021121427099003|261102123227099003|261009223027099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: Wa+3zkR2+hpf+m6K6/4tuxk945PysQLNvCW+qrUb4c7XnYA4pnrqrAVTilLN4J7sf/skz9zS5MNMpZLNxpA3DpFLyfkap9Z13XjV5plKxLi2NIi+jwCYyQWN5tfOfn685Kaih3lb5Itn/4Kx91KZ+eE3n0EaTw83DM3GEIFUkrAwFAx2tJdDr3UY8R0mgezaANyAUQ1GCY2h9w/e0tkIhKrfZ8R5S0wBiSbLkeQkoOGXayAWikANdh8//bXO09QryocvBO4pUnXol0mAh/HleSsNNaKz5mJ0pRuaPrPOtqie6Snu4hRImKPRCvSbfYac/ocuZYvmr3jgBe1s2RQKlc2qiYkvxtumzNo9aef8egs2D15TYZ3t362VdRIGAfgG56wxzpcb2V7dFJokdDv0QFOHNtgpfNVcO+9BipYLc6DK05aOiMDW/AhF3uQoYXycdzUiYqO4gNE4fcqYKQLV6ygB5wiWHyQNwekkoxcwzfXBrfMFqogDGqrOckuPSabV5tue96c+RjOaV7TfYTkUmYli2BOsy2aKaxF4woD4uOU64ONqUfPezBxKW73phMJib+99/tXXaM5SW/JHE2dU39KpQqRjP736qwsDsutPXJlYbr+GfgfYjIP/aSm3X2HkcfLxeHNXz8LV97BsGYJhF/9kS4eVS67lGQWyCPo0iw/E0ZKAOrOGR/oY7e0VN29fJiu+ZunkIBTEixNzAp1ENA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR12MB598757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(366016)(1800799024)(921020)(10067099003)(11063799006)(56012099006)(261021123027099003)(261028144727099003)(261022105027099003)(261026121527099003)(261026140227099003)(261021121427099003)(261102123227099003)(261009223027099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZlJHaWxFdVh4MlBITThpNVI4SFZuRklDRStaZElaVjJhTysxSTltTnpWL1J6?=
- =?utf-8?B?cU5SZzl4ZHFxeHBsYTFhZ2E0bVczNlRzLzNYOS9TdURLeDNzcVVwQmFYVWNF?=
- =?utf-8?B?aGhkQ2N0d2drUnAzdkFxR0pVZnZHV2tEZjdrcm5pNXg1ZDNOSnpiSUxCME9P?=
- =?utf-8?B?dHVjclpZWlFhZ0FjL2J4MWJ5VFRDeEFqczZ1MEdEV2tDcmhqdmpQQTFpL20y?=
- =?utf-8?B?ZEdWOGJsUDIxYXZZZVU0eEl0Qk1YbmZDWFBwOExtODVSYWZBZ00wd09rd3I4?=
- =?utf-8?B?bHNHNGxvTnk1dWRUcDBqUHhuSXQ4SVJvKzFGS1MyOUorQitvZWlVbTc4cCtX?=
- =?utf-8?B?RnNCZVNlb09hTy9vWnYrNU8zRWhOaHcwcTNYWnhQV0xucEVNQlFJM1p1NFRI?=
- =?utf-8?B?S1h3aGZhNHZtTndETjhtUUtMenRVSS9sb1FDUHlTenBJc3grdmNva3hvbWl1?=
- =?utf-8?B?NWJiaWJuS3FMVEFMQlA4cFNxZ3BaeDRFcVZHRGh3ZkRUNHZHbDMwVVMvM3BG?=
- =?utf-8?B?Q2RlR1BhbHZpSXJFdzFZc3c2bFpvNlBXU3VyenJKOS9Ra0F3S3VZVEJjQ0J0?=
- =?utf-8?B?czZzdzBhRlltU1hsSkxHckpnSlJxMnI4aUVpMWdNdk8vVHJNOVAxM0tXVnRz?=
- =?utf-8?B?d0ozc2R4YjgvRWtaV2lvbnFWWGRaRjdaMzRyZXR6bEY3SExLZ0h4M2pKUWto?=
- =?utf-8?B?aTFZVHZnSEMyS3JsYUJtNUlWVG1Ha0ZSR09YWWxITmY4eEdoWTNscG1BUE1t?=
- =?utf-8?B?V1RLWWYzN0FEUjVrckE2OTQzd1lXNk4yS2hMMEJKWXpFSVdvTDlSMDUwaVYw?=
- =?utf-8?B?NjV6OHljb0ltQ1Z5ZmpnQjlvTDVRKy92NWVvM2JpSFkyQTVZSUpVSXcyUnhm?=
- =?utf-8?B?dXhPSWduS1Q0VFJFQTdVUklyb0xoS3RkRERIRHJ3dURxN2xoazNIOGtKWGx5?=
- =?utf-8?B?RCtCcFprMit4L2tkdVBZTEF4QytWSk5MNm9OQkVVL3VtcUdVWDNTYTNHZi95?=
- =?utf-8?B?RktmRkhCTlZpWS9rcmYzOFlyc1BodDlyeHVKMkM0NlpuZ1VxcDhIZ2haRExB?=
- =?utf-8?B?bjNiMkpvQ1VhOGF2c3Zsem9GR2Q5UEhmWEtmOTFnVlNjMDU1WGpVVFNJQnI4?=
- =?utf-8?B?czZaWkMzaU8wMW4vVXBTc0N3c1laeUFRU2doVExIb3BpT2pHeGhXNFc1OVdj?=
- =?utf-8?B?dnc4N29SVTQveGhxVG9tUlNFd2c0QlpsNHBmYTFGR0x1ZVRFYXQyTnNwQ3Z6?=
- =?utf-8?B?WkdKK1BTUjJKa2FKWGhYcXZlRXNUb0RnV3VRZTlxT2ZHejBFMzlxVTZrVFMr?=
- =?utf-8?B?MnFXc09POUtHelZyeVlhNms2Z3hJNmwxK0xUdG9iaUNlNXZTdWRaSXB4cnA1?=
- =?utf-8?B?ZngraVpYaTg2T2loanpLOEF2aW5DZVlidzNmZnplRldhNHBBM2RHb2k0MWh3?=
- =?utf-8?B?RGZWLzFrSGxmT2hqd1puazRtY3JwY0RNc21QL0Exb1JXMW1pa3p5dml4WjZP?=
- =?utf-8?B?VThud1RHTHBxNUdyZklMbUNzekFjdXdWNXZoYXZ2a2RUNTE5MFhtcHlRdW9n?=
- =?utf-8?B?Mk5ndG5TYVhkRnlTOUhCdDU4bFQyUjF1d0o0aXBibHVuSStxNS9qNGNhbU55?=
- =?utf-8?B?MXZXZ2VlUVk1aXJQZEVxNWJkd2ZDMWZmbzAxM0Z3cExaRW5BQ2gvWUVsaUFS?=
- =?utf-8?B?ekZRZVQ1NnZZYjlMUXFTdEJMOHY3RUNRYzFaUjVTbm55VlpSMkRtT29mR3Jv?=
- =?utf-8?B?NXdXNEh2eTQwVmpQbGJLOTRMajJOeDJxdkQxMWo2bW5nRDY2OGo3b2JSSUhr?=
- =?utf-8?B?T1o2UUFFK1hqODJrczl1OW5DWnpwZ1k4K1pmaGpxTmtSbjRzL2hlRExMZkla?=
- =?utf-8?B?c0Y1U2JTM3BhazJ1am5ablZqbWc2UXQxNXMvSXB5amJYRXR3dm9iWE1POFMr?=
- =?utf-8?B?cHprdGNOQmJmanowZ2xlWWQ3S0x1RTI3bWdHOHRuYnR1dVZYdzBsS2JHbExn?=
- =?utf-8?B?ZEZnOW1zWmJDZy9rQngyNVczNWdteGQ1L0ZxRFY3alNJVXZNdFBPc2lCN1Ry?=
- =?utf-8?B?RDA0T0NZTloxUHUzMGdBZnhTdFNSeXZnZjNsVEg5dkZzbEhBZGpKREdGUWpm?=
- =?utf-8?B?Z1Z3TnZSbWpYWGNUL0E4cnlMWVR0cUR1c0NFYkNuaVE0WHJGN2NCTG9qWHV3?=
- =?utf-8?B?bWRYcGtaeEx1TEFJbHZiYkJFeW1LUXVvUnkyVkRKdFc0L2MrRFltS2ZTZmQ1?=
- =?utf-8?B?Y1BUc3hqbXZlZFlPNmZNSnh3UGdEVk16ZWxVRzNpQXcwbTNmWWRKNGFKbzIx?=
- =?utf-8?B?VnB5dmNNcW8xbHdHVzRvNG1NMHFYV2hDakFxV1FDbEFCQWRobEh0dz09?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVB2Q1RkeTRYYVpPUkpkZXhDUXlwQjI3Rysyb1FJNWZnYjZYNjB3YUU2YTJF?=
+ =?utf-8?B?eHoyT3dqbnlqdVpGeCtuaHVIUFQybjdpR0pjTjd3TUJzajFBbzN5UjVxY25a?=
+ =?utf-8?B?bkFFeWlyTWYrQXZ0a3phd290L2tEbUdoUnBXZnViT1o4aHh5WVZmVnRyQ3pt?=
+ =?utf-8?B?MEd3aGp1bzBiQWlDSnVUUUJWd1FKUUk2b1h5QzhkMVh2S2lNaGJoOFVjR05B?=
+ =?utf-8?B?UnZQcmFtODdTMUV0V0hBNlErZ2c0aWFVWTlQeGx4dVNlSVdudmFyazI0ZnlT?=
+ =?utf-8?B?ZFljcVU1dGpaNFNnSEZ5YTU1ZlNRc1FqaWl4THRLWmZmbkVpVTZWa1dHN0Vy?=
+ =?utf-8?B?STg2MTNRSWVrWml6bkIzdVl3S2h1bVhmRmNtbXpEcnlrckVpdFVHYW41ck1Y?=
+ =?utf-8?B?Q242R1d1UVgrcllJaDM2NjUzSnNDYXpWU29NSTNCRE9ZcmVJUTBOTXJUdWk2?=
+ =?utf-8?B?Skp2aE5yamkxRmVGcXUva0l6WXFVMVpBRTJHdGEweU0zZWdwS1UvWmFzVjZy?=
+ =?utf-8?B?b0I2eUtOc2RMbDBPS0pFaFlINGVJb0RJOHZpcFJMMUFqbmw3NHV0ai9VTnpo?=
+ =?utf-8?B?SkNLU3hsUWhEemU2clpXQ0RDM0J4N3BTU2p4bWdmUWRjL0NkNDI5R0ZzVWs1?=
+ =?utf-8?B?WXFPTUc1SWk3aGluelc0ZGVlL1V0blZ5emx5KzhUMzFWS01uamJWNWQyMkJF?=
+ =?utf-8?B?dk5SaXdubHNreXBwMDUyd01IVjhFN29oYXZQSk9Tc3Z6K2dxK0FPbHV6U1ZZ?=
+ =?utf-8?B?T29WZndzLzZ2akFmRmVld3FyRVlweG4xQ1dZY0czSXFQTUpMVUo3T2tZQ3c3?=
+ =?utf-8?B?aFZxTGpZWS95VytsWEZkR01ZWGhucHZpbVJsUU9IVmNUZklSYnRCWmpUOUhQ?=
+ =?utf-8?B?c0xjeWs3dWgrV3JpT3ZrMUpkR3QwSlhDL2Eza04xeGc5c1JsWUFsTkFJZ2RB?=
+ =?utf-8?B?bXpPdEZNZklPcjN2YWhlcmplNTV3M2ZtZFAxdnJxTGdWcFZjNExhS0IyRkR4?=
+ =?utf-8?B?WUJjWkxicUVxek1FTFJxUURGMHpQUUdiYmtGTTZBRXBGTmtxMVk1bThYOHdZ?=
+ =?utf-8?B?U0Vlb1UwcXFqamxhTmd4N2lpMnY5N2pLNmVBemM0R0wzc05kNjNZbFpzZGlC?=
+ =?utf-8?B?SUw5bFozNHB1b1BpOWVMVk40OUpKOWZza2xIME55MzM2dTBYaDFFVHhSZjJ1?=
+ =?utf-8?B?eG1HZTFtUnlTWFozaVpLQ3BPYko0c1M0aUI3SXpaalIzNmM0QWg2Z1FTTFF2?=
+ =?utf-8?B?S1diQTdZL2ZuQ3NtUHhhWXBxMUNpQTZ3bjNuY2pMTVd6ekdZb01rN000YWVv?=
+ =?utf-8?B?QU9DYnhnclljdVJ6Zk1nZXg3dG1qVkhlZlRDaExtdUtnSjBPelU3NzFGaEdw?=
+ =?utf-8?B?NldWVXFlb0t4OS9kcTNMN2dPK0NEa3BZc0JrWnJkeWtRWXhwNWREYnJDeGNu?=
+ =?utf-8?B?VExtMFBuZTE3Y3p4L0lCQmF2MlFaMXNGaklOUTd5Mk1MNzJNRlhiYTNtVGFU?=
+ =?utf-8?B?VDJ3TXYxbVZ4MU1pYVZTbGsyVEZaZzI4dStyeVk1YktSYy9leURKOTIvY0Rk?=
+ =?utf-8?B?WGNremtWb2VhMkgzMzNwcUY1UGl5Y0p4cTdDTVIrYVFvYzhwL2k3QXdCd2Ft?=
+ =?utf-8?B?bGZpcjdDUUVoQVpHZ3RFeC9GUVNrQjFiZU5xcG5hd3VCRUQ1eWlpM2hySThR?=
+ =?utf-8?B?Nk96UGJSaG5VS2FmejlZalUzOW02UXFNdnV3V3FiWUdYZEpVb0xGbHhFamx2?=
+ =?utf-8?B?aG9nVHJuY0k4RTYvTG5UdEpMYkIycnpJbFRFaW9jL2tyRDdiYlVJdk1uRzJz?=
+ =?utf-8?B?cGVXTTU1WjhyZEFzZGZGamhlYXBjWmsvMzBwUncrQ2NSeWJZOEYya1pqdmhP?=
+ =?utf-8?B?clA1WVN2aExGYkxrK2ZFeXlXbC9TTXlZdVlRZUpXeDhDWG1UTkcvemM1amJC?=
+ =?utf-8?B?OVVGeEpPOVZOQk5mVEt1Y1huLzExaWNWS0FmTkNWQURsdHdOTVNRQkUxSCtK?=
+ =?utf-8?B?MlBPdXpieFJEZ3dqYmNRTDJTUEI0ekcyV3Z1OUgvSU1Td1RZNW5LNysyV0cy?=
+ =?utf-8?B?Y1k4VHJUU3FqbGhGaHZJR0x0eURoaVU5LzhhT0M1KzVkWGhqaDZuOGtkb0ln?=
+ =?utf-8?B?QjE5SmlITHNFU291dlZqcVkxcDBobWJmSFAxTTRiSmxURW9LRjI4dnhjN2Jv?=
+ =?utf-8?B?MmQvUjF1UVlISVIrd0NEYjlZYlFUNEo5VDdFUUQ5VGlXdStZUGJrWC9LSzlr?=
+ =?utf-8?B?N0VJQ2ZQUHFTdm5aQ2lZTCtMT2JKUno0bitoemJBS2xOMDFKNm1lRVl1b1Bo?=
+ =?utf-8?B?Y0xPYk9GMWFveVJEcjVGUnhpSlZ1LzUrRUoxQ1BERHFkSWozWlcwQT09?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 879f2cf5-d23e-4c8d-e17c-08df46cb2249
+X-MS-Exchange-CrossTenant-Network-Message-Id: db89cf61-3b2b-4019-d0b3-08df46cb2e1a
 X-MS-Exchange-CrossTenant-AuthSource: SA3PR12MB598757.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 05:57:17.9772
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 05:57:37.7950
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r973mM4mJLEty5Snhsc0eur251/CQf74K+Lv9hJKx/9ymmuYzS3VsD8KBquXy00SI3owYMzvoGkbd6kNtQD+3w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZF4/UCTJbloPBksMQ6e/WjchPKbGoQsEQ+MBEACLLeA9E6G0HSxuYMi6a+0QsVBZlWovvd3qIHPcOc+0QubO8Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7675
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261119_215726_855263_1CF043E6 
-X-CRM114-Status: GOOD (  15.76  )
+X-CRM114-CacheID: sfid-20261119_215744_516106_0CD3EB36 
+X-CRM114-Status: GOOD (  17.17  )
 X-Spam-Score: -2.1 (--)
 X-Mailman-Approved-At: Sat, 21 Nov 2026 08:05:55 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -185,947 +184,166 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-These exporters all keep one struct sg_table per attachment. It is
-embedded in either attachment private data or allocated and cached
-on first map. The same table is returned on every map_dma_buf()
-and nothing is freed in unmap_dma_buf(). Instead the table is freed
-during detach.
-
-The private/cached struct sg_table becomes a struct dma_buf_sgt_mapping and
-map_dma_buf() returns it every time. That is safe because the
-core only fills in the mapping's header, and fills it identically for
-every attachment map.
+udmabuf's get_sg_table() and put_sg_table() allocate and free the struct
+sg_table they build and tear down. Both the dma-buf map path and the
+CPU access path use the table kept in ubuf->sg. Make them work on a
+caller-provided table by having map_udmabuf() pass a table embedded in a
+struct dma_buf_sgt_mapping map_udmabuf() allocates instead.
 
 Co-developed-by: Jason Gunthorpe <jgg@nvidia.com>
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 Signed-off-by: Alistair Popple <apopple@nvidia.com>
 ---
- drivers/dma-buf/heaps/cma_heap.c                   | 33 ++++++-----
- drivers/dma-buf/heaps/system_heap.c                | 34 ++++++-----
- .../media/common/videobuf2/videobuf2-dma-contig.c  | 34 +++++------
- drivers/media/common/videobuf2/videobuf2-dma-sg.c  | 33 ++++++-----
- drivers/media/common/videobuf2/videobuf2-vmalloc.c | 32 ++++++-----
- drivers/misc/fastrpc.c                             | 30 +++++-----
- drivers/tee/tee_heap.c                             | 28 ++++-----
- drivers/xen/gntdev-dmabuf.c                        | 67 ++++++++++++----------
- 8 files changed, 158 insertions(+), 133 deletions(-)
+ drivers/dma-buf/udmabuf.c | 71 ++++++++++++++++++++++++++---------------------
+ 1 file changed, 40 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 3fb4b946c91a..79bbb31e31cf 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -14,6 +14,7 @@
- 
- #include <linux/cma.h>
- #include <linux/dma-buf.h>
-+#include <linux/dma-buf-mapping.h>
- #include <linux/dma-heap.h>
- #include <linux/dma-map-ops.h>
- #include <linux/err.h>
-@@ -48,7 +49,7 @@ struct cma_heap_buffer {
- 
- struct dma_heap_attachment {
- 	struct device *dev;
--	struct sg_table table;
-+	struct dma_buf_sgt_mapping mapping;
- 	struct list_head list;
- 	bool mapped;
- };
-@@ -64,7 +65,7 @@ static int cma_heap_attach(struct dma_buf *dmabuf,
- 	if (!a)
- 		return -ENOMEM;
- 
--	ret = sg_alloc_table_from_pages(&a->table, buffer->pages,
-+	ret = sg_alloc_table_from_pages(&a->mapping.sgt, buffer->pages,
- 					buffer->pagecount, 0,
- 					buffer->pagecount << PAGE_SHIFT,
- 					GFP_KERNEL);
-@@ -73,7 +74,7 @@ static int cma_heap_attach(struct dma_buf *dmabuf,
- 		return ret;
- 	}
- 
--	a->dev = attachment->dev;
-+	a->dev = dma_buf_sgt_dma_device(attachment);
- 	INIT_LIST_HEAD(&a->list);
- 	a->mapped = false;
- 
-@@ -96,32 +97,35 @@ static void cma_heap_detach(struct dma_buf *dmabuf,
- 	list_del(&a->list);
- 	mutex_unlock(&buffer->lock);
- 
--	sg_free_table(&a->table);
-+	sg_free_table(&a->mapping.sgt);
- 	kfree(a);
- }
- 
--static struct sg_table *cma_heap_map_dma_buf(struct dma_buf_attachment *attachment,
--					     enum dma_data_direction direction)
-+static struct dma_buf_sgt_mapping *
-+cma_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-+		     enum dma_data_direction direction)
- {
- 	struct dma_heap_attachment *a = attachment->priv;
--	struct sg_table *table = &a->table;
-+	struct sg_table *table = &a->mapping.sgt;
- 	int ret;
- 
--	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
-+	ret = dma_map_sgtable(dma_buf_sgt_dma_device(attachment), table,
-+			      direction, 0);
- 	if (ret)
- 		return ERR_PTR(-ENOMEM);
- 	a->mapped = true;
--	return table;
-+	return &a->mapping;
- }
- 
- static void cma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
--				   struct sg_table *table,
-+				   struct dma_buf_sgt_mapping *mapping,
- 				   enum dma_data_direction direction)
- {
- 	struct dma_heap_attachment *a = attachment->priv;
- 
- 	a->mapped = false;
--	dma_unmap_sgtable(attachment->dev, table, direction, 0);
-+	dma_unmap_sgtable(dma_buf_sgt_mapping_dma_device(mapping),
-+			  &mapping->sgt, direction, 0);
- }
- 
- static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-@@ -138,7 +142,7 @@ static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
- 	list_for_each_entry(a, &buffer->attachments, list) {
- 		if (!a->mapped)
- 			continue;
--		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
-+		dma_sync_sgtable_for_cpu(a->dev, &a->mapping.sgt, direction);
- 	}
- 	mutex_unlock(&buffer->lock);
- 
-@@ -159,7 +163,7 @@ static int cma_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
- 	list_for_each_entry(a, &buffer->attachments, list) {
- 		if (!a->mapped)
- 			continue;
--		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
-+		dma_sync_sgtable_for_device(a->dev, &a->mapping.sgt, direction);
- 	}
- 	mutex_unlock(&buffer->lock);
- 
-@@ -268,14 +272,13 @@ static void cma_heap_dma_buf_release(struct dma_buf *dmabuf)
- static const struct dma_buf_ops cma_heap_buf_ops = {
- 	.attach = cma_heap_attach,
- 	.detach = cma_heap_detach,
--	.map_dma_buf = cma_heap_map_dma_buf,
--	.unmap_dma_buf = cma_heap_unmap_dma_buf,
- 	.begin_cpu_access = cma_heap_dma_buf_begin_cpu_access,
- 	.end_cpu_access = cma_heap_dma_buf_end_cpu_access,
- 	.mmap = cma_heap_mmap,
- 	.vmap = cma_heap_vmap,
- 	.vunmap = cma_heap_vunmap,
- 	.release = cma_heap_dma_buf_release,
-+	DMA_BUF_SIMPLE_SGT_EXP_MATCH(cma_heap_map_dma_buf, cma_heap_unmap_dma_buf),
- };
- 
- static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index c8959eadc71d..4c306f7fe506 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -12,6 +12,7 @@
- 
- #include <linux/cc_platform.h>
- #include <linux/dma-buf.h>
-+#include <linux/dma-buf-mapping.h>
- #include <linux/dma-mapping.h>
- #include <linux/dma-heap.h>
- #include <linux/err.h>
-@@ -42,7 +43,7 @@ struct system_heap_buffer {
- 
- struct dma_heap_attachment {
- 	struct device *dev;
--	struct sg_table table;
-+	struct dma_buf_sgt_mapping mapping;
- 	struct list_head list;
- 	bool mapped;
- 	bool cc_shared;
-@@ -122,13 +123,13 @@ static int system_heap_attach(struct dma_buf *dmabuf,
- 	if (!a)
- 		return -ENOMEM;
- 
--	ret = dup_sg_table(&buffer->sg_table, &a->table);
-+	ret = dup_sg_table(&buffer->sg_table, &a->mapping.sgt);
- 	if (ret) {
- 		kfree(a);
- 		return ret;
- 	}
- 
--	a->dev = attachment->dev;
-+	a->dev = dma_buf_sgt_dma_device(attachment);
- 	INIT_LIST_HEAD(&a->list);
- 	a->mapped = false;
- 	a->cc_shared = buffer->cc_shared;
-@@ -152,35 +153,38 @@ static void system_heap_detach(struct dma_buf *dmabuf,
- 	list_del(&a->list);
- 	mutex_unlock(&buffer->lock);
- 
--	sg_free_table(&a->table);
-+	sg_free_table(&a->mapping.sgt);
- 	kfree(a);
- }
- 
--static struct sg_table *system_heap_map_dma_buf(struct dma_buf_attachment *attachment,
--						enum dma_data_direction direction)
-+static struct dma_buf_sgt_mapping *
-+system_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-+			enum dma_data_direction direction)
- {
- 	struct dma_heap_attachment *a = attachment->priv;
--	struct sg_table *table = &a->table;
-+	struct sg_table *table = &a->mapping.sgt;
- 	unsigned long attrs;
- 	int ret;
- 
- 	attrs = cc_shared_buffer(a) ? DMA_ATTR_CC_SHARED : 0;
--	ret = dma_map_sgtable(attachment->dev, table, direction, attrs);
-+	ret = dma_map_sgtable(dma_buf_sgt_dma_device(attachment), table,
-+			      direction, attrs);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
- 	a->mapped = true;
--	return table;
-+	return &a->mapping;
- }
- 
- static void system_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
--				      struct sg_table *table,
-+				      struct dma_buf_sgt_mapping *mapping,
- 				      enum dma_data_direction direction)
- {
- 	struct dma_heap_attachment *a = attachment->priv;
- 
- 	a->mapped = false;
--	dma_unmap_sgtable(attachment->dev, table, direction, 0);
-+	dma_unmap_sgtable(dma_buf_sgt_mapping_dma_device(mapping),
-+			  &mapping->sgt, direction, 0);
- }
- 
- static int system_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-@@ -197,7 +201,7 @@ static int system_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
- 	list_for_each_entry(a, &buffer->attachments, list) {
- 		if (!a->mapped)
- 			continue;
--		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
-+		dma_sync_sgtable_for_cpu(a->dev, &a->mapping.sgt, direction);
- 	}
- 	mutex_unlock(&buffer->lock);
- 
-@@ -218,7 +222,7 @@ static int system_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
- 	list_for_each_entry(a, &buffer->attachments, list) {
- 		if (!a->mapped)
- 			continue;
--		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
-+		dma_sync_sgtable_for_device(a->dev, &a->mapping.sgt, direction);
- 	}
- 	mutex_unlock(&buffer->lock);
- 
-@@ -365,14 +369,14 @@ static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
- static const struct dma_buf_ops system_heap_buf_ops = {
- 	.attach = system_heap_attach,
- 	.detach = system_heap_detach,
--	.map_dma_buf = system_heap_map_dma_buf,
--	.unmap_dma_buf = system_heap_unmap_dma_buf,
- 	.begin_cpu_access = system_heap_dma_buf_begin_cpu_access,
- 	.end_cpu_access = system_heap_dma_buf_end_cpu_access,
- 	.mmap = system_heap_mmap,
- 	.vmap = system_heap_vmap,
- 	.vunmap = system_heap_vunmap,
- 	.release = system_heap_dma_buf_release,
-+	DMA_BUF_SIMPLE_SGT_EXP_MATCH(system_heap_map_dma_buf,
-+				     system_heap_unmap_dma_buf),
- };
- 
- static struct page *alloc_largest_available(unsigned long size,
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-index 284482335c1a..5f410c6c653d 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-@@ -11,6 +11,7 @@
-  */
- 
- #include <linux/dma-buf.h>
-+#include <linux/dma-buf-mapping.h>
- #include <linux/module.h>
- #include <linux/refcount.h>
- #include <linux/scatterlist.h>
-@@ -311,7 +312,7 @@ static int vb2_dc_mmap(void *buf_priv, struct vm_area_struct *vma)
- /*********************************************/
- 
- struct vb2_dc_attachment {
--	struct sg_table sgt;
-+	struct dma_buf_sgt_mapping mapping;
- 	enum dma_data_direction dma_dir;
- };
- 
-@@ -329,7 +330,7 @@ static int vb2_dc_dmabuf_ops_attach(struct dma_buf *dbuf,
- 	if (!attach)
- 		return -ENOMEM;
- 
--	sgt = &attach->sgt;
-+	sgt = &attach->mapping.sgt;
- 	/* Copy the buf->base_sgt scatter list to the attachment, as we can't
- 	 * map the same scatter list to multiple attachments at the same time.
- 	 */
-@@ -362,7 +363,7 @@ static void vb2_dc_dmabuf_ops_detach(struct dma_buf *dbuf,
- 	if (!attach)
- 		return;
- 
--	sgt = &attach->sgt;
-+	sgt = &attach->mapping.sgt;
- 
- 	/* release the scatterlist cache */
- 	if (attach->dma_dir != DMA_NONE)
-@@ -372,28 +373,29 @@ static void vb2_dc_dmabuf_ops_detach(struct dma_buf *dbuf,
- 		 * memory locations do not require any explicit cache
- 		 * maintenance prior or after being used by the device.
- 		 */
--		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
--				  DMA_ATTR_SKIP_CPU_SYNC);
-+		dma_unmap_sgtable(dma_buf_sgt_dma_device(db_attach), sgt,
-+				  attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
- 	sg_free_table(sgt);
- 	kfree(attach);
- 	db_attach->priv = NULL;
- }
- 
--static struct sg_table *vb2_dc_dmabuf_ops_map(
--	struct dma_buf_attachment *db_attach, enum dma_data_direction dma_dir)
-+static struct dma_buf_sgt_mapping *
-+vb2_dc_dmabuf_ops_map(struct dma_buf_attachment *db_attach,
-+		      enum dma_data_direction dma_dir)
- {
- 	struct vb2_dc_attachment *attach = db_attach->priv;
- 	struct sg_table *sgt;
- 
--	sgt = &attach->sgt;
-+	sgt = &attach->mapping.sgt;
- 	/* return previously mapped sg table */
- 	if (attach->dma_dir == dma_dir)
--		return sgt;
-+		return &attach->mapping;
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
--		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
--				  DMA_ATTR_SKIP_CPU_SYNC);
-+		dma_unmap_sgtable(dma_buf_sgt_dma_device(db_attach), sgt,
-+				  attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
- 		attach->dma_dir = DMA_NONE;
- 	}
- 
-@@ -401,7 +403,7 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
- 	 * mapping to the client with new direction, no cache sync
- 	 * required see comment in vb2_dc_dmabuf_ops_detach()
- 	 */
--	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir,
-+	if (dma_map_sgtable(dma_buf_sgt_dma_device(db_attach), sgt, dma_dir,
- 			    DMA_ATTR_SKIP_CPU_SYNC)) {
- 		pr_err("failed to map scatterlist\n");
- 		return ERR_PTR(-EIO);
-@@ -409,11 +411,11 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
- 
- 	attach->dma_dir = dma_dir;
- 
--	return sgt;
-+	return &attach->mapping;
- }
- 
- static void vb2_dc_dmabuf_ops_unmap(struct dma_buf_attachment *db_attach,
--	struct sg_table *sgt, enum dma_data_direction dma_dir)
-+	struct dma_buf_sgt_mapping *mapping, enum dma_data_direction dma_dir)
- {
- 	/* nothing to be done here */
- }
-@@ -462,13 +464,13 @@ static int vb2_dc_dmabuf_ops_mmap(struct dma_buf *dbuf,
- static const struct dma_buf_ops vb2_dc_dmabuf_ops = {
- 	.attach = vb2_dc_dmabuf_ops_attach,
- 	.detach = vb2_dc_dmabuf_ops_detach,
--	.map_dma_buf = vb2_dc_dmabuf_ops_map,
--	.unmap_dma_buf = vb2_dc_dmabuf_ops_unmap,
- 	.begin_cpu_access = vb2_dc_dmabuf_ops_begin_cpu_access,
- 	.end_cpu_access = vb2_dc_dmabuf_ops_end_cpu_access,
- 	.vmap = vb2_dc_dmabuf_ops_vmap,
- 	.mmap = vb2_dc_dmabuf_ops_mmap,
- 	.release = vb2_dc_dmabuf_ops_release,
-+	DMA_BUF_SIMPLE_SGT_EXP_MATCH(vb2_dc_dmabuf_ops_map,
-+				     vb2_dc_dmabuf_ops_unmap),
- };
- 
- static struct sg_table *vb2_dc_get_base_sgt(struct vb2_dc_buf *buf)
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-index 54b07e3840ac..c00863ac0f88 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-@@ -10,6 +10,7 @@
-  * the Free Software Foundation.
-  */
- 
-+#include <linux/dma-buf-mapping.h>
- #include <linux/module.h>
- #include <linux/mm.h>
- #include <linux/refcount.h>
-@@ -362,7 +363,7 @@ static int vb2_dma_sg_mmap(void *buf_priv, struct vm_area_struct *vma)
- /*********************************************/
- 
- struct vb2_dma_sg_attachment {
--	struct sg_table sgt;
-+	struct dma_buf_sgt_mapping mapping;
- 	enum dma_data_direction dma_dir;
- };
- 
-@@ -380,7 +381,7 @@ static int vb2_dma_sg_dmabuf_ops_attach(struct dma_buf *dbuf,
- 	if (!attach)
- 		return -ENOMEM;
- 
--	sgt = &attach->sgt;
-+	sgt = &attach->mapping.sgt;
- 	/* Copy the buf->base_sgt scatter list to the attachment, as we can't
- 	 * map the same scatter list to multiple attachments at the same time.
- 	 */
-@@ -413,46 +414,50 @@ static void vb2_dma_sg_dmabuf_ops_detach(struct dma_buf *dbuf,
- 	if (!attach)
- 		return;
- 
--	sgt = &attach->sgt;
-+	sgt = &attach->mapping.sgt;
- 
- 	/* release the scatterlist cache */
- 	if (attach->dma_dir != DMA_NONE)
--		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
-+		dma_unmap_sgtable(dma_buf_sgt_dma_device(db_attach), sgt,
-+				  attach->dma_dir, 0);
- 	sg_free_table(sgt);
- 	kfree(attach);
- 	db_attach->priv = NULL;
- }
- 
--static struct sg_table *vb2_dma_sg_dmabuf_ops_map(
--	struct dma_buf_attachment *db_attach, enum dma_data_direction dma_dir)
-+static struct dma_buf_sgt_mapping *
-+vb2_dma_sg_dmabuf_ops_map(struct dma_buf_attachment *db_attach,
-+			  enum dma_data_direction dma_dir)
- {
- 	struct vb2_dma_sg_attachment *attach = db_attach->priv;
- 	struct sg_table *sgt;
- 
--	sgt = &attach->sgt;
-+	sgt = &attach->mapping.sgt;
- 	/* return previously mapped sg table */
- 	if (attach->dma_dir == dma_dir)
--		return sgt;
-+		return &attach->mapping;
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
--		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
-+		dma_unmap_sgtable(dma_buf_sgt_dma_device(db_attach), sgt,
-+				  attach->dma_dir, 0);
- 		attach->dma_dir = DMA_NONE;
- 	}
- 
- 	/* mapping to the client with new direction */
--	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
-+	if (dma_map_sgtable(dma_buf_sgt_dma_device(db_attach), sgt, dma_dir,
-+			    0)) {
- 		pr_err("failed to map scatterlist\n");
- 		return ERR_PTR(-EIO);
- 	}
- 
- 	attach->dma_dir = dma_dir;
- 
--	return sgt;
-+	return &attach->mapping;
- }
- 
- static void vb2_dma_sg_dmabuf_ops_unmap(struct dma_buf_attachment *db_attach,
--	struct sg_table *sgt, enum dma_data_direction dma_dir)
-+	struct dma_buf_sgt_mapping *mapping, enum dma_data_direction dma_dir)
- {
- 	/* nothing to be done here */
- }
-@@ -510,13 +515,13 @@ static int vb2_dma_sg_dmabuf_ops_mmap(struct dma_buf *dbuf,
- static const struct dma_buf_ops vb2_dma_sg_dmabuf_ops = {
- 	.attach = vb2_dma_sg_dmabuf_ops_attach,
- 	.detach = vb2_dma_sg_dmabuf_ops_detach,
--	.map_dma_buf = vb2_dma_sg_dmabuf_ops_map,
--	.unmap_dma_buf = vb2_dma_sg_dmabuf_ops_unmap,
- 	.begin_cpu_access = vb2_dma_sg_dmabuf_ops_begin_cpu_access,
- 	.end_cpu_access = vb2_dma_sg_dmabuf_ops_end_cpu_access,
- 	.vmap = vb2_dma_sg_dmabuf_ops_vmap,
- 	.mmap = vb2_dma_sg_dmabuf_ops_mmap,
- 	.release = vb2_dma_sg_dmabuf_ops_release,
-+	DMA_BUF_SIMPLE_SGT_EXP_MATCH(vb2_dma_sg_dmabuf_ops_map,
-+				     vb2_dma_sg_dmabuf_ops_unmap),
- };
- 
- static struct dma_buf *vb2_dma_sg_get_dmabuf(struct vb2_buffer *vb,
-diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-index 63f023696f3e..0c4d14fe62da 100644
---- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-+++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-@@ -10,6 +10,7 @@
-  * the Free Software Foundation.
-  */
- 
-+#include <linux/dma-buf-mapping.h>
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/mm.h>
-@@ -205,7 +206,7 @@ static int vb2_vmalloc_mmap(void *buf_priv, struct vm_area_struct *vma)
- /*********************************************/
- 
- struct vb2_vmalloc_attachment {
--	struct sg_table sgt;
-+	struct dma_buf_sgt_mapping mapping;
- 	enum dma_data_direction dma_dir;
- };
- 
-@@ -225,7 +226,7 @@ static int vb2_vmalloc_dmabuf_ops_attach(struct dma_buf *dbuf,
- 	if (!attach)
- 		return -ENOMEM;
- 
--	sgt = &attach->sgt;
-+	sgt = &attach->mapping.sgt;
- 	ret = sg_alloc_table(sgt, num_pages, GFP_KERNEL);
- 	if (ret) {
- 		kfree(attach);
-@@ -257,46 +258,49 @@ static void vb2_vmalloc_dmabuf_ops_detach(struct dma_buf *dbuf,
- 	if (!attach)
- 		return;
- 
--	sgt = &attach->sgt;
-+	sgt = &attach->mapping.sgt;
- 
- 	/* release the scatterlist cache */
- 	if (attach->dma_dir != DMA_NONE)
--		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
-+		dma_unmap_sgtable(dma_buf_sgt_dma_device(db_attach), sgt,
-+				  attach->dma_dir, 0);
- 	sg_free_table(sgt);
- 	kfree(attach);
- 	db_attach->priv = NULL;
- }
- 
--static struct sg_table *vb2_vmalloc_dmabuf_ops_map(
--	struct dma_buf_attachment *db_attach, enum dma_data_direction dma_dir)
-+static struct dma_buf_sgt_mapping *
-+vb2_vmalloc_dmabuf_ops_map(struct dma_buf_attachment *db_attach,
-+			   enum dma_data_direction dma_dir)
- {
-+	struct device *dma_dev = dma_buf_sgt_dma_device(db_attach);
- 	struct vb2_vmalloc_attachment *attach = db_attach->priv;
- 	struct sg_table *sgt;
- 
--	sgt = &attach->sgt;
-+	sgt = &attach->mapping.sgt;
- 	/* return previously mapped sg table */
- 	if (attach->dma_dir == dma_dir)
--		return sgt;
-+		return &attach->mapping;
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
--		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
-+		dma_unmap_sgtable(dma_dev, sgt, attach->dma_dir, 0);
- 		attach->dma_dir = DMA_NONE;
- 	}
- 
- 	/* mapping to the client with new direction */
--	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
-+	if (dma_map_sgtable(dma_dev, sgt, dma_dir, 0)) {
- 		pr_err("failed to map scatterlist\n");
- 		return ERR_PTR(-EIO);
- 	}
- 
- 	attach->dma_dir = dma_dir;
- 
--	return sgt;
-+	return &attach->mapping;
- }
- 
- static void vb2_vmalloc_dmabuf_ops_unmap(struct dma_buf_attachment *db_attach,
--	struct sg_table *sgt, enum dma_data_direction dma_dir)
-+	struct dma_buf_sgt_mapping *mapping, enum dma_data_direction dma_dir)
- {
- 	/* nothing to be done here */
- }
-@@ -326,11 +330,11 @@ static int vb2_vmalloc_dmabuf_ops_mmap(struct dma_buf *dbuf,
- static const struct dma_buf_ops vb2_vmalloc_dmabuf_ops = {
- 	.attach = vb2_vmalloc_dmabuf_ops_attach,
- 	.detach = vb2_vmalloc_dmabuf_ops_detach,
--	.map_dma_buf = vb2_vmalloc_dmabuf_ops_map,
--	.unmap_dma_buf = vb2_vmalloc_dmabuf_ops_unmap,
- 	.vmap = vb2_vmalloc_dmabuf_ops_vmap,
- 	.mmap = vb2_vmalloc_dmabuf_ops_mmap,
- 	.release = vb2_vmalloc_dmabuf_ops_release,
-+	DMA_BUF_SIMPLE_SGT_EXP_MATCH(vb2_vmalloc_dmabuf_ops_map,
-+				     vb2_vmalloc_dmabuf_ops_unmap),
- };
- 
- static struct dma_buf *vb2_vmalloc_get_dmabuf(struct vb2_buffer *vb,
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index 76c8dc05fa10..cbad55a93312 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -5,6 +5,7 @@
- #include <linux/completion.h>
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index df6dd0046242..ef77ae063ae4 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -2,6 +2,7 @@
+ #include <linux/cred.h>
  #include <linux/device.h>
  #include <linux/dma-buf.h>
 +#include <linux/dma-buf-mapping.h>
- #include <linux/dma-mapping.h>
  #include <linux/dma-resv.h>
- #include <linux/idr.h>
-@@ -234,7 +235,7 @@ struct fastrpc_buf {
- 
- struct fastrpc_dma_buf_attachment {
- 	struct device *dev;
--	struct sg_table sgt;
-+	struct dma_buf_sgt_mapping mapping;
- 	struct list_head node;
- };
- 
-@@ -770,27 +771,26 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
- 	return ERR_PTR(ret);
+ #include <linux/highmem.h>
+ #include <linux/init.h>
+@@ -128,33 +129,22 @@ static void vunmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
+ 	vm_unmap_ram(map->vaddr, ubuf->pagecount);
  }
  
--static struct sg_table *
-+static struct dma_buf_sgt_mapping *
- fastrpc_map_dma_buf(struct dma_buf_attachment *attachment,
- 		    enum dma_data_direction dir)
+-static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
+-				     enum dma_data_direction direction)
++static int get_sg_table(struct device *dev, struct dma_buf *buf,
++			struct sg_table *sg, enum dma_data_direction direction)
  {
- 	struct fastrpc_dma_buf_attachment *a = attachment->priv;
--	struct sg_table *table;
+ 	struct udmabuf *ubuf = buf->priv;
+-	struct sg_table *sg;
  	int ret;
  
--	table = &a->sgt;
+-	sg = kzalloc_obj(*sg);
+-	if (!sg)
+-		return ERR_PTR(-ENOMEM);
 -
--	ret = dma_map_sgtable(attachment->dev, table, dir, 0);
-+	ret = dma_map_sgtable(dma_buf_sgt_dma_device(attachment),
-+			      &a->mapping.sgt, dir, 0);
- 	if (ret)
--		table = ERR_PTR(ret);
--	return table;
-+		return ERR_PTR(ret);
-+	return &a->mapping;
- }
- 
- static void fastrpc_unmap_dma_buf(struct dma_buf_attachment *attach,
--				  struct sg_table *table,
-+				  struct dma_buf_sgt_mapping *mapping,
- 				  enum dma_data_direction dir)
- {
--	dma_unmap_sgtable(attach->dev, table, dir, 0);
-+	dma_unmap_sgtable(dma_buf_sgt_mapping_dma_device(mapping),
-+			  &mapping->sgt, dir, 0);
- }
- 
- static void fastrpc_release(struct dma_buf *dmabuf)
-@@ -811,7 +811,7 @@ static int fastrpc_dma_buf_attach(struct dma_buf *dmabuf,
- 	if (!a)
- 		return -ENOMEM;
- 
--	ret = dma_get_sgtable(buffer->dev, &a->sgt, buffer->virt,
-+	ret = dma_get_sgtable(buffer->dev, &a->mapping.sgt, buffer->virt,
- 			      fastrpc_ipa_to_dma_addr(buffer->fl->cctx, buffer->dma_addr),
- 			      buffer->size);
- 	if (ret < 0) {
-@@ -820,7 +820,7 @@ static int fastrpc_dma_buf_attach(struct dma_buf *dmabuf,
- 		return -EINVAL;
- 	}
- 
--	a->dev = attachment->dev;
-+	a->dev = dma_buf_sgt_dma_device(attachment);
- 	INIT_LIST_HEAD(&a->node);
- 	attachment->priv = a;
- 
-@@ -840,7 +840,7 @@ static void fastrpc_dma_buf_detatch(struct dma_buf *dmabuf,
- 	mutex_lock(&buffer->lock);
- 	list_del(&a->node);
- 	mutex_unlock(&buffer->lock);
--	sg_free_table(&a->sgt);
-+	sg_free_table(&a->mapping.sgt);
- 	kfree(a);
- }
- 
-@@ -868,11 +868,11 @@ static int fastrpc_mmap(struct dma_buf *dmabuf,
- static const struct dma_buf_ops fastrpc_dma_buf_ops = {
- 	.attach = fastrpc_dma_buf_attach,
- 	.detach = fastrpc_dma_buf_detatch,
--	.map_dma_buf = fastrpc_map_dma_buf,
--	.unmap_dma_buf = fastrpc_unmap_dma_buf,
- 	.mmap = fastrpc_mmap,
- 	.vmap = fastrpc_vmap,
- 	.release = fastrpc_release,
-+	DMA_BUF_SIMPLE_SGT_EXP_MATCH(fastrpc_map_dma_buf,
-+				     fastrpc_unmap_dma_buf),
- };
- 
- static dma_addr_t fastrpc_compute_dma_addr(struct fastrpc_user *fl, dma_addr_t sg_dma_addr)
-diff --git a/drivers/tee/tee_heap.c b/drivers/tee/tee_heap.c
-index 007c00156520..1d8a941891e9 100644
---- a/drivers/tee/tee_heap.c
-+++ b/drivers/tee/tee_heap.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include <linux/dma-buf.h>
-+#include <linux/dma-buf-mapping.h>
- #include <linux/dma-heap.h>
- #include <linux/genalloc.h>
- #include <linux/module.h>
-@@ -33,7 +34,7 @@ struct tee_heap_buffer {
- };
- 
- struct tee_heap_attachment {
--	struct sg_table table;
-+	struct dma_buf_sgt_mapping mapping;
- 	struct device *dev;
- };
- 
-@@ -98,13 +99,13 @@ static int tee_heap_attach(struct dma_buf *dmabuf,
- 	if (!a)
- 		return -ENOMEM;
- 
--	ret = copy_sg_table(&a->table, &buf->table);
-+	ret = copy_sg_table(&a->mapping.sgt, &buf->table);
- 	if (ret) {
- 		kfree(a);
- 		return ret;
- 	}
- 
--	a->dev = attachment->dev;
-+	a->dev = dma_buf_sgt_dma_device(attachment);
- 	attachment->priv = a;
- 
- 	return 0;
-@@ -115,35 +116,36 @@ static void tee_heap_detach(struct dma_buf *dmabuf,
- {
- 	struct tee_heap_attachment *a = attachment->priv;
- 
--	sg_free_table(&a->table);
-+	sg_free_table(&a->mapping.sgt);
- 	kfree(a);
- }
- 
--static struct sg_table *
-+static struct dma_buf_sgt_mapping *
- tee_heap_map_dma_buf(struct dma_buf_attachment *attachment,
- 		     enum dma_data_direction direction)
- {
- 	struct tee_heap_attachment *a = attachment->priv;
- 	int ret;
- 
--	ret = dma_map_sgtable(attachment->dev, &a->table, direction,
-+	ret = dma_map_sgtable(dma_buf_sgt_dma_device(attachment),
-+			      &a->mapping.sgt, direction,
- 			      DMA_ATTR_SKIP_CPU_SYNC);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	return &a->table;
-+	return &a->mapping;
- }
- 
- static void tee_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
--				   struct sg_table *table,
-+				   struct dma_buf_sgt_mapping *mapping,
- 				   enum dma_data_direction direction)
- {
- 	struct tee_heap_attachment *a = attachment->priv;
- 
--	WARN_ON(&a->table != table);
-+	WARN_ON(&a->mapping != mapping);
- 
--	dma_unmap_sgtable(attachment->dev, table, direction,
--			  DMA_ATTR_SKIP_CPU_SYNC);
-+	dma_unmap_sgtable(dma_buf_sgt_mapping_dma_device(mapping),
-+			  &mapping->sgt, direction, DMA_ATTR_SKIP_CPU_SYNC);
- }
- 
- static void tee_heap_buf_free(struct dma_buf *dmabuf)
-@@ -160,9 +162,9 @@ static void tee_heap_buf_free(struct dma_buf *dmabuf)
- static const struct dma_buf_ops tee_heap_buf_ops = {
- 	.attach = tee_heap_attach,
- 	.detach = tee_heap_detach,
--	.map_dma_buf = tee_heap_map_dma_buf,
--	.unmap_dma_buf = tee_heap_unmap_dma_buf,
- 	.release = tee_heap_buf_free,
-+	DMA_BUF_SIMPLE_SGT_EXP_MATCH(tee_heap_map_dma_buf,
-+				     tee_heap_unmap_dma_buf),
- };
- 
- static struct dma_buf *tee_dma_heap_alloc(struct dma_heap *heap,
-diff --git a/drivers/xen/gntdev-dmabuf.c b/drivers/xen/gntdev-dmabuf.c
-index e07e34515421..62ec297355a1 100644
---- a/drivers/xen/gntdev-dmabuf.c
-+++ b/drivers/xen/gntdev-dmabuf.c
-@@ -11,6 +11,7 @@
- #include <linux/kernel.h>
- #include <linux/errno.h>
- #include <linux/dma-buf.h>
-+#include <linux/dma-buf-mapping.h>
- #include <linux/dma-direct.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-@@ -62,7 +63,7 @@ struct gntdev_dmabuf_wait_obj {
- };
- 
- struct gntdev_dmabuf_attachment {
--	struct sg_table *sgt;
-+	struct dma_buf_sgt_mapping *mapping;
- 	enum dma_data_direction dir;
- };
- 
-@@ -194,28 +195,28 @@ static int dmabuf_exp_wait_released(struct gntdev_dmabuf_priv *priv, int fd,
- 
- /* DMA buffer export support. */
- 
--static struct sg_table *
-+static struct dma_buf_sgt_mapping *
- dmabuf_pages_to_sgt(struct page **pages, unsigned int nr_pages)
- {
--	struct sg_table *sgt;
-+	struct dma_buf_sgt_mapping *mapping;
- 	int ret;
- 
--	sgt = kmalloc_obj(*sgt);
--	if (!sgt) {
-+	mapping = kzalloc_obj(*mapping);
-+	if (!mapping) {
- 		ret = -ENOMEM;
- 		goto out;
- 	}
- 
--	ret = sg_alloc_table_from_pages(sgt, pages, nr_pages, 0,
-+	ret = sg_alloc_table_from_pages(&mapping->sgt, pages, nr_pages, 0,
- 					nr_pages << PAGE_SHIFT,
+ 	ret = sg_alloc_table_from_pages(sg, ubuf->pages, ubuf->pagecount, 0,
+ 					ubuf->pagecount << PAGE_SHIFT,
  					GFP_KERNEL);
- 	if (ret)
- 		goto out;
+ 	if (ret < 0)
+-		goto err_alloc;
++		return ret;
  
--	return sgt;
-+	return mapping;
- 
- out:
--	kfree(sgt);
-+	kfree(mapping);
- 	return ERR_PTR(ret);
+ 	ret = dma_map_sgtable(dev, sg, direction, DMA_ATTR_SKIP_CPU_SYNC);
+ 	if (ret < 0)
+-		goto err_map;
+-	return sg;
+-
+-err_map:
+-	sg_free_table(sg);
+-err_alloc:
+-	kfree(sg);
+-	return ERR_PTR(ret);
++		sg_free_table(sg);
++	return ret;
  }
  
-@@ -239,39 +240,43 @@ static void dmabuf_exp_ops_detach(struct dma_buf *dma_buf,
- 	struct gntdev_dmabuf_attachment *gntdev_dmabuf_attach = attach->priv;
- 
- 	if (gntdev_dmabuf_attach) {
--		struct sg_table *sgt = gntdev_dmabuf_attach->sgt;
-+		struct dma_buf_sgt_mapping *mapping =
-+			gntdev_dmabuf_attach->mapping;
-+
-+		if (mapping) {
-+			struct device *dma_dev = dma_buf_sgt_dma_device(attach);
- 
--		if (sgt) {
- 			if (gntdev_dmabuf_attach->dir != DMA_NONE)
--				dma_unmap_sgtable(attach->dev, sgt,
-+				dma_unmap_sgtable(dma_dev, &mapping->sgt,
- 						  gntdev_dmabuf_attach->dir,
- 						  DMA_ATTR_SKIP_CPU_SYNC);
--			sg_free_table(sgt);
-+			sg_free_table(&mapping->sgt);
- 		}
- 
--		kfree(sgt);
-+		kfree(mapping);
- 		kfree(gntdev_dmabuf_attach);
- 		attach->priv = NULL;
- 	}
- }
- 
--static struct sg_table *
-+static struct dma_buf_sgt_mapping *
- dmabuf_exp_ops_map_dma_buf(struct dma_buf_attachment *attach,
- 			   enum dma_data_direction dir)
+ static void put_sg_table(struct device *dev, struct sg_table *sg,
+@@ -162,20 +152,35 @@ static void put_sg_table(struct device *dev, struct sg_table *sg,
  {
-+	struct device *dma_dev = dma_buf_sgt_dma_device(attach);
- 	struct gntdev_dmabuf_attachment *gntdev_dmabuf_attach = attach->priv;
- 	struct gntdev_dmabuf *gntdev_dmabuf = attach->dmabuf->priv;
--	struct sg_table *sgt;
+ 	dma_unmap_sgtable(dev, sg, direction, DMA_ATTR_SKIP_CPU_SYNC);
+ 	sg_free_table(sg);
+-	kfree(sg);
+ }
+ 
+-static struct sg_table *map_udmabuf(struct dma_buf_attachment *at,
+-				    enum dma_data_direction direction)
++static struct dma_buf_sgt_mapping *map_udmabuf(struct dma_buf_attachment *at,
++					       enum dma_data_direction direction)
+ {
+-	return get_sg_table(at->dev, at->dmabuf, direction);
 +	struct dma_buf_sgt_mapping *mapping;
- 
- 	pr_debug("Mapping %d pages for dev %p\n", gntdev_dmabuf->nr_pages,
--		 attach->dev);
-+		 dma_dev);
- 
- 	if (dir == DMA_NONE || !gntdev_dmabuf_attach)
- 		return ERR_PTR(-EINVAL);
- 
- 	/* Return the cached mapping when possible. */
- 	if (gntdev_dmabuf_attach->dir == dir)
--		return gntdev_dmabuf_attach->sgt;
-+		return gntdev_dmabuf_attach->mapping;
- 
- 	/*
- 	 * Two mappings with different directions for the same attachment are
-@@ -280,26 +285,26 @@ dmabuf_exp_ops_map_dma_buf(struct dma_buf_attachment *attach,
- 	if (gntdev_dmabuf_attach->dir != DMA_NONE)
- 		return ERR_PTR(-EBUSY);
- 
--	sgt = dmabuf_pages_to_sgt(gntdev_dmabuf->pages,
--				  gntdev_dmabuf->nr_pages);
--	if (!IS_ERR(sgt)) {
--		if (dma_map_sgtable(attach->dev, sgt, dir,
-+	mapping = dmabuf_pages_to_sgt(gntdev_dmabuf->pages,
-+				      gntdev_dmabuf->nr_pages);
-+	if (!IS_ERR(mapping)) {
-+		if (dma_map_sgtable(dma_dev, &mapping->sgt, dir,
- 				    DMA_ATTR_SKIP_CPU_SYNC)) {
--			sg_free_table(sgt);
--			kfree(sgt);
--			sgt = ERR_PTR(-ENOMEM);
-+			sg_free_table(&mapping->sgt);
-+			kfree(mapping);
-+			mapping = ERR_PTR(-ENOMEM);
- 		} else {
--			gntdev_dmabuf_attach->sgt = sgt;
-+			gntdev_dmabuf_attach->mapping = mapping;
- 			gntdev_dmabuf_attach->dir = dir;
- 		}
- 	}
--	if (IS_ERR(sgt))
--		pr_debug("Failed to map sg table for dev %p\n", attach->dev);
--	return sgt;
-+	if (IS_ERR(mapping))
-+		pr_debug("Failed to map sg table for dev %p\n", dma_dev);
++	int ret;
++
++	mapping = kzalloc_obj(*mapping);
++	if (!mapping)
++		return ERR_PTR(-ENOMEM);
++
++	ret = get_sg_table(dma_buf_sgt_dma_device(at), at->dmabuf,
++			   &mapping->sgt, direction);
++	if (ret) {
++		kfree(mapping);
++		return ERR_PTR(ret);
++	}
++
 +	return mapping;
  }
  
- static void dmabuf_exp_ops_unmap_dma_buf(struct dma_buf_attachment *attach,
--					 struct sg_table *sgt,
-+					 struct dma_buf_sgt_mapping *mapping,
- 					 enum dma_data_direction dir)
+ static void unmap_udmabuf(struct dma_buf_attachment *at,
+-			  struct sg_table *sg,
++			  struct dma_buf_sgt_mapping *mapping,
+ 			  enum dma_data_direction direction)
  {
- 	/* Not implemented. The unmap is done at dmabuf_exp_ops_detach(). */
-@@ -340,9 +345,9 @@ static void dmabuf_exp_ops_release(struct dma_buf *dma_buf)
- static const struct dma_buf_ops dmabuf_exp_ops =  {
- 	.attach = dmabuf_exp_ops_attach,
- 	.detach = dmabuf_exp_ops_detach,
--	.map_dma_buf = dmabuf_exp_ops_map_dma_buf,
--	.unmap_dma_buf = dmabuf_exp_ops_unmap_dma_buf,
- 	.release = dmabuf_exp_ops_release,
-+	DMA_BUF_SIMPLE_SGT_EXP_MATCH(dmabuf_exp_ops_map_dma_buf,
-+				     dmabuf_exp_ops_unmap_dma_buf),
+-	return put_sg_table(at->dev, sg, direction);
++	put_sg_table(dma_buf_sgt_mapping_dma_device(mapping), &mapping->sgt,
++		     direction);
++	kfree(mapping);
+ }
+ 
+ static void unpin_all_folios(struct udmabuf *ubuf)
+@@ -212,8 +217,10 @@ static void release_udmabuf(struct dma_buf *buf)
+ 	struct udmabuf *ubuf = buf->priv;
+ 	struct device *dev = ubuf->device->this_device;
+ 
+-	if (ubuf->sg)
++	if (ubuf->sg) {
+ 		put_sg_table(dev, ubuf->sg, ubuf->sg_dir);
++		kfree(ubuf->sg);
++	}
+ 
+ 	deinit_udmabuf(ubuf);
+ 	kfree(ubuf);
+@@ -226,16 +233,19 @@ static int begin_cpu_udmabuf(struct dma_buf *buf,
+ 	struct device *dev = ubuf->device->this_device;
+ 
+ 	if (!ubuf->sg) {
+-		ubuf->sg = get_sg_table(dev, buf, direction);
+-		if (IS_ERR(ubuf->sg)) {
+-			int ret;
++		int ret;
++
++		ubuf->sg = kzalloc_obj(*ubuf->sg);
++		if (!ubuf->sg)
++			return -ENOMEM;
+ 
+-			ret = PTR_ERR(ubuf->sg);
++		ret = get_sg_table(dev, buf, ubuf->sg, direction);
++		if (ret) {
++			kfree(ubuf->sg);
+ 			ubuf->sg = NULL;
+ 			return ret;
+-		} else {
+-			ubuf->sg_dir = direction;
+ 		}
++		ubuf->sg_dir = direction;
+ 	}
+ 
+ 	dma_sync_sgtable_for_cpu(dev, ubuf->sg, direction);
+@@ -256,14 +266,13 @@ static int end_cpu_udmabuf(struct dma_buf *buf,
+ }
+ 
+ static const struct dma_buf_ops udmabuf_ops = {
+-	.map_dma_buf	   = map_udmabuf,
+-	.unmap_dma_buf	   = unmap_udmabuf,
+ 	.release	   = release_udmabuf,
+ 	.mmap		   = mmap_udmabuf,
+ 	.vmap		   = vmap_udmabuf,
+ 	.vunmap		   = vunmap_udmabuf,
+ 	.begin_cpu_access  = begin_cpu_udmabuf,
+ 	.end_cpu_access    = end_cpu_udmabuf,
++	DMA_BUF_SIMPLE_SGT_EXP_MATCH(map_udmabuf, unmap_udmabuf),
  };
  
- struct gntdev_dmabuf_export_args {
+ #define SEALS_WANTED (F_SEAL_SHRINK)
 
 -- 
 2.54.0
