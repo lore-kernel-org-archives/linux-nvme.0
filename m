@@ -2,55 +2,56 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B3B606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2638606A325
 	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 11:14:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Wdz9JJwZ;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fVAD2oEN
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=MxwSm680;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bd+uFdtK
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=SJLwZwHDFpgffaVzsUHv8h13cJCOkEGkdbk799276k0=; b=Wdz9JJwZqDQ489
-	Oiucr+ZobRlki8x/w9Fai2Lbv8wL5HWEdyC/d7FKGkxYmOowPUV8SKZUykX6zSIbILAoJ6G1nFG1P
-	Iap0IR6lglWOpgZwacBPBMkB429kWBW5LUV3NVEBYi/jdJaplbQsTJLsnf/k0H1VH2nFwJ9Hb9IDd
-	5495qRVMTsNMKODSnwh5CHzisFKTLRFVxw9S7P+3CNGD9kOH9CXsVQd4yehCnXnP/XCRrwZAhV8Kv
-	/emd6OM2gz074dGTilyTJ6DZp97W0uNgidKKzYftLYCaBf/HJ36D917uwPU6ykevu/OHgtDV7vrv8
-	4Vrwevo3ISSmjQHB1Hxw==;
+	List-Owner; bh=dBYG1BlSsPcgt8JwfJqKjGLZXbLlLE8Rfv+5kXrS6Y8=; b=MxwSm680476uWm
+	k5kKu9ZV4xyC4O2Du64QCoHj8DdMqUYG0OFDozs+RziYanKCwDghn+6Vp0vJxdOfQvRC1iYh8Ex8e
+	t1tWrj7VoJ4f6jtm/LdR6n3WuzBLfLeYdQQszTuYYAKj3UyWx6uuz93o/fdtC2CoHjJbvMScNqX2i
+	QGOAq31G/rdf436xhNkOfhbLZ80U1hE3sNqd0pvrCwl0xzUvHlqHcAKE1jq+y7oK49ORgVdq4SEwV
+	6mU+O9RjaYClAHGL/b1UDGbc+23ObFQnC0h8Zh/aZAFuHGcffMAbo+I+zfl/rSPNCvlFzmbzH1osU
+	E4MIg4OBr65DvOptyIEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUMZe-0000000EkkV-0P6a;
+	id 1xUMZe-0000000EklF-24oj;
 	Fri, 20 Nov 2026 11:14:34 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUMZZ-0000000Ekgv-0rAL
+	id 1xUMZc-0000000Ekiy-1Kcz
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Nov 2026 11:14:30 +0000
+	Fri, 20 Nov 2026 11:14:32 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id EF4E84398B;
-	Fri, 20 Nov 2026 11:14:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEDE11F00A19;
-	Fri, 20 Nov 2026 11:14:26 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 9C38A62494;
+	Fri, 20 Nov 2026 11:14:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AB781F000D3;
+	Fri, 20 Nov 2026 11:14:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795173268;
-	bh=SJLwZwHDFpgffaVzsUHv8h13cJCOkEGkdbk799276k0=;
+	s=k20260515; t=1795173271;
+	bh=dBYG1BlSsPcgt8JwfJqKjGLZXbLlLE8Rfv+5kXrS6Y8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=fVAD2oEN5tERTg5MRfRgX1QyYDoiKPbgd3GROwrvXeI0o7FQPSgVPmiUBrDWOaSqj
-	 jHN6ADrQOFT2HY7Opi/YIUJbjjyLrytYBO0DwLlw0I2LKf88Kp/m6UM45iA0A10/jC
-	 /zwk/8957hBKyQjTVZSyhIfJyUYNcsWvS2UXjvflqOR5d5lvUeY6a/SOf7y+oeN+Yk
-	 ZWXgX/locwnsLikC7tcy4hyF7CvAOSWo3l5G8utR5msPT8vKCcK5LfAx/X7rrV/G/h
-	 HU8dvFiZ8b7vZVZRb+/aX0sHqp8NfgwPBBG+K2nWvNhi0f4kSWpzX1gTYogpIXd5P5
-	 SdKTYrfybeYig==
+	b=Bd+uFdtKJ1WaC8RQwzwRifEP2xKuLtzZJsMLVAPTlhrmai6S3IeKxYANsr+L7tflK
+	 6FjnClmhgemzJ2JOQrebMbZWFcJXBkcXvwas1chW0tlCnugtAX+88JorB9d2epr+hm
+	 je+KZ4AJp1/53Ny1isFavC3K+skoA3pm9D1ROskRCJ0Uj9PA4cGok0axLfYHLY29E0
+	 IFr6my/YlAso4u6ECwucqe6a3E+cssB6t3hRkBZ3vZDBYWE9GgJRfNXqQcQ+z7ygA8
+	 TGl9oRP8NYf5B3DSlk/YM9tGz+T50mICYk5d7Id+GEfdiIb+oCetTWlrZPNtTMW/Ha
+	 eg4uBTVuAGORg==
 From: Hannes Reinecke <hare@kernel.org>
-Date: Fri, 20 Nov 2026 12:14:03 +0100
-Subject: [PATCH v4 4/9] nvme: parse dhchap keys during option parsing
+Date: Fri, 20 Nov 2026 12:14:04 +0100
+Subject: [PATCH v4 5/9] nvmet-auth: parse dhchap key from configfs
+ attribute
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-dhchap-keyring-v4-v4-4-5f8c7d9926ee@kernel.org>
+Message-Id: <20261120-dhchap-keyring-v4-v4-5-5f8c7d9926ee@kernel.org>
 References: <20261120-dhchap-keyring-v4-v4-0-5f8c7d9926ee@kernel.org>
 In-Reply-To: <20261120-dhchap-keyring-v4-v4-0-5f8c7d9926ee@kernel.org>
 To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
@@ -59,11 +60,11 @@ To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
  Hannes Reinecke <hare@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795173255; l=18846;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795173255; l=12332;
  i=hare@kernel.org; s=20260619; h=from:subject:message-id;
- bh=JVXmAfpI06wexawX3v7sq+nMdDYNVwcLcIonCZNKJYc=;
- b=cQBmoNggZfjM47zlIKiqYhOUmkJYYow3/lf7MRa8qQhTW5O5FGBE3MNVDUrk0U2Odkds5mNrj
- vwXQz4kI/LYBp3rbjPg79Qq0+QN36UJLUvEIDe4NY699L1gG8NLvvLi
+ bh=yMWcJuOHPEPxidXO9f5NuJi/J4Oi7TcNHBDi7thcSHw=;
+ b=m8r+MDPGuhw7be+KLuCfChujXLGc/oa9mJMYZGbN+DyzEfrzLFXyjYTfayiGxbL8u2WuuOedP
+ K11unfUNl+oAMR1dpF5sFSR0KuzpO4eFJyHBJmET6wJvAncRzs9+Lx8
 X-Developer-Key: i=hare@kernel.org; a=ed25519;
  pk=iekPF4ZZFva3sutm7d1ryPNR1G/WFfUgHaDB423JXho=
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -84,621 +85,419 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-We really should parse the dhchap keys during option parsing to avoid
-having to pass around the plain dhchap secret. During options parsing
-we will create a 'dhchap' key with a random UUID as description, and
-store the key serial in the 'opts' structure.
-This simplifies key handling as on every access the key needs to be
-looked up and checked for validity before accessing the key data.
+In preparation for moving the nvmet DH-HMAC-CHAP code over
+to using the kernel keyring convert the configfs interface
+to use 'struct key' instead of storing the key data directly.
+This avoids having to pass around a pointer with the actual
+key material.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 ---
- drivers/nvme/host/auth.c    | 118 +++++++++++++++++++---------
- drivers/nvme/host/fabrics.c |  84 +++++++++++++-------
- drivers/nvme/host/fabrics.h |   8 +-
- drivers/nvme/host/sysfs.c   | 186 +++++++++++++++++++++++++++++++-------------
- 4 files changed, 276 insertions(+), 120 deletions(-)
+ drivers/nvme/target/auth.c     | 181 +++++++++++++++++++++++++----------------
+ drivers/nvme/target/configfs.c |  80 ++++++++++++++----
+ drivers/nvme/target/nvmet.h    |   9 +-
+ 3 files changed, 178 insertions(+), 92 deletions(-)
 
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index 0ddf3834f4ea2bfedaf08b901db282b79df32879..c189096f825eab4e3053021d7437423ecb049c79 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -940,11 +940,6 @@ int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid)
- 		return -ENOKEY;
- 	}
+diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+index 26457ce4acc2a8664ec9c2a9ed6d66fed93b61fa..33b45b4b202d4b36956d2e1cf0a4036692779f22 100644
+--- a/drivers/nvme/target/auth.c
++++ b/drivers/nvme/target/auth.c
+@@ -19,52 +19,63 @@
  
--	if (ctrl->opts->dhchap_ctrl_secret && !ctrl->ctrl_key) {
--		dev_warn(ctrl->device, "qid %d: invalid ctrl key\n", qid);
--		return -ENOKEY;
--	}
--
- 	chap = &ctrl->dhchap_ctxs[qid];
- 	cancel_work_sync(&chap->auth_work);
- 	queue_work(nvme_auth_wq, &chap->auth_work);
-@@ -1029,6 +1024,29 @@ static void nvme_ctrl_auth_work(struct work_struct *work)
- 	}
- }
+ #include "nvmet.h"
  
-+static void nvme_auth_clear_key(struct nvme_ctrl *ctrl, bool is_ctrl)
++void nvmet_auth_revoke_key(struct nvmet_host *host, bool set_ctrl)
 +{
-+	struct key *key;
++	struct key *key = NULL;
 +
-+	if (is_ctrl) {
-+		key = ctrl->ctrl_key;
-+		ctrl->ctrl_key = NULL;
++	if (set_ctrl) {
++		if (host->dhchap_ctrl_key) {
++			key = host->dhchap_ctrl_key;
++			host->dhchap_ctrl_key = NULL;
++		}
 +	} else {
-+		key = ctrl->host_key;
-+		ctrl->host_key = NULL;
++		if (host->dhchap_key) {
++			key = host->dhchap_key;
++			host->dhchap_key = NULL;
++		}
 +	}
 +	if (key) {
-+		dev_dbg(ctrl->device, "%s: revoke dhchap%s key %08x\n",
-+			__func__, is_ctrl ? " ctrl" : " host",
-+			key_serial(key));
++		pr_debug("%s: revoke %s key %08x\n",
++			 __func__, set_ctrl ? "ctrl" : "host",
++			 key_serial(key));
 +		key_revoke(key);
 +		key_put(key);
 +	}
 +}
 +
-+#define nvme_auth_clear_host_key(c) nvme_auth_clear_key(c, false)
-+#define nvme_auth_clear_ctrl_key(c) nvme_auth_clear_key(c, true)
-+
- int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
+ int nvmet_auth_set_key(struct nvmet_host *host, const char *secret,
+ 		       bool set_ctrl)
  {
- 	struct nvme_dhchap_queue_context *chap;
-@@ -1038,31 +1056,68 @@ int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
- 	INIT_WORK(&ctrl->dhchap_auth_work, nvme_ctrl_auth_work);
- 	if (!ctrl->opts)
+-	unsigned char key_hash;
+-	char *dhchap_secret;
+-	int offset = 0;
++	struct key *key;
++	size_t len;
+ 
+ 	if (!strlen(secret)) {
+ 		down_write(&nvmet_config_sem);
+-		if (set_ctrl) {
+-			kfree(host->dhchap_ctrl_secret);
+-			host->dhchap_ctrl_secret = NULL;
+-			host->dhchap_ctrl_key_hash = 0;
+-			host->dhchap_ctrl_key_offset = 0;
+-		} else {
+-			kfree(host->dhchap_secret);
+-			host->dhchap_secret = NULL;
+-			host->dhchap_key_hash = 0;
+-			host->dhchap_key_offset = 0;
+-		}
++		nvmet_auth_revoke_key(host, set_ctrl);
+ 		up_write(&nvmet_config_sem);
  		return 0;
--	ctrl->host_key = nvme_auth_extract_key(ctrl->opts->keyring,
--				ctrl->opts->dhchap_secret,
--				strlen(ctrl->opts->dhchap_secret));
--	if (IS_ERR(ctrl->host_key)) {
--		ret = PTR_ERR(ctrl->host_key);
--		ctrl->host_key = NULL;
--		return ret;
-+	if (!ctrl->opts->dhchap_key) {
-+		nvme_auth_clear_host_key(ctrl);
-+		nvme_auth_clear_ctrl_key(ctrl);
-+		return 0;
  	}
-+	if (!ctrl->host_key)
-+		nvme_auth_clear_host_key(ctrl);
- 
--	ctrl->ctrl_key = nvme_auth_extract_key(ctrl->opts->keyring,
--				ctrl->opts->dhchap_ctrl_secret,
--				strlen(ctrl->opts->dhchap_ctrl_secret));
--	if (IS_ERR(ctrl->ctrl_key)) {
--		ret = PTR_ERR(ctrl->ctrl_key);
--		ctrl->ctrl_key = NULL;
--		goto err_free_dhchap_secret;
-+	ctrl->host_key = key_get(ctrl->opts->dhchap_key);
-+	if (!ctrl->host_key) {
-+		dev_warn(ctrl->device,
-+			 "dhchap host key %08x not present\n",
-+			 key_serial(ctrl->opts->dhchap_key));
-+		return -ENOKEY;
- 	}
-+	down_read(&ctrl->host_key->sem);
-+	ret = key_validate(ctrl->host_key);
-+	up_read(&ctrl->host_key->sem);
-+	if (ret) {
-+		dev_warn(ctrl->device,
-+			 "dhchap host key %08x invalidated\n",
-+			 key_serial(ctrl->host_key));
-+		key_put(ctrl->host_key);
-+		ctrl->host_key = NULL;
-+		return -ENOKEY;
+-	if (sscanf(secret, "DHHC-1:%hhd:%n", &key_hash, &offset) != 1 ||
+-	    !offset)
+-		return -EINVAL;
+-	if (key_hash > 3) {
+-		pr_warn("Invalid DH-HMAC-CHAP hash id %d\n",
+-			 key_hash);
+-		return -EINVAL;
+-	}
+-	dhchap_secret = kstrdup(secret, GFP_KERNEL);
+-	if (!dhchap_secret)
+-		return -ENOMEM;
++	len = strcspn(secret, "\n");
++	key = nvme_auth_extract_key(NULL, secret, len);
++	if (IS_ERR(key)) {
++		pr_debug("%s: invalid key specification\n", __func__);
++		return PTR_ERR(key);
 +	}
-+	dev_dbg(ctrl->device,
-+		"%s: using dhchap host key %08x\n",
-+		__func__, key_serial(ctrl->host_key));
++	down_read(&key->sem);
++	if (key_validate(key)) {
++		pr_warn("%s: key %08x invalidated\n",
++			__func__, key_serial(key));
++		up_read(&key->sem);
++		key_put(key);
++		return -EKEYREVOKED;
++	}
++	up_read(&key->sem);
+ 	down_write(&nvmet_config_sem);
+-	if (set_ctrl) {
+-		kfree(host->dhchap_ctrl_secret);
+-		host->dhchap_ctrl_secret = strim(dhchap_secret);
+-		host->dhchap_ctrl_key_hash = key_hash;
+-		host->dhchap_ctrl_key_offset = offset;
+-	} else {
+-		kfree(host->dhchap_secret);
+-		host->dhchap_secret = strim(dhchap_secret);
+-		host->dhchap_key_hash = key_hash;
+-		host->dhchap_key_offset = offset;
+-	}
++	nvmet_auth_revoke_key(host, set_ctrl);
++	if (set_ctrl)
++		host->dhchap_ctrl_key = key;
++	else
++		host->dhchap_key = key;
+ 	up_write(&nvmet_config_sem);
+ 	return 0;
+ }
+@@ -150,10 +161,8 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq, bool reset)
+ 	int ret = 0;
+ 	struct nvmet_host_link *p;
+ 	struct nvmet_host *host = NULL;
+-	struct key *host_key, *ctrl_key = NULL;
+-#ifdef CONFIG_NVME_TARGET_AUTH_DEBUG
+-	u8 host_hash, ctrl_hash;
+-#endif
++	struct key *key;
++	key_serial_t key_id;
  
--	if (!ctrl->opts->dhchap_secret && !ctrl->opts->dhchap_ctrl_secret)
--		return 0;
-+	if (ctrl->ctrl_key)
-+		nvme_auth_clear_ctrl_key(ctrl);
-+
-+	if (ctrl->opts->dhchap_ctrl_key) {
-+		ctrl->ctrl_key = key_get(ctrl->opts->dhchap_ctrl_key);
-+		if (!ctrl->ctrl_key) {
-+			dev_warn(ctrl->device,
-+				 "dhchap ctrl key %08x not present\n",
-+				 key_serial(ctrl->opts->dhchap_ctrl_key));
-+			return -ENOKEY;
-+		}
-+		down_read(&ctrl->ctrl_key->sem);
-+		ret = key_validate(ctrl->ctrl_key);
-+		up_read(&ctrl->ctrl_key->sem);
-+		if (ret) {
-+			dev_warn(ctrl->device,
-+				 "dhchap ctrl key %08x invalidated\n",
-+				 key_serial(ctrl->ctrl_key));
+ 	down_read(&nvmet_config_sem);
+ 	if (nvmet_is_disc_subsys(ctrl->subsys))
+@@ -186,44 +195,74 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq, bool reset)
+ 		goto out_unlock;
+ 	}
+ 
+-	if (!host->dhchap_secret) {
++	if (!host->dhchap_key) {
+ 		pr_debug("No authentication provided\n");
+ 		goto out_unlock;
+ 	}
+ 
+-	host_key = nvme_auth_extract_key(NULL, host->dhchap_secret,
+-					 strlen(host->dhchap_secret));
+-	if (IS_ERR(host_key)) {
+-		ret = NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
++	key = key_get(host->dhchap_key);
++	if (!key) {
++		pr_warn("%s: host key %08x not found\n",
++			__func__, key_serial(host->dhchap_key));
+ 		goto out_unlock;
+ 	}
+-	if (host->dhchap_ctrl_secret) {
+-		ctrl_key = nvme_auth_extract_key(NULL, host->dhchap_ctrl_secret,
+-						 strlen(host->dhchap_ctrl_secret));
+-		if (IS_ERR(ctrl_key)) {
+-			key_put(host_key);
+-			ret = NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
+-			goto out_unlock;
++	down_read(&key->sem);
++	ret = key_validate(key);
++	if (!ret) {
++		if (ctrl->host_key) {
++			pr_debug("%s: drop host key %08x\n",
++				 __func__, key_serial(ctrl->host_key));
++			key_put(ctrl->host_key);
+ 		}
++		ctrl->host_key = key;
++	}
++	key_id = key_serial(key);
++	up_read(&key->sem);
++	if (ret) {
++		pr_warn("host key %08x invalidated\n", key_id);
++		key_put(key);
++		key = ERR_PTR(-EKEYREVOKED);
+ 	}
+-	key_put(ctrl->host_key);
+-	ctrl->host_key = host_key;
+-	key_put(ctrl->ctrl_key);
+-	ctrl->ctrl_key = ctrl_key;
+-	ctrl->shash_id = host->dhchap_hash_id;
+ #ifdef CONFIG_NVME_TARGET_AUTH_DEBUG
+-	host_hash = nvme_dhchap_psk_hash(ctrl->host_key);
+-	pr_debug("%s: using hash %s key %u\n", __func__,
+-		 ctrl_hash > 0 ?
+-		 nvme_auth_hmac_name(ctrl_hash) : "none",
+-		 key_serial(ctrl->host_key));
+-	if (ctrl->ctrl_key) {
+-		ctrl_hash = nvme_dhchap_psk_hash(ctrl->ctrl_key);
+-		pr_debug("%s: using ctrl hash %s key %u\n", __func__,
+-			 ctrl_hash > 0 ?
+-			 nvme_auth_hmac_name(ctrl_hash) : "none",
+-			 key_serial(ctrl->ctrl_key));
++	pr_debug("%s: using dhchap hash %s key %08x\n", __func__,
++		 nvme_auth_hmac_name(ctrl->shash_id), key_id);
++#endif
++	if (!host->dhchap_ctrl_key) {
++		if (ctrl->ctrl_key) {
++			pr_debug("%s: drop ctrl key %08x\n",
++				 __func__, key_serial(ctrl->ctrl_key));
 +			key_put(ctrl->ctrl_key);
 +			ctrl->ctrl_key = NULL;
-+			return -EKEYREVOKED;
 +		}
-+		dev_dbg(ctrl->device,
-+			"%s: using dhchap ctrl key %08x\n",
-+			__func__, key_serial(ctrl->ctrl_key));
++		goto out_unlock;
+ 	}
++
++	key = key_get(host->dhchap_ctrl_key);
++	if (!key) {
++		pr_warn("%s: ctrl key %08x not found\n",
++			__func__, key_serial(host->dhchap_ctrl_key));
++		goto out_unlock;
 +	}
++	down_read(&key->sem);
++	ret = key_validate(key);
++	if (!ret) {
++		if (ctrl->ctrl_key) {
++			pr_debug("%s: drop ctrl key %08x\n",
++				 __func__, key_serial(ctrl->ctrl_key));
++			key_put(ctrl->ctrl_key);
++		}
++		ctrl->ctrl_key = key;
++	}
++	key_id = key_serial(key);
++	up_read(&key->sem);
++	if (ret) {
++		pr_warn("ctrl key %08x invalidated\n", key_id);
++		key_put(key);
++		goto out_unlock;
++	}
++#ifdef CONFIG_NVME_TARGET_AUTH_DEBUG
++	pr_debug("%s: using dhchap ctrl hash %s key %08x\n", __func__,
++		 nvme_auth_hmac_name(ctrl->shash_id), key_id);
+ #endif
+ out_unlock:
+ 	up_read(&nvmet_config_sem);
+@@ -263,12 +302,14 @@ void nvmet_destroy_auth(struct nvmet_ctrl *ctrl)
+ 	ctrl->dh_key = NULL;
  
- 	ctrl->dhchap_ctxs = kvzalloc_objs(*chap, ctrl_max_dhchaps(ctrl));
- 	if (!ctrl->dhchap_ctxs) {
--		ret = -ENOMEM;
--		goto err_free_dhchap_ctrl_secret;
-+		nvme_auth_clear_ctrl_key(ctrl);
-+		nvme_auth_clear_host_key(ctrl);
-+		return -ENOMEM;
+ 	if (ctrl->host_key) {
+-		key_revoke(ctrl->host_key);
++		pr_debug("%s: drop host key %08x\n",
++			 __func__, key_serial(ctrl->host_key));
+ 		key_put(ctrl->host_key);
+ 		ctrl->host_key = NULL;
  	}
- 
- 	for (i = 0; i < ctrl_max_dhchaps(ctrl); i++) {
-@@ -1074,13 +1129,6 @@ int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
+ 	if (ctrl->ctrl_key) {
+-		key_revoke(ctrl->ctrl_key);
++		pr_debug("%s: drop ctrl key %08x\n",
++			 __func__, key_serial(ctrl->ctrl_key));
+ 		key_put(ctrl->ctrl_key);
+ 		ctrl->ctrl_key = NULL;
  	}
- 
- 	return 0;
--err_free_dhchap_ctrl_secret:
--	key_put(ctrl->ctrl_key);
--	ctrl->ctrl_key = NULL;
--err_free_dhchap_secret:
--	key_put(ctrl->host_key);
--	ctrl->host_key = NULL;
--	return ret;
- }
- EXPORT_SYMBOL_GPL(nvme_auth_init_ctrl);
- 
-@@ -1099,14 +1147,8 @@ void nvme_auth_free(struct nvme_ctrl *ctrl)
- 			nvme_auth_free_dhchap(&ctrl->dhchap_ctxs[i]);
- 		kvfree(ctrl->dhchap_ctxs);
- 	}
--	if (ctrl->host_key) {
--		key_put(ctrl->host_key);
--		ctrl->host_key = NULL;
--	}
--	if (ctrl->ctrl_key) {
--		key_put(ctrl->ctrl_key);
--		ctrl->ctrl_key = NULL;
--	}
-+	nvme_auth_clear_host_key(ctrl);
-+	nvme_auth_clear_ctrl_key(ctrl);
- }
- EXPORT_SYMBOL_GPL(nvme_auth_free);
- 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 5ed91557f07065a284e664950a9c71d771614ec2..7ed8618257ca9fadc65202261a86b7ead209df7c 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -12,6 +12,7 @@
- #include <linux/seq_file.h>
- #include "nvme.h"
- #include "fabrics.h"
-+#include <linux/nvme-auth.h>
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 27c50fa533e70e443a2eb3fed5e31e730fb0ce3c..880cf5151588a382045e83952b1f64b95a432ca8 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -15,6 +15,7 @@
+ #include <linux/pci-p2pdma.h>
+ #ifdef CONFIG_NVME_TARGET_AUTH
+ #include <linux/nvme-auth.h>
++#include <linux/key-type.h>
+ #endif
  #include <linux/nvme-keyring.h>
- 
- static DECLARE_RWSEM(nvmf_transports_rwsem);
-@@ -717,6 +718,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ #include <crypto/kpp.h>
+@@ -2234,15 +2235,29 @@ static struct config_group nvmet_ports_group;
+ static ssize_t nvmet_host_dhchap_key_show(struct config_item *item,
+ 		char *page)
  {
- 	substring_t args[MAX_OPT_ARGS];
- 	char *options, *o, *p;
-+	char *host_secret = NULL, *ctrl_secret = NULL;
- 	int token, ret = 0;
- 	size_t nqnlen  = 0;
- 	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO, key_id;
-@@ -738,6 +740,8 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	opts->tls_key = NULL;
- 	opts->keyring = NULL;
- 	opts->concat = false;
-+	opts->dhchap_key = NULL;
-+	opts->dhchap_ctrl_key = NULL;
+-	u8 *dhchap_secret;
++	struct nvmet_host *host = to_host(item);
++	struct key *key;
+ 	ssize_t ret;
  
- 	options = o = kstrdup(buf, GFP_KERNEL);
- 	if (!options)
-@@ -1020,14 +1024,8 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				ret = -ENOMEM;
- 				goto out;
- 			}
--			if (strlen(p) < 11 || strncmp(p, "DHHC-1:", 7)) {
--				pr_err("Invalid DH-CHAP secret %s\n", p);
--				kfree_sensitive(p);
--				ret = -EINVAL;
--				goto out;
--			}
--			kfree_sensitive(opts->dhchap_secret);
--			opts->dhchap_secret = p;
-+			kfree_sensitive(host_secret);
-+			host_secret = p;
- 			break;
- 		case NVMF_OPT_DHCHAP_CTRL_SECRET:
- 			p = match_strdup(args);
-@@ -1035,14 +1033,8 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				ret = -ENOMEM;
- 				goto out;
- 			}
--			if (strlen(p) < 11 || strncmp(p, "DHHC-1:", 7)) {
--				pr_err("Invalid DH-CHAP secret %s\n", p);
--				kfree_sensitive(p);
--				ret = -EINVAL;
--				goto out;
--			}
--			kfree_sensitive(opts->dhchap_ctrl_secret);
--			opts->dhchap_ctrl_secret = p;
-+			kfree_sensitive(ctrl_secret);
-+			ctrl_secret = p;
- 			break;
- 		case NVMF_OPT_TLS:
- 			if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
-@@ -1086,6 +1078,41 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 			pr_warn("failfast tmo (%d) larger than controller loss tmo (%d)\n",
- 				opts->fast_io_fail_tmo, ctrl_loss_tmo);
- 	}
-+
-+	opts->host = nvmf_host_add(hostnqn, &hostid);
-+	if (IS_ERR(opts->host)) {
-+		ret = PTR_ERR(opts->host);
-+		opts->host = NULL;
-+		goto out;
-+	}
-+
-+	if (host_secret) {
-+		pr_debug("lookup host identity '%s'\n", host_secret);
-+		key = nvme_auth_extract_key(opts->keyring, host_secret,
-+					    strlen(host_secret));
-+		if (IS_ERR(key)) {
-+			ret = PTR_ERR(key);
-+			goto out;
+ 	down_read(&nvmet_config_sem);
+-	dhchap_secret = to_host(item)->dhchap_secret;
+-	if (!dhchap_secret)
+-		ret = sprintf(page, "\n");
+-	else
+-		ret = sprintf(page, "%s\n", dhchap_secret);
++	key = key_get(host->dhchap_key);
++	if (!key) {
++		page[0] = '\0';
++		ret = 0;
++	} else {
++		down_read(&key->sem);
++		if (key_validate(key))
++			ret = sprintf(page, "<invalidated>\n");
++		else {
++			ret = key->type->read(key, page, PAGE_SIZE);
++			if (ret > 0) {
++				page[ret] = '\n';
++				ret++;
++			}
 +		}
-+		pr_debug("using dhchap host key %08x\n", key_serial(key));
-+		opts->dhchap_key = key;
++		up_read(&key->sem);
++		key_put(key);
 +	}
-+	if (ctrl_secret) {
-+		if (!opts->dhchap_key) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+		pr_debug("lookup ctrl identity '%s'\n", ctrl_secret);
-+		key = nvme_auth_extract_key(opts->keyring, ctrl_secret,
-+					    strlen(ctrl_secret));
-+		if (IS_ERR(key)) {
-+			ret = PTR_ERR(key);
-+			goto out;
-+		}
-+		pr_debug("using dhchap ctrl key %08x\n", key_serial(key));
-+		opts->dhchap_ctrl_key = key;
-+	}
-+
- 	if (opts->concat) {
- 		if (opts->tls) {
- 			pr_err("Secure concatenation over TLS is not supported\n");
-@@ -1097,21 +1124,16 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 			ret = -EINVAL;
- 			goto out;
- 		}
--		if (!opts->dhchap_secret) {
-+		if (!opts->dhchap_key) {
- 			pr_err("Need to enable DH-CHAP for secure concatenation\n");
- 			ret = -EINVAL;
- 			goto out;
- 		}
- 	}
- 
--	opts->host = nvmf_host_add(hostnqn, &hostid);
--	if (IS_ERR(opts->host)) {
--		ret = PTR_ERR(opts->host);
--		opts->host = NULL;
--		goto out;
--	}
--
- out:
-+	kfree_sensitive(ctrl_secret);
-+	kfree_sensitive(host_secret);
- 	kfree(options);
+ 	up_read(&nvmet_config_sem);
  	return ret;
  }
-@@ -1304,8 +1326,18 @@ void nvmf_free_options(struct nvmf_ctrl_options *opts)
- 	kfree(opts->subsysnqn);
- 	kfree(opts->host_traddr);
- 	kfree(opts->host_iface);
--	kfree_sensitive(opts->dhchap_secret);
--	kfree_sensitive(opts->dhchap_ctrl_secret);
-+	if (opts->dhchap_key) {
-+		pr_debug("revoke dhchap host key %08x\n",
-+			 key_serial(opts->dhchap_key));
-+		key_revoke(opts->dhchap_key);
-+		key_put(opts->dhchap_key);
+@@ -2251,9 +2266,19 @@ static ssize_t nvmet_host_dhchap_key_store(struct config_item *item,
+ 		const char *page, size_t count)
+ {
+ 	struct nvmet_host *host = to_host(item);
++	u8 *keydata;
++	size_t len;
+ 	int ret;
+ 
+-	ret = nvmet_auth_set_key(host, page, false);
++	len = strcspn(page, "\n");
++	if (!len)
++		return -EINVAL;
++	keydata = kstrndup(page, len, GFP_KERNEL);
++	if (!keydata)
++		return -ENOMEM;
++
++	ret = nvmet_auth_set_key(host, keydata, false);
++	kfree_sensitive(keydata);
+ 	/*
+ 	 * Re-authentication is a soft state, so keep the
+ 	 * current authentication valid until the host
+@@ -2267,15 +2292,29 @@ CONFIGFS_ATTR(nvmet_host_, dhchap_key);
+ static ssize_t nvmet_host_dhchap_ctrl_key_show(struct config_item *item,
+ 		char *page)
+ {
+-	u8 *dhchap_secret = to_host(item)->dhchap_ctrl_secret;
++	struct nvmet_host *host = to_host(item);
++	struct key *key;
+ 	ssize_t ret;
+ 
+ 	down_read(&nvmet_config_sem);
+-	dhchap_secret = to_host(item)->dhchap_ctrl_secret;
+-	if (!dhchap_secret)
+-		ret = sprintf(page, "\n");
+-	else
+-		ret = sprintf(page, "%s\n", dhchap_secret);
++	key = key_get(host->dhchap_ctrl_key);
++	if (!key) {
++		page[0] = '\0';
++		ret = 0;
++	} else {
++		down_read(&key->sem);
++		if (key_validate(key))
++			ret = sprintf(page, "<invalidated>\n");
++		else {
++			ret = key->type->read(key, page, PAGE_SIZE);
++			if (ret > 0) {
++				page[ret] = '\n';
++				ret++;
++			}
++		}
++		up_read(&key->sem);
++		key_put(key);
 +	}
-+	if (opts->dhchap_ctrl_key) {
-+		pr_debug("revoke dhchap ctrl key %08x\n",
-+			 key_serial(opts->dhchap_ctrl_key));
-+		key_revoke(opts->dhchap_key);
-+		key_put(opts->dhchap_ctrl_key);
-+	}
- 	kfree(opts);
+ 	up_read(&nvmet_config_sem);
+ 	return ret;
  }
- EXPORT_SYMBOL_GPL(nvmf_free_options);
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index caf5503d0833296aa03c028c0199cf92cc409edc..786f1b4819f076ac1f133070523be1780ec4d8b7 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -96,8 +96,8 @@ enum {
-  * @discovery_nqn: indicates if the subsysnqn is the well-known discovery NQN.
-  * @kato:	Keep-alive timeout.
-  * @host:	Virtual NVMe host, contains the NQN and Host ID.
-- * @dhchap_secret: DH-HMAC-CHAP secret
-- * @dhchap_ctrl_secret: DH-HMAC-CHAP controller secret for bi-directional
-+ * @dhchap_key: DH-HMAC-CHAP pre-shared key
-+ * @dhchap_ctrl_key: DH-HMAC-CHAP controller pre-shared key for bi-directional
-  *              authentication
-  * @keyring:    Keyring to use for key lookups
-  * @tls_key:    TLS key for encrypted connections (TCP)
-@@ -127,8 +127,8 @@ struct nvmf_ctrl_options {
- 	bool			duplicate_connect;
- 	unsigned int		kato;
- 	struct nvmf_host	*host;
--	char			*dhchap_secret;
--	char			*dhchap_ctrl_secret;
+@@ -2284,9 +2323,18 @@ static ssize_t nvmet_host_dhchap_ctrl_key_store(struct config_item *item,
+ 		const char *page, size_t count)
+ {
+ 	struct nvmet_host *host = to_host(item);
++	u8 *keydata;
++	size_t len;
+ 	int ret;
+ 
+-	ret = nvmet_auth_set_key(host, page, true);
++	len = strcspn(page, "\n");
++	if (!len)
++		return -EINVAL;
++	keydata = kstrndup(page, len, GFP_KERNEL);
++	if (!keydata)
++		return -ENOMEM;
++
++	ret = nvmet_auth_set_key(host, keydata, true);
+ 	/*
+ 	 * Re-authentication is a soft state, so keep the
+ 	 * current authentication valid until the host
+@@ -2365,8 +2413,8 @@ static void nvmet_host_release(struct config_item *item)
+ 	struct nvmet_host *host = to_host(item);
+ 
+ #ifdef CONFIG_NVME_TARGET_AUTH
+-	kfree(host->dhchap_secret);
+-	kfree(host->dhchap_ctrl_secret);
++	nvmet_auth_revoke_key(host, false);
++	nvmet_auth_revoke_key(host, true);
+ #endif
+ 	kfree(host);
+ }
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 5e1f0e78a388252e6e0ec8405006136e278749cb..e708c80e8426f426adf4e98defaa9e77e30d9a58 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -399,12 +399,8 @@ static inline struct nvmet_subsys *namespaces_to_subsys(
+ 
+ struct nvmet_host {
+ 	struct config_group	group;
+-	u8			*dhchap_secret;
+-	u8			*dhchap_ctrl_secret;
+-	int			dhchap_key_offset;
+-	int			dhchap_ctrl_key_offset;
+-	u8			dhchap_key_hash;
+-	u8			dhchap_ctrl_key_hash;
 +	struct key		*dhchap_key;
 +	struct key		*dhchap_ctrl_key;
- 	struct key		*keyring;
- 	struct key		*tls_key;
- 	bool			tls;
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index a5c1511e49ac275e75a70ff89958ed8f0cb2c633..1311f5e29b004436e39a723242748a150e36dc68 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -6,6 +6,8 @@
-  */
- 
- #include <linux/nvme-auth.h>
-+#include <linux/nvme-keyring.h>
-+#include <linux/key-type.h>
- #include <linux/blkdev.h>
- 
- #include "nvme.h"
-@@ -818,11 +820,23 @@ static ssize_t dhchap_secret_show(struct device *dev,
- 		struct device_attribute *attr, char *buf)
- {
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
--	struct nvmf_ctrl_options *opts = ctrl->opts;
-+	struct key *key = ctrl->host_key;
-+	ssize_t count;
- 
--	if (!opts->dhchap_secret)
-+	if (!key)
- 		return sysfs_emit(buf, "none\n");
--	return sysfs_emit(buf, "%s\n", opts->dhchap_secret);
-+	down_read(&key->sem);
-+	if (key_validate(key))
-+		count = sysfs_emit(buf, "<invalidated>\n");
-+	else {
-+		count = key->type->read(key, buf, PAGE_SIZE);
-+		if (count > 0) {
-+			buf[count] = '\n';
-+			count++;
-+		}
-+	}
-+	up_read(&key->sem);
-+	return count;
- }
- 
- static ssize_t dhchap_secret_store(struct device *dev,
-@@ -830,36 +844,47 @@ static ssize_t dhchap_secret_store(struct device *dev,
- {
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
- 	struct nvmf_ctrl_options *opts = ctrl->opts;
-+	struct key *key, *old_key;
- 	char *dhchap_secret;
-+	size_t len;
-+	int ret;
- 
--	if (!ctrl->opts->dhchap_secret)
--		return -EINVAL;
--	if (count < 7)
-+	if (!ctrl->host_key || !count)
- 		return -EINVAL;
- 
--	dhchap_secret = kzalloc(count + 1, GFP_KERNEL);
-+	len = strcspn(buf, "\n");
-+	dhchap_secret = kzalloc(len + 1, GFP_KERNEL);
- 	if (!dhchap_secret)
- 		return -ENOMEM;
--	memcpy(dhchap_secret, buf, count);
-+	memcpy(dhchap_secret, buf, len);
- 	nvme_auth_stop(ctrl);
--	if (strcmp(dhchap_secret, opts->dhchap_secret)) {
--		struct key *key, *host_key;
--
--		key = nvme_auth_extract_key(opts->keyring, dhchap_secret,
--					    count);
--		if (IS_ERR(key)) {
--			kfree_sensitive(dhchap_secret);
--			return PTR_ERR(key);
--		}
--		kfree_sensitive(opts->dhchap_secret);
--		opts->dhchap_secret = dhchap_secret;
--		host_key = ctrl->host_key;
--		mutex_lock(&ctrl->dhchap_auth_mutex);
--		ctrl->host_key = key;
--		mutex_unlock(&ctrl->dhchap_auth_mutex);
--		key_put(host_key);
--	} else
-+
-+	key = nvme_auth_extract_key(opts->keyring, dhchap_secret, count);
-+	if (IS_ERR(key)) {
- 		kfree_sensitive(dhchap_secret);
-+		return PTR_ERR(key);
-+	}
-+	down_read(&key->sem);
-+	ret = key_validate(key);
-+	up_read(&key->sem);
-+	if (ret) {
-+		dev_warn(ctrl->dev, "key %08x invalidated\n", key_serial(key));
-+		dev_dbg(ctrl->dev, "revoke host key %08x\n", key_serial(key));
-+		key_revoke(key);
-+		key_put(key);
-+		kfree_sensitive(dhchap_secret);
-+		return ret;
-+	}
-+	mutex_lock(&ctrl->dhchap_auth_mutex);
-+	old_key = ctrl->host_key;
-+	dev_dbg(ctrl->dev, "revoke host key %08x\n",
-+		key_serial(old_key));
-+	key_revoke(old_key);
-+
-+	ctrl->host_key = key;
-+	mutex_unlock(&ctrl->dhchap_auth_mutex);
-+	key_put(old_key);
-+	kfree_sensitive(dhchap_secret);
- 	/* Start re-authentication */
- 	dev_info(ctrl->device, "re-authenticating controller\n");
- 	queue_work(nvme_wq, &ctrl->dhchap_auth_work);
-@@ -873,11 +898,23 @@ static ssize_t dhchap_ctrl_secret_show(struct device *dev,
- 		struct device_attribute *attr, char *buf)
- {
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
--	struct nvmf_ctrl_options *opts = ctrl->opts;
-+	struct key *key = ctrl->ctrl_key;
-+	size_t count;
- 
--	if (!opts->dhchap_ctrl_secret)
-+	if (!key)
- 		return sysfs_emit(buf, "none\n");
--	return sysfs_emit(buf, "%s\n", opts->dhchap_ctrl_secret);
-+	down_read(&key->sem);
-+	if (key_validate(key))
-+		count = sysfs_emit(buf, "<invalidated>");
-+	else {
-+		count = key->type->read(key, buf, PAGE_SIZE);
-+		if (count > 0) {
-+			buf[count] = '\n';
-+			count++;
-+		}
-+	}
-+	up_read(&key->sem);
-+	return count;
- }
- 
- static ssize_t dhchap_ctrl_secret_store(struct device *dev,
-@@ -885,38 +922,46 @@ static ssize_t dhchap_ctrl_secret_store(struct device *dev,
- {
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
- 	struct nvmf_ctrl_options *opts = ctrl->opts;
-+	struct key *key, *old_key;
- 	char *dhchap_secret;
-+	size_t len;
-+	int ret;
- 
--	if (!ctrl->opts->dhchap_ctrl_secret)
--		return -EINVAL;
--	if (count < 7)
--		return -EINVAL;
--	if (memcmp(buf, "DHHC-1:", 7))
-+	if (!ctrl->ctrl_key || !count)
- 		return -EINVAL;
- 
--	dhchap_secret = kzalloc(count + 1, GFP_KERNEL);
-+	len = strcspn(buf, "\n");
-+	dhchap_secret = kzalloc(len + 1, GFP_KERNEL);
- 	if (!dhchap_secret)
- 		return -ENOMEM;
--	memcpy(dhchap_secret, buf, count);
-+	memcpy(dhchap_secret, buf, len);
- 	nvme_auth_stop(ctrl);
--	if (strcmp(dhchap_secret, opts->dhchap_ctrl_secret)) {
--		struct key *key, *ctrl_key;
--
--		key = nvme_auth_extract_key(opts->keyring, dhchap_secret,
--					    count);
--		if (IS_ERR(key)) {
--			kfree_sensitive(dhchap_secret);
--			return PTR_ERR(key);
--		}
--		kfree_sensitive(opts->dhchap_ctrl_secret);
--		opts->dhchap_ctrl_secret = dhchap_secret;
--		ctrl_key = ctrl->ctrl_key;
--		mutex_lock(&ctrl->dhchap_auth_mutex);
--		ctrl->ctrl_key = key;
--		mutex_unlock(&ctrl->dhchap_auth_mutex);
--		key_put(ctrl_key);
--	} else
-+	key = nvme_auth_extract_key(opts->keyring, dhchap_secret, count);
-+	if (IS_ERR(key)) {
- 		kfree_sensitive(dhchap_secret);
-+		return PTR_ERR(key);
-+	}
-+	down_read(&key->sem);
-+	ret = key_validate(key);
-+	up_read(&key->sem);
-+	if (ret) {
-+		dev_warn(ctrl->dev, "key %08x invalidated\n", key_serial(key));
-+		dev_dbg(ctrl->dev, "revoke ctrl key %08x\n", key_serial(key));
-+		key_revoke(key);
-+		key_put(key);
-+		kfree_sensitive(dhchap_secret);
-+		return ret;
-+	}
-+	mutex_lock(&ctrl->dhchap_auth_mutex);
-+	old_key = ctrl->ctrl_key;
-+	dev_dbg(ctrl->dev, "revoke ctrl key %08x\n",
-+		key_serial(old_key));
-+	key_revoke(old_key);
-+
-+	ctrl->ctrl_key = key;
-+	mutex_unlock(&ctrl->dhchap_auth_mutex);
-+	key_put(old_key);
-+	kfree_sensitive(dhchap_secret);
- 	/* Start re-authentication */
- 	dev_info(ctrl->device, "re-authenticating controller\n");
- 	queue_work(nvme_wq, &ctrl->dhchap_auth_work);
-@@ -925,6 +970,41 @@ static ssize_t dhchap_ctrl_secret_store(struct device *dev,
- }
- 
- static DEVICE_ATTR_ADMIN_RW(dhchap_ctrl_secret);
-+
-+static ssize_t dhchap_key_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	struct key *key = ctrl->host_key;
-+	size_t count;
-+
-+	if (!key)
-+		return 0;
-+	down_read(&key->sem);
-+	if (key_validate(key))
-+		count = sysfs_emit(buf, "<invalidated>\n");
-+	else {
-+		count = key->type->read(key, buf, PAGE_SIZE);
-+		if (count > 0) {
-+			buf[count] = '\n';
-+			count++;
-+		}
-+	}
-+	up_read(&key->sem);
-+	return count;
-+}
-+static DEVICE_ATTR_ADMIN_RO(dhchap_key);
-+
-+static ssize_t dhchap_ctrl_key_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+
-+	if (!ctrl->ctrl_key)
-+		return 0;
-+	return sysfs_emit(buf, "%08x\n", key_serial(ctrl->ctrl_key));
-+}
-+static DEVICE_ATTR_ADMIN_RO(dhchap_ctrl_key);
- #endif
- 
- static struct attribute *nvme_dev_attrs[] = {
-@@ -956,6 +1036,8 @@ static struct attribute *nvme_dev_attrs[] = {
- #ifdef CONFIG_NVME_HOST_AUTH
- 	&dev_attr_dhchap_secret.attr,
- 	&dev_attr_dhchap_ctrl_secret.attr,
-+	&dev_attr_dhchap_key.attr,
-+	&dev_attr_dhchap_ctrl_key.attr,
- #endif
- 	&dev_attr_adm_passthru_err_log_enabled.attr,
- 	NULL
+ 	u8			dhchap_hash_id;
+ 	u8			dhchap_dhgroup_id;
+ };
+@@ -998,6 +994,7 @@ u32 nvmet_auth_send_data_len(struct nvmet_req *req);
+ void nvmet_execute_auth_send(struct nvmet_req *req);
+ u32 nvmet_auth_receive_data_len(struct nvmet_req *req);
+ void nvmet_execute_auth_receive(struct nvmet_req *req);
++void nvmet_auth_revoke_key(struct nvmet_host *host, bool set_ctrl);
+ int nvmet_auth_set_key(struct nvmet_host *host, const char *secret,
+ 		       bool set_ctrl);
+ int nvmet_auth_set_host_hash(struct nvmet_host *host, const char *hash);
 
 -- 
 2.51.0
