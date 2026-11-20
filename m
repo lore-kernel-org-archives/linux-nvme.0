@@ -2,60 +2,132 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D276606A325
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 11:19:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8E9606A320
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 11:23:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=HRDNZx86;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GQaDDGKZ
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=YT0TAK7E;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=n+fBzjWK;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=l1hMC5Fi;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Yvt3lMbr;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IGyxlZRY
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
-	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=4De//PstuAfYtp4WBScUJuqFlnqEsvTLiD3MJ9mQQgU=; b=HRDNZx86JU4sLI7vpMAR8x6XWw
-	1BFZPYsBJ4U910xxdS91QQuZsvrxShjuhhCWX51e4ePLcqZC9sv4csewhFsoD8p4Db8VHJEPI57D0
-	f8m6atMK23Mdt2lKqhiK1armfR04mUtV25zaFpruy/6HNzoE/853lb11szK4iVc9Q8gzyR4/QNGtH
-	ukcOvD/1JgkNp/qoHw1QwKuWIx7SnKoF9s8SfHdkGrZAh02YMN1qZhcYXemf368BrFNG+CXr0UXJj
-	2Bela6Y3cri+HPuhK1Vo59RgEOIjrVsH9f69lgJ8x/4KKqKSblyAShhrLDlHaIg10zDj3CYNm42gt
-	rnQjd97A==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=9eGVk4i3hUfatSK78Y/+LmSIOKTw0KYxW3KsL+6MN3E=; b=YT0TAK7Erc3zb9
+	cUmPxD3ZIm2/X68D3qMECX5sueovim9Z7P+4gGFkUuXnJaN9NwJmqmi8vJIvhBgXiZFuL5j/RVlsE
+	vHCGmRtBdxIKcgl2+Msm/+njcOjGpoAW8UfYXuc9bJhKyaoBfy5n9DDX3ULtYlJJDjOk6r782YTVL
+	efK5SVlt5rhOPhSs7UU+rPGO/KS3yE4eg9JjTd8ysADDhS6GYeuRPxuEM2lrqg3M3wp1LGIG1CUEE
+	5hXt3NRT2LReN2LvVE+d1mQyTdj9ICCY4cYrWlIbjvznWPU9Hk8N4sLEz1mGDwU8U9fdWISq3gCOA
+	WpTXGQjZNVXXts9a68qQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUMep-0000000Elsv-45Qu;
-	Fri, 20 Nov 2026 11:19:55 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xUMia-0000000EmIN-1Lgh;
+	Fri, 20 Nov 2026 11:23:48 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUMeo-0000000Elsl-2fcz
+	id 1xUMiX-0000000EmHf-1ZMg
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Nov 2026 11:19:54 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id ABE406145E
-	for <linux-nvme@lists.infradead.org>; Fri, 20 Nov 2026 11:19:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D76A91F000EF;
-	Fri, 20 Nov 2026 11:19:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795173593;
-	bh=4De//PstuAfYtp4WBScUJuqFlnqEsvTLiD3MJ9mQQgU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=GQaDDGKZddoTdIsGik2w7wzZeEYRiMWL+eO2KrXqhP5ElGeoaWqWDe0F623lekWYv
-	 kjOviNG5EOMjqy+kF0Nts/1Qh7tL7OBiriMqtAfS/Bdxa+h9baKfiOnCIAlisUg00j
-	 4quKuuQ7U2AYd0c9bajw/ZWra6Wvne8B3iunZpHqRQkBXuOT9wce4XwbSN9yMWVixE
-	 FNwo9+YmXbRr0IVnhVBM8Ul+h0AMgJDwEmhTFd2ILrHtOVJtc3SmSgQs7TypAFjXhJ
-	 9/gD0wSgTUtBMnQxxuvmhcMWfKTPuEwdDZUdBbclZtI3lPCEoZWmx5mKeLOssFrs1U
-	 OJ6fzBg5KZksA==
-Message-ID: <sashiko-outbox-225021@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 1/9] nvme-auth: modify nvme_auth_transform_key() to
- return status
-To: "Hannes Reinecke" <hare@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261120-dhchap-keyring-v4-v4-1-5f8c7d9926ee@kernel.org>
-References: <20261120-dhchap-keyring-v4-v4-0-5f8c7d9926ee@kernel.org>
- <20261120-dhchap-keyring-v4-v4-1-5f8c7d9926ee@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 11:19:52 +0000
+	Fri, 20 Nov 2026 11:23:46 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C5CC7225DA;
+	Fri, 20 Nov 2026 11:23:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795173822; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9eGVk4i3hUfatSK78Y/+LmSIOKTw0KYxW3KsL+6MN3E=;
+	b=n+fBzjWK7oZFFXusnr3blFrKqvf5xVozupWbrAlKC/RXa7G5pN2uqrRLI525jitY5DCIcE
+	fFQ/Nq/cWSj75htVqJVLg/0kGUM3AaE2+25EnucCGECBTGfNT6d+JFK8M3PnCBousdP3gv
+	47Xtgxhz/jCwo+JtByYxz6OGrz0s/7E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795173822;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9eGVk4i3hUfatSK78Y/+LmSIOKTw0KYxW3KsL+6MN3E=;
+	b=l1hMC5FiwKv2r01R42cBp4pq0Zh9keG9HHI+HLi8tTkRZxT52xbhRYR6NhJ2QUFI8D4yfZ
+	Hd+sUvqhwUUax1BQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795173820; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9eGVk4i3hUfatSK78Y/+LmSIOKTw0KYxW3KsL+6MN3E=;
+	b=Yvt3lMbrOYFiZ1jf0TWmHg3Lr+iMVjoBXCCSSdE4MffMLDs6DP6h8pjpdn0ViEHsYlEiE0
+	J9wL3Nio5V4GWxi8rNMspMR/b7BrBJALyBO32pmOirE0dWNFknVDR3VWSmtREk8/8BzoEC
+	kQvSOU2EoYfRqA52r4S/8RN9l1MlAWE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795173820;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9eGVk4i3hUfatSK78Y/+LmSIOKTw0KYxW3KsL+6MN3E=;
+	b=IGyxlZRYh1jeMrUY2O0rzuhK8Ot3xl5q642qsKRk4MqLEeCi8/i625qOPxhQYvLsxacPM9
+	lL1BynNUGiwfd3Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 990011342D;
+	Fri, 20 Nov 2026 11:23:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hTUSHLwtAGtabQAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 20 Nov 2026 11:23:40 +0000
+Message-ID: <07e9794a-3c97-4498-8870-81f9b75d8bdf@suse.de>
+Date: Fri, 20 Nov 2026 12:23:40 +0100
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH blktests v2 1/9] nvme/047: look up the namespace again
+ after reconnecting
+To: Daniel Wagner <dwagner@suse.de>,
+ Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+References: <20261118-nvme-target-control-v2-0-d191bbbf5dd6@suse.de>
+ <20261118-nvme-target-control-v2-1-d191bbbf5dd6@suse.de>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20261118-nvme-target-control-v2-1-d191bbbf5dd6@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-13.29 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-0.997];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-Spam-Score: -13.29
+X-Spam-Level: 
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261120_032345_589596_3C221F02 
+X-CRM114-Status: GOOD (  14.75  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,110 +137,54 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [High] nvme-auth: NULL pointer dereference in
-  nvme_auth_transform_key()
-- [Low] nvme-auth: unused variable transformed_data in
-  nvme_auth_transform_key()
-- [Low] nvme-auth: missing memzero_explicit() on error in
-  nvme_auth_transform_key()
---
+On 11/18/26 10:26 AM, Daniel Wagner wrote:
+> nvme/047 keeps using the namespace name from the first connect after
+> reconnecting. The name can change when other controllers come and go,
+> and fio then fails to open the device. Look it up again after the
+> second connect.
+> 
+> Fixes: 7497d8b45817 ("nvme/047: Test different queue types for fabrics transports")
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+>   tests/nvme/047 | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/tests/nvme/047 b/tests/nvme/047
+> index 433090f2d6f2..2aeee2f0f1aa 100755
+> --- a/tests/nvme/047
+> +++ b/tests/nvme/047
+> @@ -42,6 +42,8 @@ test() {
+>   
+>   	_nvme_connect_subsys --nr-write-queues 1 --nr-poll-queues 1
+>   
+> +	ns=$(_find_nvme_ns "${def_subsys_uuid}")
+> +
+>   	_run_fio_rand_io --filename="/dev/${ns}" --size="${rand_io_size}"
+>   
+>   	_nvme_disconnect_subsys >> "$FULL" 2>&1
+> 
 
-commit b03dd5c2705fd9466c887dbc6671b901be8cc15b
-Author: Hannes Reinecke <hare@kernel.org>
+What's a bit awkward is this 'subsys_uuid'; one is confused why we
+would set the subsystem UUID as the UUID of the namespace.
+Eg what would happen if we were using (or wanting to specify) more
+than one namespace?
+Can't we rename it to 'ns_uuid' to make the scope clear?
 
-nvme-auth: modify nvme_auth_transform_key() to return status
+Cheers,
 
-This commit changes nvme_auth_transform_key() to return the transformed key
-length or a negative error code and pass the allocated raw secret buffer via
-an output pointer, updating all callers in the NVMe host and target auth co=
-de.
-
-> diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-> index 1fdc4e4ed0b94..569f21ad4fc7e 100644
-> --- a/drivers/nvme/common/auth.c
-> +++ b/drivers/nvme/common/auth.c
-> @@ -317,37 +317,37 @@ static int nvme_auth_hash(u8 hmac_id, const u8 *dat=
-a, size_t data_len, u8 *out)
->  	return -EINVAL;
->  }
-> =20
-> -struct nvme_dhchap_key *nvme_auth_transform_key(
-> -		const struct nvme_dhchap_key *key, const char *nqn)
-> +int nvme_auth_transform_key(const struct nvme_dhchap_key *key, const cha=
-r *nqn,
-> +			    u8 **transformed_secret)
->  {
->  	struct nvme_auth_hmac_ctx hmac;
-> -	struct nvme_dhchap_key *transformed_key;
-> -	int ret, key_len;
-> +	u8 *transformed_data;
-> +	u8 *key_data;
-> +	size_t transformed_len;
-> +	int ret;
-
-[Severity: Low]
-Is transformed_data unused in this patch?  Declaring it here triggers a
--Wunused-variable warning until later commit "nvme-auth: switch to use
-'struct key'" uses it.
-
-> =20
->  	if (!key) {
->  		pr_warn("No key specified\n");
-> -		return ERR_PTR(-ENOKEY);
-> +		return -ENOKEY;
->  	}
->  	if (key->hash =3D=3D 0) {
-> -		key_len =3D nvme_auth_key_struct_size(key->len);
-> -		transformed_key =3D kmemdup(key, key_len, GFP_KERNEL);
-> -		if (!transformed_key)
-> -			return ERR_PTR(-ENOMEM);
-> -		return transformed_key;
-> +		key_data =3D kzalloc(key->len, GFP_KERNEL);
-> +		memcpy(key_data, key->key, key->len);
-> +		*transformed_secret =3D key_data;
-> +		return key->len;
->  	}
-
-[Severity: High]
-Can this cause a NULL pointer dereference in memcpy() if kzalloc() fails
-when key->hash =3D=3D 0?  A later patch in the series, commit "nvme-auth: s=
-witch
-to use 'struct key'", adds a NULL check on key_data, but intermediate
-commits can crash here on allocation failure.
-
->  	ret =3D nvme_auth_hmac_init(&hmac, key->hash, key->key, key->len);
->  	if (ret)
-> -		return ERR_PTR(ret);
-> -	key_len =3D nvme_auth_hmac_hash_len(key->hash);
-> -	transformed_key =3D nvme_auth_alloc_key(key_len, key->hash);
-> -	if (!transformed_key) {
-> -		memzero_explicit(&hmac, sizeof(hmac));
-> -		return ERR_PTR(-ENOMEM);
-> -	}
-> +		return ret;
-> +	transformed_len =3D nvme_auth_hmac_hash_len(key->hash);
-> +	key_data =3D kzalloc(transformed_len, GFP_KERNEL);
-> +	if (!key_data)
-> +		return -ENOMEM;
-
-[Severity: Low]
-Should this error path call memzero_explicit(&hmac, sizeof(hmac)) before
-returning -ENOMEM, as the code did prior to this patch so key-derived HMAC
-state is not left on the stack?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120-dhchap-key=
-ring-v4-v4-0-5f8c7d9926ee@kernel.org?part=3D1
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
