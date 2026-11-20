@@ -2,141 +2,132 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4BCC606A33E
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 13:55:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47DC1606A334
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 14:15:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=RhFDlVsD;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1OhmEY/V;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=noZbqmLQ;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1OhmEY/V;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=noZbqmLQ
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=HT3IrQaX;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=jSBD0nnX;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=M3KXaogI;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=jSBD0nnX;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=M3KXaogI
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=/n3fTy8ng6ZYYJpewKOX6yR/aTlEnLa2I6y45l6z/UA=; b=RhFDlVsDbCQ7UH
-	yzlP/thvqDzXAydQHoXZ278qTlNltL4ZUXU/xRcZrK5eih/UGdIkBzGBXLlWNEvMVRySceb/47NK7
-	aNs57p/8E+Wd61sxvuAEvamZu6KYKMNX1WQH2Y0jb3gC4jSxg1sWatP3YwkE5hMo8e6Idh12QhCSP
-	/X/zRNMVykFYt5yRXd+HHfQ1uoIVOiRQWP5BatND8OZZfAqle8f3wyY3TER81YwpWb6Hcih05NZII
-	0vz+X+BBoKFEST+cE+6uDW7RElCW2CI/iaF/U92IBp0Dqv1I9VgifRMLaB4y/KCUmFCGYVXhXD4yF
-	1qW/8CYq31g2jRFpCsew==;
+	List-Owner; bh=hvBmdMP4OZLKWFqaN8fW4YRLoaGUySsZ/cOOrSOBR3s=; b=HT3IrQaXXrPaRV
+	BL/tKwjkGQDRpiYEufm71339lZmWrf303lYlmRE97TU5JpQ9uv3gygHsKhiQtN6Bspz8V6xl4z9bj
+	WnmlFR0ak59wEUagUXQeTviNsajqRME4j71tbMXl2+zOfsyPeq2FNkqiwDkm7pT280/1XczjLm7WR
+	UC4A3+tK4uZ9WopFRmbkYwYXZizL7EonxNeEkN/mOB06d2bs5/aTkNAS+d0knhmNbZU9WpFiftada
+	eKplrwAKkSSJpPaqsgaE/H3d5RhbVBnkdG6hyHl/qu8RZb498anW7WAIeU52HROceq54/cIfWjBo8
+	yh08a8mIxJBa+bn77Wpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUP5D-0000000FBpD-0YUE;
-	Fri, 20 Nov 2026 13:55:19 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1xUPOV-0000000FE4g-15f7;
+	Fri, 20 Nov 2026 14:15:15 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUP55-0000000FBnf-25gB
+	id 1xUPOR-0000000FE3k-3frE
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Nov 2026 13:55:14 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Fri, 20 Nov 2026 14:15:13 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8E6841F458;
-	Fri, 20 Nov 2026 13:55:09 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D14D41F7BD;
+	Fri, 20 Nov 2026 14:15:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795182909; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795184109; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/n3fTy8ng6ZYYJpewKOX6yR/aTlEnLa2I6y45l6z/UA=;
-	b=1OhmEY/VCq8CkAfiWhxBgropxPFpmMC0vHiHCUyZ2sL/0UEpAcW428SpV0JaU8jyoN+6Tq
-	1n2212OpEBqz0SNEPqfnlx6h7oz7PckX6rczBChdjOFqcmdoN9WbCoV3IIDi3wJvldjBX9
-	3xx4Fg59YJ+54B2zUIZqgl6PyJv+QtM=
+	bh=hvBmdMP4OZLKWFqaN8fW4YRLoaGUySsZ/cOOrSOBR3s=;
+	b=jSBD0nnXKSsdC2Ipk/dfrHw/MQgozA8lKAkxcETTi1rVXWvO0P+hKJ/NSyANHyhkNj5iHh
+	Jk3pRIxOj8lqcGZThE4M/KoUT6xVK1XZmAxgogmxWPLwtq/ba7QWmdnll16hH+HLHD209e
+	Lyj1Uh+qSND4IbrBCfxsIxAGlAn6F2g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795182909;
+	s=susede2_ed25519; t=1795184109;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/n3fTy8ng6ZYYJpewKOX6yR/aTlEnLa2I6y45l6z/UA=;
-	b=noZbqmLQ5JiTpQpREI0+ez677JldCjJz0vyIFJculmKfR/390D6KmUNl3cljssT2bKyiyK
-	N6hcHpl2Tkc0riAg==
+	bh=hvBmdMP4OZLKWFqaN8fW4YRLoaGUySsZ/cOOrSOBR3s=;
+	b=M3KXaogIaBK9LWabtg/DtK4oPrBCmOfKzw6EYesKs19NBEZz8k8WDW5RYW/37NfnW/KbVb
+	cG1qVHdcGT0CoKDQ==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="1OhmEY/V";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=noZbqmLQ
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795182909; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795184109; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/n3fTy8ng6ZYYJpewKOX6yR/aTlEnLa2I6y45l6z/UA=;
-	b=1OhmEY/VCq8CkAfiWhxBgropxPFpmMC0vHiHCUyZ2sL/0UEpAcW428SpV0JaU8jyoN+6Tq
-	1n2212OpEBqz0SNEPqfnlx6h7oz7PckX6rczBChdjOFqcmdoN9WbCoV3IIDi3wJvldjBX9
-	3xx4Fg59YJ+54B2zUIZqgl6PyJv+QtM=
+	bh=hvBmdMP4OZLKWFqaN8fW4YRLoaGUySsZ/cOOrSOBR3s=;
+	b=jSBD0nnXKSsdC2Ipk/dfrHw/MQgozA8lKAkxcETTi1rVXWvO0P+hKJ/NSyANHyhkNj5iHh
+	Jk3pRIxOj8lqcGZThE4M/KoUT6xVK1XZmAxgogmxWPLwtq/ba7QWmdnll16hH+HLHD209e
+	Lyj1Uh+qSND4IbrBCfxsIxAGlAn6F2g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795182909;
+	s=susede2_ed25519; t=1795184109;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/n3fTy8ng6ZYYJpewKOX6yR/aTlEnLa2I6y45l6z/UA=;
-	b=noZbqmLQ5JiTpQpREI0+ez677JldCjJz0vyIFJculmKfR/390D6KmUNl3cljssT2bKyiyK
-	N6hcHpl2Tkc0riAg==
+	bh=hvBmdMP4OZLKWFqaN8fW4YRLoaGUySsZ/cOOrSOBR3s=;
+	b=M3KXaogIaBK9LWabtg/DtK4oPrBCmOfKzw6EYesKs19NBEZz8k8WDW5RYW/37NfnW/KbVb
+	cG1qVHdcGT0CoKDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 614831348F;
-	Fri, 20 Nov 2026 13:55:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 973D413507;
+	Fri, 20 Nov 2026 14:15:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ht2MDj1RAGuDCgAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 20 Nov 2026 13:55:09 +0000
-Message-ID: <d6585844-1446-45f6-8960-9c2c37c13f7c@suse.de>
-Date: Fri, 20 Nov 2026 14:55:09 +0100
+	id OXoxHO1VAGsFHwAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 20 Nov 2026 14:15:09 +0000
+Message-ID: <f88cac4d-8059-44fd-ac38-6c80eafcea8d@suse.de>
+Date: Fri, 20 Nov 2026 15:15:09 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/9] nvme: parse dhchap keys during option parsing
+Subject: Re: [PATCH v4 5/9] nvmet-auth: parse dhchap key from configfs
+ attribute
 To: sashiko-reviews@lists.linux.dev, Hannes Reinecke <hare@kernel.org>
 Cc: linux-nvme@lists.infradead.org
 References: <20261120-dhchap-keyring-v4-v4-0-5f8c7d9926ee@kernel.org>
- <20261120-dhchap-keyring-v4-v4-4-5f8c7d9926ee@kernel.org>
- <sashiko-outbox-225048@kernel.org>
+ <20261120-dhchap-keyring-v4-v4-5-5f8c7d9926ee@kernel.org>
+ <sashiko-outbox-225043@kernel.org>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <sashiko-outbox-225048@kernel.org>
+In-Reply-To: <sashiko-outbox-225043@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 8E6841F458
 X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-13.50 / 50.00];
+X-Spamd-Result: default: False [-13.29 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_LONG(-1.00)[-0.996];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	XM_UA_NO_VERSION(0.01)[];
-	MX_GOOD(-0.01)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_THREE(0.00)[3];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -13.50
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -13.29
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261120_055513_645982_B661D418 
-X-CRM114-Status: GOOD (  29.01  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261120_061512_225989_221B1476 
+X-CRM114-Status: GOOD (  29.48  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,463 +146,277 @@ X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/20/26 12:32 PM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 7 potential
+On 11/20/26 12:28 PM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 5 potential
 > issues to consider:
-> - [High] nvme-fabrics: wrong key revoked in nvmf_free_options() for
->    dhchap_ctrl_key
-> - [High] nvme: build failure in nvmf_parse_options() and sysfs.c without
->    auth/keyring
-> - [High] nvme: removing secret length checks exposes underflows in key
->    preparsing
-> - [Medium] nvme: out-of-bounds write on read error in
->    dhchap_ctrl_secret_show()
-> - [Medium] nvme-auth: host_key ref leak and inverted check in
->    nvme_auth_init_ctrl()
-> - [Medium] nvme: unlocked host_key and ctrl_key access in dhchap sysfs
->    show callbacks
-> - [Low] nvme: check !ctrl->opts for dhchap_key attrs in
->    nvme_dev_attrs_are_visible()
+> - [High] nvmet-auth: missing error abort and invalid status in
+>    nvmet_setup_auth()
+> - [High] nvmet-auth: missing initialization of ctrl->shash_id in
+>    nvmet_setup_auth()
+> - [High] nvmet-auth: missing length checks in nvme_dhchap_psk_preparse()
+> - [Medium] nvmet-auth: memory leak of keydata in
+>    nvmet_host_dhchap_ctrl_key_store()
+> - [Medium] nvmet-auth: empty writes rejected in configfs key store
+>    callbacks
 > --
 > 
-> commit ddf0d4926edd9ec44ea25839b02c0ba20380f64e
+> commit 4bc851b3a915dfe8fe3d7c3db8fe8c3fa58c01ca
 > Author: Hannes Reinecke <hare@kernel.org>
 > 
-> nvme: parse dhchap keys during option parsing
+> nvmet-auth: parse dhchap key from configfs attribute
 > 
-> This commit parses DH-HMAC-CHAP secrets into struct key pointers during
-> fabric option parsing instead of storing raw secret strings in
-> nvmf_ctrl_options, and adds sysfs attributes to expose the host and
-> controller key serials.
+> This commit converts the nvmet configfs DH-HMAC-CHAP key handling to store
+> host and controller keys as struct key pointers rather than raw secret
+> strings.
 > 
->> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
->> index 0ddf3834f4ea2..c189096f825ea 100644
->> --- a/drivers/nvme/host/auth.c
->> +++ b/drivers/nvme/host/auth.c
+>> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+>> index 26457ce4acc2a..33b45b4b202d4 100644
+>> --- a/drivers/nvme/target/auth.c
+>> +++ b/drivers/nvme/target/auth.c
+>> @@ -19,52 +19,63 @@
+> 
 > [ ... ]
->> @@ -1038,31 +1056,68 @@ int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
->>   	INIT_WORK(&ctrl->dhchap_auth_work, nvme_ctrl_auth_work);
->>   	if (!ctrl->opts)
+> 
+>>   int nvmet_auth_set_key(struct nvmet_host *host, const char *secret,
+>>   		       bool set_ctrl)
+>>   {
+>> -	unsigned char key_hash;
+>> -	char *dhchap_secret;
+>> -	int offset = 0;
+>> +	struct key *key;
+>> +	size_t len;
+>>   
+>>   	if (!strlen(secret)) {
+>>   		down_write(&nvmet_config_sem);
+>> -		if (set_ctrl) {
+>> -			kfree(host->dhchap_ctrl_secret);
+>> -			host->dhchap_ctrl_secret = NULL;
+>> -			host->dhchap_ctrl_key_hash = 0;
+>> -			host->dhchap_ctrl_key_offset = 0;
+>> -		} else {
+>> -			kfree(host->dhchap_secret);
+>> -			host->dhchap_secret = NULL;
+>> -			host->dhchap_key_hash = 0;
+>> -			host->dhchap_key_offset = 0;
+>> -		}
+>> +		nvmet_auth_revoke_key(host, set_ctrl);
+>>   		up_write(&nvmet_config_sem);
 >>   		return 0;
->> -	ctrl->host_key = nvme_auth_extract_key(ctrl->opts->keyring,
->> -				ctrl->opts->dhchap_secret,
->> -				strlen(ctrl->opts->dhchap_secret));
->> -	if (IS_ERR(ctrl->host_key)) {
->> -		ret = PTR_ERR(ctrl->host_key);
->> -		ctrl->host_key = NULL;
->> -		return ret;
->> +	if (!ctrl->opts->dhchap_key) {
->> +		nvme_auth_clear_host_key(ctrl);
->> +		nvme_auth_clear_ctrl_key(ctrl);
->> +		return 0;
 >>   	}
->> +	if (!ctrl->host_key)
->> +		nvme_auth_clear_host_key(ctrl);
->>
->> -	ctrl->ctrl_key = nvme_auth_extract_key(ctrl->opts->keyring,
->> -				ctrl->opts->dhchap_ctrl_secret,
->> -				strlen(ctrl->opts->dhchap_ctrl_secret));
->> -	if (IS_ERR(ctrl->ctrl_key)) {
->> -		ret = PTR_ERR(ctrl->ctrl_key);
->> -		ctrl->ctrl_key = NULL;
->> -		goto err_free_dhchap_secret;
->> +	ctrl->host_key = key_get(ctrl->opts->dhchap_key);
->> +	if (!ctrl->host_key) {
->> +		dev_warn(ctrl->device,
->> +			 "dhchap host key %08x not present\n",
->> +			 key_serial(ctrl->opts->dhchap_key));
->> +		return -ENOKEY;
->>   	}
->> +	down_read(&ctrl->host_key->sem);
->> +	ret = key_validate(ctrl->host_key);
->> +	up_read(&ctrl->host_key->sem);
->> +	if (ret) {
->> +		dev_warn(ctrl->device,
->> +			 "dhchap host key %08x invalidated\n",
->> +			 key_serial(ctrl->host_key));
->> +		key_put(ctrl->host_key);
->> +		ctrl->host_key = NULL;
->> +		return -ENOKEY;
+>> -	if (sscanf(secret, "DHHC-1:%hhd:%n", &key_hash, &offset) != 1 ||
+>> -	    !offset)
+>> -		return -EINVAL;
+>> -	if (key_hash > 3) {
+>> -		pr_warn("Invalid DH-HMAC-CHAP hash id %d\n",
+>> -			 key_hash);
+>> -		return -EINVAL;
+>> -	}
+>> -	dhchap_secret = kstrdup(secret, GFP_KERNEL);
+>> -	if (!dhchap_secret)
+>> -		return -ENOMEM;
+>> +	len = strcspn(secret, "\n");
+>> +	key = nvme_auth_extract_key(NULL, secret, len);
+>> +	if (IS_ERR(key)) {
+>> +		pr_debug("%s: invalid key specification\n", __func__);
+>> +		return PTR_ERR(key);
 >> +	}
->> +	dev_dbg(ctrl->device,
->> +		"%s: using dhchap host key %08x\n",
->> +		__func__, key_serial(ctrl->host_key));
->>
->> -	if (!ctrl->opts->dhchap_secret && !ctrl->opts->dhchap_ctrl_secret)
->> -		return 0;
->> +	if (ctrl->ctrl_key)
->> +		nvme_auth_clear_ctrl_key(ctrl);
->> +
->> +	if (ctrl->opts->dhchap_ctrl_key) {
->> +		ctrl->ctrl_key = key_get(ctrl->opts->dhchap_ctrl_key);
->> +		if (!ctrl->ctrl_key) {
->> +			dev_warn(ctrl->device,
->> +				 "dhchap ctrl key %08x not present\n",
->> +				 key_serial(ctrl->opts->dhchap_ctrl_key));
->> +			return -ENOKEY;
->> +		}
->> +		down_read(&ctrl->ctrl_key->sem);
->> +		ret = key_validate(ctrl->ctrl_key);
->> +		up_read(&ctrl->ctrl_key->sem);
->> +		if (ret) {
->> +			dev_warn(ctrl->device,
->> +				 "dhchap ctrl key %08x invalidated\n",
->> +				 key_serial(ctrl->ctrl_key));
->> +			key_put(ctrl->ctrl_key);
->> +			ctrl->ctrl_key = NULL;
->> +			return -EKEYREVOKED;
->> +		}
-> 
-> [Severity: Medium]
-> Do the error returns in the ctrl->opts->dhchap_ctrl_key block leak the
-> ctrl->host_key reference taken earlier in nvme_auth_init_ctrl()?
-> 
-> When nvme_auth_init_ctrl() fails, nvme_init_ctrl() jumps to
-> out_release_instance before initializing ctrl->ctrl_device, so
-> nvme_auth_free() is never called on that error path.
-> 
-> Also, the check before nvme_auth_clear_host_key(ctrl) is inverted
-> (!ctrl->host_key instead of ctrl->host_key), and nvme_init_ctrl() calls
-> nvme_auth_init_ctrl() before assigning ctrl->device = &ctrl->ctrl_device,
-> so the dev_warn() and dev_dbg() calls here pass a NULL ctrl->device.
-> 
-Restructured the function to only update the ->host_key and ->ctrl_key
-values once the keys are validated.
-
->> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
->> index 5ed91557f0706..7ed8618257ca9 100644
->> --- a/drivers/nvme/host/fabrics.c
->> +++ b/drivers/nvme/host/fabrics.c
-> [ ... ]
->> @@ -1020,14 +1024,8 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->>   				ret = -ENOMEM;
->>   				goto out;
->>   			}
->> -			if (strlen(p) < 11 || strncmp(p, "DHHC-1:", 7)) {
->> -				pr_err("Invalid DH-CHAP secret %s\n", p);
->> -				kfree_sensitive(p);
->> -				ret = -EINVAL;
->> -				goto out;
->> -			}
->> -			kfree_sensitive(opts->dhchap_secret);
->> -			opts->dhchap_secret = p;
->> +			kfree_sensitive(host_secret);
->> +			host_secret = p;
->>   			break;
->>   		case NVMF_OPT_DHCHAP_CTRL_SECRET:
->>   			p = match_strdup(args);
->> @@ -1035,14 +1033,8 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->>   				ret = -ENOMEM;
->>   				goto out;
->>   			}
->> -			if (strlen(p) < 11 || strncmp(p, "DHHC-1:", 7)) {
->> -				pr_err("Invalid DH-CHAP secret %s\n", p);
->> -				kfree_sensitive(p);
->> -				ret = -EINVAL;
->> -				goto out;
->> -			}
->> -			kfree_sensitive(opts->dhchap_ctrl_secret);
->> -			opts->dhchap_ctrl_secret = p;
->> +			kfree_sensitive(ctrl_secret);
->> +			ctrl_secret = p;
->>   			break;
 > 
 > [Severity: High]
-> Does removing the minimum length checks here and in dhchap_secret_store() /
-> dhchap_ctrl_secret_store() allow short secret strings to underflow datalen
-> and ret in nvme_dhchap_psk_preparse()?
+> Can passing unvalidated configfs strings into nvme_auth_extract_key()
+> underflow datalen and ret in nvme_dhchap_psk_preparse()?
+> 
+> nvme_auth_extract_key() calls nvme_dhchap_psk_create() -> key_create() ->
+> nvme_dhchap_psk_preparse():
 > 
 > drivers/nvme/common/keyring.c:nvme_dhchap_psk_preparse() {
->      ...
+> 	...
 > 	if (sscanf(prep->data, "DHHC-%01hhu:%02hhu:%*s",
 > 		   &version, &hmac) != 2) {
->      ...
+> 		...
+> 		return -EINVAL;
 > 	}
 > 
 > 	/* skip header and final ':' character */
 > 	datalen -= 11;
+> 	...
+> 	ret = base64_decode(prep->data + 10, datalen, upayload->data,
+> 			    true, BASE64_STD);
+> 	if (ret < 0) {
+> 		...
+> 		return ret;
+> 	}
+> 	ret -= 4;
+> 	crc = ~crc32(~0, upayload->data, ret);
+> 	...
 > }
 > 
-> Because %*s is assignment-suppressed and %02hhu matches one or two digits,
-> sscanf() returns 2 for 8- to 10-byte strings such as "DHHC-1:0:a", causing
-> unsigned datalen -= 11 to wrap around and wrap the kzalloc() size
-> calculation sizeof(*upayload) + datalen.  For 11- to 15-byte inputs such as
-> "DHHC-1:00:a" where base64_decode() returns 0..3, ret -= 4 in
-> nvme_dhchap_psk_preparse() becomes negative and is passed as an unsigned
-> length to crc32(~0, upayload->data, ret), reading out-of-bounds across
-> kernel memory.
+> Because %02hhu matches 1 or 2 digits and %*s is not counted in sscanf()'s
+> return value, a short string such as "DHHC-1:1:" (9 bytes) returns 2 with
+> datalen < 11, so datalen -= 11 underflows size_t datalen and passes a huge
+> length to base64_decode().  Similarly, a short payload that decodes to 0..3
+> bytes (such as "DHHC-1:01:AA==:") makes ret -= 4 negative, which is then
+> converted to size_t in crc32() and reads past upayload->data.
 > 
-The parsing routines have been fixed with reworks of the previous patches.
+The parsing routines have been fixed up with updates to earlier patches.
 
 > [ ... ]
 > 
->> @@ -1086,6 +1078,41 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->>   			pr_warn("failfast tmo (%d) larger than controller loss tmo (%d)\n",
->>   				opts->fast_io_fail_tmo, ctrl_loss_tmo);
+>> @@ -186,44 +195,74 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq, bool reset)
+>>   		goto out_unlock;
 >>   	}
->> +
->> +	opts->host = nvmf_host_add(hostnqn, &hostid);
->> +	if (IS_ERR(opts->host)) {
->> +		ret = PTR_ERR(opts->host);
->> +		opts->host = NULL;
->> +		goto out;
+>>   
+>> -	if (!host->dhchap_secret) {
+>> +	if (!host->dhchap_key) {
+>>   		pr_debug("No authentication provided\n");
+>>   		goto out_unlock;
+>>   	}
+>>   
+>> -	host_key = nvme_auth_extract_key(NULL, host->dhchap_secret,
+>> -					 strlen(host->dhchap_secret));
+>> -	if (IS_ERR(host_key)) {
+>> -		ret = NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
+>> +	key = key_get(host->dhchap_key);
+>> +	if (!key) {
+>> +		pr_warn("%s: host key %08x not found\n",
+>> +			__func__, key_serial(host->dhchap_key));
+>>   		goto out_unlock;
+>>   	}
+>> -	if (host->dhchap_ctrl_secret) {
+>> -		ctrl_key = nvme_auth_extract_key(NULL, host->dhchap_ctrl_secret,
+>> -						 strlen(host->dhchap_ctrl_secret));
+>> -		if (IS_ERR(ctrl_key)) {
+>> -			key_put(host_key);
+>> -			ret = NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
+>> -			goto out_unlock;
+>> +	down_read(&key->sem);
+>> +	ret = key_validate(key);
+>> +	if (!ret) {
+>> +		if (ctrl->host_key) {
+>> +			pr_debug("%s: drop host key %08x\n",
+>> +				 __func__, key_serial(ctrl->host_key));
+>> +			key_put(ctrl->host_key);
+>>   		}
+>> +		ctrl->host_key = key;
 >> +	}
->> +
->> +	if (host_secret) {
->> +		pr_debug("lookup host identity '%s'\n", host_secret);
->> +		key = nvme_auth_extract_key(opts->keyring, host_secret,
->> +					    strlen(host_secret));
->> +		if (IS_ERR(key)) {
->> +			ret = PTR_ERR(key);
->> +			goto out;
->> +		}
->> +		pr_debug("using dhchap host key %08x\n", key_serial(key));
->> +		opts->dhchap_key = key;
->> +	}
->> +	if (ctrl_secret) {
->> +		if (!opts->dhchap_key) {
->> +			ret = -EINVAL;
->> +			goto out;
->> +		}
->> +		pr_debug("lookup ctrl identity '%s'\n", ctrl_secret);
->> +		key = nvme_auth_extract_key(opts->keyring, ctrl_secret,
->> +					    strlen(ctrl_secret));
+>> +	key_id = key_serial(key);
+>> +	up_read(&key->sem);
+>> +	if (ret) {
+>> +		pr_warn("host key %08x invalidated\n", key_id);
+>> +		key_put(key);
+>> +		key = ERR_PTR(-EKEYREVOKED);
+>>   	}
 > 
 > [Severity: High]
-> Does calling nvme_auth_extract_key() unconditionally here break the build
-> when CONFIG_NVME_FABRICS is enabled without CONFIG_NVME_AUTH (or when
-> CONFIG_NVME_FABRICS=y and CONFIG_NVME_AUTH=m)?
+> When key_validate(key) fails on host->dhchap_key, doesn't execution fall
+> through instead of setting ret = NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE and
+> jumping to out_unlock?
 > 
-> include/linux/nvme-auth.h declares nvme_auth_extract_key() without a
-> !CONFIG_NVME_AUTH stub, and match_token() is an external call so the
-> compiler cannot dead-code-eliminate the host_secret and ctrl_secret
-> branches when CONFIG_NVME_HOST_AUTH is disabled.
+> If host->dhchap_ctrl_key is present and valid, the second key_validate()
+> overwrites ret with 0, so nvmet_setup_auth() returns 0 while leaving
+> ctrl->host_key NULL on initial connect, bypassing authentication because
+> nvmet_has_auth() and nvmet_check_auth_status() treat a NULL ctrl->host_key
+> as no authentication required.  If host->dhchap_ctrl_key is absent or also
+> invalid, nvmet_setup_auth() returns the negative errno from key_validate()
+> truncated to u8 instead of NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE, and if
+> key_get() returns NULL it jumps to out_unlock with ret == 0.
 > 
-> In addition, drivers/nvme/host/sysfs.c now includes <linux/nvme-keyring.h>
-> unconditionally, which fails to compile when CONFIG_NVME_KEYRING is
-> disabled due to a stray semicolon and a non-inline function definition in
-> the fallback block:
+Correct. Fixed up with the next version.
+
+>> -	key_put(ctrl->host_key);
+>> -	ctrl->host_key = host_key;
+>> -	key_put(ctrl->ctrl_key);
+>> -	ctrl->ctrl_key = ctrl_key;
+>> -	ctrl->shash_id = host->dhchap_hash_id;
+>>   #ifdef CONFIG_NVME_TARGET_AUTH_DEBUG
+>> -	host_hash = nvme_dhchap_psk_hash(ctrl->host_key);
+>> -	pr_debug("%s: using hash %s key %u\n", __func__,
+>> -		 ctrl_hash > 0 ?
+>> -		 nvme_auth_hmac_name(ctrl_hash) : "none",
+>> -		 key_serial(ctrl->host_key));
+>> -	if (ctrl->ctrl_key) {
+>> -		ctrl_hash = nvme_dhchap_psk_hash(ctrl->ctrl_key);
+>> -		pr_debug("%s: using ctrl hash %s key %u\n", __func__,
+>> -			 ctrl_hash > 0 ?
+>> -			 nvme_auth_hmac_name(ctrl_hash) : "none",
+>> -			 key_serial(ctrl->ctrl_key));
+>> +	pr_debug("%s: using dhchap hash %s key %08x\n", __func__,
+>> +		 nvme_auth_hmac_name(ctrl->shash_id), key_id);
+>> +#endif
 > 
-> include/linux/nvme-keyring.h:
-> static inline struct key *nvme_dhchap_psk_lookup(struct key *keyring,
-> 		const char *hostnqn, const char *subnqn, u8 hmac);
-> {
-> 	return ERR_PTR(-EOPNOTSUPP);
-> }
-> u8 nvme_dhchap_psk_hash(struct key *key)
-> {
-> 	return 0;
-> }
+> [Severity: High]
+> Does dropping ctrl->shash_id = host->dhchap_hash_id leave ctrl->shash_id at
+> 0?
+> 
+> nvmet_auth_negotiate() matches the host's proposed HMAC IDs against
+> ctrl->shash_id, so leaving it at 0 ignores the host's configured dhchap_hash
+> attribute and always falls back to fallback_hash_id (and passes 0 to
+> nvme_auth_hmac_name() in the debug prints here).
+> 
+Of course. Reverted with the next version.
+
+>> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+>> index 27c50fa533e70..880cf5151588a 100644
+>> --- a/drivers/nvme/target/configfs.c
+>> +++ b/drivers/nvme/target/configfs.c
+> 
+> [ ... ]
+> 
+>> @@ -2251,9 +2266,19 @@ static ssize_t nvmet_host_dhchap_key_store(struct config_item *item,
+>>   		const char *page, size_t count)
+>>   {
+>>   	struct nvmet_host *host = to_host(item);
+>> +	u8 *keydata;
+>> +	size_t len;
+>>   	int ret;
+>>   
+>> -	ret = nvmet_auth_set_key(host, page, false);
+>> +	len = strcspn(page, "\n");
+>> +	if (!len)
+>> +		return -EINVAL;
+>> +	keydata = kstrndup(page, len, GFP_KERNEL);
+>> +	if (!keydata)
+>> +		return -ENOMEM;
+>> +
+>> +	ret = nvmet_auth_set_key(host, keydata, false);
+>> +	kfree_sensitive(keydata);
+> 
+> [Severity: Medium]
+> Does returning -EINVAL when !len in nvmet_host_dhchap_key_store() and
+> nvmet_host_dhchap_ctrl_key_store() prevent clearing a configured key via
+> configfs?  An empty or newline-only write is rejected before reaching the
+> !strlen(secret) revocation branch in nvmet_auth_set_key().
 > 
 Fixed up with the next version.
 
 > [ ... ]
 > 
->> @@ -1304,8 +1326,18 @@ void nvmf_free_options(struct nvmf_ctrl_options *opts)
->>   	kfree(opts->subsysnqn);
->>   	kfree(opts->host_traddr);
->>   	kfree(opts->host_iface);
->> -	kfree_sensitive(opts->dhchap_secret);
->> -	kfree_sensitive(opts->dhchap_ctrl_secret);
->> +	if (opts->dhchap_key) {
->> +		pr_debug("revoke dhchap host key %08x\n",
->> +			 key_serial(opts->dhchap_key));
->> +		key_revoke(opts->dhchap_key);
->> +		key_put(opts->dhchap_key);
->> +	}
->> +	if (opts->dhchap_ctrl_key) {
->> +		pr_debug("revoke dhchap ctrl key %08x\n",
->> +			 key_serial(opts->dhchap_ctrl_key));
->> +		key_revoke(opts->dhchap_key);
->> +		key_put(opts->dhchap_ctrl_key);
->> +	}
-> 
-> [Severity: High]
-> In the opts->dhchap_ctrl_key block, should key_revoke() be passed
-> opts->dhchap_ctrl_key instead of opts->dhchap_key?  Passing
-> opts->dhchap_key dereferences the host key after key_put(opts->dhchap_key)
-> has already dropped its reference, and leaves opts->dhchap_ctrl_key
-> unrevoked.
-> 
-Of course. Fixed up with the next version.
-
->> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
->> index a5c1511e49ac2..1311f5e29b004 100644
->> --- a/drivers/nvme/host/sysfs.c
->> +++ b/drivers/nvme/host/sysfs.c
-> [ ... ]
->> @@ -818,11 +820,23 @@ static ssize_t dhchap_secret_show(struct device *dev,
->>   		struct device_attribute *attr, char *buf)
+>> @@ -2284,9 +2323,18 @@ static ssize_t nvmet_host_dhchap_ctrl_key_store(struct config_item *item,
+>>   		const char *page, size_t count)
 >>   {
->>   	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
->> -	struct nvmf_ctrl_options *opts = ctrl->opts;
->> +	struct key *key = ctrl->host_key;
->> +	ssize_t count;
->>
->> -	if (!opts->dhchap_secret)
->> +	if (!key)
->>   		return sysfs_emit(buf, "none\n");
->> -	return sysfs_emit(buf, "%s\n", opts->dhchap_secret);
->> +	down_read(&key->sem);
->> +	if (key_validate(key))
->> +		count = sysfs_emit(buf, "<invalidated>\n");
->> +	else {
->> +		count = key->type->read(key, buf, PAGE_SIZE);
->> +		if (count > 0) {
->> +			buf[count] = '\n';
->> +			count++;
->> +		}
->> +	}
->> +	up_read(&key->sem);
->> +	return count;
->>   }
-> [ ... ]
->> @@ -830,36 +844,47 @@ static ssize_t dhchap_secret_store(struct device *dev,
-> [ ... ]
->> +	mutex_lock(&ctrl->dhchap_auth_mutex);
->> +	old_key = ctrl->host_key;
->> +	dev_dbg(ctrl->dev, "revoke host key %08x\n",
->> +		key_serial(old_key));
->> +	key_revoke(old_key);
+>>   	struct nvmet_host *host = to_host(item);
+>> +	u8 *keydata;
+>> +	size_t len;
+>>   	int ret;
+>>   
+>> -	ret = nvmet_auth_set_key(host, page, true);
+>> +	len = strcspn(page, "\n");
+>> +	if (!len)
+>> +		return -EINVAL;
+>> +	keydata = kstrndup(page, len, GFP_KERNEL);
+>> +	if (!keydata)
+>> +		return -ENOMEM;
 >> +
->> +	ctrl->host_key = key;
->> +	mutex_unlock(&ctrl->dhchap_auth_mutex);
->> +	key_put(old_key);
+>> +	ret = nvmet_auth_set_key(host, keydata, true);
+>>   	/*
+>>   	 * Re-authentication is a soft state, so keep the
+>>   	 * current authentication valid until the host
 > 
 > [Severity: Medium]
-> Can a concurrent read of dhchap_secret (or dhchap_ctrl_secret, dhchap_key,
-> or dhchap_ctrl_key) race with dhchap_secret_store() or
-> dhchap_ctrl_secret_store() and trigger a use-after-free on the old key?
+> Does nvmet_host_dhchap_ctrl_key_store() leak keydata?  Unlike
+> nvmet_host_dhchap_key_store(), it does not call kfree_sensitive(keydata)
+> after nvmet_auth_set_key().
 > 
-> CPU0                              CPU1
-> dhchap_secret_show()
->    key = ctrl->host_key;
->                                    dhchap_secret_store()
->                                      mutex_lock(&ctrl->dhchap_auth_mutex);
->                                      old_key = ctrl->host_key;
->                                      key_revoke(old_key);
->                                      ctrl->host_key = key;
->                                      mutex_unlock(&ctrl->dhchap_auth_mutex);
->                                      key_put(old_key);  <-- frees old_key
->    down_read(&key->sem);  <-- use-after-free
-> 
-> None of dhchap_secret_show(), dhchap_ctrl_secret_show(), dhchap_key_show(),
-> or dhchap_ctrl_key_show() hold ctrl->dhchap_auth_mutex or take a key_get()
-> reference before dereferencing ctrl->host_key or ctrl->ctrl_key.  Once a
-> key has been replaced via sysfs store (so opts->dhchap_key no longer holds
-> a reference), ctrl->host_key holds the only reference, and key_put(old_key)
-> frees it while a concurrent show callback is using it.
-> 
-Updated the _show functions to take the dhchap_auth_mutex.
 
->> @@ -873,11 +898,23 @@ static ssize_t dhchap_ctrl_secret_show(struct device *dev,
->>   		struct device_attribute *attr, char *buf)
->>   {
->>   	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
->> -	struct nvmf_ctrl_options *opts = ctrl->opts;
->> +	struct key *key = ctrl->ctrl_key;
->> +	size_t count;
->>
->> -	if (!opts->dhchap_ctrl_secret)
->> +	if (!key)
->>   		return sysfs_emit(buf, "none\n");
->> -	return sysfs_emit(buf, "%s\n", opts->dhchap_ctrl_secret);
->> +	down_read(&key->sem);
->> +	if (key_validate(key))
->> +		count = sysfs_emit(buf, "<invalidated>");
->> +	else {
->> +		count = key->type->read(key, buf, PAGE_SIZE);
->> +		if (count > 0) {
->> +			buf[count] = '\n';
->> +			count++;
->> +		}
->> +	}
->> +	up_read(&key->sem);
->> +	return count;
->>   }
-> 
-> [Severity: Medium]
-> Can a negative error return from key->type->read() cause an out-of-bounds
-> write before buf in dhchap_ctrl_secret_show() and dhchap_key_show()?
-> 
-> Unlike dhchap_secret_show(), which declares ssize_t count, both
-> dhchap_ctrl_secret_show() and dhchap_key_show() declare count as unsigned
-> size_t.  If key->type->read() returns a negative error code (such as
-> -EINVAL), count wraps to a large positive value, passes count > 0, and
-> writes '\n' to buf[count] out-of-bounds.  Commit "nvme: allow to pass in
-> key description as dhchap secret" later in this series replaces
-> key->type->read() in dhchap_key_show(), but dhchap_ctrl_secret_show()
-> retains the unsigned size_t count and also omits the trailing newline on
-> "<invalidated>".
-> 
-Used 'ssize_t' here, too.
-
-> [ ... ]
-> 
->> @@ -925,6 +970,41 @@ static ssize_t dhchap_ctrl_secret_store(struct device *dev,
->>   }
->>
->>   static DEVICE_ATTR_ADMIN_RW(dhchap_ctrl_secret);
->> +
->> +static ssize_t dhchap_key_show(struct device *dev,
->> +		struct device_attribute *attr, char *buf)
->> +{
->> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
->> +	struct key *key = ctrl->host_key;
->> +	size_t count;
->> +
->> +	if (!key)
->> +		return 0;
->> +	down_read(&key->sem);
->> +	if (key_validate(key))
->> +		count = sysfs_emit(buf, "<invalidated>\n");
->> +	else {
->> +		count = key->type->read(key, buf, PAGE_SIZE);
->> +		if (count > 0) {
->> +			buf[count] = '\n';
->> +			count++;
->> +		}
->> +	}
->> +	up_read(&key->sem);
->> +	return count;
->> +}
->> +static DEVICE_ATTR_ADMIN_RO(dhchap_key);
->> +
->> +static ssize_t dhchap_ctrl_key_show(struct device *dev,
->> +		struct device_attribute *attr, char *buf)
->> +{
->> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
->> +
->> +	if (!ctrl->ctrl_key)
->> +		return 0;
->> +	return sysfs_emit(buf, "%08x\n", key_serial(ctrl->ctrl_key));
->> +}
->> +static DEVICE_ATTR_ADMIN_RO(dhchap_ctrl_key);
->>   #endif
->>
->>   static struct attribute *nvme_dev_attrs[] = {
->> @@ -956,6 +1036,8 @@ static struct attribute *nvme_dev_attrs[] = {
->>   #ifdef CONFIG_NVME_HOST_AUTH
->>   	&dev_attr_dhchap_secret.attr,
->>   	&dev_attr_dhchap_ctrl_secret.attr,
->> +	&dev_attr_dhchap_key.attr,
->> +	&dev_attr_dhchap_ctrl_key.attr,
->>   #endif
-> 
-> [Severity: Low]
-> Should nvme_dev_attrs_are_visible() hide dev_attr_dhchap_key.attr and
-> dev_attr_dhchap_ctrl_key.attr when !ctrl->opts, the same way it hides
-> dev_attr_dhchap_secret.attr and dev_attr_dhchap_ctrl_secret.attr?  Without
-> that check, both attributes appear on non-Fabrics controllers (such as PCIe
-> controllers) when CONFIG_NVME_HOST_AUTH is enabled.
-> 
-Yes, it should. Updated for the next version.
-
-> Also, in this patch dhchap_key_show() outputs the key payload via
-> key->type->read() instead of key_serial(key) as dhchap_ctrl_key_show() does
-> (though commit "nvme: allow to pass in key description as dhchap secret"
-> later in the series updates dhchap_key_show() to emit key_serial()).
-> 
 Fixed up with the next version.
 
 Cheers,
