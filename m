@@ -2,11 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112B3606A331
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 17:53:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E28A606A333
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 17:57:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Hkpvafw7;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=Xd3hF27R
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=d6hAcCnK
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -14,58 +13,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=Hkpvafw7fxa+k9Pdpty3MUTItp
-	aovbFgrUko3bxA9ZnYQVfkRWT8qYn30rSZ03ZDz67cXsnH1lM28Q0fmnxzKICS8+/4ny88zqhtSPC
-	cHtXGj+GpmMqsWTau53X2CcnRLtYU6we6YIvSIa1KZzM8NsK1tRhM90S8Ikdx2zDz3wItwJ8F4Rvb
-	1hAsrZr+mk/3J8gH3Imag17kVyZ1DxIEV5fO/yZ6dUlu6PIDt47HNzcLk6uD2jDmseOS4vm5waRtm
-	Gkv8EtOurBYADBftbVxMjVvC2/zk753tiGdNHlINAIUUECyUSQE4b/uBxRnmRe68X5bKSFUf1w7D3
-	m+xKZWuQ==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=d6hAcCnKDFCB2lWBhv3H8edm9N
+	tMvmi+o1CwOJlVKrxO46gNJop9o76uRkGp5sILooQTuWtHlLGUlZuyrVRoc64IGOh5qOFlBg1WUCV
+	A/27QnF5WqTQbZtAZW/mRk+qVwNRoR0dsy1fDiGGvGOEy+vDFRnbz2OYifsentpitlni+JCK4wm+p
+	LSfGmuVxi33C/FObj3uwr1/QwLs1YB+VLHBMwxH0fbncZ5VtlYkYrmDdY1OsuSGZurOJqlSsOb8+y
+	Pjahvvs5U9/FNJPzRnvj6VUZqDpidNDIhFMoBb1sP2/morGqZYgpiH+MYYWbDjX7WaE/7vSoTFDEV
+	ecxpHVRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUSo0-0000000FnsL-2AG0;
-	Fri, 20 Nov 2026 17:53:48 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUSnD-0000000FnLw-1vqa
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 20 Nov 2026 17:53:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=Xd3hF27RMU2TpaTXhXuMZGNVHW
-	fvQ7F72aSRdxT16KgwC7Vc3FTAG8BXtCdrY6vls9yoB6co9MBreRakJPazxsYHsV6a7OBEX0/wOAx
-	+6Z3+1puMFYIdS4xzDWRdrFQtBN9BzkNuSYdRsAr/SF/X72bqCo129k6i3qZA9O5BqHn66Y6W4ycn
-	KP45alZ7ogFTi7totDN+j42SPEw5pvCy2htc/XgIyH6Bb8eU72rJjxXls7/6yd6iaaoBsXVdkcJQh
-	rXmJjGhzMqKUSk0vpp3hnMK92rENmDqmaN32yLzhqPLQGX3Dd9hHFEHaSW7dUXX8gNBr9TdnK5MgG
-	NhyfI56g==;
+	id 1xUSrG-0000000Fpfc-42iw;
+	Fri, 20 Nov 2026 17:57:10 +0000
 Received: from verein.lst.de ([213.95.11.211])
-	by desiato.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUSn9-0000000128Q-47Bn
+	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xUSpn-0000000Fp5A-0yXR
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Nov 2026 17:52:58 +0000
+	Fri, 20 Nov 2026 17:55:55 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 1E8806732A; Fri, 20 Nov 2026 18:52:52 +0100 (CET)
-Date: Fri, 20 Nov 2026 18:52:52 +0100
+	id 1929F6732A; Fri, 20 Nov 2026 18:55:34 +0100 (CET)
+Date: Fri, 20 Nov 2026 18:55:34 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: shao.mingyin@zte.com.cn
-Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 5/5] nvme: bound the reservation report retry loop
-Message-ID: <20261120175252.GE1484@lst.de>
-References: <202611150127512368BGQ07ZNIRAIwClkam-8u@zte.com.cn> <202611150127588115YPbE0vZGI-FTHIHXJTI5@zte.com.cn>
+To: Martin George <martinus.gpy@gmail.com>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, sagi@grimberg.me,
+	loberman@redhat.com
+Subject: Re: [PATCH v2 1/3] nvme-fabrics: bound reconnect_delay to avoid
+ overflow
+Message-ID: <20261120175534.GA1622@lst.de>
+References: <20261113165002.12536-1-marting@netapp.com> <20261113165002.12536-2-marting@netapp.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202611150127588115YPbE0vZGI-FTHIHXJTI5@zte.com.cn>
+In-Reply-To: <20261113165002.12536-2-marting@netapp.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261120_175255_929733_0F3F38A7 
-X-CRM114-Status: UNSURE (   9.69  )
+X-CRM114-CacheID: sfid-20261120_095540_795768_1ACD19B0 
+X-CRM114-Status: UNSURE (   9.04  )
 X-CRM114-Notice: Please train this message.
-X-Spam-Score: -0.0 (/)
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
