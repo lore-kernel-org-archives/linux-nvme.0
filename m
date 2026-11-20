@@ -2,170 +2,102 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB94606A32A
-	for <linux-nvme@archiver.kernel.org>; Sat, 21 Nov 2026 16:06:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3740C606A32C
+	for <linux-nvme@archiver.kernel.org>; Sat, 21 Nov 2026 16:06:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=f2cLCWp5;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=kfHk02Nq
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=0kbObhv1;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OkgEeIEB
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Cc:To:
-	In-Reply-To:References:Message-Id:Content-Transfer-Encoding:Content-Type:
-	Subject:Date:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=P8MEGgwFkZ/5xrrjKNhLYkfAKtMAgXeKCG4RXs5cVs0=; b=f2cLCWp54lMULCKy3rCOjI0lBh
-	2ejOi2AekqAJUAi/+yM0zfVGhbc0DCazDvex4MbFYNSpHCZoELoOPKRYTnbKoz388FPHWKnd9yauL
-	BhgWh9748R80cLbeNKmxtDL6xIjcoQRNwev81EiimFW0sN8XgnOXvoOFnePkeHAad9o/Kq5kMOCoI
-	hqkBmnsS0wQ3nLzShjS6Rodku8fF2xdffjIrZSicRbbxPDAHMU3qrWuPZgZEqsYKCjktj8FBWKKew
-	zGge80c+b+K/M0MtQ3a0h3qFocTJwEnjuuVtU0B1UKcCrNYyF/3mnLqdtbzgoxYhQyfC42U3Uu897
-	GvRSUQow==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=B27NBmW6xEW99C4mPgAJ/Hv6uDSHsBlZ/pHbt7OCb5c=; b=0kbObhv1uG0WZW
+	Dxd67iea2F9aUMCmHQ4LJnRKVyGGGhc/Yodxdb8eNtD9SRoSJdacZ0MVEEebeDhJlM6hvZ0lwDmEY
+	du1M7xUxH45Kn01KVsbrimQ2MOl5VbY8AeMPrBYNl/KJ6tu78eo36VWCWyVoc15WmJglV0i6a+qbr
+	Kycs8p1L4Ky9uLmQKnUc60OHCsyxG2To15LlwoamEQ7FiZFbP4jVTLKhHVN6XyCflADX/wVeDDTCa
+	d3/0RXobLV9vmh8k3wJ7c+rqVXqcXFNcv/IxrQNK1O2H+wntIOnksC1KQ4Qki+LxTbCxFzCL1bMSq
+	Yy/hW+pJYwkm7cSJNbng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUnbo-0000000HQLF-30k9;
-	Sat, 21 Nov 2026 16:06:36 +0000
-Received: from mail-westus3azlp170100009.outbound.protection.outlook.com ([2a01:111:f403:c107::9] helo=PH7PR06CU001.outbound.protection.outlook.com)
+	id 1xUnbq-0000000HQSA-2ohe;
+	Sat, 21 Nov 2026 16:06:38 +0000
+Received: from mgamail.intel.com ([192.198.163.14])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUHdy-0000000E7c1-0CVt
+	id 1xUKVz-0000000EQ4d-3h1H
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Nov 2026 05:58:43 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V7vcTO99BRRqFoOlm9Z0c38jSzY4S6smU4TIAG0DUZeBq5v7NOWojdnXPGuHTNgleNbEM9lXRdsB8akjSfMHYkWUZVnUgppCISrvnnGK/Ui7g7cfq8xEC93EyrtdHiCe8/5pZJi08bEtmG3yq7KZQJhPcKyta1JcZEP0k4ZloEieDI29ptZNiX0RYyVO+Dy1UXFeUwse3nWFTYiDkHiUus5QJ8ZWyWOhA3e9lfWayp74/2WIK16VLRT1Y0sVPye2J65mcWXF//2lGwZjClXVGiRchAbpellcjSHXHr86wJDQ67jE6rI7UToV/axegLhOVTrpZO1MTDKneiBbhRqy8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P8MEGgwFkZ/5xrrjKNhLYkfAKtMAgXeKCG4RXs5cVs0=;
- b=UMKMpy/gcC77N0sN0EhlYsaGAEuTYc51SM88pzzthKACibAAHWcrVguZ5/PPps1eO6vGi89YlOkDujiE7M3TUNlJ+smV0kS+TX0zetkwvFhqWW5M0X/0Mk9rNxxW5I1mZXqTjKXGFfJCDqsMMFZN2f42Fj75pKINDdFaf9R5KcOgl4GIH/mik1EikYYemZGKKwCOJDvNIYi/2Wle5iCA358pbe31kLDWxs/HcvASeZWTE03Bm26K1iKEk1ze5vAkTs+X9O6TZzBQaTuXGKzVKFpM/DF1QcVt4kk1d5+VPDwzFaGCcQegVGo51Uwg+3V+dPew4eJqP/oy9b55ztVBpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P8MEGgwFkZ/5xrrjKNhLYkfAKtMAgXeKCG4RXs5cVs0=;
- b=kfHk02NqR5H6ffXwDMIL5d2uyUf6dSmtZMIE/fIVwYQNRIoTq1iW/xTG5wCsTkWUZQLQgk19AEiJwSUAilAzTjj5jjak8HG9WgKRmDWe6H6o4Gwf8OLt4SG0ctiIrUyzhX/81IiptEoykJtaZ973sP6ETMOPXAAmkmSeoCn7v2f+NVEPnvj1ZgpHQtjEEposDy8Q7SKcfT1g7VnvG1oSUDgUhPEbCdC+pePuQfx9uVuQRyBOCzVA91b32Vhe52IP9xXVSZKUwHe/MVidXn95TR9EZVsvJ+2Usn9aTd8S+in2hJwzDrwTzUpqWb5wCPMPGHIoHi2qzKlDcf/s7cqrVw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SA3PR12MB598757.namprd12.prod.outlook.com
- (2603:10b6:806:52d::14) by PH7PR12MB6717.namprd12.prod.outlook.com
- (2603:10b6:510:1b0::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Fri, 20 Nov
- 2026 05:58:33 +0000
-Received: from SA3PR12MB598757.namprd12.prod.outlook.com
- ([fe80::e206:100:5946:a777]) by SA3PR12MB598757.namprd12.prod.outlook.com
- ([fe80::e206:100:5946:a777%5]) with mapi id 15.21.0639.011; Fri, 20 Nov 2026
- 05:58:33 +0000
-From: Alistair Popple <apopple@nvidia.com>
-Date: Fri, 20 Nov 2026 16:56:02 +1100
-Subject: [PATCH v3 24/24] dma-buf: Add kunit tests for mapping type
- selection
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-dma_mapping_type_v4-v3-24-c0183a409bdf@nvidia.com>
-References: <20261120-dma_mapping_type_v4-v3-0-c0183a409bdf@nvidia.com>
-In-Reply-To: <20261120-dma_mapping_type_v4-v3-0-c0183a409bdf@nvidia.com>
-To: =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Vivek Kasireddy <vivek.kasireddy@intel.com>, 
- Dongwon Kim <dongwon.kim@intel.com>, Kevin Tian <kevin.tian@intel.com>, 
- Xu Yilun <yilun.xu@linux.intel.com>, 
- Karl Mehltretter <kmehltretter@gmail.com>, 
- Baolu Lu <baolu.lu@linux.intel.com>, 
- Felix Kuehling <felix.kuehling@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org, 
- iommu@lists.linux.dev, Keith Busch <kbusch@kernel.org>, 
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Mina Almasry <almasrymina@google.com>, 
- netdev@vger.kernel.org, Alexey Kardashevskiy <aik@amd.com>, 
- zhipingz@meta.com, treding@nvidia.com, jhubbard@nvidia.com, 
- chaitanyak@nvidia.com, Jason Gunthorpe <jgg@ziepe.ca>, 
- Leon Romanovsky <leon@kernel.org>
-Cc: Alistair Popple <apopple@nvidia.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795154186; l=27463;
- i=apopple@nvidia.com; s=20261105; h=from:subject:message-id;
- bh=X6MOMHA5yR9Or4dwu/StNGYyBebhWLwpFsX7toq7H+k=;
- b=NZzBPR6jeC+JXwYi+CzoSuPQbXGoiZvJ3UUHweQk5XYNPf3zQfjXJ1cpE6WlHdzULmf+TOn24
- fbCQJaqUa5FDbWkmnRW1sW3a1opm9v61xfy+hoHihaJJ9vX+dkMtOK8
-X-Developer-Key: i=apopple@nvidia.com; a=ed25519;
- pk=WdWPT9rAq3YNfXldbGv1NSGVLGxzQGFGJvRUiShhNqs=
-X-ClientProxiedBy: SY6PR01CA0162.ausprd01.prod.outlook.com
- (2603:10c6:10:1ba::20) To SA3PR12MB598757.namprd12.prod.outlook.com
- (2603:10b6:806:52d::14)
+	Fri, 20 Nov 2026 09:02:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795165360; x=1826701360;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=gARWLH6ZEUJrL59sAcqoW3jvuymgTvg3AgpOXJipfyc=;
+  b=OkgEeIEBSIyD3WAkynQUEfC2QQW9sHQGcjGTVJn3cPdBJiMzYFd+UsrR
+   QdhmixumQSuXFe3b4IOEaH8avF9JBfYEyDIupE363ZJ6zIbuSvnwIAUMF
+   C1kqisvEEi1THbnDvfLtKn9dpQuRBMnmN5AVJuE7rgVwYAlkTMmBv+DlZ
+   VAkR2/C09PYEsv+UGwNYWBCyNQJSfPanfqZVt0WBT5IdE6SrAH6ItTAQP
+   ndH5RBNFMdt1r4ozTNSCAFlJ30NMxdnSVZwRsZkska/DH11pSa4qN4vxv
+   M+V6ppVqovC+mv/CQs+F/NuNGQLqqbd8jV2pG12qcr8+OYyo4edTl8bsF
+   w==;
+X-CSE-ConnectionGUID: vNQFryN2QDWqln7PEWU09w==
+X-CSE-MsgGUID: Ad2M/8iiQtKoX9V6K1tWag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3927351"
+X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
+   d="scan'208";a="3927351"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 01:02:38 -0800
+X-CSE-ConnectionGUID: fBG0jayzTsmxWVASfsMV9Q==
+X-CSE-MsgGUID: Nmec7opNSWCMak6X0xk8jw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
+   d="scan'208";a="10648511"
+Received: from soc-pf6038af.clients.intel.com (HELO [10.217.180.38]) ([10.217.180.38])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 01:02:29 -0800
+Message-ID: <47f2ff46-1837-43f5-a413-0dbf29716d7a@linux.intel.com>
+Date: Fri, 20 Nov 2026 10:02:27 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA3PR12MB598757:EE_|PH7PR12MB6717:EE_
-X-MS-Office365-Filtering-Correlation-Id: 67018038-5a86-4724-2880-08df46cb4f25
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|23010399003|366016|921020|261102123227099003|261021121427099003|10067099003|11063799006|261102130727099003|5023799004|261026121527099003|56012099006|261026140227099003|261022075727099003|261028144727099003|261022105027099003|261009223027099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: MgJnBNowX52BknRoOM3RZlr7ObBp+TWoaoXxj1Q64J+YArhlHdXdwoaCpNVwl5eaxLRxYW65rTpyvPJ/PM470c4I2O7EtS90GDAGqnrB63xfXRm8BxJz/a4n4lD/5a2ve/I15jIKBBkwuh20FSkjPbIBCWvJdvcAaQ3rFFe/qPinOTFrAdKhczcaHs/jvFSy54uRClNjtP3TyIs9P6IMuuRvexF19fGHixYygjwhvj9hr6EYjmiD4yGGM8Q8fKc/RvH8fkw7ejqSeSrRpJTRRWCLCYnXYJAV1qQBdGutsuFTeAotgMLdg65FpLmXyPYYs9JNT9BqXguQ10gfiG+n2QSnaAkgj9lfeaI7v5HXkK7zpj/oqCbDz05ymCRUepJVDPSTmgNW/xLnDL3ShxrUCHbzBp4jztxu5eEcMcCL0hGEHlJxhvTYdKNmrorDZOEXg3HHUXEbxoJeMSlUNS1/QjL3xucpXF5U14SOsD+qU3Bjx8btgK78dw+FiadoAfWWZWXftXRhch/ewshgPSoznVUjuaMEqayoudqEUm6Ns+yTtr1nGMUxHpheH10x/7rPLECv6AaAZNDIoXTxgPSO5/A71tGWMIktWrV93kI/hLuoLICymnI7/R6B5XwOUzrpxYcuTr9W4Jn5IsHKz4lWrKHlygMM5h0smeTOflvLnGp6JnGVraBCs06xjgwWobkvS6okIHgSt4AgHST5HzJUeg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR12MB598757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(23010399003)(366016)(921020)(261102123227099003)(261021121427099003)(10067099003)(11063799006)(261102130727099003)(5023799004)(261026121527099003)(56012099006)(261026140227099003)(261022075727099003)(261028144727099003)(261022105027099003)(261009223027099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VHV0b3B3VENKM2oweisrR2ZRU3NvaHp1MGJtOGZBTDAyemszUEN6bm0rRU5j?=
- =?utf-8?B?YlNpeWgwZGx5QlU3Yllqc1FlSVMrMWwzUWsxc240VnA1dUIxaXZGV3p5anRa?=
- =?utf-8?B?TW1xWlptUjRadXJxM01hMUQxd1prSkN3VzBUbklqZ2J4dmlkVjJNUEJrUkQz?=
- =?utf-8?B?dWRMck80WWF4aG1tZkpGZEpIUjQ2cXptWGpqQU5ZYitwRnlKTFNHblRlQ25z?=
- =?utf-8?B?Q3R2TjBZR0poTWViSjUzM0o0QmRFSFNSMnlqOTc4dW9TVmRPdFlueEN1SnVC?=
- =?utf-8?B?UE5NNGNKQ1NhNWpQMzQzWldBcFRmQzUyeW0zdUIwSXdiVzRIQU5PYi85bjYz?=
- =?utf-8?B?UnlzTlBJTTJyWU96U1dsTWRERE5sOGtCNHZ0YllleEFJZDU1Mlo4Ukdnek9m?=
- =?utf-8?B?Vm5SU3I5NHdIRFowNStiMzI2cjJlUWhscmJoZDNEdFRWLzQrSTFzTkxCQUF4?=
- =?utf-8?B?ZUY1UHVhWmlSM0V0YzVoY1h3aVBrK3VZa0JYY2xMZ04vNWdkT2g0N1lCVjNy?=
- =?utf-8?B?TzlEUWw1cndtVkhMQWx6YXNRamd5Z0ZVdHJRUEY4S1Z5NS84Q2tCR0dBTS9i?=
- =?utf-8?B?Rk5JSmhiTVl1TWlzZWQxZW91RjBzM2o4QzljR3pNOXg2dEJ5bVFmZUhtSVhl?=
- =?utf-8?B?RVoxclZxNTFDenJGRXdXOUN3em9KakJLWGZGb0QwMnRiOTY3eGFaVzRCaUw3?=
- =?utf-8?B?bnFSYVhvR0dIU3FOV2FxWUhoc3hoUkIrYmhuRnVDZHZWSnhvQVoxZXhlYXV6?=
- =?utf-8?B?MnlwbUx2TmZ2aWJRUC82WmhwODhha2NTUzB3aC9zdHZ1WHZqSGZ4cDJtaGJU?=
- =?utf-8?B?VHFid3ZXbjZXZENCc0tZdENnOVBNS2FkLzVIcHBNT2E2eGR3MXUvVjRJdFdS?=
- =?utf-8?B?d2JoRGlsVUo1WkNIWXgxVWR4eS9hQlZQc2dVZWIyRmo0ZXFQY0FYRGV3T1pk?=
- =?utf-8?B?bjdlbnpDWm40RjJxQ20yNmV2ZzhKdTEzN21sdytMbXVFbG1RbGwzaWxCQk5B?=
- =?utf-8?B?em8vZ2VoYTlINUZGZ2MrRGxaOVZWb0E4bzV2YzlKVTM4ald4VXg5eWp3WEp3?=
- =?utf-8?B?bDBpRExCYUxXV2Z4bzF3ZkNsbVZ6ajJLa3FaSjVQYVd3bGQwb0p6cjNmT1pB?=
- =?utf-8?B?TjJNTER0VmErN3I4NXBXSzJlQXJpYktJMzg2cUJWa2RzTmRtMDg5b0pHWWg3?=
- =?utf-8?B?MG90aXZxdlN3OVM3Tm9tYmdsNmE3Skt5amRsT01vSm5hN1B5VTd1b1pjOXdJ?=
- =?utf-8?B?ZW4vblBBdjg3KytjMTFZK1RBcjQ5RE1VWE1rbHZSNlZ5WGhMcjhIQml0RWZY?=
- =?utf-8?B?Z25DaEhuaDA4VFNSVU4xVlpqaXVMUlFpblZTb1Y2YVFnVHNBemdVc254L0Vy?=
- =?utf-8?B?cjhXcVFQMmg5WWErMTBMeVcybno0QVl0WGJnc1BPeXFXdUI1NFpHYU1zM0Np?=
- =?utf-8?B?RGp0Rlc3OEJ2OHNNcHMzbTlVQ1pKL0RFcERMZXFZWDUwUDZkTzNCbW5rSHR4?=
- =?utf-8?B?REhuNW1Mb01PTEdtS21sOXROMmZYeFllNHBNSkMyeExxdm96TjNxMHRKWU52?=
- =?utf-8?B?cWs4RjdlMm9xZmc3RHBOeFJzTDRINzJPZzN1SnRtUHVtMzA5NTl5bzcwYmww?=
- =?utf-8?B?WU1Yc2l3V05ZNldNejIwM1F1Z3kxbVJCT01uY2xwUmNiM0g3ZTdLSXdkQXN0?=
- =?utf-8?B?Y1VPVVFXZHlVVXJoemFRb3lKZGtPZXhMOEV4QkViSmZIVkszOTlMQmo0d2xF?=
- =?utf-8?B?cmVPY3lQVitEWmRDQ1dZeXRBR3NmclNSNUJQVEVoT05qbjZNOEpyU3BwSjBa?=
- =?utf-8?B?ZG40bW9KaFllazEwOFN3emdLdkhlbkN5TGFQcEZBbCtZd2NWcHJmY0FoamxF?=
- =?utf-8?B?ZTR4MHlaOE91ZTJUOUEraytpNHRGbkQ5OGJzU21sTlNmZmt1c054NXV1TEg2?=
- =?utf-8?B?STY5bmt0aEsyaGhLTE5QOWhLRnVKd3lrVGk3VTBWZTV3VlQ4OVBFUGsyR0RS?=
- =?utf-8?B?dEVxU1lRZHA5QzZuVlozVG5XM2RvZ2pVY1BQZDBxSHRKYytvU3QrV0F2TnBU?=
- =?utf-8?B?ZzloMWhwZlU1cSs1U2dPVGlzR0FPWDdKN0swM1IwWDB0QmFraXZpYWEycFBH?=
- =?utf-8?B?cjhCaGozNEY3dUZVVm55MDd3VCtRd0REdmdPT29WYm9IMnRpSGpUNnhOOE40?=
- =?utf-8?B?ZUJrMWRObFdkRXFOQURyWDQ5UWN0djhFWG9XbEFXNDBwMndxMS9MSDd4Z0Rz?=
- =?utf-8?B?UFZRanVyQ2pyNTJCcXU1VW1aanRvbHgxaTNsWGQwUTl1NTRWU1dWWTd5bGo4?=
- =?utf-8?B?MmpuTDVKNmVWU1NSZDM3VE1IQjV4UUprd3RkWk8rT1RIbzJrZFN1UT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 67018038-5a86-4724-2880-08df46cb4f25
-X-MS-Exchange-CrossTenant-AuthSource: SA3PR12MB598757.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 05:58:33.2551
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fnzQdcN9aq3WwRiyfD0IIIutVK/XSda5MhsFMjJlqpGlXkY3z+8w2ZYj7OH8ncrZj4KBFvj/qgmdjLMcY1Rmpg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6717
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 07/24] dma-buf: Convert exporters allocating a table
+ per map to the SGT mapping type
+To: Alistair Popple <apopple@nvidia.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Dongwon Kim <dongwon.kim@intel.com>, Kevin Tian <kevin.tian@intel.com>,
+ Xu Yilun <yilun.xu@linux.intel.com>,
+ Karl Mehltretter <kmehltretter@gmail.com>,
+ Baolu Lu <baolu.lu@linux.intel.com>, Felix Kuehling
+ <felix.kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ Alexey Kardashevskiy <aik@amd.com>, zhipingz@meta.com, treding@nvidia.com,
+ jhubbard@nvidia.com, chaitanyak@nvidia.com, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>
+References: <20261120-dma_mapping_type_v4-v3-0-c0183a409bdf@nvidia.com>
+ <20261120-dma_mapping_type_v4-v3-7-c0183a409bdf@nvidia.com>
+Content-Language: en-US
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
+In-Reply-To: <20261120-dma_mapping_type_v4-v3-7-c0183a409bdf@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261119_215842_118135_4C515C84 
-X-CRM114-Status: GOOD (  20.29  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261120_010239_947987_CE911D37 
+X-CRM114-Status: GOOD (  26.23  )
+X-Spam-Score: -4.2 (----)
 X-Mailman-Approved-At: Sat, 21 Nov 2026 08:05:59 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -177,800 +109,833 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Add an offer list and a select_mapping() callback to the mock exporter
-along with map/unmap for the two mock types.
+On 20-Nov-26 6:55, Alistair Popple wrote:
+> These exporters allocate a struct sg_table in map_dma_buf() and free
+> it again in unmap_dma_buf().
+> 
+> The conversion is mechanical and no behaviour change is expected.
+> Instead of map_dma_buf() allocating a sg_table it instead allocates and
+> returns a dma_buf_sgt_mapping, which the unmap callbacks also take.
+> 
+> As a side effect this fixes a leak in fsl_asrc_m2m. Its unmap_dma_buf()
+> only DMA unmapped the per-map table and never freed it. It now frees the
+> mapping including the table.
+> 
+> Co-developed-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> ---
+>   drivers/accel/amdxdna/amdxdna_cbuf.c             | 30 ++++++++------
+>   drivers/accel/amdxdna/amdxdna_ubuf.c             | 34 +++++++++-------
+>   drivers/accel/habanalabs/common/memory.c         | 52 +++++++++++++-----------
+>   drivers/gpu/drm/armada/armada_gem.c              | 36 +++++++++-------
+>   drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c | 30 ++++++++------
+>   drivers/gpu/drm/tegra/gem.c                      | 30 ++++++++------
+>   samples/vfio-mdev/mbochs.c                       | 31 ++++++++------
+>   sound/soc/fsl/fsl_asrc_m2m.c                     | 32 +++++++++------
+>   8 files changed, 161 insertions(+), 114 deletions(-)
+> 
+> diff --git a/drivers/accel/amdxdna/amdxdna_cbuf.c b/drivers/accel/amdxdna/amdxdna_cbuf.c
+> index a504560aae98..945436516cc6 100644
+> --- a/drivers/accel/amdxdna/amdxdna_cbuf.c
+> +++ b/drivers/accel/amdxdna/amdxdna_cbuf.c
+> @@ -5,6 +5,7 @@
+>   
+>   #include <drm/drm_mm.h>
+>   #include <drm/drm_prime.h>
+> +#include <linux/dma-buf-mapping.h>
+>   
+>   #include "amdxdna_cbuf.h"
+>   #include "amdxdna_pci_drv.h"
+> @@ -81,11 +82,13 @@ struct amdxdna_cbuf_priv {
+>   	struct drm_mm_node node;
+>   };
+>   
+> -static struct sg_table *amdxdna_cbuf_map(struct dma_buf_attachment *attach,
+> -					 enum dma_data_direction direction)
+> +static struct dma_buf_sgt_mapping *
+> +amdxdna_cbuf_map(struct dma_buf_attachment *attach,
+> +		 enum dma_data_direction direction)
+>   {
+>   	struct amdxdna_cbuf_priv *cbuf = attach->dmabuf->priv;
+> -	struct device *dev = attach->dev;
+> +	struct device *dev = dma_buf_sgt_dma_device(attach);
+> +	struct dma_buf_sgt_mapping *mapping;
+>   	struct scatterlist *sgl, *sg;
+>   	int ret, n_entries, i;
+>   	struct sg_table *sgt;
+> @@ -93,9 +96,10 @@ static struct sg_table *amdxdna_cbuf_map(struct dma_buf_attachment *attach,
+>   	size_t dma_size;
+>   	size_t max_seg;
+>   
+> -	sgt = kzalloc_obj(*sgt);
+> -	if (!sgt)
+> +	mapping = kzalloc_obj(*mapping);
+> +	if (!mapping)
+>   		return ERR_PTR(-ENOMEM);
+> +	sgt = &mapping->sgt;
+>   
+>   	max_seg = min_t(size_t, UINT_MAX, dma_max_mapping_size(dev));
+>   	n_entries = (cbuf->node.size + max_seg - 1) / max_seg;
+> @@ -127,24 +131,27 @@ static struct sg_table *amdxdna_cbuf_map(struct dma_buf_attachment *attach,
+>   		dma_size -= len;
+>   	}
+>   
+> -	return sgt;
+> +	return mapping;
+>   
+>   free_sgl:
+>   	kfree(sgl);
+>   free_sgt:
+> -	kfree(sgt);
+> +	kfree(mapping);
+>   	return ERR_PTR(ret);
+>   }
+>   
+>   static void amdxdna_cbuf_unmap(struct dma_buf_attachment *attach,
+> -			       struct sg_table *sgt,
+> +			       struct dma_buf_sgt_mapping *mapping,
+>   			       enum dma_data_direction direction)
+>   {
+> -	dma_unmap_resource(attach->dev, sg_dma_address(sgt->sgl),
+> +	struct sg_table *sgt = &mapping->sgt;
+> +
+> +	dma_unmap_resource(dma_buf_sgt_mapping_dma_device(mapping),
+> +			   sg_dma_address(sgt->sgl),
+>   			   drm_prime_get_contiguous_size(sgt), direction,
+>   			   DMA_ATTR_SKIP_CPU_SYNC);
+>   	sg_free_table(sgt);
+> -	kfree(sgt);
+> +	kfree(mapping);
+>   }
+>   
+>   static void amdxdna_cbuf_release(struct dma_buf *dbuf)
+> @@ -210,12 +217,11 @@ static void amdxdna_cbuf_vunmap(struct dma_buf *dbuf, struct iosys_map *map)
+>   }
+>   
+>   static const struct dma_buf_ops amdxdna_cbuf_dmabuf_ops = {
+> -	.map_dma_buf = amdxdna_cbuf_map,
+> -	.unmap_dma_buf = amdxdna_cbuf_unmap,
+>   	.release = amdxdna_cbuf_release,
+>   	.mmap = amdxdna_cbuf_mmap,
+>   	.vmap = amdxdna_cbuf_vmap,
+>   	.vunmap = amdxdna_cbuf_vunmap,
+> +	DMA_BUF_SIMPLE_SGT_EXP_MATCH(amdxdna_cbuf_map, amdxdna_cbuf_unmap),
+>   };
+>   
+>   static int amdxdna_cbuf_clear(struct dma_buf *dbuf)
+> diff --git a/drivers/accel/amdxdna/amdxdna_ubuf.c b/drivers/accel/amdxdna/amdxdna_ubuf.c
+> index 0e0cd69cd1fb..ed8b0ab9e554 100644
+> --- a/drivers/accel/amdxdna/amdxdna_ubuf.c
+> +++ b/drivers/accel/amdxdna/amdxdna_ubuf.c
+> @@ -7,6 +7,7 @@
+>   #include <drm/drm_device.h>
+>   #include <drm/drm_print.h>
+>   #include <linux/dma-buf.h>
+> +#include <linux/dma-buf-mapping.h>
+>   #include <linux/overflow.h>
+>   #include <linux/pagemap.h>
+>   #include <linux/vmalloc.h>
+> @@ -20,42 +21,48 @@ struct amdxdna_ubuf_priv {
+>   	struct mm_struct *mm;
+>   };
+>   
+> -static struct sg_table *amdxdna_ubuf_map(struct dma_buf_attachment *attach,
+> -					 enum dma_data_direction direction)
+> +static struct dma_buf_sgt_mapping *
+> +amdxdna_ubuf_map(struct dma_buf_attachment *attach,
+> +		 enum dma_data_direction direction)
+>   {
+>   	struct amdxdna_ubuf_priv *ubuf = attach->dmabuf->priv;
+> +	struct dma_buf_sgt_mapping *mapping;
+>   	struct sg_table *sg;
+>   	int ret;
+>   
+> -	sg = kzalloc_obj(*sg);
+> -	if (!sg)
+> +	mapping = kzalloc_obj(*mapping);
+> +	if (!mapping)
+>   		return ERR_PTR(-ENOMEM);
+> +	sg = &mapping->sgt;
+>   
+>   	ret = sg_alloc_table_from_pages(sg, ubuf->pages, ubuf->nr_pages, 0,
+>   					ubuf->nr_pages << PAGE_SHIFT, GFP_KERNEL);
+>   	if (ret)
+> -		goto err_free_sg;
+> +		goto err_free_mapping;
+>   
+> -	ret = dma_map_sgtable(attach->dev, sg, direction, 0);
+> +	ret = dma_map_sgtable(dma_buf_sgt_dma_device(attach), sg, direction, 0);
+>   	if (ret)
+>   		goto err_free_table;
+>   
+> -	return sg;
+> +	return mapping;
+>   
+>   err_free_table:
+>   	sg_free_table(sg);
+> -err_free_sg:
+> -	kfree(sg);
+> +err_free_mapping:
+> +	kfree(mapping);
+>   	return ERR_PTR(ret);
+>   }
+>   
+>   static void amdxdna_ubuf_unmap(struct dma_buf_attachment *attach,
+> -			       struct sg_table *sg,
+> +			       struct dma_buf_sgt_mapping *mapping,
+>   			       enum dma_data_direction direction)
+>   {
+> -	dma_unmap_sgtable(attach->dev, sg, direction, 0);
+> +	struct sg_table *sg = &mapping->sgt;
+> +
+> +	dma_unmap_sgtable(dma_buf_sgt_mapping_dma_device(mapping), sg,
+> +			  direction, 0);
+>   	sg_free_table(sg);
+> -	kfree(sg);
+> +	kfree(mapping);
+>   }
+>   
+>   static void amdxdna_ubuf_release(struct dma_buf *dbuf)
+> @@ -70,9 +77,8 @@ static void amdxdna_ubuf_release(struct dma_buf *dbuf)
+>   }
+>   
+>   static const struct dma_buf_ops amdxdna_ubuf_dmabuf_ops = {
+> -	.map_dma_buf = amdxdna_ubuf_map,
+> -	.unmap_dma_buf = amdxdna_ubuf_unmap,
+>   	.release = amdxdna_ubuf_release,
+> +	DMA_BUF_SIMPLE_SGT_EXP_MATCH(amdxdna_ubuf_map, amdxdna_ubuf_unmap),
+>   };
+>   
+>   struct dma_buf *amdxdna_get_ubuf(struct drm_device *dev,
+> diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel/habanalabs/common/memory.c
+> index 361cff577381..fc39ccd6f8db 100644
+> --- a/drivers/accel/habanalabs/common/memory.c
+> +++ b/drivers/accel/habanalabs/common/memory.c
+> @@ -9,6 +9,7 @@
+>   #include "habanalabs.h"
+>   #include "../include/hw_ip/mmu/mmu_general.h"
+>   
+> +#include <linux/dma-buf-mapping.h>
+>   #include <linux/uaccess.h>
+>   #include <linux/slab.h>
+>   #include <linux/vmalloc.h>
+> @@ -1531,13 +1532,15 @@ static int set_dma_sg(struct scatterlist *sg, u64 bar_address, u64 chunk_size,
+>   	return 0;
+>   }
+>   
+> -static struct sg_table *alloc_sgt_from_device_pages(struct hl_device *hdev, u64 *pages, u64 npages,
+> -						u64 page_size, u64 exported_size, u64 offset,
+> -						struct device *dev, enum dma_data_direction dir)
+> +static struct dma_buf_sgt_mapping *
+> +alloc_sgt_from_device_pages(struct hl_device *hdev, u64 *pages, u64 npages, u64 page_size,
+> +			    u64 exported_size, u64 offset, struct device *dev,
+> +			    enum dma_data_direction dir)
+>   {
+>   	u64 dma_max_seg_size, curr_page, size, chunk_size, left_size_to_export, left_size_in_page,
+>   		left_size_in_dma_seg, device_address, bar_address, start_page;
+>   	struct asic_fixed_properties *prop = &hdev->asic_prop;
+> +	struct dma_buf_sgt_mapping *mapping;
+>   	struct scatterlist *sg;
+>   	unsigned int nents, i;
+>   	struct sg_table *sgt;
+> @@ -1553,9 +1556,10 @@ static struct sg_table *alloc_sgt_from_device_pages(struct hl_device *hdev, u64
+>   		return ERR_PTR(-EINVAL);
+>   	}
+>   
+> -	sgt = kzalloc_obj(*sgt);
+> -	if (!sgt)
+> +	mapping = kzalloc_obj(*mapping);
+> +	if (!mapping)
+>   		return ERR_PTR(-ENOMEM);
+> +	sgt = &mapping->sgt;
+>   
+>   	/* Use the offset to move to the actual first page that is exported */
+>   	for (start_page = 0 ; start_page < npages ; ++start_page) {
+> @@ -1686,7 +1690,7 @@ static struct sg_table *alloc_sgt_from_device_pages(struct hl_device *hdev, u64
+>   			"SG entry %d: address %#llx, length %#x\n",
+>   			i, sg_dma_address(sg), sg_dma_len(sg));
+>   
+> -	return sgt;
+> +	return mapping;
+>   
+>   err_unmap:
+>   	for_each_sgtable_dma_sg(sgt, sg, i) {
+> @@ -1700,7 +1704,7 @@ static struct sg_table *alloc_sgt_from_device_pages(struct hl_device *hdev, u64
+>   	sg_free_table(sgt);
+>   
+>   err_free_sgt:
+> -	kfree(sgt);
+> +	kfree(mapping);
+>   	return ERR_PTR(rc);
+>   }
+>   
+> @@ -1714,22 +1718,22 @@ static int hl_dmabuf_attach(struct dma_buf *dmabuf,
+>   	hl_dmabuf = dmabuf->priv;
+>   	hdev = hl_dmabuf->ctx->hdev;
+>   
+> -	rc = pci_p2pdma_distance(hdev->pdev, attachment->dev, true);
+> +	rc = pci_p2pdma_distance(hdev->pdev, dma_buf_sgt_dma_device(attachment), true);
+>   
+>   	if (rc < 0)
+>   		attachment->peer2peer = false;
+>   	return 0;
+>   }
+>   
+> -static struct sg_table *hl_map_dmabuf(struct dma_buf_attachment *attachment,
+> -					enum dma_data_direction dir)
+> +static struct dma_buf_sgt_mapping *
+> +hl_map_dmabuf(struct dma_buf_attachment *attachment, enum dma_data_direction dir)
+>   {
+>   	u64 *pages, npages, page_size, exported_size, offset;
+>   	struct dma_buf *dma_buf = attachment->dmabuf;
+>   	struct hl_vm_phys_pg_pack *phys_pg_pack;
+> +	struct dma_buf_sgt_mapping *mapping;
+>   	struct hl_dmabuf_priv *hl_dmabuf;
+>   	struct hl_device *hdev;
+> -	struct sg_table *sgt;
+>   
+>   	hl_dmabuf = dma_buf->priv;
+>   	hdev = hl_dmabuf->ctx->hdev;
+> @@ -1753,18 +1757,21 @@ static struct sg_table *hl_map_dmabuf(struct dma_buf_attachment *attachment,
+>   		page_size = hl_dmabuf->dmabuf->size;
+>   	}
+>   
+> -	sgt = alloc_sgt_from_device_pages(hdev, pages, npages, page_size, exported_size, offset,
+> -						attachment->dev, dir);
+> -	if (IS_ERR(sgt))
+> -		dev_err(hdev->dev, "failed (%ld) to initialize sgt for dmabuf\n", PTR_ERR(sgt));
+> +	mapping = alloc_sgt_from_device_pages(hdev, pages, npages, page_size,
+> +					      exported_size, offset,
+> +					      dma_buf_sgt_dma_device(attachment),
+> +					      dir);
+> +	if (IS_ERR(mapping))
+> +		dev_err(hdev->dev, "failed (%ld) to initialize sgt for dmabuf\n", PTR_ERR(mapping));
+>   
+> -	return sgt;
+> +	return mapping;
+>   }
+>   
+>   static void hl_unmap_dmabuf(struct dma_buf_attachment *attachment,
+> -				  struct sg_table *sgt,
+> +				  struct dma_buf_sgt_mapping *mapping,
+>   				  enum dma_data_direction dir)
+>   {
+> +	struct sg_table *sgt = &mapping->sgt;
+>   	struct scatterlist *sg;
+>   	int i;
+>   
+> @@ -1776,14 +1783,14 @@ static void hl_unmap_dmabuf(struct dma_buf_attachment *attachment,
+>   	 * a sync of the memory to the CPU's cache, as it never resided inside that cache.
+>   	 */
+>   	for_each_sgtable_dma_sg(sgt, sg, i)
+> -		dma_unmap_resource(attachment->dev, sg_dma_address(sg),
+> -					sg_dma_len(sg), dir,
+> -					DMA_ATTR_SKIP_CPU_SYNC);
+> +		dma_unmap_resource(dma_buf_sgt_mapping_dma_device(mapping),
+> +				   sg_dma_address(sg), sg_dma_len(sg), dir,
+> +				   DMA_ATTR_SKIP_CPU_SYNC);
+>   
+>   	/* Need to restore orig_nents because sg_free_table use that field */
+>   	sgt->orig_nents = sgt->nents;
+>   	sg_free_table(sgt);
+> -	kfree(sgt);
+> +	kfree(mapping);
+>   }
+>   
+>   static struct hl_vm_hash_node *memhash_node_export_get(struct hl_ctx *ctx, u64 addr)
+> @@ -1850,9 +1857,8 @@ static void hl_release_dmabuf(struct dma_buf *dmabuf)
+>   
+>   static const struct dma_buf_ops habanalabs_dmabuf_ops = {
+>   	.attach = hl_dmabuf_attach,
+> -	.map_dma_buf = hl_map_dmabuf,
+> -	.unmap_dma_buf = hl_unmap_dmabuf,
+>   	.release = hl_release_dmabuf,
+> +	DMA_BUF_SIMPLE_SGT_EXP_MATCH(hl_map_dmabuf, hl_unmap_dmabuf),
+>   };
+>   
+>   static int export_dmabuf(struct hl_ctx *ctx,
+> diff --git a/drivers/gpu/drm/armada/armada_gem.c b/drivers/gpu/drm/armada/armada_gem.c
+> index 044acdef6351..1eff00567386 100644
+> --- a/drivers/gpu/drm/armada/armada_gem.c
+> +++ b/drivers/gpu/drm/armada/armada_gem.c
+> @@ -4,6 +4,7 @@
+>    */
+>   
+>   #include <linux/dma-buf.h>
+> +#include <linux/dma-buf-mapping.h>
+>   #include <linux/dma-mapping.h>
+>   #include <linux/mman.h>
+>   #include <linux/shmem_fs.h>
+> @@ -383,41 +384,44 @@ int armada_gem_pwrite_ioctl(struct drm_device *dev, void *data,
+>   }
+>   
+>   /* Prime support */
+> -static struct sg_table *
+> +static struct dma_buf_sgt_mapping *
+>   armada_gem_prime_map_dma_buf(struct dma_buf_attachment *attach,
+>   	enum dma_data_direction dir)
+>   {
+> +	struct device *dma_dev = dma_buf_sgt_dma_device(attach);
+>   	struct drm_gem_object *obj = attach->dmabuf->priv;
+>   	struct armada_gem_object *dobj = drm_to_armada_gem(obj);
+> +	struct dma_buf_sgt_mapping *mapping;
+>   	struct scatterlist *sg;
+>   	struct sg_table *sgt;
+>   	int i;
+>   
+> -	sgt = kmalloc_obj(*sgt);
+> -	if (!sgt)
+> +	mapping = kzalloc_obj(*mapping);
+> +	if (!mapping)
+>   		return NULL;
+> +	sgt = &mapping->sgt;
+>   
+>   	if (dobj->obj.filp) {
+> -		struct address_space *mapping;
+> +		struct address_space *file_mapping;
+>   		int count;
+>   
+>   		count = dobj->obj.size / PAGE_SIZE;
+>   		if (sg_alloc_table(sgt, count, GFP_KERNEL))
+>   			goto free_sgt;
+>   
+> -		mapping = dobj->obj.filp->f_mapping;
+> +		file_mapping = dobj->obj.filp->f_mapping;
+>   
+>   		for_each_sgtable_sg(sgt, sg, i) {
+>   			struct page *page;
+>   
+> -			page = shmem_read_mapping_page(mapping, i);
+> +			page = shmem_read_mapping_page(file_mapping, i);
+>   			if (IS_ERR(page))
+>   				goto release;
+>   
+>   			sg_set_page(sg, page, PAGE_SIZE, 0);
+>   		}
+>   
+> -		if (dma_map_sgtable(attach->dev, sgt, dir, 0))
+> +		if (dma_map_sgtable(dma_dev, sgt, dir, 0))
+>   			goto release;
+>   	} else if (dobj->page) {
+>   		/* Single contiguous page */
+> @@ -426,7 +430,7 @@ armada_gem_prime_map_dma_buf(struct dma_buf_attachment *attach,
+>   
+>   		sg_set_page(sgt->sgl, dobj->page, dobj->obj.size, 0);
+>   
+> -		if (dma_map_sgtable(attach->dev, sgt, dir, 0))
+> +		if (dma_map_sgtable(dma_dev, sgt, dir, 0))
+>   			goto free_table;
+>   	} else if (dobj->linear) {
+>   		/* Single contiguous physical region - no struct page */
+> @@ -437,7 +441,7 @@ armada_gem_prime_map_dma_buf(struct dma_buf_attachment *attach,
+>   	} else {
+>   		goto free_sgt;
+>   	}
+> -	return sgt;
+> +	return mapping;
+>   
+>    release:
+>   	for_each_sgtable_sg(sgt, sg, i)
+> @@ -446,19 +450,21 @@ armada_gem_prime_map_dma_buf(struct dma_buf_attachment *attach,
+>    free_table:
+>   	sg_free_table(sgt);
+>    free_sgt:
+> -	kfree(sgt);
+> +	kfree(mapping);
+>   	return NULL;
+>   }
+>   
+>   static void armada_gem_prime_unmap_dma_buf(struct dma_buf_attachment *attach,
+> -	struct sg_table *sgt, enum dma_data_direction dir)
+> +	struct dma_buf_sgt_mapping *mapping, enum dma_data_direction dir)
+>   {
+>   	struct drm_gem_object *obj = attach->dmabuf->priv;
+>   	struct armada_gem_object *dobj = drm_to_armada_gem(obj);
+> +	struct sg_table *sgt = &mapping->sgt;
+>   	int i;
+>   
+>   	if (!dobj->linear)
+> -		dma_unmap_sgtable(attach->dev, sgt, dir, 0);
+> +		dma_unmap_sgtable(dma_buf_sgt_mapping_dma_device(mapping), sgt,
+> +				  dir, 0);
+>   
+>   	if (dobj->obj.filp) {
+>   		struct scatterlist *sg;
+> @@ -468,7 +474,7 @@ static void armada_gem_prime_unmap_dma_buf(struct dma_buf_attachment *attach,
+>   	}
+>   
+>   	sg_free_table(sgt);
+> -	kfree(sgt);
+> +	kfree(mapping);
+>   }
+>   
+>   static int
+> @@ -478,10 +484,10 @@ armada_gem_dmabuf_mmap(struct dma_buf *buf, struct vm_area_struct *vma)
+>   }
+>   
+>   static const struct dma_buf_ops armada_gem_prime_dmabuf_ops = {
+> -	.map_dma_buf	= armada_gem_prime_map_dma_buf,
+> -	.unmap_dma_buf	= armada_gem_prime_unmap_dma_buf,
+>   	.release	= drm_gem_dmabuf_release,
+>   	.mmap		= armada_gem_dmabuf_mmap,
+> +	DMA_BUF_SIMPLE_SGT_EXP_MATCH(armada_gem_prime_map_dma_buf,
+> +				     armada_gem_prime_unmap_dma_buf),
+>   };
+>   
+>   struct dma_buf *
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
+> index f2863da7f5c1..bba066f3cb50 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
+> @@ -4,20 +4,24 @@
+>    * Copyright © 2016 Intel Corporation
+>    */
+>   
+> +#include <linux/dma-buf-mapping.h>
+>   #include <linux/vmalloc.h>
+>   #include "mock_dmabuf.h"
+>   
+> -static struct sg_table *mock_map_dma_buf(struct dma_buf_attachment *attachment,
+> -					 enum dma_data_direction dir)
+> +static struct dma_buf_sgt_mapping *
+> +mock_map_dma_buf(struct dma_buf_attachment *attachment,
+> +		 enum dma_data_direction dir)
+>   {
+>   	struct mock_dmabuf *mock = to_mock(attachment->dmabuf);
+> +	struct dma_buf_sgt_mapping *mapping;
+>   	struct sg_table *st;
+>   	struct scatterlist *sg;
+>   	int i, err;
+>   
+> -	st = kmalloc_obj(*st);
+> -	if (!st)
+> +	mapping = kzalloc_obj(*mapping);
+> +	if (!mapping)
+>   		return ERR_PTR(-ENOMEM);
+> +	st = &mapping->sgt;
+>   
+>   	err = sg_alloc_table(st, mock->npages, GFP_KERNEL);
+>   	if (err)
+> @@ -29,26 +33,27 @@ static struct sg_table *mock_map_dma_buf(struct dma_buf_attachment *attachment,
+>   		sg = sg_next(sg);
+>   	}
+>   
+> -	err = dma_map_sgtable(attachment->dev, st, dir, 0);
+> +	err = dma_map_sgtable(dma_buf_sgt_dma_device(attachment), st, dir, 0);
+>   	if (err)
+>   		goto err_st;
+>   
+> -	return st;
+> +	return mapping;
+>   
+>   err_st:
+>   	sg_free_table(st);
+>   err_free:
+> -	kfree(st);
+> +	kfree(mapping);
+>   	return ERR_PTR(err);
+>   }
+>   
+>   static void mock_unmap_dma_buf(struct dma_buf_attachment *attachment,
+> -			       struct sg_table *st,
+> +			       struct dma_buf_sgt_mapping *mapping,
+>   			       enum dma_data_direction dir)
+>   {
+> -	dma_unmap_sgtable(attachment->dev, st, dir, 0);
+> -	sg_free_table(st);
+> -	kfree(st);
+> +	dma_unmap_sgtable(dma_buf_sgt_mapping_dma_device(mapping),
+> +			  &mapping->sgt, dir, 0);
+> +	sg_free_table(&mapping->sgt);
+> +	kfree(mapping);
+>   }
+>   
+>   static void mock_dmabuf_release(struct dma_buf *dma_buf)
+> @@ -88,12 +93,11 @@ static int mock_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma)
+>   }
+>   
+>   static const struct dma_buf_ops mock_dmabuf_ops =  {
+> -	.map_dma_buf = mock_map_dma_buf,
+> -	.unmap_dma_buf = mock_unmap_dma_buf,
+>   	.release = mock_dmabuf_release,
+>   	.mmap = mock_dmabuf_mmap,
+>   	.vmap = mock_dmabuf_vmap,
+>   	.vunmap = mock_dmabuf_vunmap,
+> +	DMA_BUF_SIMPLE_SGT_EXP_MATCH(mock_map_dma_buf, mock_unmap_dma_buf),
+>   };
+>   
+>   static struct dma_buf *mock_dmabuf(int npages)
+> diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
+> index e6aa6dae4ec8..8e288a34f10f 100644
+> --- a/drivers/gpu/drm/tegra/gem.c
+> +++ b/drivers/gpu/drm/tegra/gem.c
+> @@ -11,6 +11,7 @@
+>    */
+>   
+>   #include <linux/dma-buf.h>
+> +#include <linux/dma-buf-mapping.h>
+>   #include <linux/iommu.h>
+>   #include <linux/module.h>
+>   #include <linux/pagemap.h>
+> @@ -626,51 +627,56 @@ int tegra_drm_mmap(struct file *file, struct vm_area_struct *vma)
+>   	return __tegra_gem_mmap(gem, vma);
+>   }
+>   
+> -static struct sg_table *
+> +static struct dma_buf_sgt_mapping *
+>   tegra_gem_prime_map_dma_buf(struct dma_buf_attachment *attach,
+>   			    enum dma_data_direction dir)
+>   {
+> +	struct device *dma_dev = dma_buf_sgt_dma_device(attach);
+>   	struct drm_gem_object *gem = attach->dmabuf->priv;
+>   	struct tegra_bo *bo = to_tegra_bo(gem);
+> +	struct dma_buf_sgt_mapping *mapping;
+>   	struct sg_table *sgt;
+>   
+> -	sgt = kmalloc_obj(*sgt);
+> -	if (!sgt)
+> +	mapping = kzalloc_obj(*mapping);
+> +	if (!mapping)
+>   		return NULL;
+> +	sgt = &mapping->sgt;
+>   
+>   	if (bo->pages) {
+>   		if (sg_alloc_table_from_pages(sgt, bo->pages, bo->num_pages,
+>   					      0, gem->size, GFP_KERNEL) < 0)
+>   			goto free;
+>   	} else {
+> -		if (dma_get_sgtable(attach->dev, sgt, bo->vaddr, bo->iova,
+> +		if (dma_get_sgtable(dma_dev, sgt, bo->vaddr, bo->iova,
+>   				    gem->size) < 0)
+>   			goto free;
+>   	}
+>   
+> -	if (dma_map_sgtable(attach->dev, sgt, dir, 0))
+> +	if (dma_map_sgtable(dma_dev, sgt, dir, 0))
+>   		goto free;
+>   
+> -	return sgt;
+> +	return mapping;
+>   
+>   free:
+>   	sg_free_table(sgt);
+> -	kfree(sgt);
+> +	kfree(mapping);
+>   	return NULL;
+>   }
+>   
+>   static void tegra_gem_prime_unmap_dma_buf(struct dma_buf_attachment *attach,
+> -					  struct sg_table *sgt,
+> +					  struct dma_buf_sgt_mapping *mapping,
+>   					  enum dma_data_direction dir)
+>   {
+>   	struct drm_gem_object *gem = attach->dmabuf->priv;
+>   	struct tegra_bo *bo = to_tegra_bo(gem);
+> +	struct sg_table *sgt = &mapping->sgt;
+>   
+>   	if (bo->pages)
+> -		dma_unmap_sgtable(attach->dev, sgt, dir, 0);
+> +		dma_unmap_sgtable(dma_buf_sgt_mapping_dma_device(mapping), sgt,
+> +				  dir, 0);
+>   
+>   	sg_free_table(sgt);
+> -	kfree(sgt);
+> +	kfree(mapping);
+>   }
+>   
+>   static void tegra_gem_prime_release(struct dma_buf *buf)
+> @@ -740,14 +746,14 @@ static void tegra_gem_prime_vunmap(struct dma_buf *buf, struct iosys_map *map)
+>   }
+>   
+>   static const struct dma_buf_ops tegra_gem_prime_dmabuf_ops = {
+> -	.map_dma_buf = tegra_gem_prime_map_dma_buf,
+> -	.unmap_dma_buf = tegra_gem_prime_unmap_dma_buf,
+>   	.release = tegra_gem_prime_release,
+>   	.begin_cpu_access = tegra_gem_prime_begin_cpu_access,
+>   	.end_cpu_access = tegra_gem_prime_end_cpu_access,
+>   	.mmap = tegra_gem_prime_mmap,
+>   	.vmap = tegra_gem_prime_vmap,
+>   	.vunmap = tegra_gem_prime_vunmap,
+> +	DMA_BUF_SIMPLE_SGT_EXP_MATCH(tegra_gem_prime_map_dma_buf,
+> +				     tegra_gem_prime_unmap_dma_buf),
+>   };
+>   
+>   struct dma_buf *tegra_gem_prime_export(struct drm_gem_object *gem,
+> diff --git a/samples/vfio-mdev/mbochs.c b/samples/vfio-mdev/mbochs.c
+> index 64ea19253ee3..3502d0b37bd1 100644
+> --- a/samples/vfio-mdev/mbochs.c
+> +++ b/samples/vfio-mdev/mbochs.c
+> @@ -32,6 +32,7 @@
+>   #include <linux/pci.h>
+>   #include <linux/dma-buf.h>
+>   #include <linux/highmem.h>
+> +#include <linux/dma-buf-mapping.h>
+>   #include <drm/drm_fourcc.h>
+>   #include <drm/drm_rect.h>
+>   #include <drm/drm_modeset_lock.h>
+> @@ -857,46 +858,51 @@ static void mbochs_print_dmabuf(struct mbochs_dmabuf *dmabuf,
+>   		dmabuf->mode.offset, dmabuf->mode.size, dmabuf->pagecount);
+>   }
+>   
+> -static struct sg_table *mbochs_map_dmabuf(struct dma_buf_attachment *at,
+> -					  enum dma_data_direction direction)
+> +static struct dma_buf_sgt_mapping *
+> +mbochs_map_dmabuf(struct dma_buf_attachment *at,
+> +		  enum dma_data_direction direction)
+>   {
+>   	struct mbochs_dmabuf *dmabuf = at->dmabuf->priv;
+>   	struct device *dev = mdev_dev(dmabuf->mdev_state->mdev);
+> +	struct dma_buf_sgt_mapping *mapping;
+>   	struct sg_table *sg;
+>   
+>   	dev_dbg(dev, "%s: %d\n", __func__, dmabuf->id);
+>   
+> -	sg = kzalloc(sizeof(*sg), GFP_KERNEL);
+> -	if (!sg)
+> +	mapping = kzalloc_obj(*mapping);
+> +	if (!mapping)
+>   		goto err1;
+> +	sg = &mapping->sgt;
+>   	if (sg_alloc_table_from_pages(sg, dmabuf->pages, dmabuf->pagecount,
+>   				      0, dmabuf->mode.size, GFP_KERNEL) < 0)
+>   		goto err2;
+> -	if (dma_map_sgtable(at->dev, sg, direction, 0))
+> +	if (dma_map_sgtable(dma_buf_sgt_dma_device(at), sg, direction, 0))
+>   		goto err3;
+>   
+> -	return sg;
+> +	return mapping;
+>   
+>   err3:
+>   	sg_free_table(sg);
+>   err2:
+> -	kfree(sg);
+> +	kfree(mapping);
+>   err1:
+>   	return ERR_PTR(-ENOMEM);
+>   }
+>   
+>   static void mbochs_unmap_dmabuf(struct dma_buf_attachment *at,
+> -				struct sg_table *sg,
+> +				struct dma_buf_sgt_mapping *mapping,
+>   				enum dma_data_direction direction)
+>   {
+>   	struct mbochs_dmabuf *dmabuf = at->dmabuf->priv;
+>   	struct device *dev = mdev_dev(dmabuf->mdev_state->mdev);
+> +	struct sg_table *sg = &mapping->sgt;
+>   
+>   	dev_dbg(dev, "%s: %d\n", __func__, dmabuf->id);
+>   
+> -	dma_unmap_sgtable(at->dev, sg, direction, 0);
+> +	dma_unmap_sgtable(dma_buf_sgt_mapping_dma_device(mapping), sg,
+> +			  direction, 0);
+>   	sg_free_table(sg);
+> -	kfree(sg);
+> +	kfree(mapping);
+>   }
+>   
+>   static void mbochs_release_dmabuf(struct dma_buf *buf)
+> @@ -918,11 +924,10 @@ static void mbochs_release_dmabuf(struct dma_buf *buf)
+>   	mutex_unlock(&mdev_state->ops_lock);
+>   }
+>   
+> -static struct dma_buf_ops mbochs_dmabuf_ops = {
+> -	.map_dma_buf	  = mbochs_map_dmabuf,
+> -	.unmap_dma_buf	  = mbochs_unmap_dmabuf,
+> +static const struct dma_buf_ops mbochs_dmabuf_ops = {
+>   	.release	  = mbochs_release_dmabuf,
+>   	.mmap		  = mbochs_mmap_dmabuf,
+> +	DMA_BUF_SIMPLE_SGT_EXP_MATCH(mbochs_map_dmabuf, mbochs_unmap_dmabuf),
+>   };
+>   
+>   static struct mbochs_dmabuf *mbochs_dmabuf_alloc(struct mdev_state *mdev_state,
+> diff --git a/sound/soc/fsl/fsl_asrc_m2m.c b/sound/soc/fsl/fsl_asrc_m2m.c
+> index 58101ce07c9f..79fde68f9394 100644
+> --- a/sound/soc/fsl/fsl_asrc_m2m.c
+> +++ b/sound/soc/fsl/fsl_asrc_m2m.c
+> @@ -7,6 +7,7 @@
+>   
+>   #include <linux/dma/imx-dma.h>
+>   #include <linux/dma-buf.h>
+> +#include <linux/dma-buf-mapping.h>
+>   #include <linux/dma-mapping.h>
+>   #include <linux/pm_runtime.h>
+>   #include <sound/asound.h>
+> @@ -414,35 +415,42 @@ static int fsl_asrc_m2m_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
+>   	return snd_dma_buffer_mmap(dmab, vma);
+>   }
+>   
+> -static struct sg_table *fsl_asrc_m2m_map_dma_buf(struct dma_buf_attachment *attachment,
+> -						 enum dma_data_direction direction)
+> +static struct dma_buf_sgt_mapping *
+> +fsl_asrc_m2m_map_dma_buf(struct dma_buf_attachment *attachment,
+> +			 enum dma_data_direction direction)
+>   {
+> +	struct device *dma_dev = dma_buf_sgt_dma_device(attachment);
+>   	struct snd_dma_buffer *dmab = attachment->dmabuf->priv;
+> +	struct dma_buf_sgt_mapping *mapping;
+>   	struct sg_table *sgt;
+>   
+> -	sgt = kmalloc_obj(*sgt);
+> -	if (!sgt)
+> +	mapping = kzalloc_obj(*mapping);
+> +	if (!mapping)
+>   		return NULL;
+> +	sgt = &mapping->sgt;
+>   
+> -	if (dma_get_sgtable(attachment->dev, sgt, dmab->area, dmab->addr, dmab->bytes) < 0)
+> +	if (dma_get_sgtable(dma_dev, sgt, dmab->area, dmab->addr, dmab->bytes) < 0)
+>   		goto free;
+>   
+> -	if (dma_map_sgtable(attachment->dev, sgt, direction, 0))
+> +	if (dma_map_sgtable(dma_dev, sgt, direction, 0))
+>   		goto free;
+>   
+> -	return sgt;
+> +	return mapping;
+>   
+>   free:
+>   	sg_free_table(sgt);
+> -	kfree(sgt);
+> +	kfree(mapping);
+>   	return NULL;
+>   }
+>   
+>   static void fsl_asrc_m2m_unmap_dma_buf(struct dma_buf_attachment *attachment,
+> -				       struct sg_table *table,
+> +				       struct dma_buf_sgt_mapping *mapping,
+>   				       enum dma_data_direction direction)
+>   {
+> -	dma_unmap_sgtable(attachment->dev, table, direction, 0);
+> +	dma_unmap_sgtable(dma_buf_sgt_mapping_dma_device(mapping),
+> +			  &mapping->sgt, direction, 0);
+> +	sg_free_table(&mapping->sgt);
+> +	kfree(mapping);
+>   }
+>   
+>   static void fsl_asrc_m2m_release(struct dma_buf *dmabuf)
+> @@ -452,9 +460,9 @@ static void fsl_asrc_m2m_release(struct dma_buf *dmabuf)
+>   
+>   static const struct dma_buf_ops fsl_asrc_m2m_dma_buf_ops = {
+>   	.mmap = fsl_asrc_m2m_mmap,
+> -	.map_dma_buf = fsl_asrc_m2m_map_dma_buf,
+> -	.unmap_dma_buf = fsl_asrc_m2m_unmap_dma_buf,
+>   	.release = fsl_asrc_m2m_release,
+> +	DMA_BUF_SIMPLE_SGT_EXP_MATCH(fsl_asrc_m2m_map_dma_buf,
+> +				     fsl_asrc_m2m_unmap_dma_buf),
+>   };
+>   
+>   static int fsl_asrc_m2m_comp_task_create(struct snd_compr_stream *stream,
+> 
 
-Adds tests for the exporter/importer contract.
-
- - test_match_set_is_final: a later importer attaching does not change
-   an existing attachment's match set or default. Later attachments
-   influence what the exporter selects at pin and map time but not
-   previous attachments.
-
- - test_select_at_map: the exporter chooses a non-default entry on first
-   map and the result is tagged with it. A pin taken while there is a
-   live mapping inherits the type and the choice survives unmap/remap.
-   Only dma_buf_invalidate_mappings() allows the exporter to make
-   a different selection. An -EBUSY from selection leaves nothing
-   established.
-
- - test_select_at_pin: pin selects, and the choice survives map, unmap
-   and unpin so a pinned importer that is never invalidated keeps its
-   first type for the life of the import.
-
- - test_unmap_uses_own_type: after an invalidate the exporter may select
-   another type for the next map. A mapping made with the previous one
-   is still live, and each mapping must be torn down with the type it
-   was made with.
-
- - test_select_survives_own_invalidate: a pin or map whose exporter
-   callback invalidates every attachment still ends up selected, and one
-   that invalidates and fails does not.
-
-Signed-off-by: Alistair Popple <apopple@nvidia.com>
----
- drivers/dma-buf/st-dma-mapping.c | 703 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 703 insertions(+)
-
-diff --git a/drivers/dma-buf/st-dma-mapping.c b/drivers/dma-buf/st-dma-mapping.c
-index 8c69ae212455..42e6748f0ae6 100644
---- a/drivers/dma-buf/st-dma-mapping.c
-+++ b/drivers/dma-buf/st-dma-mapping.c
-@@ -7,6 +7,7 @@
- #include <kunit/test.h>
- #include <linux/dma-buf.h>
- #include <linux/dma-buf-mapping.h>
-+#include <linux/dma-resv.h>
- #include <linux/errno.h>
- 
- /* Mock tracking state -- reset before each test */
-@@ -21,6 +22,27 @@ static const struct dma_buf_match_args *mock_finish_args_arg;
- static const struct dma_buf_mapping_match *mock_finish_exp_arg;
- static const struct dma_buf_mapping_match *mock_finish_imp_arg;
- 
-+/* Mapping types the configurable mock exporter currently offers */
-+static const struct dma_buf_mapping_match *mock_exp_offer;
-+static size_t mock_exp_offer_len;
-+
-+/* Which match set entry the selecting mock exporter picks, or an error */
-+static int mock_select_idx;
-+static int mock_select_err;
-+static int mock_select_count;
-+
-+/* Make the mock exporter's pin and map invalidate everyone, as a move does */
-+static bool mock_invalidate_in_callback;
-+
-+/* What the mock types' unmap saw: the mapping's header type and its map's */
-+static const struct dma_buf_mapping_type *mock_unmap_type;
-+static const struct dma_buf_mapping_type *mock_unmap_made_by;
-+
-+/* Failure injection for the mock types' map and the mock exporter's pin */
-+static int mock_map_err;
-+static int mock_pin_err;
-+static int mock_pin_count;
-+
- static int reset_mock_state(struct kunit *test)
- {
- 	mock_match_called = false;
-@@ -32,6 +54,17 @@ static int reset_mock_state(struct kunit *test)
- 	mock_finish_args_arg = NULL;
- 	mock_finish_exp_arg = NULL;
- 	mock_finish_imp_arg = NULL;
-+	mock_exp_offer = NULL;
-+	mock_exp_offer_len = 0;
-+	mock_select_idx = 0;
-+	mock_select_err = 0;
-+	mock_select_count = 0;
-+	mock_invalidate_in_callback = false;
-+	mock_unmap_type = NULL;
-+	mock_unmap_made_by = NULL;
-+	mock_map_err = 0;
-+	mock_pin_err = 0;
-+	mock_pin_count = 0;
- 	return 0;
- }
- 
-@@ -374,6 +407,485 @@ static void test_mock_attach(struct kunit *test)
- 	dma_buf_put(dmabuf);
- }
- 
-+static int mock_dmabuf_offer_match_mapping(struct dma_buf_match_args *args)
-+{
-+	return dma_buf_match_mapping(args, mock_exp_offer, mock_exp_offer_len);
-+}
-+
-+static const struct dma_buf_ops mock_dmabuf_offer_ops = {
-+	.release = mock_dmabuf_release,
-+	.match_mapping = mock_dmabuf_offer_match_mapping,
-+};
-+
-+/*
-+ * The match set is final once attached. A later importer attaching must not
-+ * change an existing attachment even if the exporter returns a different set.
-+ *
-+ * Later attachments influence what the exporter selects at pin or map time,
-+ * not what was previously negotiated.
-+ */
-+static void test_match_set_is_final(struct kunit *test)
-+{
-+	static const struct dma_buf_mapping_match offer_ab[] = {
-+		{ .type = &mock_type_a },
-+		{ .type = &mock_type_b },
-+	};
-+	static const struct dma_buf_mapping_match offer_b[] = {
-+		{ .type = &mock_type_b },
-+	};
-+	struct dma_buf_mapping_match imp1[] = {
-+		{ .type = &mock_type_a },
-+		{ .type = &mock_type_b },
-+	};
-+	struct dma_buf_mapping_match imp2[] = { { .type = &mock_type_b } };
-+
-+	MOCK_IMPORTER_OPS(importer1_ops, imp1);
-+	MOCK_IMPORTER_OPS(importer2_ops, imp2);
-+	struct dma_buf_attachment *attach1, *attach2;
-+	struct dma_buf *dmabuf;
-+	struct device *dev;
-+
-+	dev = kunit_device_register(test, "dma-buf-test");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	dmabuf = mock_dmabuf_export(&mock_dmabuf_offer_ops);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dmabuf);
-+
-+	mock_exp_offer = offer_ab;
-+	mock_exp_offer_len = ARRAY_SIZE(offer_ab);
-+	attach1 = dma_buf_dynamic_attach(dmabuf, dev, &importer1_ops, NULL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, attach1);
-+	KUNIT_ASSERT_EQ(test, attach1->nr_matches, 2);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach1)->type,
-+			    &mock_type_a);
-+
-+	/* Exporter's answer for new importers changes; attach1 does not */
-+	mock_exp_offer = offer_b;
-+	mock_exp_offer_len = ARRAY_SIZE(offer_b);
-+	attach2 = dma_buf_dynamic_attach(dmabuf, dev, &importer2_ops, NULL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, attach2);
-+	KUNIT_ASSERT_EQ(test, attach2->nr_matches, 1);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach2)->type,
-+			    &mock_type_b);
-+	KUNIT_EXPECT_EQ(test, attach1->nr_matches, 2);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach1)->type,
-+			    &mock_type_a);
-+
-+	dma_buf_detach(dmabuf, attach2);
-+	KUNIT_EXPECT_EQ(test, attach1->nr_matches, 2);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach1)->type,
-+			    &mock_type_a);
-+
-+	dma_buf_detach(dmabuf, attach1);
-+	dma_buf_put(dmabuf);
-+}
-+
-+/* Mock mapping result for the generic map path */
-+struct mock_mapping {
-+	struct dma_buf_mapping base;
-+	const struct dma_buf_mapping_type *made_by;
-+};
-+
-+static struct dma_buf_mapping *mock_type_map(struct dma_buf_attachment *attach,
-+					     enum dma_data_direction dir)
-+{
-+	struct mock_mapping *m;
-+
-+	if (mock_invalidate_in_callback)
-+		dma_buf_invalidate_mappings(attach->dmabuf);
-+	if (mock_map_err)
-+		return ERR_PTR(mock_map_err);
-+	m = kzalloc_obj(*m);
-+	if (!m)
-+		return ERR_PTR(-ENOMEM);
-+	m->made_by = dma_buf_attach_map_type(attach)->type;
-+	return &m->base;
-+}
-+
-+static void mock_type_unmap(struct dma_buf_attachment *attach,
-+			    struct dma_buf_mapping *mapping,
-+			    enum dma_data_direction dir)
-+{
-+	struct mock_mapping *m = container_of(mapping, struct mock_mapping, base);
-+
-+	mock_unmap_type = dma_buf_mapping_type_of(mapping);
-+	mock_unmap_made_by = m->made_by;
-+	kfree(m);
-+}
-+
-+/* Exporter choosing the match set entry the test asks for */
-+static int mock_dmabuf_select_mapping(struct dma_buf_attachment *attach)
-+{
-+	mock_select_count++;
-+	if (mock_select_err)
-+		return mock_select_err;
-+	return mock_select_idx;
-+}
-+
-+static int mock_dmabuf_pin(struct dma_buf_attachment *attach)
-+{
-+	if (mock_invalidate_in_callback)
-+		dma_buf_invalidate_mappings(attach->dmabuf);
-+	if (mock_pin_err)
-+		return mock_pin_err;
-+	mock_pin_count++;
-+	return 0;
-+}
-+
-+static void mock_dmabuf_unpin(struct dma_buf_attachment *attach)
-+{
-+	mock_pin_count--;
-+}
-+
-+static const struct dma_buf_ops mock_dmabuf_select_ops = {
-+	.release = mock_dmabuf_release,
-+	.match_mapping = mock_dmabuf_offer_match_mapping,
-+	.select_mapping = mock_dmabuf_select_mapping,
-+	.pin = mock_dmabuf_pin,
-+	.unpin = mock_dmabuf_unpin,
-+};
-+
-+/*
-+ * Exporter decides type at first map from the match set. The result is tagged
-+ * with it and the core holds the choice across unmap/remap until the attachment
-+ * has been explicitly invalidated.
-+ */
-+static void test_select_at_map(struct kunit *test)
-+{
-+	static const struct dma_buf_mapping_match offer_ab[] = {
-+		{ .type = &mock_type_a },
-+		{ .type = &mock_type_b },
-+	};
-+	struct dma_buf_mapping_match imp[] = {
-+		{ .type = &mock_type_a },
-+		{ .type = &mock_type_b },
-+	};
-+	MOCK_IMPORTER_OPS(importer_ops, imp);
-+	struct dma_buf_attachment *attach;
-+	struct dma_buf_mapping *mapping;
-+	struct dma_buf *dmabuf;
-+	struct device *dev;
-+
-+	mock_type_a.map = mock_type_map;
-+	mock_type_a.unmap = mock_type_unmap;
-+	mock_type_b.map = mock_type_map;
-+	mock_type_b.unmap = mock_type_unmap;
-+
-+	dev = kunit_device_register(test, "dma-buf-test");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	dmabuf = mock_dmabuf_export(&mock_dmabuf_select_ops);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dmabuf);
-+
-+	mock_exp_offer = offer_ab;
-+	mock_exp_offer_len = ARRAY_SIZE(offer_ab);
-+	attach = dma_buf_dynamic_attach(dmabuf, dev, &importer_ops, NULL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, attach);
-+	KUNIT_EXPECT_FALSE(test, attach->selected);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_a);
-+
-+	dma_resv_lock(dmabuf->resv, NULL);
-+
-+	/* Exporter picks the second entry (mock_type_b) */
-+	mock_select_idx = 1;
-+	mapping = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mapping);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_mapping_type_of(mapping),
-+			    &mock_type_b);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_b);
-+	KUNIT_EXPECT_TRUE(test, attach->selected);
-+
-+	/* A pin taken whilst mapping is live gets the same type */
-+	mock_select_idx = 0;
-+	KUNIT_EXPECT_EQ(test, dma_buf_pin(attach), 0);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_b);
-+	dma_buf_unpin(attach);
-+
-+	dma_buf_mapping_unmap(attach, mapping, DMA_BIDIRECTIONAL);
-+
-+	/*
-+	 * Unmapped the exporter would now pick A, but no invalidate has
-+	 * happened so remap must get B again to avoid ping-ponging.
-+	 */
-+	KUNIT_EXPECT_TRUE(test, attach->selected);
-+	mapping = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mapping);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_mapping_type_of(mapping),
-+			    &mock_type_b);
-+	dma_buf_mapping_unmap(attach, mapping, DMA_BIDIRECTIONAL);
-+
-+	/* Only an explicit invalidation allows the type to change */
-+	dma_buf_invalidate_mappings(dmabuf);
-+	KUNIT_EXPECT_FALSE(test, attach->selected);
-+	/* Nothing is reselected until the next pin or map */
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_b);
-+
-+	mapping = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mapping);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_mapping_type_of(mapping),
-+			    &mock_type_a);
-+	dma_buf_mapping_unmap(attach, mapping, DMA_BIDIRECTIONAL);
-+
-+	/* Exporter cannot serve this importer right now */
-+	dma_buf_invalidate_mappings(dmabuf);
-+	mock_select_err = -EBUSY;
-+	mapping = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_EXPECT_EQ(test, PTR_ERR(mapping), -EBUSY);
-+	KUNIT_EXPECT_FALSE(test, attach->selected);
-+	mock_select_err = 0;
-+
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	dma_buf_detach(dmabuf, attach);
-+	dma_buf_put(dmabuf);
-+
-+	mock_type_a.map = NULL;
-+	mock_type_a.unmap = NULL;
-+	mock_type_b.map = NULL;
-+	mock_type_b.unmap = NULL;
-+}
-+
-+/*
-+ * Pin selects too and the choice survives map, unmap and unpin. A pinned
-+ * importer that is never invalidated keeps its first type for the life of the
-+ * attachment.
-+ */
-+static void test_select_at_pin(struct kunit *test)
-+{
-+	static const struct dma_buf_mapping_match offer_ab[] = {
-+		{ .type = &mock_type_a },
-+		{ .type = &mock_type_b },
-+	};
-+	struct dma_buf_mapping_match imp[] = {
-+		{ .type = &mock_type_a },
-+		{ .type = &mock_type_b },
-+	};
-+	MOCK_IMPORTER_OPS(importer_ops, imp);
-+	struct dma_buf_attachment *attach;
-+	struct dma_buf_mapping *mapping;
-+	struct dma_buf *dmabuf;
-+	struct device *dev;
-+
-+	mock_type_a.map = mock_type_map;
-+	mock_type_a.unmap = mock_type_unmap;
-+	mock_type_b.map = mock_type_map;
-+	mock_type_b.unmap = mock_type_unmap;
-+
-+	dev = kunit_device_register(test, "dma-buf-test");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	dmabuf = mock_dmabuf_export(&mock_dmabuf_select_ops);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dmabuf);
-+
-+	mock_exp_offer = offer_ab;
-+	mock_exp_offer_len = ARRAY_SIZE(offer_ab);
-+	attach = dma_buf_dynamic_attach(dmabuf, dev, &importer_ops, NULL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, attach);
-+
-+	dma_resv_lock(dmabuf->resv, NULL);
-+
-+	mock_select_idx = 1;
-+	KUNIT_EXPECT_EQ(test, dma_buf_pin(attach), 0);
-+	KUNIT_EXPECT_TRUE(test, attach->selected);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_b);
-+
-+	/* Map after pin uses the pinned type regardless of the exporter now */
-+	mock_select_idx = 0;
-+	mapping = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mapping);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_mapping_type_of(mapping),
-+			    &mock_type_b);
-+	dma_buf_mapping_unmap(attach, mapping, DMA_BIDIRECTIONAL);
-+
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_b);
-+
-+	dma_buf_unpin(attach);
-+	KUNIT_EXPECT_TRUE(test, attach->selected);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_b);
-+
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	dma_buf_detach(dmabuf, attach);
-+	dma_buf_put(dmabuf);
-+
-+	mock_type_a.map = NULL;
-+	mock_type_a.unmap = NULL;
-+	mock_type_b.map = NULL;
-+	mock_type_b.unmap = NULL;
-+}
-+
-+/*
-+ * If the first map/pin fails it shouldn't pin the selection. However all
-+ * subsequent map/pin failure must not reset the selection state, otherwise a
-+ * retry could reselect without an invalidate.
-+ */
-+static void test_select_survives_failed_map(struct kunit *test)
-+{
-+	static const struct dma_buf_mapping_match offer_ab[] = {
-+		{ .type = &mock_type_a },
-+		{ .type = &mock_type_b },
-+	};
-+	struct dma_buf_mapping_match imp[] = {
-+		{ .type = &mock_type_a },
-+		{ .type = &mock_type_b },
-+	};
-+	MOCK_IMPORTER_OPS(importer_ops, imp);
-+	struct dma_buf_attachment *attach;
-+	struct dma_buf_mapping *mapping;
-+	struct dma_buf *dmabuf;
-+	struct device *dev;
-+
-+	mock_type_a.map = mock_type_map;
-+	mock_type_a.unmap = mock_type_unmap;
-+	mock_type_b.map = mock_type_map;
-+	mock_type_b.unmap = mock_type_unmap;
-+
-+	dev = kunit_device_register(test, "dma-buf-test");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	dmabuf = mock_dmabuf_export(&mock_dmabuf_select_ops);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dmabuf);
-+
-+	mock_exp_offer = offer_ab;
-+	mock_exp_offer_len = ARRAY_SIZE(offer_ab);
-+	attach = dma_buf_dynamic_attach(dmabuf, dev, &importer_ops, NULL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, attach);
-+
-+	dma_resv_lock(dmabuf->resv, NULL);
-+
-+	/* A map that selected and then failed does not change the selected state */
-+	mock_select_idx = 1;
-+	mock_map_err = -EIO;
-+	mapping = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_EXPECT_EQ(test, PTR_ERR(mapping), -EIO);
-+	KUNIT_EXPECT_FALSE(test, attach->selected);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_a);
-+	mock_map_err = 0;
-+
-+	/* Pin selects B and holds it */
-+	KUNIT_EXPECT_EQ(test, dma_buf_pin(attach), 0);
-+	KUNIT_EXPECT_TRUE(test, attach->selected);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_b);
-+	KUNIT_EXPECT_EQ(test, mock_pin_count, 1);
-+
-+	/* A map failing under that pin must not allow a different selection */
-+	mock_select_idx = 0;
-+	mock_map_err = -EIO;
-+	mapping = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_EXPECT_EQ(test, PTR_ERR(mapping), -EIO);
-+	KUNIT_EXPECT_TRUE(test, attach->selected);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_b);
-+	KUNIT_EXPECT_EQ(test, mock_pin_count, 1);
-+	mock_map_err = 0;
-+
-+	/* The retry gets the pinned type, not a new selection */
-+	mapping = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mapping);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_mapping_type_of(mapping),
-+			    &mock_type_b);
-+	dma_buf_mapping_unmap(attach, mapping, DMA_BIDIRECTIONAL);
-+
-+	dma_buf_unpin(attach);
-+	KUNIT_EXPECT_EQ(test, mock_pin_count, 0);
-+
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	dma_buf_detach(dmabuf, attach);
-+	dma_buf_put(dmabuf);
-+
-+	mock_type_a.map = NULL;
-+	mock_type_a.unmap = NULL;
-+	mock_type_b.map = NULL;
-+	mock_type_b.unmap = NULL;
-+}
-+
-+/*
-+ * The same rule for a failing exporter pin. A pin that selected and then
-+ * failed resets the selection state, and one that failed after an existing map
-+ * does not.
-+ */
-+static void test_select_after_failed_pin(struct kunit *test)
-+{
-+	static const struct dma_buf_mapping_match offer_ab[] = {
-+		{ .type = &mock_type_a },
-+		{ .type = &mock_type_b },
-+	};
-+	struct dma_buf_mapping_match imp[] = {
-+		{ .type = &mock_type_a },
-+		{ .type = &mock_type_b },
-+	};
-+	MOCK_IMPORTER_OPS(importer_ops, imp);
-+	struct dma_buf_attachment *attach;
-+	struct dma_buf_mapping *mapping;
-+	struct dma_buf *dmabuf;
-+	struct device *dev;
-+
-+	mock_type_a.map = mock_type_map;
-+	mock_type_a.unmap = mock_type_unmap;
-+	mock_type_b.map = mock_type_map;
-+	mock_type_b.unmap = mock_type_unmap;
-+
-+	dev = kunit_device_register(test, "dma-buf-test");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	dmabuf = mock_dmabuf_export(&mock_dmabuf_select_ops);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dmabuf);
-+
-+	mock_exp_offer = offer_ab;
-+	mock_exp_offer_len = ARRAY_SIZE(offer_ab);
-+	attach = dma_buf_dynamic_attach(dmabuf, dev, &importer_ops, NULL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, attach);
-+
-+	dma_resv_lock(dmabuf->resv, NULL);
-+
-+	/* First pin selects B but the exporter cannot pin: nothing is kept */
-+	mock_select_idx = 1;
-+	mock_pin_err = -ENOSPC;
-+	KUNIT_EXPECT_EQ(test, dma_buf_pin(attach), -ENOSPC);
-+	KUNIT_EXPECT_FALSE(test, attach->selected);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_a);
-+	KUNIT_EXPECT_EQ(test, mock_pin_count, 0);
-+	mock_pin_err = 0;
-+
-+	/* A live mapping selects A */
-+	mock_select_idx = 0;
-+	mapping = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mapping);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_mapping_type_of(mapping),
-+			    &mock_type_a);
-+
-+	/* A pin failing under it leaves that selection in place */
-+	mock_select_idx = 1;
-+	mock_pin_err = -ENOSPC;
-+	KUNIT_EXPECT_EQ(test, dma_buf_pin(attach), -ENOSPC);
-+	KUNIT_EXPECT_TRUE(test, attach->selected);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_a);
-+	mock_pin_err = 0;
-+
-+	dma_buf_mapping_unmap(attach, mapping, DMA_BIDIRECTIONAL);
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	dma_buf_detach(dmabuf, attach);
-+	dma_buf_put(dmabuf);
-+
-+	mock_type_a.map = NULL;
-+	mock_type_a.unmap = NULL;
-+	mock_type_b.map = NULL;
-+	mock_type_b.unmap = NULL;
-+}
-+
- static const struct dma_exporter dma_exporter_params[] = {
- 	{ &mock_dmabuf_simple_sgt_ops, "simple_sgt" },
- 	{ &mock_dmabuf_two_exp_ops, "two_exp" },
-@@ -381,6 +893,190 @@ static const struct dma_exporter dma_exporter_params[] = {
- 
- KUNIT_ARRAY_PARAM_DESC(dma_exporter, dma_exporter_params, desc);
- 
-+/*
-+ * After an invalidate the exporter may select another type for the next map
-+ * while a mapping made with the previous selection is still live. Since
-+ * importers don't have to unmap on invalidate the attachment selection may
-+ * have changed by the time unmap is called. Therefore every mapping must be
-+ * torn down with the type it was made with, and the new selection governs new
-+ * maps only not unmap.
-+ */
-+static void test_unmap_uses_own_type(struct kunit *test)
-+{
-+	static const struct dma_buf_mapping_match offer_ab[] = {
-+		{ .type = &mock_type_a },
-+		{ .type = &mock_type_b },
-+	};
-+	struct dma_buf_mapping_match imp[] = {
-+		{ .type = &mock_type_a },
-+		{ .type = &mock_type_b },
-+	};
-+	MOCK_IMPORTER_OPS(importer_ops, imp);
-+	struct dma_buf_mapping *mapping, *mapping2;
-+	struct dma_buf_attachment *attach;
-+	struct dma_buf *dmabuf;
-+	struct device *dev;
-+
-+	mock_type_a.map = mock_type_map;
-+	mock_type_a.unmap = mock_type_unmap;
-+	mock_type_b.map = mock_type_map;
-+	mock_type_b.unmap = mock_type_unmap;
-+
-+	dev = kunit_device_register(test, "dma-buf-test");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	dmabuf = mock_dmabuf_export(&mock_dmabuf_select_ops);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dmabuf);
-+
-+	mock_exp_offer = offer_ab;
-+	mock_exp_offer_len = ARRAY_SIZE(offer_ab);
-+	attach = dma_buf_dynamic_attach(dmabuf, dev, &importer_ops, NULL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, attach);
-+
-+	dma_resv_lock(dmabuf->resv, NULL);
-+
-+	/* Mapped with the exporter's second entry */
-+	mock_select_idx = 1;
-+	mapping = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mapping);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_mapping_type_of(mapping),
-+			    &mock_type_b);
-+	KUNIT_EXPECT_PTR_EQ(test, mapping->match, &attach->matches[1]);
-+	KUNIT_EXPECT_EQ(test, mock_select_count, 1);
-+
-+	/* Invalidated while that mapping is live: the next map reselects */
-+	dma_buf_invalidate_mappings(dmabuf);
-+	KUNIT_EXPECT_FALSE(test, attach->selected);
-+	mock_select_idx = 0;
-+	mapping2 = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mapping2);
-+	KUNIT_EXPECT_PTR_EQ(test, mapping2->type, &mock_type_a);
-+	KUNIT_EXPECT_TRUE(test, attach->selected);
-+	KUNIT_EXPECT_EQ(test, mock_select_count, 2);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_a);
-+
-+	/* The old mapping is still torn down as B, the new one as A */
-+	dma_buf_mapping_unmap(attach, mapping, DMA_BIDIRECTIONAL);
-+	KUNIT_EXPECT_PTR_EQ(test, mock_unmap_type, &mock_type_b);
-+	KUNIT_EXPECT_PTR_EQ(test, mock_unmap_made_by, &mock_type_b);
-+	/* The selection itself is untouched by the unmap */
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_a);
-+	KUNIT_EXPECT_TRUE(test, attach->selected);
-+
-+	dma_buf_mapping_unmap(attach, mapping2, DMA_BIDIRECTIONAL);
-+	KUNIT_EXPECT_PTR_EQ(test, mock_unmap_type, &mock_type_a);
-+	KUNIT_EXPECT_PTR_EQ(test, mock_unmap_made_by, &mock_type_a);
-+
-+	/* Nothing live, but the selection stands until the next invalidate */
-+	mock_select_idx = 1;
-+	mapping = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mapping);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_mapping_type_of(mapping),
-+			    &mock_type_a);
-+	KUNIT_EXPECT_EQ(test, mock_select_count, 2);
-+	dma_buf_mapping_unmap(attach, mapping, DMA_BIDIRECTIONAL);
-+
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	dma_buf_detach(dmabuf, attach);
-+	dma_buf_put(dmabuf);
-+
-+	mock_type_a.map = NULL;
-+	mock_type_a.unmap = NULL;
-+	mock_type_b.map = NULL;
-+	mock_type_b.unmap = NULL;
-+}
-+
-+/*
-+ * An exporter that moves the buffer during map/pin after invalidating must not
-+ * leave the attachment in an unselected state after the map/pin succeeds. Once
-+ * a mapping succeeds it must lock in the selection made after the invalidate and
-+ * move and subsequent map/pin operations must get the same type.
-+ */
-+static void test_select_survives_own_invalidate(struct kunit *test)
-+{
-+	static const struct dma_buf_mapping_match offer_ab[] = {
-+		{ .type = &mock_type_a },
-+		{ .type = &mock_type_b },
-+	};
-+	struct dma_buf_mapping_match imp[] = {
-+		{ .type = &mock_type_a },
-+		{ .type = &mock_type_b },
-+	};
-+	MOCK_IMPORTER_OPS(importer_ops, imp);
-+	struct dma_buf_mapping *mapping, *mapping2;
-+	struct dma_buf_attachment *attach;
-+	struct dma_buf *dmabuf;
-+	struct device *dev;
-+
-+	mock_type_a.map = mock_type_map;
-+	mock_type_a.unmap = mock_type_unmap;
-+	mock_type_b.map = mock_type_map;
-+	mock_type_b.unmap = mock_type_unmap;
-+
-+	dev = kunit_device_register(test, "dma-buf-test");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	dmabuf = mock_dmabuf_export(&mock_dmabuf_select_ops);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dmabuf);
-+
-+	mock_exp_offer = offer_ab;
-+	mock_exp_offer_len = ARRAY_SIZE(offer_ab);
-+	attach = dma_buf_dynamic_attach(dmabuf, dev, &importer_ops, NULL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, attach);
-+
-+	mock_invalidate_in_callback = true;
-+	dma_resv_lock(dmabuf->resv, NULL);
-+
-+	/* The map's move invalidates the attachment selection. */
-+	mock_select_idx = 1;
-+	mapping = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mapping);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_mapping_type_of(mapping),
-+			    &mock_type_b);
-+	KUNIT_EXPECT_TRUE(test, attach->selected);
-+	KUNIT_EXPECT_EQ(test, mock_select_count, 1);
-+
-+	/* A second map does not reselect. */
-+	mock_select_idx = 0;
-+	mapping2 = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mapping2);
-+	KUNIT_EXPECT_PTR_EQ(test, mapping2->type, &mock_type_b);
-+	KUNIT_EXPECT_TRUE(test, attach->selected);
-+	KUNIT_EXPECT_EQ(test, mock_select_count, 1);
-+
-+	/* Nor does a pin taken under it */
-+	KUNIT_EXPECT_EQ(test, dma_buf_pin(attach), 0);
-+	KUNIT_EXPECT_TRUE(test, attach->selected);
-+	KUNIT_EXPECT_EQ(test, mock_select_count, 1);
-+	dma_buf_unpin(attach);
-+
-+	dma_buf_mapping_unmap(attach, mapping2, DMA_BIDIRECTIONAL);
-+	dma_buf_mapping_unmap(attach, mapping, DMA_BIDIRECTIONAL);
-+
-+	/* A map that invalidates and then fails establishes nothing */
-+	dma_buf_invalidate_mappings(dmabuf);
-+	mock_map_err = -EIO;
-+	mapping = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-+	KUNIT_EXPECT_EQ(test, PTR_ERR(mapping), -EIO);
-+	KUNIT_EXPECT_FALSE(test, attach->selected);
-+	KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-+			    &mock_type_a);
-+	mock_map_err = 0;
-+
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	dma_buf_detach(dmabuf, attach);
-+	dma_buf_put(dmabuf);
-+
-+	mock_type_a.map = NULL;
-+	mock_type_a.unmap = NULL;
-+	mock_type_b.map = NULL;
-+	mock_type_b.unmap = NULL;
-+}
-+
- static struct kunit_case dma_mapping_cases[] = {
- 	KUNIT_CASE(test_match_fail),
- 	KUNIT_CASE(test_match_no_match_callback),
-@@ -389,6 +1085,13 @@ static struct kunit_case dma_mapping_cases[] = {
- 	KUNIT_CASE(test_match_importer_priority),
- 	KUNIT_CASE_PARAM(test_sgt_attach, dma_exporter_gen_params),
- 	KUNIT_CASE(test_mock_attach),
-+	KUNIT_CASE(test_match_set_is_final),
-+	KUNIT_CASE(test_select_at_map),
-+	KUNIT_CASE(test_select_at_pin),
-+	KUNIT_CASE(test_select_survives_failed_map),
-+	KUNIT_CASE(test_select_after_failed_pin),
-+	KUNIT_CASE(test_unmap_uses_own_type),
-+	KUNIT_CASE(test_select_survives_own_invalidate),
- 	{}
- };
- 
-
--- 
-2.54.0
-
+Acked-by: Karol Wachowski <karol.wachowski@linux.intel.com>
 
