@@ -2,142 +2,104 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DD7606A32C
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 14:52:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4921160A3837
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 15:00:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=qeXL9VUD;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=R5I6nR6s;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KBOhI7bB;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=R5I6nR6s;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KBOhI7bB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=hmMcJJ9R;
+	dkim=pass (2048-bit key) header.d=isslab-korea-ac-kr.20260707.gappssmtp.com header.i=@isslab-korea-ac-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=rlM4aWuN
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=qSfkCnPPapXakwD0+Tcfs4W2tuo8CRxA3SpOZRdybsQ=; b=qeXL9VUDMQV1RA
-	SByRtpJJEY0fxIEzQB9+hlxTfBDhx15u7G1IBCioc+E+9ppTMaOvzINWjR8+vADKkADXmT/D4egl1
-	tRfh6UB/AUDXS7O2vCtRsB//dBv2kEb0MNULFuOv7yH3ym1Yhzb72RlwOv6U0wSAcDomWqH0/Y7da
-	3Dddjv+g/+c7sZGF20RiwKuOC60A69/QqLAlWw1l1hbqmdZnRecbjshfqP5Tvrk01aHfq4austwIT
-	ndZxe5u6FB5P8XLcuZ6QA9NMQjTw/WG6YLB9PSitnEZq9KO65k1tS6GoqwZ2h3MNkKMMqNM5ZnCiP
-	qACEqspAmiYuEk4Icohg==;
+	List-Owner; bh=0QNzEFV3vJuOGSdQIc+xIG1ijvSXzUStwoNbAGUQa7M=; b=hmMcJJ9RdhpUM+
+	ICRQSenaOrEYC3IUxOFulRJY+cHUHVVHiHlbDLuvZ6cVxXr/6JiwUkorb/532ytJ+8x4TKCa73EuK
+	r1mghvt4kezHVCAaKea8ImBz1TBUYwsKFr2k/SI35u0WRxYPLJ/Qml+JXqOCg0t6M+ZY3OjWSws3L
+	accB7ju8vnaS0lkSLDKMP5LZr121wgAfp+noIk4sFGA7RNF/AM4RwJzywmc97Ul4aCpnSg3Fm8KSR
+	j+O8FeZ2E4y3Ye4bozsN6FNxYFFCB/w0fnvuiG+z+dmp51RrOCyBDpiMr8pwaHqd3mEo9ONVG3z8f
+	M96y4LLuFCzDwRC3mEBQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUPyo-0000000FJUE-1Kgi;
-	Fri, 20 Nov 2026 14:52:46 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1xUQ5m-0000000FKmW-2OJ3;
+	Fri, 20 Nov 2026 14:59:58 +0000
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUPyl-0000000FJTg-3EXI
+	id 1xUQ5j-0000000FKli-0M21
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Nov 2026 14:52:45 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C0BBD2224B;
-	Fri, 20 Nov 2026 14:52:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795186361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qSfkCnPPapXakwD0+Tcfs4W2tuo8CRxA3SpOZRdybsQ=;
-	b=R5I6nR6s3/ThEIakh6eEF2RNOI0AlrVxLvyAyDhQ+C3Iqj7RxQzlx4zhuewim49wW+UOr0
-	+jW6mS7xdWlbluLJpGipoH36NehFo0gS6d+VkjObUObmestI3W4OQmTggzQaJFDqeAyjYA
-	G+firGjEPtkNhVkqharGYba8SwbgKsw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795186361;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qSfkCnPPapXakwD0+Tcfs4W2tuo8CRxA3SpOZRdybsQ=;
-	b=KBOhI7bBuip1q855/nDYN6EUAqbTJljtGRW7NpiFG3JzDFR26yRZluah/yxfOOMXQNa1B7
-	FC/o5V+rP39lPcCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=R5I6nR6s;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KBOhI7bB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795186361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qSfkCnPPapXakwD0+Tcfs4W2tuo8CRxA3SpOZRdybsQ=;
-	b=R5I6nR6s3/ThEIakh6eEF2RNOI0AlrVxLvyAyDhQ+C3Iqj7RxQzlx4zhuewim49wW+UOr0
-	+jW6mS7xdWlbluLJpGipoH36NehFo0gS6d+VkjObUObmestI3W4OQmTggzQaJFDqeAyjYA
-	G+firGjEPtkNhVkqharGYba8SwbgKsw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795186361;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qSfkCnPPapXakwD0+Tcfs4W2tuo8CRxA3SpOZRdybsQ=;
-	b=KBOhI7bBuip1q855/nDYN6EUAqbTJljtGRW7NpiFG3JzDFR26yRZluah/yxfOOMXQNa1B7
-	FC/o5V+rP39lPcCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 97EE31342D;
-	Fri, 20 Nov 2026 14:52:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id E7fLHLleAGs7RQAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 20 Nov 2026 14:52:41 +0000
-Message-ID: <039b2f6b-c24f-4e3d-8aae-33d592d26563@suse.de>
-Date: Fri, 20 Nov 2026 15:52:41 +0100
+	Fri, 20 Nov 2026 14:59:56 +0000
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-2f00fc215f9so6737165ad.0
+        for <linux-nvme@lists.infradead.org>; Fri, 20 Nov 2026 06:59:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isslab-korea-ac-kr.20260707.gappssmtp.com; s=20260707; t=1795186794; x=1795791594; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0QNzEFV3vJuOGSdQIc+xIG1ijvSXzUStwoNbAGUQa7M=;
+        b=rlM4aWuNDMFu2uERKF3mJsyWZSBovKa+bayHW/XdHnqk/Mw5pRx/rzHLSXgFZ1ayR9
+         +RDyHH//HCMNIhgosNzgdZCuWjDZzQw+CO3ssXJE72op591XjgzLtOmsrwuULIGE1sXB
+         9rdocUUq4hWhzqBn4OjjSPqfgsVOsyllTkrFk4r6yutxshszIsVIPtUH/TaYnvSZ4jqn
+         fTpEbZ96O3ouhlIU9h3HGCE1eU2y3jqbn8BuxVzwXBmoGKtIL+V2YC9VBzayj6frYf2G
+         VoWTr5XWdC0MjyN2bYYdMxN12brk2ImOUqQ4NbTdHfgfoQUvIkCK/OA40SygVt9E6VLs
+         pEnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795186794; x=1795791594;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0QNzEFV3vJuOGSdQIc+xIG1ijvSXzUStwoNbAGUQa7M=;
+        b=mBuaYo8kGABG9lzI4sj1XFdSmGCKSxRA6RMalzPUM36UvXgTxrJdXEyP97Rb1mHk5Q
+         jFmMHwALVje6z+mGUUgI7uZjoyH463BRumLSE8lmYqKjS14W4Qix5Rs6u/C9AiIpx5fl
+         plpn/NGfS6LGcvhJv04RTY7aB+zo4rMXqf3nFhNSBp4EhlRULkwHusIA7kTLN5MgmT7M
+         Bp1IOPhzSlmetCpdmoR9N2YrKPjsdUiKOx6tRMr8Rcy5ZW9b8VgV/dhy7Me1ypkd83Zz
+         nm+/AMNyX1Ja7C3aSAlNqGyjNIT6phj183hTXmGxFFPzMyPt0YoRUwrLvA0gdvuzmc8N
+         CfWw==
+X-Forwarded-Encrypted: i=1; AL+hErH3+k8cAJrAlxaVPvs/v13oBBfC+k5BqtTiOYD9ycXEfSFo3dyc12y8KP/+cZ1kHPgEgCpluH3nRcVo@lists.infradead.org
+X-Gm-Message-State: APuU4Z8+0oAf2gqLkrrdkRD8WcrFLEFiJpfiknLz/FoOgwtcDWZNF8C7
+	L5SyByX2yLWBVIAF0RGlFXby0MPZ9ZBooZJuwyDYL1m+rXyzfiGGYcelamD86U0gWU8=
+X-Gm-Gg: AZFdTZcl6q+mDZSj3FH9COmOQTELg/plPUpscDs09WXXtWTt5Qz/lqMqPODSwHc0aod
+	Xj6CBk+LXrGUF6jxWXJuT9R/kkU7mYHv61062gNSTtPn0rK9XTusCHCAnGyusXErOsNV3v7SnOU
+	61LYOfUjMYfhPG4qtEzdNVe+9ZGV5RxJGaJmyW+oJcZSJv6Wzffgj2PEraFaDBpPDfZXyIQ9mhW
+	c+0pes4EBahPs4FIEQhflmdDoCQO9lk36DbvInyG0hfVtPldlfj59eWvUzFW6SDnk6C/ymvJck7
+	/jRmNhUZIxcj0J6IYqmGA+vZJkRXU02LZHFL8ncb5JaU/MgOjv8cJvM86NnhjdRLXzl9NNdUksM
+	Ct+gZ+dMi2ZtHwnSmswLrZPjUB7tIwsuj37YMXXGlpLaB30v5gWFrQcFTTFA7a7zURYeIwIFWGM
+	AEzB8NTmzrSUK7kSzTXAyY2JOgE32fZngB9blhEbsudpJi1uREav2X/z15EdxHuOMcEGBmMlsFx
+	YYUix0OrzlqAkQa9UcQO+5+/ilzah2b8/lxnRN5XFQ69gYtkduMhDVJNpr84NpnyfvHi88MW1Mz
+	98DK7ria7+yIz37ncrCIGa0hCcssB0DfNBvFp9hX6MV1oER6/lSiG5r5Z/RIZqJRMIGgtKmhOj7
+	EYRuMB1yLY7MJcxxG2X7g1BRjOcWYJyyeu9eu
+X-Received: by 2002:a17:902:e847:b0:2f0:2c63:8bff with SMTP id d9443c01a7336-2f03f1c0088mr38054055ad.39.1795186793943;
+        Fri, 20 Nov 2026 06:59:53 -0800 (PST)
+Received: from yhlee-960QFG.Davolink ([2406:5900:1044:110c:8b25:951:ad8d:5cc1])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f14a432sm15587795ad.75.2026.11.20.06.59.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 06:59:53 -0800 (PST)
+From: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+To: justin.tee@broadcom.com
+Cc: hch@lst.de,
+	sagi@grimberg.me,
+	kbusch@kernel.org,
+	linux-nvme@lists.infradead.org,
+	nareshgottumukkala83@gmail.com,
+	paul.ely@broadcom.com,
+	kch@nvidia.com,
+	jsmart2021@gmail.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvmet-fc: bound the FCP command data length before allocating buffers
+Date: Fri, 20 Nov 2026 23:59:47 +0900
+Message-ID: <20261120145947.3127969-1-yhlee@isslab.korea.ac.kr>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261013104038.3078601-1-yhlee@isslab.korea.ac.kr>
+References: <20261013104038.3078601-1-yhlee@isslab.korea.ac.kr>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 7/9] nvme-auth: wait for authentication to finish when
- changing keys
-To: sashiko-reviews@lists.linux.dev, Hannes Reinecke <hare@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-References: <20261120-dhchap-keyring-v4-v4-0-5f8c7d9926ee@kernel.org>
- <20261120-dhchap-keyring-v4-v4-7-5f8c7d9926ee@kernel.org>
- <sashiko-outbox-225036@kernel.org>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <sashiko-outbox-225036@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-13.50 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -13.50
-X-Spam-Level: 
-X-Rspamd-Queue-Id: C0BBD2224B
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261120_065244_045693_06EE8FC8 
-X-CRM114-Status: GOOD (  16.76  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261120_065955_125061_DC0D88D8 
+X-CRM114-Status: UNSURE (   9.84  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -1.0 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,101 +110,24 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/20/26 12:26 PM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [Low] nvme-auth: asymmetric and undocumented removal of
->    synchronize_rcu() in sysfs
-> --
-> 
-> commit 5f508c67e7480252b016c544aeba6f80edc88b85
-> Author: Hannes Reinecke <hare@kernel.org>
-> 
-> nvme-auth: wait for authentication to finish when changing keys
-> 
-> This commit flushes ctrl->dhchap_auth_work after queuing re-authentication in
-> dhchap_secret_store() and dhchap_ctrl_secret_store(), and removes two
-> synchronize_rcu() calls after key_revoke().
-> 
->> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
->> index 47caed2ce3978..ce327a018b0d0 100644
->> --- a/drivers/nvme/host/sysfs.c
->> +++ b/drivers/nvme/host/sysfs.c
->> @@ -875,7 +875,6 @@ static ssize_t dhchap_secret_store(struct device *dev,
->>   		if (generated) {
->>   			dev_dbg(ctrl->dev, "revoke host key %08x\n", key_serial(key));
->>   			key_revoke(key);
->> -			synchronize_rcu();
->>   		}
->>   		key_put(key);
->>   		kfree_sensitive(dhchap_secret);
-> 
-> [ ... ]
-> 
->> @@ -973,7 +972,6 @@ static ssize_t dhchap_ctrl_secret_store(struct device *dev,
->>   		dev_dbg(ctrl->dev, "revoke ctrl key %08x\n",
->>   			key_serial(old_key));
->>   		key_revoke(old_key);
->> -		synchronize_rcu();
->>   	}
->>   	ctrl->ctrl_key = key;
->>   	ctrl->ctrl_key_generated = generated;
-> 
-> [Severity: Low]
-> Why are synchronize_rcu() calls removed from mismatched paths in
-> dhchap_secret_store() and dhchap_ctrl_secret_store(), and without mention in
-> the commit message?
-> 
-> In dhchap_secret_store(), synchronize_rcu() is removed from the
-> key_validate() error path, but kept when revoking old_key under
-> ctrl->dhchap_auth_mutex:
-> 
-Oversight. Will be fixed up with the next version.
+On Tue, Oct 13, 2026 at 07:40:38PM +0900, Yehyeong Lee wrote:
+> nvmet_fc_handle_fcp_rqst() takes the data length straight from the FCP
+> command IU (cmdiu->data_len, a 32-bit value from the wire) into
+> fod->req.transfer_len and calls nvmet_fc_alloc_tgt_pgs(), which hands it to
+> sgl_alloc() with no upper bound.  nvmet_req_init() only parses the command
+> and clears transfer_len; nvmet_check_transfer_len(), the only other place
+> the length is checked, runs later from req->execute(), after the allocation
 
-> drivers/nvme/host/sysfs.c:dhchap_secret_store() {
->      ...
-> 	if (ctrl->host_key_generated) {
-> 		dev_dbg(ctrl->dev, "revoke host key %08x\n",
-> 			key_serial(old_key));
-> 		key_revoke(old_key);
-> 		synchronize_rcu();
-> 	}
->      ...
-> }
-> 
-> In dhchap_ctrl_secret_store(), it is removed when revoking old_key, but kept
-> in the key_validate() error path:
-> 
-> drivers/nvme/host/sysfs.c:dhchap_ctrl_secret_store() {
->      ...
-> 		if (generated) {
-> 			dev_dbg(ctrl->dev, "revoke ctrl key %08x\n", key_serial(key));
-> 			key_revoke(key);
-> 			synchronize_rcu();
-> 		}
->      ...
-> }
-> 
-> Both functions handle keys of type nvme_dhchap_psk_key_type (whose
-> user_revoke() callback frees the payload via call_rcu()), so the two store
-> callbacks should handle key_revoke() symmetrically.
-> 
-Similarly. Will be fixed with the next round.
+This is superseded by v2:
+  https://lore.kernel.org/all/20261013153316.3178656-1-yhlee@isslab.korea.ac.kr/
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Best regards,
+Yehyeong Lee
 
