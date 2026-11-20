@@ -2,55 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84410606A33E
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 11:14:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FA960A2603
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 11:14:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=qZmp5Rhw;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=idvk1wIw
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mNK3+scl;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rkgc2DEx
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=6pfiOLVsx6a+xlHnlgKgwj8VHd0k71QW3+Znh8XqTps=; b=qZmp5RhwiZW3KK
-	6Rjrx2bmCW+2aQKBMFSnU1FV6JEzop61JOz1+d+pg2Xio9hAfmXvii7vLYe5tNOOr6ChOR6KHAzpu
-	Ez6NGZO13/MgI3P8OJA0kQq1ZM1beufqceHqCjV6B7LtB0hoMclAo6Lmb55YI/MgDQH1N+iDWBlU0
-	92qozBscdSglb7SaNDKAREdKU+7q79pJzuT/bVt2IqbK7JU2kNjlTNUPliT/PLbUZVez7mE3IEi5N
-	LxzkGiR2qWkRgaAhidBt7jp/zzbED54tC41ugsnCrCm3AMQ8MbLfacPxuFMcH31n3eajxeXe8xbJ+
-	6NV8kTc20EwgWa6pJo9g==;
+	List-Owner; bh=kHkUmEBuFfXXYjU7AN+eAAA0L/NMOGipS3uHVeM+Bd8=; b=mNK3+scllactyl
+	ZhxVrC2N+LW8tCCz+GJ3cuqM1x6lDiywe3clDqUNNq/TvRn9z0oI74guBFi7F9bpyxCJexhz1f3L4
+	K/w7rBpoSIx1ntwU9HUC+rJXiT2qzTtNoNnTO05RwV0TZBHQqd8r1hlfIKKQzE15uZXA4Ej7FOMWp
+	yRkzKfJrB29OYkExyB0rpoN2fVlNbdHYOmVln7+xl7xLAEGHfgjcT1EFdy84GAZPdLAB5MgnLCd2+
+	Zz7/nY+3pxEyKPmi9FjfOXWo5U1Ibc/g3E4yuFxyNEPyhrQPlOOMA9nb8Yw+r7A2S1YtV5l+X24Nr
+	DQCx4+fajfNo3UYdPBrQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUMZW-0000000Ekfa-0l6M;
-	Fri, 20 Nov 2026 11:14:26 +0000
+	id 1xUMZd-0000000EkjQ-2ueZ;
+	Fri, 20 Nov 2026 11:14:33 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUMZU-0000000EkeV-05iP
+	id 1xUMZW-0000000EkfZ-1JOt
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Nov 2026 11:14:24 +0000
+	Fri, 20 Nov 2026 11:14:30 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 494CF6185B;
+	by tor.source.kernel.org (Postfix) with ESMTP id B0C6162494;
+	Fri, 20 Nov 2026 11:14:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 730501F00A03;
 	Fri, 20 Nov 2026 11:14:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABBDF1F000D2;
-	Fri, 20 Nov 2026 11:14:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795173262;
-	bh=6pfiOLVsx6a+xlHnlgKgwj8VHd0k71QW3+Znh8XqTps=;
+	s=k20260515; t=1795173265;
+	bh=kHkUmEBuFfXXYjU7AN+eAAA0L/NMOGipS3uHVeM+Bd8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=idvk1wIw+66zpnNifEEvH5aSXuAel70uZULntvOfSz7MI3xD8uYrn/d5tWqAmsdZA
-	 eWYLblR38CAC/94vxAufVcedkFRI53rzJxpxFwl2CFLMtU4h41NRQ2wLZgKBpU/Nj2
-	 ZoCXMAEK1HSn0Zyf7GRrlz1bsYRcYCyNE18HZ1DSP0+V984NnTK7zSIAnmzlw9WBvi
-	 r6jN6CiR28wBnOeqRtC8yn/hdksbkpNwCNLBVONUsaMh4HmAfvEMa7OBwj/XQ+wcI7
-	 XkbjufcppKakY5bvxQ4k4AnTXgqugEXNXrIS1sx8r6RuHJQ/qayiSD6GvosCLifYo+
-	 BRTL38j6wNGAA==
+	b=Rkgc2DEx6L9/0lqL4W99q/bBP1f56ogVGxL9izN35s9o8Ue49by4dje1Q7mqxL5Iy
+	 5xcTy80sXhdzgiF6kBfo0RncYp1QTqwtG3cnseROSx1X4qZ/csldimpAJSrY1lZADW
+	 sbwwC8fqj31N7WgTKvtI0Ej3K63rTgsOwT6lTESo4KcSAuhRIa5InGYQF4KfEooZ2H
+	 yN1MBgBfcT1Zz8u3i4m9Srqj1L2iI01f9vNEvLa4S76N7q9DnVVDf0YSmuc52/CBJo
+	 Um4Kb51Ks3OmbboNqQ4t8cVDVOnvozPfP0WbV7+9HdSZO08u42/nvHpjvgMttND/ZJ
+	 263aoBQv4rp5w==
 From: Hannes Reinecke <hare@kernel.org>
-Date: Fri, 20 Nov 2026 12:14:01 +0100
-Subject: [PATCH v4 2/9] nvme-keyring: add 'dhchap' key type
+Date: Fri, 20 Nov 2026 12:14:02 +0100
+Subject: [PATCH v4 3/9] nvme-auth: switch to use 'struct key'
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-dhchap-keyring-v4-v4-2-5f8c7d9926ee@kernel.org>
+Message-Id: <20261120-dhchap-keyring-v4-v4-3-5f8c7d9926ee@kernel.org>
 References: <20261120-dhchap-keyring-v4-v4-0-5f8c7d9926ee@kernel.org>
 In-Reply-To: <20261120-dhchap-keyring-v4-v4-0-5f8c7d9926ee@kernel.org>
 To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
@@ -59,11 +59,11 @@ To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
  Hannes Reinecke <hare@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795173255; l=7582;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795173255; l=24433;
  i=hare@kernel.org; s=20260619; h=from:subject:message-id;
- bh=Oz7bO/W9EWwoiOgBoW8Z8Y+IvOClD1k4X524K+Tict0=;
- b=q/NTp6LHMzOWxNy8jrwLlcv34rStGIQFeqb6WMBk10oGXRTbeywcoqOYbTWtNl/FSAc/Dol/f
- BvVmWRHgc84A1mhHd4KUCUSRbh4K1RYQwLQhrAYcadRMmypjCPtstfI
+ bh=VHT0hLVZll8xN0OCwoI85QLtL053bxDSNs4fx/kfjZU=;
+ b=L5ioSjQsV9j79bGQPcMlxtuUQAQfYJHDK/7t9P0RohYsETpqDbNyAZjYCiavyicg8eFnGIhQE
+ ha+TnKHnOG9Bq2flRliOwrcu0mupCn+yrOhAAulikQWRlN3O33vfhNz
 X-Developer-Key: i=hare@kernel.org; a=ed25519;
  pk=iekPF4ZZFva3sutm7d1ryPNR1G/WFfUgHaDB423JXho=
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -84,263 +84,742 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Add a 'dhchap' keytype to store DH-HMAC-CHAP secret keys.
-Keys are stored with a 'user-type' compatible payload, such
-that one can use 'user_read()' to access the raw contents
-and the 'read()' callback to get the base64-encoded key
-data in the DH-HMAC-CHAP secret representation.
+Use the new key type 'dhchap' to store the DH-HMAC-CHAP keys and modify
+handling function to use 'struct key'. With that we can drop the now
+unused 'struct nvme_dhchap_key' definitions.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 ---
- drivers/nvme/common/keyring.c | 216 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 216 insertions(+)
+ drivers/nvme/common/Kconfig   |   1 +
+ drivers/nvme/common/auth.c    | 193 ++++++++++++++++--------------------------
+ drivers/nvme/common/keyring.c |  98 +++++++++++++++++++++
+ drivers/nvme/host/Kconfig     |   1 -
+ drivers/nvme/host/auth.c      |  28 ++++--
+ drivers/nvme/host/nvme.h      |   4 +-
+ drivers/nvme/host/sysfs.c     |  26 +++---
+ drivers/nvme/target/Kconfig   |   1 -
+ drivers/nvme/target/auth.c    |  52 ++++++------
+ drivers/nvme/target/nvmet.h   |   4 +-
+ include/linux/nvme-auth.h     |  11 +--
+ include/linux/nvme-keyring.h  |  26 +++++-
+ 12 files changed, 263 insertions(+), 182 deletions(-)
 
-diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
-index 87cb51e1f5a7f330af4705f4058f661d15f5984a..96561f2dd81b8152f3d320fb63cdd605c132260e 100644
---- a/drivers/nvme/common/keyring.c
-+++ b/drivers/nvme/common/keyring.c
-@@ -4,6 +4,9 @@
-  */
+diff --git a/drivers/nvme/common/Kconfig b/drivers/nvme/common/Kconfig
+index f1639db65fd38abde01832a7404cbc48cf49a93e..9f72c2668f2f6b71f20d737f9849f1bb9cd88dc6 100644
+--- a/drivers/nvme/common/Kconfig
++++ b/drivers/nvme/common/Kconfig
+@@ -11,6 +11,7 @@ config NVME_AUTH
+ 	select CRYPTO_DH_RFC7919_GROUPS
+ 	select CRYPTO_LIB_SHA256
+ 	select CRYPTO_LIB_SHA512
++	select NVME_KEYRING
  
- #include <linux/module.h>
-+#include <linux/crc32.h>
-+#include <linux/base64.h>
-+#include <linux/unaligned.h>
- #include <linux/seq_file.h>
- #include <linux/key-type.h>
- #include <keys/user-type.h>
-@@ -253,6 +256,212 @@ key_serial_t nvme_tls_psk_default(struct key *keyring,
+ config NVME_AUTH_KUNIT_TEST
+ 	tristate "KUnit tests for NVMe authentication" if !KUNIT_ALL_TESTS
+diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
+index 569f21ad4fc7ed3e85083727ad25078420410f07..b7092deed9b06e6ee9bcd819dc6e58ed15069c50 100644
+--- a/drivers/nvme/common/auth.c
++++ b/drivers/nvme/common/auth.c
+@@ -13,6 +13,8 @@
+ #include <crypto/sha2.h>
+ #include <linux/nvme.h>
+ #include <linux/nvme-auth.h>
++#include <linux/nvme-keyring.h>
++#include <keys/user-type.h>
+ 
+ static u32 nvme_dhchap_seqnum;
+ static DEFINE_MUTEX(nvme_dhchap_mutex);
+@@ -138,89 +140,30 @@ size_t nvme_auth_hmac_hash_len(u8 hmac_id)
  }
- EXPORT_SYMBOL_GPL(nvme_tls_psk_default);
+ EXPORT_SYMBOL_GPL(nvme_auth_hmac_hash_len);
  
-+static void nvme_dhchap_psk_describe(const struct key *key, struct seq_file *m)
-+{
-+	seq_puts(m, key->description);
-+	seq_printf(m, ": %u", key->datalen);
-+}
-+
-+static bool nvme_dhchap_psk_match(const struct key *key,
-+				  const struct key_match_data *match_data)
-+{
-+	const char *match_id;
-+	size_t match_len;
-+
-+	if (!key->description) {
-+		pr_debug("%s: no key description\n", __func__);
-+		return false;
-+	}
-+	if (!match_data->raw_data) {
-+		pr_debug("%s: no match data\n", __func__);
-+		return false;
-+	}
-+	match_id = match_data->raw_data;
-+	match_len = strlen(match_id);
-+	pr_debug("%s: match '%s' '%s' len %zd\n",
-+		 __func__, match_id, key->description, match_len);
-+
-+	return !memcmp(key->description, match_id, match_len);
-+}
-+
-+static int nvme_dhchap_psk_match_preparse(struct key_match_data *match_data)
-+{
-+	match_data->lookup_type = KEYRING_SEARCH_LOOKUP_ITERATE;
-+	match_data->cmp = nvme_dhchap_psk_match;
-+	return 0;
-+}
-+
+-u32 nvme_auth_key_struct_size(u32 key_len)
+-{
+-	struct nvme_dhchap_key key;
+-
+-	return struct_size(&key, key, key_len);
+-}
+-EXPORT_SYMBOL_GPL(nvme_auth_key_struct_size);
+-
+-struct nvme_dhchap_key *nvme_auth_extract_key(const char *secret, u8 key_hash)
 +/**
-+ * nvme_dhchap_psk_preparse - prepare DH-HMAC-CHAP key data
-+ * @prep: preparsed payload of the key data
++ * nvme_auth_extract_key - extract the DH-HMAC-CHAP key
 + *
-+ * Decode the DH-HMAC-CHAP key data passed in @prep and
-+ * store the resulting binary data. The binary data includes
-+ * space for the CRC, the version, and the hmac identifier,
-+ * but the data length is just the key data without the CRC.
-+ * This allows the user to read the key data via the
-+ * 'user_read()' function. The additional 'version' ahd 'hmac'
-+ * data is used in the ->read() callback to generate the
-+ * base64 encoded key.
++ * @secret: key data
++ * @secret_len: length of @secret
++ *
++ * Extracts a dhchap key from @secret.
++ *
++ * Returns the dhchap key or an error pointer on failure.
 + */
-+static int nvme_dhchap_psk_preparse(struct key_preparsed_payload *prep)
-+{
-+	struct user_key_payload *upayload;
-+	size_t datalen = prep->datalen, keylen;
-+	int ret;
-+	u32 crc;
-+	u8 version, hmac;
-+
-+	if (!prep->data) {
-+		pr_debug("%s: Empty data", __func__);
-+		prep->payload.data[0] = NULL;
-+		prep->quotalen = 0;
-+		return -EINVAL;
-+	}
-+
-+	if (sscanf(prep->data, "DHHC-%01hhu:%02hhu:%*s",
-+		   &version, &hmac) != 2) {
-+		pr_debug("%s: invalid key data '%s'\n", __func__,
-+			 (char *)prep->data);
-+		prep->payload.data[0] = NULL;
-+		prep->quotalen = 0;
-+		return -EINVAL;
-+	}
-+
-+	/* skip header and final ':' character */
-+	datalen -= 11;
-+
-+	/*
-+	 * payload is < key | version | hmac >
-+	 * base64 decode will always return less data
-+	 * than the encoded data, so allocating the size
-+	 * of the encoded data will be large enough.
-+	 */
-+	upayload = kzalloc(sizeof(*upayload) + datalen, GFP_KERNEL);
-+	if (!upayload) {
-+		prep->payload.data[0] = NULL;
-+		prep->quotalen = 0;
-+		return -ENOMEM;
-+	}
-+
-+	/* decode the data */
-+	prep->quotalen = keylen;
-+	prep->payload.data[0] = upayload;
-+	ret = base64_decode(prep->data + 10, datalen, upayload->data,
-+			    true, BASE64_STD);
-+	if (ret < 0) {
-+		pr_debug("%s: Failed to decode key %s\n",
-+			 __func__, (char *)prep->data + 10);
++struct key *nvme_auth_extract_key(struct key *keyring, const char *secret,
++				  size_t secret_len)
+ {
+-	struct nvme_dhchap_key *key;
+-	const char *p;
+-	u32 crc;
+-	int ret, key_len;
+-	size_t allocated_len = strlen(secret);
+-
+-	/* Secret might be affixed with a ':' */
+-	p = strrchr(secret, ':');
+-	if (p)
+-		allocated_len = p - secret;
+-	key = nvme_auth_alloc_key(allocated_len, 0);
+-	if (!key)
+-		return ERR_PTR(-ENOMEM);
+-
+-	key_len = base64_decode(secret, allocated_len, key->key, true, BASE64_STD);
+-	if (key_len < 0) {
+-		pr_debug("base64 key decoding error %d\n",
+-			 key_len);
+-		ret = key_len;
+-		goto out_free_key;
+-	}
++	struct key *key;
+ 
+-	if (key_len != 36 && key_len != 52 &&
+-	    key_len != 68) {
+-		pr_err("Invalid key len %d\n", key_len);
+-		ret = -EINVAL;
+-		goto out_free_key;
++	key = nvme_dhchap_psk_create(keyring, secret, secret_len);
++	if (!IS_ERR(key)) {
++		pr_debug("generated dhchap key %s\n",
++			 key->description);
+ 	}
+-
+-	/* The last four bytes is the CRC in little-endian format */
+-	key_len -= 4;
+-	/*
+-	 * The linux implementation doesn't do pre- and post-increments,
+-	 * so we have to do it manually.
+-	 */
+-	crc = ~crc32(~0, key->key, key_len);
+-
+-	if (get_unaligned_le32(key->key + key_len) != crc) {
+-		pr_err("key crc mismatch (key %08x, crc %08x)\n",
+-		       get_unaligned_le32(key->key + key_len), crc);
+-		ret = -EKEYREJECTED;
+-		goto out_free_key;
+-	}
+-	key->len = key_len;
+-	key->hash = key_hash;
+ 	return key;
+-out_free_key:
+-	nvme_auth_free_key(key);
+-	return ERR_PTR(ret);
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_extract_key);
+ 
+-struct nvme_dhchap_key *nvme_auth_alloc_key(u32 len, u8 hash)
+-{
+-	u32 num_bytes = nvme_auth_key_struct_size(len);
+-	struct nvme_dhchap_key *key = kzalloc(num_bytes, GFP_KERNEL);
+-
+-	if (key) {
+-		key->len = len;
+-		key->hash = hash;
+-	}
+-	return key;
+-}
+-EXPORT_SYMBOL_GPL(nvme_auth_alloc_key);
+-
+-void nvme_auth_free_key(struct nvme_dhchap_key *key)
+-{
+-	if (!key)
+-		return;
+-	kfree_sensitive(key);
+-}
+-EXPORT_SYMBOL_GPL(nvme_auth_free_key);
+-
+ /*
+  * Start computing an HMAC value, given the algorithm ID and raw key.
+  *
+@@ -317,12 +260,13 @@ static int nvme_auth_hash(u8 hmac_id, const u8 *data, size_t data_len, u8 *out)
+ 	return -EINVAL;
+ }
+ 
+-int nvme_auth_transform_key(const struct nvme_dhchap_key *key, const char *nqn,
++int nvme_auth_transform_key(struct key *key, const char *nqn,
+ 			    u8 **transformed_secret)
+ {
+ 	struct nvme_auth_hmac_ctx hmac;
++	long key_len = 0;
+ 	u8 *transformed_data;
+-	u8 *key_data;
++	u8 *key_data, key_hash;
+ 	size_t transformed_len;
+ 	int ret;
+ 
+@@ -330,24 +274,64 @@ int nvme_auth_transform_key(const struct nvme_dhchap_key *key, const char *nqn,
+ 		pr_warn("No key specified\n");
+ 		return -ENOKEY;
+ 	}
+-	if (key->hash == 0) {
+-		key_data = kzalloc(key->len, GFP_KERNEL);
+-		memcpy(key_data, key->key, key->len);
++	down_read(&key->sem);
++	ret = key_validate(key);
++	if (ret) {
++		pr_warn("%s: key %08x invalidated\n",
++			__func__, key_serial(key));
++		up_read(&key->sem);
 +		return ret;
 +	}
-+	ret -= 4;
-+	crc = ~crc32(~0, upayload->data, ret);
-+	if (get_unaligned_le32(upayload->data + ret) != crc) {
-+		pr_debug("%s: CRC mismatch for key\n", __func__);
-+		/* CRC mismatch */
-+		return -EKEYREJECTED;
++	key_len = user_read(key, NULL, 0);
++	if (key_len <= 0) {
++		pr_warn("failed to get length from key %08x: error %ld\n",
++			key_serial(key), key_len);
++		up_read(&key->sem);
++		return key_len < 0 ? key_len : -ENOKEY;
 +	}
-+	/* append version and hmac to the payload */
-+	upayload->data[ret + 4] = version;
-+	upayload->data[ret + 5] = hmac;
-+	upayload->datalen = ret;
-+	return 0;
-+}
 +
++	key_data = kzalloc(key_len, GFP_KERNEL);
++	if (!key_data) {
++		up_read(&key->sem);
++		return -ENOMEM;
++	}
++	ret = user_read(key, key_data, key_len);
++	key_hash = nvme_dhchap_psk_hash(key);
++	up_read(&key->sem);
++	if (ret != key_len) {
++		if (ret < 0) {
++			pr_warn("failed to read from key %08x: error %d\n",
++				key_serial(key), ret);
++		} else {
++			pr_warn("only read %d of %ld bytes from key %08x\n",
++				ret, key_len, key_serial(key));
++			ret = -ENOKEY;
++		}
++		goto out_free_data;
++	}
++	if (key_hash == 0) {
+ 		*transformed_secret = key_data;
+-		return key->len;
++		return key_len;
+ 	}
+-	ret = nvme_auth_hmac_init(&hmac, key->hash, key->key, key->len);
++
++	ret = nvme_auth_hmac_init(&hmac, key_hash, key_data, key_len);
+ 	if (ret)
+-		return ret;
+-	transformed_len = nvme_auth_hmac_hash_len(key->hash);
+-	key_data = kzalloc(transformed_len, GFP_KERNEL);
+-	if (!key_data)
+-		return -ENOMEM;
++		goto out_free_data;
++	transformed_len = nvme_auth_hmac_hash_len(key_hash);
++	transformed_data = kzalloc(transformed_len, GFP_KERNEL);
++	if (!transformed_data) {
++		ret = -ENOMEM;
++		goto out_free_data;
++	}
++
+ 	nvme_auth_hmac_update(&hmac, nqn, strlen(nqn));
+ 	nvme_auth_hmac_update(&hmac, "NVMe-over-Fabrics", 17);
+-	nvme_auth_hmac_final(&hmac, key_data);
+-	*transformed_secret = key_data;
+-	return transformed_len;
++	nvme_auth_hmac_final(&hmac, transformed_data);
++	*transformed_secret = transformed_data;
++	ret = transformed_len;
++out_free_data:
++	kfree_sensitive(key_data);
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_transform_key);
+ 
+@@ -485,33 +469,6 @@ int nvme_auth_gen_session_key(struct crypto_kpp *dh_tfm,
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_gen_session_key);
+ 
+-int nvme_auth_parse_key(const char *secret, struct nvme_dhchap_key **ret_key)
+-{
+-	struct nvme_dhchap_key *key;
+-	u8 key_hash;
+-	int offset = 0;
+-
+-	if (!secret) {
+-		*ret_key = NULL;
+-		return 0;
+-	}
+-
+-	if (sscanf(secret, "DHHC-1:%hhd:%n", &key_hash, &offset) != 1 ||
+-	    !offset)
+-		return -EINVAL;
+-
+-	/* Pass in the secret without the 'DHHC-1:XX:' prefix */
+-	key = nvme_auth_extract_key(secret + offset, key_hash);
+-	if (IS_ERR(key)) {
+-		*ret_key = NULL;
+-		return PTR_ERR(key);
+-	}
+-
+-	*ret_key = key;
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(nvme_auth_parse_key);
+-
+ /**
+  * nvme_auth_generate_psk - Generate a PSK for TLS
+  * @hmac_id: Hash function identifier
+diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+index 96561f2dd81b8152f3d320fb63cdd605c132260e..044bf37a19630353217cfc0befce9081144fbba4 100644
+--- a/drivers/nvme/common/keyring.c
++++ b/drivers/nvme/common/keyring.c
+@@ -462,6 +462,104 @@ static struct key_type nvme_dhchap_psk_key_type = {
+ 	.read           = nvme_dhchap_psk_read,
+ };
+ 
 +/**
-+ * nvme_dhchap_decoded_key_size - Size of the base64-decoded key
-+ * @size: size of the encoded key
++ * nvme_dhchap_psk_create - Create DH-HMAC-CHAP key
++ * @keyring: keyring for the new key or NULL for the default keyring
++ * @data: Key data
++ * @data_len: Length of @data
 + *
-+ * Returns the expected size of the key after base64 decoding.
++ * Creates a new DH-HMAC-CHAP key with a random UUID as the key identity.
++ * Returns the new key or an error pointer on failure.
 + */
-+static inline int nvme_dhchap_decoded_key_size(int size)
++struct key *nvme_dhchap_psk_create(struct key *keyring,
++		const u8 *data, size_t data_len)
 +{
-+	int keylen = -EINVAL;
++	key_perm_t keyperm =
++		KEY_POS_SEARCH | KEY_POS_VIEW | KEY_POS_READ |
++		KEY_POS_WRITE | KEY_POS_LINK | KEY_POS_SETATTR |
++		KEY_USR_SEARCH | KEY_USR_VIEW | KEY_USR_READ;
++	char *identity;
++	key_ref_t keyref;
++	key_serial_t keyring_id;
++	struct key *key;
++	uuid_t key_uuid;
 +
-+	switch (size) {
-+	case 32:
-+		keylen = 48;
-+		break;
-+	case 48:
-+		keylen = 72;
-+		break;
-+	case 64:
-+		keylen = 92;
-+		break;
-+	default:
-+		break;
++	if (data == NULL || !data_len)
++		return ERR_PTR(-EINVAL);
++
++	generate_random_uuid(key_uuid.b);
++	identity = kasprintf(GFP_KERNEL, "%pU", &key_uuid);
++	if (!identity)
++		return ERR_PTR(-ENOMEM);
++	if (!keyring)
++		keyring = nvme_keyring;
++	keyring_id = key_serial(keyring);
++
++	pr_debug("keyring %x generate dhchap psk '%s'\n",
++		 keyring_id, identity);
++	keyref = key_create(make_key_ref(keyring, true),
++			    "dhchap", identity, data, data_len,
++			    keyperm, KEY_ALLOC_NOT_IN_QUOTA |
++			    KEY_ALLOC_BUILT_IN |
++			    KEY_ALLOC_BYPASS_RESTRICTION);
++	if (IS_ERR(keyref)) {
++		pr_warn("refresh dhchap psk '%s' failed, error %ld\n",
++			identity, PTR_ERR(keyref));
++		kfree(identity);
++		return ERR_PTR(-ENOKEY);
 +	}
-+	return keylen;
++	key = key_ref_to_ptr(keyref);
++	pr_debug("generated dhchap psk %08x\n", key_serial(key));
++	kfree(identity);
++	return key;
 +}
++EXPORT_SYMBOL_GPL(nvme_dhchap_psk_create);
 +
 +/**
-+ * nvme_dhchap_psk_read - read callback for dhchap key types
-+ * @key: key to read from
-+ * @buffer: buffer for the key contents
-+ * @buflen: length of @buffer
++ * nvme_dhchap_psk_lookup - Lookup DH-HMAC-CHAP key
++ * @keyring: keyring to use or NULL for default keyring
++ * @identity: key identity to search
 + *
-+ * Formets the DH-HMAC-CHAP key in base64-encoded form as
-+ * defined in the NVM Express TCP Transport Specification Rev 1.1,
-+ * Section 3.6.1.5 'PSK Interchange Format'. The payload of @key
-+ * is assumed to be of 'struct user_key_payload', with the data
-+ * consisting of the key data of length 'upayload->datalen', followed
-+ * by four bytes of CRC, one byte version, and one byte hmac fields.
++ * Looks up a key with identity @identity from keyring @keyring.
++ * Returns the key or an error pointer if not found.
 + */
-+static long nvme_dhchap_psk_read(const struct key *key,
-+				 char *buffer, size_t buflen)
++struct key *nvme_dhchap_psk_lookup(struct key *keyring, const char *identity)
++{
++	key_ref_t keyref;
++	key_serial_t keyring_id;
++
++	if (!keyring)
++		keyring = nvme_keyring;
++	keyring_id = key_serial(keyring);
++	pr_debug("keyring %x lookup dhchap psk '%s'\n",
++		 keyring_id, identity);
++
++	keyref = keyring_search(make_key_ref(keyring, true),
++				&nvme_dhchap_psk_key_type,
++				identity, false);
++	if (IS_ERR(keyref)) {
++		pr_debug("lookup dhchap psk '%s' failed, error %ld\n",
++			 identity, PTR_ERR(keyref));
++		return ERR_PTR(-ENOKEY);
++	}
++
++	return key_ref_to_ptr(keyref);
++}
++EXPORT_SYMBOL_GPL(nvme_dhchap_psk_lookup);
++
++u8 nvme_dhchap_psk_hash(struct key *key)
 +{
 +	const struct user_key_payload *upayload;
-+	size_t datalen, keylen;
-+	u8 version, hmac;
-+	long ret;
++	u8 hmac;
 +
++	if (!key)
++		return 0;
 +	upayload = user_key_payload_locked(key);
-+	/*
-+	 * Expected output string length:
-+	 * strlen("DHHC-") +
-+	 * version (= 1) +
-+	 * ':' (= 1) +
-+	 * hmac (= 2) +
-+	 * ':' (= 1) +
-+	 * encoded base64 key length +
-+	 * CRC length (= 4) +
-+	 * ':' (= 1)
-+	 */
-+	keylen = nvme_dhchap_decoded_key_size(upayload->datalen) + 15;
-+	if (keylen < 0 || !buffer || buflen == 0)
-+		return keylen;
-+
-+	if (buflen < keylen)
-+		return -EINVAL;
-+
-+	memset(buffer, 0, buflen);
-+	version = upayload->data[upayload->datalen + 4];
 +	hmac = upayload->data[upayload->datalen + 5];
-+	ret = sprintf(buffer, "DHHC-%01hhu:%02hhu:", version, hmac);
-+	if (ret < 0)
-+		return -ENOKEY;
-+	/* Include the trailing CRC */
-+	datalen = upayload->datalen + 4;
-+	ret += base64_encode(upayload->data, datalen, buffer + ret,
-+			     true, BASE64_STD);
-+	buffer[ret] = ':';
-+	ret++;
-+	return ret;
++	return hmac;
 +}
-+
-+static struct key_type nvme_dhchap_psk_key_type = {
-+	.name           = "dhchap",
-+	.flags          = KEY_TYPE_NET_DOMAIN,
-+	.preparse       = nvme_dhchap_psk_preparse,
-+	.free_preparse  = user_free_preparse,
-+	.match_preparse = nvme_dhchap_psk_match_preparse,
-+	.instantiate    = generic_key_instantiate,
-+	.revoke         = user_revoke,
-+	.destroy        = user_destroy,
-+	.describe       = nvme_dhchap_psk_describe,
-+	.read           = nvme_dhchap_psk_read,
-+};
++EXPORT_SYMBOL_GPL(nvme_dhchap_psk_hash);
 +
  static int __init nvme_keyring_init(void)
  {
  	int err;
-@@ -271,11 +480,18 @@ static int __init nvme_keyring_init(void)
- 		key_put(nvme_keyring);
- 		return err;
- 	}
-+	err = register_key_type(&nvme_dhchap_psk_key_type);
-+	if (err) {
-+		unregister_key_type(&nvme_tls_psk_key_type);
-+		key_put(nvme_keyring);
-+		return err;
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index 31974c7dd20c9174961eac91e3823e939d325daa..6d350ef617bfb47770ebce48c3abb25a4b6a4c8c 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -115,7 +115,6 @@ config NVME_HOST_AUTH
+ 	bool "NVMe over Fabrics In-Band Authentication in host side"
+ 	depends on NVME_CORE
+ 	select NVME_AUTH
+-	select NVME_KEYRING
+ 	help
+ 	  This provides support for NVMe over Fabrics In-Band Authentication in
+ 	  host side.
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index 295e0a9533c8995c32781324650d73b6bfedbf13..0ddf3834f4ea2bfedaf08b901db282b79df32879 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -1038,13 +1038,23 @@ int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
+ 	INIT_WORK(&ctrl->dhchap_auth_work, nvme_ctrl_auth_work);
+ 	if (!ctrl->opts)
+ 		return 0;
+-	ret = nvme_auth_parse_key(ctrl->opts->dhchap_secret, &ctrl->host_key);
+-	if (ret)
++	ctrl->host_key = nvme_auth_extract_key(ctrl->opts->keyring,
++				ctrl->opts->dhchap_secret,
++				strlen(ctrl->opts->dhchap_secret));
++	if (IS_ERR(ctrl->host_key)) {
++		ret = PTR_ERR(ctrl->host_key);
++		ctrl->host_key = NULL;
+ 		return ret;
+-	ret = nvme_auth_parse_key(ctrl->opts->dhchap_ctrl_secret,
+-				  &ctrl->ctrl_key);
+-	if (ret)
 +	}
- 	return 0;
- }
++
++	ctrl->ctrl_key = nvme_auth_extract_key(ctrl->opts->keyring,
++				ctrl->opts->dhchap_ctrl_secret,
++				strlen(ctrl->opts->dhchap_ctrl_secret));
++	if (IS_ERR(ctrl->ctrl_key)) {
++		ret = PTR_ERR(ctrl->ctrl_key);
++		ctrl->ctrl_key = NULL;
+ 		goto err_free_dhchap_secret;
++	}
  
- static void __exit nvme_keyring_exit(void)
+ 	if (!ctrl->opts->dhchap_secret && !ctrl->opts->dhchap_ctrl_secret)
+ 		return 0;
+@@ -1065,10 +1075,10 @@ int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
+ 
+ 	return 0;
+ err_free_dhchap_ctrl_secret:
+-	nvme_auth_free_key(ctrl->ctrl_key);
++	key_put(ctrl->ctrl_key);
+ 	ctrl->ctrl_key = NULL;
+ err_free_dhchap_secret:
+-	nvme_auth_free_key(ctrl->host_key);
++	key_put(ctrl->host_key);
+ 	ctrl->host_key = NULL;
+ 	return ret;
+ }
+@@ -1090,11 +1100,11 @@ void nvme_auth_free(struct nvme_ctrl *ctrl)
+ 		kvfree(ctrl->dhchap_ctxs);
+ 	}
+ 	if (ctrl->host_key) {
+-		nvme_auth_free_key(ctrl->host_key);
++		key_put(ctrl->host_key);
+ 		ctrl->host_key = NULL;
+ 	}
+ 	if (ctrl->ctrl_key) {
+-		nvme_auth_free_key(ctrl->ctrl_key);
++		key_put(ctrl->ctrl_key);
+ 		ctrl->ctrl_key = NULL;
+ 	}
+ }
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 2543e52d6358a635623fab925167bea7ac4a24a2..434e3612c996a969075aa5844c51906c605e6f56 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -461,8 +461,8 @@ struct nvme_ctrl {
+ 	struct work_struct dhchap_auth_work;
+ 	struct mutex dhchap_auth_mutex;
+ 	struct nvme_dhchap_queue_context *dhchap_ctxs;
+-	struct nvme_dhchap_key *host_key;
+-	struct nvme_dhchap_key *ctrl_key;
++	struct key *host_key;
++	struct key *ctrl_key;
+ 	u16 transaction;
+ #endif
+ 	key_serial_t tls_pskid;
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 35f871e3e0c0ae49b390f0fb64c538796207a98f..a5c1511e49ac275e75a70ff89958ed8f0cb2c633 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -836,8 +836,6 @@ static ssize_t dhchap_secret_store(struct device *dev,
+ 		return -EINVAL;
+ 	if (count < 7)
+ 		return -EINVAL;
+-	if (memcmp(buf, "DHHC-1:", 7))
+-		return -EINVAL;
+ 
+ 	dhchap_secret = kzalloc(count + 1, GFP_KERNEL);
+ 	if (!dhchap_secret)
+@@ -845,13 +843,13 @@ static ssize_t dhchap_secret_store(struct device *dev,
+ 	memcpy(dhchap_secret, buf, count);
+ 	nvme_auth_stop(ctrl);
+ 	if (strcmp(dhchap_secret, opts->dhchap_secret)) {
+-		struct nvme_dhchap_key *key, *host_key;
+-		int ret;
++		struct key *key, *host_key;
+ 
+-		ret = nvme_auth_parse_key(dhchap_secret, &key);
+-		if (ret) {
++		key = nvme_auth_extract_key(opts->keyring, dhchap_secret,
++					    count);
++		if (IS_ERR(key)) {
+ 			kfree_sensitive(dhchap_secret);
+-			return ret;
++			return PTR_ERR(key);
+ 		}
+ 		kfree_sensitive(opts->dhchap_secret);
+ 		opts->dhchap_secret = dhchap_secret;
+@@ -859,7 +857,7 @@ static ssize_t dhchap_secret_store(struct device *dev,
+ 		mutex_lock(&ctrl->dhchap_auth_mutex);
+ 		ctrl->host_key = key;
+ 		mutex_unlock(&ctrl->dhchap_auth_mutex);
+-		nvme_auth_free_key(host_key);
++		key_put(host_key);
+ 	} else
+ 		kfree_sensitive(dhchap_secret);
+ 	/* Start re-authentication */
+@@ -902,13 +900,13 @@ static ssize_t dhchap_ctrl_secret_store(struct device *dev,
+ 	memcpy(dhchap_secret, buf, count);
+ 	nvme_auth_stop(ctrl);
+ 	if (strcmp(dhchap_secret, opts->dhchap_ctrl_secret)) {
+-		struct nvme_dhchap_key *key, *ctrl_key;
+-		int ret;
++		struct key *key, *ctrl_key;
+ 
+-		ret = nvme_auth_parse_key(dhchap_secret, &key);
+-		if (ret) {
++		key = nvme_auth_extract_key(opts->keyring, dhchap_secret,
++					    count);
++		if (IS_ERR(key)) {
+ 			kfree_sensitive(dhchap_secret);
+-			return ret;
++			return PTR_ERR(key);
+ 		}
+ 		kfree_sensitive(opts->dhchap_ctrl_secret);
+ 		opts->dhchap_ctrl_secret = dhchap_secret;
+@@ -916,7 +914,7 @@ static ssize_t dhchap_ctrl_secret_store(struct device *dev,
+ 		mutex_lock(&ctrl->dhchap_auth_mutex);
+ 		ctrl->ctrl_key = key;
+ 		mutex_unlock(&ctrl->dhchap_auth_mutex);
+-		nvme_auth_free_key(ctrl_key);
++		key_put(ctrl_key);
+ 	} else
+ 		kfree_sensitive(dhchap_secret);
+ 	/* Start re-authentication */
+diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
+index 69bde270115e29bc8c89f4f58791190932dbe852..700e87d9e610e2532a871ad8af90573a1931c30b 100644
+--- a/drivers/nvme/target/Kconfig
++++ b/drivers/nvme/target/Kconfig
+@@ -5,7 +5,6 @@ config NVME_TARGET
+ 	depends on BLOCK
+ 	select CONFIGFS_FS
+ 	select NVME_KEYRING if NVME_TARGET_TCP_TLS
+-	select KEYS if NVME_TARGET_TCP_TLS
+ 	select SGL_ALLOC
+ 	help
+ 	  This enabled target side support for the NVMe protocol, that is
+diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+index 150818d7009d8c2fca96e12fd54fdc1cb6b68882..26457ce4acc2a8664ec9c2a9ed6d66fed93b61fa 100644
+--- a/drivers/nvme/target/auth.c
++++ b/drivers/nvme/target/auth.c
+@@ -150,7 +150,10 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq, bool reset)
+ 	int ret = 0;
+ 	struct nvmet_host_link *p;
+ 	struct nvmet_host *host = NULL;
+-	struct nvme_dhchap_key *host_key, *ctrl_key = NULL;
++	struct key *host_key, *ctrl_key = NULL;
++#ifdef CONFIG_NVME_TARGET_AUTH_DEBUG
++	u8 host_hash, ctrl_hash;
++#endif
+ 
+ 	down_read(&nvmet_config_sem);
+ 	if (nvmet_is_disc_subsys(ctrl->subsys))
+@@ -188,42 +191,39 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq, bool reset)
+ 		goto out_unlock;
+ 	}
+ 
+-	/*
+-	 * Skip the 'DHHC-1:XX:' prefix. Keep the old keys until the new ones
+-	 * are there: a controller without a host key needs no authentication.
+-	 */
+-	host_key = nvme_auth_extract_key(host->dhchap_secret +
+-					 host->dhchap_key_offset,
+-					 host->dhchap_key_hash);
++	host_key = nvme_auth_extract_key(NULL, host->dhchap_secret,
++					 strlen(host->dhchap_secret));
+ 	if (IS_ERR(host_key)) {
+ 		ret = NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
+ 		goto out_unlock;
+ 	}
+ 	if (host->dhchap_ctrl_secret) {
+-		ctrl_key = nvme_auth_extract_key(host->dhchap_ctrl_secret +
+-						 host->dhchap_ctrl_key_offset,
+-						 host->dhchap_ctrl_key_hash);
++		ctrl_key = nvme_auth_extract_key(NULL, host->dhchap_ctrl_secret,
++						 strlen(host->dhchap_ctrl_secret));
+ 		if (IS_ERR(ctrl_key)) {
+-			nvme_auth_free_key(host_key);
++			key_put(host_key);
+ 			ret = NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
+ 			goto out_unlock;
+ 		}
+ 	}
+-	nvme_auth_free_key(ctrl->host_key);
++	key_put(ctrl->host_key);
+ 	ctrl->host_key = host_key;
+-	nvme_auth_free_key(ctrl->ctrl_key);
++	key_put(ctrl->ctrl_key);
+ 	ctrl->ctrl_key = ctrl_key;
+ 	ctrl->shash_id = host->dhchap_hash_id;
+ #ifdef CONFIG_NVME_TARGET_AUTH_DEBUG
+-	pr_debug("%s: using hash %s key %*ph\n", __func__,
+-		 ctrl->host_key->hash > 0 ?
+-		 nvme_auth_hmac_name(ctrl->host_key->hash) : "none",
+-		 (int)ctrl->host_key->len, ctrl->host_key->key);
+-	if (ctrl->ctrl_key)
+-		pr_debug("%s: using ctrl hash %s key %*ph\n", __func__,
+-			 ctrl->ctrl_key->hash > 0 ?
+-			 nvme_auth_hmac_name(ctrl->ctrl_key->hash) : "none",
+-			 (int)ctrl->ctrl_key->len, ctrl->ctrl_key->key);
++	host_hash = nvme_dhchap_psk_hash(ctrl->host_key);
++	pr_debug("%s: using hash %s key %u\n", __func__,
++		 ctrl_hash > 0 ?
++		 nvme_auth_hmac_name(ctrl_hash) : "none",
++		 key_serial(ctrl->host_key));
++	if (ctrl->ctrl_key) {
++		ctrl_hash = nvme_dhchap_psk_hash(ctrl->ctrl_key);
++		pr_debug("%s: using ctrl hash %s key %u\n", __func__,
++			 ctrl_hash > 0 ?
++			 nvme_auth_hmac_name(ctrl_hash) : "none",
++			 key_serial(ctrl->ctrl_key));
++	}
+ #endif
+ out_unlock:
+ 	up_read(&nvmet_config_sem);
+@@ -263,11 +263,13 @@ void nvmet_destroy_auth(struct nvmet_ctrl *ctrl)
+ 	ctrl->dh_key = NULL;
+ 
+ 	if (ctrl->host_key) {
+-		nvme_auth_free_key(ctrl->host_key);
++		key_revoke(ctrl->host_key);
++		key_put(ctrl->host_key);
+ 		ctrl->host_key = NULL;
+ 	}
+ 	if (ctrl->ctrl_key) {
+-		nvme_auth_free_key(ctrl->ctrl_key);
++		key_revoke(ctrl->ctrl_key);
++		key_put(ctrl->ctrl_key);
+ 		ctrl->ctrl_key = NULL;
+ 	}
+ #ifdef CONFIG_NVME_TARGET_TCP_TLS
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index e33884a81efc9f96cdc5d0120e0701f06ce7d873..5e1f0e78a388252e6e0ec8405006136e278749cb 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -309,8 +309,8 @@ struct nvmet_ctrl {
+ 	bool			pi_support;
+ 	bool			concat;
+ #ifdef CONFIG_NVME_TARGET_AUTH
+-	struct nvme_dhchap_key	*host_key;
+-	struct nvme_dhchap_key	*ctrl_key;
++	struct key		*host_key;
++	struct key		*ctrl_key;
+ 	u8			shash_id;
+ 	struct crypto_kpp	*dh_tfm;
+ 	u8			dh_gid;
+diff --git a/include/linux/nvme-auth.h b/include/linux/nvme-auth.h
+index 1c5ce635b169dd0747c1344e9adcc14839776cd1..b8ea0945131d193e9343a5e9fd703f0a4ba3dfec 100644
+--- a/include/linux/nvme-auth.h
++++ b/include/linux/nvme-auth.h
+@@ -37,13 +37,10 @@ void nvme_auth_hmac_update(struct nvme_auth_hmac_ctx *hmac, const u8 *data,
+ 			   size_t data_len);
+ void nvme_auth_hmac_final(struct nvme_auth_hmac_ctx *hmac, u8 *out);
+ 
+-u32 nvme_auth_key_struct_size(u32 key_len);
+-struct nvme_dhchap_key *nvme_auth_extract_key(const char *secret, u8 key_hash);
+-void nvme_auth_free_key(struct nvme_dhchap_key *key);
+-struct nvme_dhchap_key *nvme_auth_alloc_key(u32 len, u8 hash);
+-int nvme_auth_transform_key(const struct nvme_dhchap_key *key,
+-			    const char *nqn, u8 **transformed_secret);
+-int nvme_auth_parse_key(const char *secret, struct nvme_dhchap_key **ret_key);
++struct key *nvme_auth_extract_key(struct key *keyring, const char *secret,
++				  size_t secret_len);
++int nvme_auth_transform_key(struct key *key, const char *nqn,
++			    u8 **transformed_secret);
+ int nvme_auth_augmented_challenge(u8 hmac_id, const u8 *skey, size_t skey_len,
+ 				  const u8 *challenge, u8 *aug, size_t hlen);
+ int nvme_auth_gen_privkey(struct crypto_kpp *dh_tfm, u8 dh_gid);
+diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
+index ab8971afa9734a276d9197076b780321460dddc2..9fef4b6add787bda2cc5e7e13287f5601009522d 100644
+--- a/include/linux/nvme-keyring.h
++++ b/include/linux/nvme-keyring.h
+@@ -18,12 +18,17 @@ key_serial_t nvme_tls_psk_default(struct key *keyring,
+ 
+ key_serial_t nvme_keyring_id(void);
+ struct key *nvme_tls_key_lookup(key_serial_t key_id);
++
++struct key *nvme_dhchap_psk_create(struct key *keyring,
++		const u8 *data, size_t data_len);
++struct key *nvme_dhchap_psk_lookup(struct key *keyring, const char *identity);
++u8 nvme_dhchap_psk_hash(struct key *key);
++
+ #else
+ static inline struct key *nvme_tls_psk_refresh(struct key *keyring,
+-		const char *hostnqn, char *subnqn, u8 hmac_id,
+ 		u8 *data, size_t data_len, const char *digest)
  {
-+	unregister_key_type(&nvme_dhchap_psk_key_type);
- 	unregister_key_type(&nvme_tls_psk_key_type);
- 	key_revoke(nvme_keyring);
- 	key_put(nvme_keyring);
+-	return ERR_PTR(-ENOTSUPP);
++	return ERR_PTR(-EOPNOTSUPP);
+ }
+ static inline key_serial_t nvme_tls_psk_default(struct key *keyring,
+ 		const char *hostnqn, const char *subnqn)
+@@ -36,7 +41,22 @@ static inline key_serial_t nvme_keyring_id(void)
+ }
+ static inline struct key *nvme_tls_key_lookup(key_serial_t key_id)
+ {
+-	return ERR_PTR(-ENOTSUPP);
++	return ERR_PTR(-EOPNOTSUPP);
++}
++static inline struct key *nvme_dhchap_psk_refresh(struct key *keyring,
++		const char *hostnqn, const char *subnqn,
++		u8 *data, size_t data_len)
++{
++	return ERR_PTR(-EOPNOTSUPP);
++}
++static inline struct key *nvme_dhchap_psk_lookup(struct key *keyring,
++		const char *hostnqn, const char *subnqn, u8 hmac);
++{
++	return ERR_PTR(-EOPNOTSUPP);
++}
++u8 nvme_dhchap_psk_hash(struct key *key)
++{
++	return 0;
+ }
+ #endif /* !CONFIG_NVME_KEYRING */
+ #endif /* _NVME_KEYRING_H */
 
 -- 
 2.51.0
