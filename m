@@ -2,10 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742BC606A325
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 17:28:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865C0606A33E
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2026 17:28:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=vXsJfmr7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=J5EK3JE6
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -13,40 +13,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=vXsJfmr7OJ012GuYrCS22VlTQU
-	SxAoZxs2DP2yaCXGRjwm77OqY9NEazF9WcvHENWzltOgZQy6EexhCbK7PDqoGNmo9SG4F1g69g+jO
-	0sbPYXkauRLcG4EC/op2IGs1BLLEH04X/9dk4tdbaAoquLQt9E08ZFmy9D8yUqvxPyk3M6A0+xyU1
-	RgvHJokg0Oh+MdtKPqvgHOp9hRx+ag+2qBQUPo7GqJafFO+WvBq6SfbCpZC4sioYo8vCk/owkc4bZ
-	sCP6kjFTy7J0j6vZ+eZDSUwN7i+B2BU1ttsXEyyZC8jaEoQpCIGfBBQk075XlrZiyuY3rtZAcFZWp
-	PV/lx1jQ==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=J5EK3JE6lCxHqhLT3zOw42lgva
+	b+Cw6im6ad8NrskPjTrRWRKZT2bfbLQbDKR9zzG4djvrHoLjeZtwyUFo3A50cu2VkYw+2aOHXMTRn
+	UKW9C0gk8nHJEAQvc7EW4wnX8qkvWhRSvq1/dOVHmJWoX3+kbJim+mJ1scndVEJRWs6cLI4MnDm1k
+	DA8Bfg9VblHA6I0hK7KZo1uuswkVQI//2KEnoIzsc0phXWqiRlddU5qTENE7R8J+DJkupS1SkpNol
+	/+oFk7htNkKicsj/r1NO0KfINYllSN8q2zdcRFbadY3VL8YzohkZ9xMMgoG1LesMGbtsi4Y9GTEEX
+	blMZphYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUSP1-0000000Fh4k-21n5;
-	Fri, 20 Nov 2026 17:27:59 +0000
+	id 1xUSPo-0000000FhHI-30rD;
+	Fri, 20 Nov 2026 17:28:48 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUSOo-0000000Fh3Q-1xz8
+	id 1xUSPh-0000000FhGL-46Sg
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Nov 2026 17:27:47 +0000
+	Fri, 20 Nov 2026 17:28:44 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 0A9706732A; Fri, 20 Nov 2026 18:27:43 +0100 (CET)
-Date: Fri, 20 Nov 2026 18:27:42 +0100
+	id DE2F568AFE; Fri, 20 Nov 2026 18:28:37 +0100 (CET)
+Date: Fri, 20 Nov 2026 18:28:37 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Martin George <martinus.gpy@gmail.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org,
-	sagi@grimberg.me, hare@kernel.org
-Subject: Re: [PATCH] nvme-sysfs: serialize DH-HMAC-CHAP secret updates
-Message-ID: <20261120172742.GA1055@lst.de>
-References: <20261118100347.14832-1-marting@netapp.com>
+To: Hou Tao <houtao@huaweicloud.com>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Kanchan Joshi <joshi.k@samsung.com>, houtao1@huawei.com,
+	xierenfeng@huawei.com
+Subject: Re: [PATCH] nvme-pci: handle the missed doorbell write due to
+ passthrough req
+Message-ID: <20261120172837.GB1055@lst.de>
+References: <20261117130743.2871972-1-houtao@huaweicloud.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261118100347.14832-1-marting@netapp.com>
+In-Reply-To: <20261117130743.2871972-1-houtao@huaweicloud.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261120_092746_783408_6792D1DB 
-X-CRM114-Status: UNSURE (   8.58  )
+X-CRM114-CacheID: sfid-20261120_092843_883006_9A5F5A4A 
+X-CRM114-Status: UNSURE (   9.86  )
 X-CRM114-Notice: Please train this message.
 X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
