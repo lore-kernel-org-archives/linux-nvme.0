@@ -2,59 +2,112 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D1F606A68F
-	for <linux-nvme@archiver.kernel.org>; Sat, 21 Nov 2026 05:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BB2606A332
+	for <linux-nvme@archiver.kernel.org>; Sat, 21 Nov 2026 06:34:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=jz+cpobc;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NKTiTFCm
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=uQiEMf9w;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=trqOBXhs
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
-	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=nHgcj4reAewShIct0fcYEQHlKrmsjIW5S883i48uYO0=; b=jz+cpobc+Cwp+Zf/D8WcUs5TOC
-	JgxEwkAAIe1Hmw6JSL/vpaoLhctfmMXAb115K4NxmIc9R2sAKukmLoiDMMIx4+zd+bNeegjflxMbW
-	cB23qIqZrv0CjEzhAO5FH3Zi7KUG0iw0gTg/QDicW2P3zxl48IujXOjXY6FM+4sqDjg8gOfE8x/Xw
-	Y5irhxcEV2IBxSlziR2wbED1QyGmZRMtyVwyu17PE/OTJk5Z8TY2IpE4Ao1gaO0uVgtSxPhT8EsRa
-	gSXReLnbSrwx6sTDbcaFucBXons8noGOXtW3xTDebVNdcDEISjstWRQ9j88oQM5fAlPr8RVYYFpjO
-	dY24MtfQ==;
+	bh=QIo3a06+f6WBr6Mw1qb3r+J2x+nDBIFqmxAPWvx+J9g=; b=uQiEMf9wG3JY/uEvA12weyPO6Y
+	WyZz1xdlSYUUhhYqCy8w6gG73VIxhc4+ap+OKLl60YcOT+sDd7GBrUp8GSIJkJZ8bnA7vkYtITT5c
+	rl7AYqhSq/PAk+hcjSgolEG9JNGyZ16ZUEYSJb91Bu9nIZ3c4aQRdP0xrQd336fx1qdSmIjEiyEAS
+	20dDZDi6TDHd5E8aEwGOg8zr9uuU91tkMMeRBX9lKKWWfn9AuhXwI9qbB9SwyhL/iIJ96g3zb3OTm
+	pSE99Um0gLvQ8s137ggmq7q+VojPeUIYLS9fTjQYNAYdM6i5o6AO5FgbDuVzaFzvGYIJZdy+znCRP
+	kjFPv9ZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUe7e-0000000GmUh-1SXF;
-	Sat, 21 Nov 2026 05:58:50 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xUeg5-0000000Go8y-3DDy;
+	Sat, 21 Nov 2026 06:34:25 +0000
+Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUe7d-0000000GmUT-12UC
+	id 1xUeg2-0000000Go81-2y2q
 	for linux-nvme@lists.infradead.org;
-	Sat, 21 Nov 2026 05:58:49 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 516A2601C7;
-	Sat, 21 Nov 2026 05:58:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3DF51F000C4;
-	Sat, 21 Nov 2026 05:58:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795240728;
-	bh=nHgcj4reAewShIct0fcYEQHlKrmsjIW5S883i48uYO0=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NKTiTFCmUe9wV/wkagz+EE4Kd6FBLLeeRild/NLY+1KadNk2ZDKp+Aol1cruswpDc
-	 dyoxXGVMj2zWLx1VrpmZdBd5cvQT7anKY5OWfaFpfwcwAHH17lung+G3bGPvkL2CbA
-	 dnkqBIt9f6NaoRWUZQvkcEeyveyi8ETSBlP51zM6mF7LvR68mzS90wjinQAqySZftz
-	 x16OkaQd0ZdtTxTcpVgI33MAFFC6H59HWgr8N7jxVjZ02oVCR2TGNmJrSKmKL6Nef0
-	 tbprkB97zbxR6P0oJcAHbQPOBK3bc+ItmqIKVHkT0so+bJF8nWG5rVwZ+NHRJvOz3o
-	 ywc7F1pQrtbqg==
-Message-ID: <sashiko-outbox-226681@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 13/24] udmabuf: Convert to the SGT mapping type
-To: "Alistair Popple" <apopple@nvidia.com>, dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, linux-rdma@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: media-ci@linuxtv.org
-In-Reply-To: <20261120-dma_mapping_type_v4-v3-13-c0183a409bdf@nvidia.com>
-References: <20261120-dma_mapping_type_v4-v3-0-c0183a409bdf@nvidia.com>
- <20261120-dma_mapping_type_v4-v3-13-c0183a409bdf@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Nov 2026 05:58:47 +0000
+	Sat, 21 Nov 2026 06:34:23 +0000
+Received: by mail-ua1-x92e.google.com with SMTP id a1e0cc1a2514c-996eeadfbeaso904768241.3
+        for <linux-nvme@lists.infradead.org>; Fri, 20 Nov 2026 22:34:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795242861; cv=none;
+        d=google.com; s=arc-20260327;
+        b=KhP5al2BgBMZX7WJCdnY4DX9ruCwITxSSfHxOlKV+yAZBCHAU4KKWAgQ86Y6qH0bRP
+         GHmQ+n4O/lVRqBPWkIkFEuf8gWOnRzVgyqg/5frqGW74TcI1S6l0MBQXFO+ih1fcf4VY
+         9CJay1vcnbuy6zVSsc11OVY3qQlRXrYWi3thkH/L+8p1jTC8gl2/arAUeATs+gAQbbAn
+         2Q29ki/O66v0F0lQ3AXv9v1mmVCcIKctA/2/FcnbG3eGJqhwcj1S368v9sXggv/mw7xT
+         s/Cg64W1tN94zNaYAoGRrI1BS3suOyASZPwgBxmPs9kUj9lVb1ycpXIBr+Bbaqo/t/Sn
+         JraA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=QIo3a06+f6WBr6Mw1qb3r+J2x+nDBIFqmxAPWvx+J9g=;
+        fh=G9K2tJAL1cDyoyQ77HRuaOCLkGHikaZJ8tKuYCOsw8I=;
+        b=YR4KZ9czb72Zr59ZT9CvJDGNmd1vYThboBn6Zlviz6QGUWgHAo56pCiy7YPT6HmRMf
+         YkR6nyy0NtX+VjvcNwTA9Nm0IKO4sKUUDZlWguTX1lUshdkLxazox7bIxzEAn6f4ns6E
+         Uy8V3bYCvDavEomY1j3utHui4ThLgrK7G4mZLfIBTWyPHjnTNRRmJT+aaz4NdUW17F+w
+         cigtsUAO4l7P1HFEDsbKDjaVq8YhSOTldDS7GyOUNYH7HsuU14Ti/tY1Q/AJ8glVfBsU
+         We9wbN8fadkDtgeKts/o2y0l0oQpwoGdv/jNJSTk+KHP16O0Qr0NmdoSH+NS17ctUIdm
+         0mGw==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795242861; x=1795847661; darn=lists.infradead.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QIo3a06+f6WBr6Mw1qb3r+J2x+nDBIFqmxAPWvx+J9g=;
+        b=trqOBXhsTljG1//tGqb8FBTou2w1I34aZRkbc5ue0W6K4Enbp8YgfFw+rcKMa9UM3m
+         bYyJt7n7EcKiXV9dYPZS5+n9pxL7hvRn5uw/QYmPKs6Xf+oG2yFXTjuXzLx+ljm8upOD
+         y/luVc0BPpial0K2ilzuv9ahtRZYxEGsDToaO7r6SBGiXAVsgoNmtY3YQfeLKcvG9SgF
+         FL6sf0EDiXi37fh+ySzyrQ7uFEPmiRrU2uX8VK5dJxvF5Ye7LUKWL0JKYJXP5he5wDVP
+         sETIZCV8RRZ+bHxkPcG0SugctdFrepwkE/e91rZbZ9K6+aqrfH7mdfIrhEYC8MEPxgqQ
+         Uv5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795242861; x=1795847661;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=QIo3a06+f6WBr6Mw1qb3r+J2x+nDBIFqmxAPWvx+J9g=;
+        b=iOgnszXtCIenbnpnpM8DwQHMEinlEL+xd1CW67ui/HU9pub3DKO9WVFsEaf8gxjgfx
+         Me2GsYxNji0J2Fht6fBypxT361i/GqPBms1zCUrMZxkNLZcht0eMskKau+rRmAackN+P
+         pm8qTO5nDesYcja/8TGdKHmUo4SS62/EoRNejLEVhjr08Je5pWv1ZhPztq2KwA9fy+0a
+         +ssxLWO4gA/4UfX836XnvvKl0U6HsZNRFfhEKthR6I/uU33J4o3qKTfUM1WU/TydKsu7
+         RubGRMobGVR8Zth2W1/3snV+Dw+HEG+N+UnyBp6Fw/rjXFC0NxwxKZnwih7s7vqzS6nS
+         WP1Q==
+X-Forwarded-Encrypted: i=1; AL+hErH4FFND6S7j9LtsI5sz9o9Ma/TiD2syS0gtuYlNtkC0kapSTOztJJR1eyDrm1e7ngt3fhRAcqQDmcq0@lists.infradead.org
+X-Gm-Message-State: APuU4Z9CpYIyB5z4081N3HFSTEQlc0r4J1G7QQb79ksdSwEyKUCnEciw
+	y8Ep4vZg+HBl6pPcd1x4S8YoHsik1/ykvR+DA5uCRrTYX+Fy8qzyTaOLSGWDSf0kyWXaidIb85v
+	R8b9MIycacpMpnBmHlS4rjPhUnG/WLQc=
+X-Gm-Gg: AZFdTZfnD1JvOlj/SjGAcqnO6qzBUOfxOQj32IHixe83WARlvpYiYfKaazi3RQZ051I
+	DairYKTyxP6jHeSmN8ANJK+KT8s//sp0850dgc6kBlf6pwPkD5HDR4+6b6zToS/4JWYpmbe/WCP
+	h+MuMq1LeD1jCYWPCuTn4VlFJtkodItwxRo9XbXBJAef5DN/u29p8ht30URs+y3aLT/ip+Np+ZG
+	O8cOaXeBPdYefN43JKdOyILufH9Os0vIaOjALtTy+6qrL4EjiWgeZO+28tGqICJ+pZwe6s5y16L
+	VxTcbfVbx8yxP+nQBBt9CGxZ7SczK3jkk6rOJPmpK5mnRpeumSZxuEmHR7X7j0Vgo6g9ma/nIxl
+	tn7sS8+AO0cN+esJXvp5WIoQiPGXTmefSdV3YuNT0rrtsGuiDSXJodQAP0IgMOeYN94HdYGLttL
+	nTY3Mzps1fbDsAH6GHWmtCgXErweJk+CG8+/j6Tmts1qWeQko=
+X-Received: by 2002:a05:6102:f97:b0:7cc:226a:f977 with SMTP id
+ ada2fe7eead31-7d7396157a3mr2218791137.36.1795242860976; Fri, 20 Nov 2026
+ 22:34:20 -0800 (PST)
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+References: <20261117052741.25471-1-ankit6791@gmail.com> <awD6iLYWPuEgEi1C@shinmob>
+In-Reply-To: <awD6iLYWPuEgEi1C@shinmob>
+From: Ankit Gupta <ankit6791@gmail.com>
+Date: Fri, 20 Nov 2026 22:34:10 -0800
+X-Gm-Features: Aa3M54ogdmsVe0mK3YgtYc_aYRIIm9NF-0R9znF7ooCslEa4CV-P_qTqm3wpJ-8
+Message-ID: <CA+OH82huu6zL_ZpwZs1AO7Pvadig1kDeZzpLZ55woU+2YfD3MA@mail.gmail.com>
+Subject: Re: [PATCH blktests] nvme/080: test write zeroes larger than 65536
+ logical blocks
+To: shinichiro.kawasaki@wdc.com
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, hch@lst.de
+Content-Type: text/plain; charset="UTF-8"
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261120_223422_752225_A0EC8F6A 
+X-CRM114-Status: UNSURE (   8.47  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,99 +117,24 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-2.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
-X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [High] udmabuf: premature publication of ubuf->sg in
-  begin_cpu_udmabuf()
---
+On Nov 21, 2026 / 02:05, Shin'ichiro Kawasaki wrote:
+> I made minor nit comments in line below. They are not critical. If you are okay
+> with it, I can make the changes when I apply this patch. Or feel free to respin
+> the patch. Please let me know your preference.
 
-commit f138ffdf3b226fef46f9eda6001d750e3e320cdd
-Author: Alistair Popple <apopple@nvidia.com>
+Hi Shin'ichiro,
 
-udmabuf: Convert to the SGT mapping type
+Thank you for the review and for the trial run. I agree with all four
+comments. Please go ahead and make the changes when you apply the patch.
 
-This commit converts udmabuf to the SGT mapping type by having
-get_sg_table() and put_sg_table() operate on a caller-allocated struct
-sg_table and embedding the DMA-buf mapping table in struct
-dma_buf_sgt_mapping.
-
-> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> index df6dd00462423..ef77ae063ae4c 100644
-> --- a/drivers/dma-buf/udmabuf.c
-> +++ b/drivers/dma-buf/udmabuf.c
-
-[ ... ]
-
-> @@ -226,16 +233,19 @@ static int begin_cpu_udmabuf(struct dma_buf *buf,
->  	struct device *dev =3D ubuf->device->this_device;
-> =20
->  	if (!ubuf->sg) {
-> -		ubuf->sg =3D get_sg_table(dev, buf, direction);
-> -		if (IS_ERR(ubuf->sg)) {
-> -			int ret;
-> +		int ret;
-> +
-> +		ubuf->sg =3D kzalloc_obj(*ubuf->sg);
-> +		if (!ubuf->sg)
-> +			return -ENOMEM;
-> =20
-> -			ret =3D PTR_ERR(ubuf->sg);
-> +		ret =3D get_sg_table(dev, buf, ubuf->sg, direction);
-> +		if (ret) {
-> +			kfree(ubuf->sg);
->  			ubuf->sg =3D NULL;
->  			return ret;
-> -		} else {
-> -			ubuf->sg_dir =3D direction;
->  		}
-> +		ubuf->sg_dir =3D direction;
->  	}
-> =20
->  	dma_sync_sgtable_for_cpu(dev, ubuf->sg, direction);
-
-[Severity: High]
-Can assigning ubuf->sg before get_sg_table() finishes expose an
-uninitialized, unmapped, or freed sg_table to concurrent
-DMA_BUF_IOCTL_SYNC callers?
-
-dma_buf_ioctl() invokes begin_cpu_udmabuf() and end_cpu_udmabuf() without
-holding a lock.  Previously, get_sg_table() allocated, populated, and
-DMA-mapped a local struct sg_table before returning it to be stored in
-ubuf->sg.  With ubuf->sg assigned immediately after kzalloc_obj(), a
-second thread can observe a non-NULL ubuf->sg while the first thread is
-still inside get_sg_table() (or after kfree(ubuf->sg) on the error path):
-
-CPU0                                  CPU1
-begin_cpu_udmabuf()
-  ubuf->sg =3D kzalloc_obj(...)
-  get_sg_table(..., ubuf->sg, ...)
-    sg_alloc_table_from_pages()
-                                      begin_cpu_udmabuf()
-                                        if (!ubuf->sg) /* false */
-                                        dma_sync_sgtable_for_cpu(...,
-                                                                 ubuf->sg,
-                                                                 ...)
-                                          /* uninitialized or freed sgt */
-
-If two threads both enter the !ubuf->sg block, the second kzalloc_obj()
-also overwrites ubuf->sg while the first thread passes ubuf->sg to
-get_sg_table(), leaking the first allocation and initializing the same
-struct sg_table concurrently.
-
-Allocating into a local struct sg_table *sg and assigning ubuf->sg only
-after get_sg_table() succeeds avoids publishing the table prematurely.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120-dma_mappin=
-g_type_v4-v3-0-c0183a409bdf@nvidia.com?part=3D13
+Thanks,
+Ankit
 
