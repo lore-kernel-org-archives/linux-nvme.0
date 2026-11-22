@@ -2,86 +2,76 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC79606A320
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 Nov 2026 04:37:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E44606A335
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 Nov 2026 11:50:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=nW54+tZz;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Mx5IjgUB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=FT2jVMYG;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JByBbo4e
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=uT1GKmOpOEmDr3TcXo7O2Gx87y3WQ7fIKW+zuqBtBT8=; b=nW54+tZzuyc9z3sAghUL2T7DN5
-	rZGI/V7z7RfQlc17VWfyyADD+dTCduOq5+R2UpzUX97gYDO05qdjOuJO40QPy4S/8MdES3JDQ9Y/C
-	PT29fBty/zzDlUerLig5fYhrvFMvGoJkjdAhX2dg+xpgn/9eYY9v4ugLuYWXxaQicT1yRUh/W0oaP
-	jG3M4WHqXvxw9xKPdCK1fR+ZxedXdWuPL08Q226bSZJ7rqCMq4CieZDMDqCCJzDyY5bft+b8pLnZa
-	K/oxoPX0WbKm7jxETVw/ao8GzrCJeMQh86Tz3WkjPtSuOOG4UDmVxVFa4admnYK93nARMs/gTQJKm
-	qVOgdJgw==;
+	bh=Yg+j2rDFAZQVqNb0lUfh0hKBX5e3qvi8fklY8v/Xgr8=; b=FT2jVMYG4w7OZDELHisPmTjQgt
+	86qZc9DXkOaNGiTznu/7y25lIClshDhezQIVmaHJWZkrKjOCcIPO6tsNSRNcv86BCc6xZ2C1Wto4y
+	6kU42LOBmJCH4N63Mjg546Y4U+P3jT/6fZDWercXw5Y/YfGf0EWh3H+Ydb9fHA3b4pVIpb5F1eTxn
+	xXQD78OgGwEr8FtOk9vsM7RHqhiQUTriDVo7hahGzi47cV9wFmwDp4INzQG9VdVThPgk2Gh0l6yrR
+	aQwSf7op/S41m2VR/FQbKohuh8SXlahezDv2R5yo2ZhLG5hkP7HUAxRrf018NRJrK9MQR0jIc15mF
+	O6QPi9Ig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUzKp-00000000je4-25Ff;
-	Sun, 22 Nov 2026 04:37:51 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1xV65W-000000012sS-1Og8;
+	Sun, 22 Nov 2026 11:50:30 +0000
+Received: from mgamail.intel.com ([198.175.65.14])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUzKn-00000000jdY-0NUv
+	id 1xV65T-000000012s3-2E5q
 	for linux-nvme@lists.infradead.org;
-	Sun, 22 Nov 2026 04:37:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795322267;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uT1GKmOpOEmDr3TcXo7O2Gx87y3WQ7fIKW+zuqBtBT8=;
-	b=Mx5IjgUBB/00Gy+FaLKRRwLxlaYnEll7oUsUEGwykIWCfn51uLusqlANf860w9w6TQGIoO
-	sa6CQDmy40hMwzaCdSL6+052piERxQyNyjECUQDt12G4axTNcFRkFvDt3AcXQ+ORCm2X0h
-	zM9yvffTC9ZlvXzoh2ebyI15oT7Rw9Q=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-411-1cwIQmz0N7axuHD_9XaDGg-1; Sun,
- 22 Nov 2026 04:37:41 +0000
-X-MC-Unique: 1cwIQmz0N7axuHD_9XaDGg-1
-X-Mimecast-MFC-AGG-ID: 1cwIQmz0N7axuHD_9XaDGg_1795322260
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D56D518004F6;
-	Sun, 22 Nov 2026 04:37:39 +0000 (UTC)
-Received: from snishika-thinkpadp16vgen1.tokyo.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2B48330000E3;
-	Sun, 22 Nov 2026 04:37:35 +0000 (UTC)
-From: Seiji Nishikawa <snishika@redhat.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>,
-	Chris Leech <cleech@redhat.com>,
-	Seiji Nishikawa <snishika@redhat.com>
-Subject: Re: [RFC PATCH 1/2] nvme-tcp: remove the direct send path
-Date: Sun, 22 Nov 2026 13:37:32 +0900
-Message-ID: <20261122043732.2002424-1-snishika@redhat.com>
-In-Reply-To: <sashiko-outbox-227628@kernel.org>
-References: <sashiko-outbox-227628@kernel.org>
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: K8-lsWe__BMF5rJpaxOYX1ztHXMqRnFJ-NSLbDSAYKs_1795322260
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+	Sun, 22 Nov 2026 11:50:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795348228; x=1826884228;
+  h=date:from:to:cc:subject:message-id;
+  bh=AUdTeBajQ5SYPhegIOAVSbEYgGSj1PeA9PaJUcNkNOw=;
+  b=JByBbo4eLpN1J5m0NHcZEu08PdjRMxP8kw9xeAS3h+8Bkfn7SHZrvmd5
+   LRjOLgfQJX1yOxDyazsiL40pxJerNaqz35VS1hCw9K1dwD7ORvYhh7nek
+   kubp3lC3B/rcG3Z9/YrSuruWPSGGHd92VSMlgDgbwRT7fg1RoKiHDJZBt
+   iwMHCyx6coql83+YRzPyImsaaRld5TV3h8txn0/66R2zhAT/Zppz9FoXV
+   IhjIBB9LgiIDwhscsQcw2eKlk0QpjBzauDv+4v0GgDru4p+wRE+MA5xMf
+   KVePqsjNDw85z8Ugppet/m43u1pVvVMaPwQezJ0840XEnXXa7qQjdeN4b
+   A==;
+X-CSE-ConnectionGUID: /x/yoeJ/QgGjIg9iKWXWIQ==
+X-CSE-MsgGUID: zgkeqiWBR6KRh4rYVzrdXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4062084"
+X-IronPort-AV: E=Sophos;i="6.27,226,1787036400"; 
+   d="scan'208";a="4062084"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2026 03:50:27 -0800
+X-CSE-ConnectionGUID: glei6ktcQly+1chy6VbC8g==
+X-CSE-MsgGUID: u6P0+/6wQTqdk9bWea09aQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,226,1787036400"; 
+   d="scan'208";a="11069268"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 22 Nov 2026 03:50:26 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xV65P-00000001LTE-1X1K;
+	Sun, 22 Nov 2026 11:50:23 +0000
+Date: Sun, 22 Nov 2026 19:50:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-7.4] BUILD SUCCESS
+ 3ca1ccf527aae210ecee2905062dd6da0934416a
+Message-ID: <20261122195012.YKSBI1MT-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261121_203749_409121_1B8FD86C 
-X-CRM114-Status: GOOD (  10.97  )
-X-Spam-Score: -2.8 (--)
+X-CRM114-CacheID: sfid-20261122_035027_731557_D3CC949D 
+X-CRM114-Status: UNSURE (   4.57  )
+X-CRM114-Notice: Please train this message.
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,49 +82,197 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-On Sun, Nov 22, 2026 at 10:49 AM <sashiko-bot@kernel.org> wrote:
-> [Severity: Medium]
-> Does removing the inline send from nvme_tcp_queue_request() break polled
-> I/O on HCTX_TYPE_POLL queues?
-[ ... ]
-> For SCHED_NORMAL tasks on queue->io_cpu, waking
-> the WQ_HIGHPRI worker sets TIF_NEED_RESCHED, causing blk_hctx_poll() and
-> io_iopoll_check() to abort polling on need_resched() or forcing two
-> context switches per polled I/O.
+tree/branch: git://git.infradead.org/nvme.git nvme-7.4
+branch HEAD: 3ca1ccf527aae210ecee2905062dd6da0934416a  nvme-multipath: don't wait for a grace period in nvme_mpath_set_live()
 
-This is right. I ran the test with poll queues on the same two machines.
-The host connects with --nr-poll-queues=4, and fio runs with io_uring and
---hipri, 4k random I/O at queue depth 1, on the io_cpu of a poll queue.
-Average of 3 runs of 60 seconds, latency in usec, ctx is the number of
-context switches of fio in one run:
+elapsed time: 839m
 
-                     IOPS   slat    clat     lat      ctx
-randread   base      5017   4.72  193.95  198.67      553
-           patched   4179   9.35  229.70  239.05  251,318
-randwrite  base      3619   5.60  269.94  275.54      542
-           patched   3621  10.62  264.53  275.16  217,806
+configs tested: 169
+configs skipped: 2
 
-For randread, lat goes up by 40 usec (20%) and IOPS goes down by 17%.
-ctx shows why. Without the direct send path, fio is switched out for the
-io_work kworker once per I/O. With it, fio stays on the CPU and keeps
-polling. randwrite shows no difference.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-So removing the direct send path costs about 20% for polled reads at
-queue depth 1 on this setup. One way to avoid this is to keep the direct
-send path only for poll queues. Poll queues then still have 2 senders,
-so send_mutex stays and patch 2 goes away.
+tested configs:
+alpha                              allnoconfig    gcc-16.2.0
+alpha                             allyesconfig    gcc-16.2.0
+alpha                                defconfig    gcc-16.2.0
+arc                               allmodconfig    clang-24
+arc                                allnoconfig    gcc-16.2.0
+arc                               allyesconfig    clang-24
+arc                                  defconfig    gcc-16.2.0
+arc                   randconfig-1000-20261122    clang-17
+arc                   randconfig-1001-20261122    clang-17
+arm                                allnoconfig    gcc-16.2.0
+arm                               allyesconfig    clang-24
+arm                                  defconfig    gcc-16.2.0
+arm                            h3600_defconfig    clang-17
+arm                   randconfig-1000-20261122    clang-17
+arm                   randconfig-1001-20261122    clang-17
+arm                   randconfig-1002-20261122    clang-17
+arm                   randconfig-1003-20261122    clang-17
+arm                         shmobile_defconfig    clang-17
+arm64                             allmodconfig    clang-24
+arm64                              allnoconfig    gcc-16.2.0
+arm64                                defconfig    gcc-16.2.0
+arm64                 randconfig-1000-20261122    gcc-8.5.0
+arm64                 randconfig-1001-20261122    gcc-8.5.0
+arm64                 randconfig-1002-20261122    gcc-8.5.0
+arm64                 randconfig-1003-20261122    gcc-8.5.0
+csky                              allmodconfig    gcc-16.2.0
+csky                               allnoconfig    gcc-16.2.0
+csky                                 defconfig    gcc-16.2.0
+csky                  randconfig-1000-20261122    gcc-8.5.0
+csky                  randconfig-1001-20261122    gcc-8.5.0
+hexagon                           allmodconfig    gcc-16.2.0
+hexagon                            allnoconfig    gcc-16.2.0
+hexagon                              defconfig    gcc-16.2.0
+hexagon               randconfig-1000-20261122    gcc-8.5.0
+hexagon               randconfig-1001-20261122    gcc-8.5.0
+i386                              allmodconfig    clang-22
+i386                               allnoconfig    gcc-16.2.0
+i386                              allyesconfig    clang-22
+i386        buildonly-randconfig-1000-20261122    gcc-14
+i386        buildonly-randconfig-1001-20261122    gcc-14
+i386        buildonly-randconfig-1002-20261122    gcc-14
+i386        buildonly-randconfig-1003-20261122    gcc-14
+i386        buildonly-randconfig-1004-20261122    gcc-14
+i386        buildonly-randconfig-1005-20261122    gcc-14
+i386                                 defconfig    gcc-16.2.0
+i386                  randconfig-1000-20261122    gcc-14
+i386                  randconfig-1001-20261122    gcc-14
+i386                  randconfig-1002-20261122    gcc-14
+i386                  randconfig-1003-20261122    gcc-14
+i386                  randconfig-1004-20261122    gcc-14
+i386                  randconfig-1005-20261122    gcc-14
+i386                  randconfig-1006-20261122    gcc-14
+i386                  randconfig-1007-20261122    gcc-14
+i386                  randconfig-1008-20261122    gcc-14
+i386                  randconfig-1009-20261122    gcc-14
+i386                  randconfig-1010-20261122    gcc-14
+i386                  randconfig-1011-20261122    gcc-14
+i386                  randconfig-1012-20261122    gcc-14
+i386                  randconfig-1013-20261122    gcc-14
+loongarch                         allmodconfig    clang-24
+loongarch                          allnoconfig    gcc-16.2.0
+loongarch                            defconfig    clang-24
+loongarch             randconfig-1000-20261122    gcc-8.5.0
+loongarch             randconfig-1001-20261122    gcc-8.5.0
+m68k                              allmodconfig    gcc-16.2.0
+m68k                               allnoconfig    gcc-16.2.0
+m68k                              allyesconfig    clang-24
+m68k                                 defconfig    clang-24
+m68k                        m5329evb_defconfig    clang-17
+microblaze                         allnoconfig    gcc-16.2.0
+microblaze                        allyesconfig    gcc-16.2.0
+microblaze                           defconfig    clang-24
+mips                              allmodconfig    gcc-16.2.0
+mips                               allnoconfig    gcc-16.2.0
+mips                              allyesconfig    gcc-16.2.0
+mips                            mtx1_defconfig    clang-17
+nios2                             allmodconfig    clang-20
+nios2                              allnoconfig    clang-24
+nios2                                defconfig    clang-24
+nios2                 randconfig-1000-20261122    gcc-8.5.0
+nios2                 randconfig-1001-20261122    gcc-8.5.0
+openrisc                          allmodconfig    clang-20
+openrisc                           allnoconfig    clang-24
+openrisc                             defconfig    gcc-16.2.0
+parisc                            allmodconfig    gcc-16.2.0
+parisc                             allnoconfig    clang-24
+parisc                            allyesconfig    clang-17
+parisc                               defconfig    gcc-16.2.0
+parisc                randconfig-1000-20261122    clang-24
+parisc                randconfig-1001-20261122    clang-24
+parisc64                             defconfig    clang-24
+powerpc                           allmodconfig    gcc-16.2.0
+powerpc                            allnoconfig    clang-24
+powerpc                   mpc866_ads_defconfig    clang-17
+powerpc               randconfig-1000-20261122    clang-24
+powerpc               randconfig-1001-20261122    clang-24
+powerpc                      sequoia_defconfig    clang-17
+powerpc64             randconfig-1000-20261122    clang-24
+powerpc64             randconfig-1001-20261122    clang-24
+riscv                             allmodconfig    clang-24
+riscv                              allnoconfig    clang-24
+riscv                             allyesconfig    clang-24
+riscv                                defconfig    gcc-16.2.0
+riscv                 randconfig-1000-20261122    gcc-9.5.0
+riscv                 randconfig-1001-20261122    gcc-9.5.0
+s390                              allmodconfig    clang-17
+s390                               allnoconfig    clang-24
+s390                              allyesconfig    gcc-16.2.0
+s390                                 defconfig    gcc-16.2.0
+s390                  randconfig-1000-20261122    gcc-9.5.0
+s390                  randconfig-1001-20261122    gcc-9.5.0
+sh                                allmodconfig    gcc-16.2.0
+sh                                 allnoconfig    clang-24
+sh                                allyesconfig    clang-17
+sh                                   defconfig    gcc-14
+sh                    randconfig-1000-20261122    gcc-9.5.0
+sh                    randconfig-1001-20261122    gcc-9.5.0
+sh                      sh7710voipgw_defconfig    clang-17
+sparc                              allnoconfig    clang-24
+sparc                                defconfig    gcc-16.2.0
+sparc                 randconfig-1000-20261122    clang-24
+sparc                 randconfig-1001-20261122    clang-24
+sparc64                           allmodconfig    clang-20
+sparc64                              defconfig    gcc-14
+sparc64               randconfig-1000-20261122    clang-24
+sparc64               randconfig-1001-20261122    clang-24
+um                                allmodconfig    clang-17
+um                                 allnoconfig    clang-24
+um                                allyesconfig    gcc-16.2.0
+um                                   defconfig    gcc-14
+um                              i386_defconfig    gcc-14
+um                    randconfig-1000-20261122    clang-24
+um                    randconfig-1001-20261122    clang-24
+um                            x86_64_defconfig    gcc-14
+x86_64                            allmodconfig    clang-22
+x86_64                             allnoconfig    clang-24
+x86_64                            allyesconfig    clang-22
+x86_64                               defconfig    gcc-14
+x86_64                                   kexec    clang-22
+x86_64                randconfig-1000-20261122    gcc-14
+x86_64                randconfig-1001-20261122    gcc-14
+x86_64                randconfig-1002-20261122    gcc-14
+x86_64                randconfig-1003-20261122    gcc-14
+x86_64                randconfig-1004-20261122    gcc-14
+x86_64                randconfig-1005-20261122    gcc-14
+x86_64                randconfig-1006-20261122    gcc-14
+x86_64                randconfig-1007-20261122    gcc-14
+x86_64                randconfig-1008-20261122    gcc-14
+x86_64                randconfig-1009-20261122    gcc-14
+x86_64                randconfig-1010-20261122    gcc-14
+x86_64                randconfig-1011-20261122    gcc-14
+x86_64                randconfig-1012-20261122    clang-22
+x86_64                randconfig-1013-20261122    clang-22
+x86_64                randconfig-1014-20261122    clang-22
+x86_64                randconfig-1015-20261122    clang-22
+x86_64                randconfig-1016-20261122    clang-22
+x86_64                randconfig-1017-20261122    clang-22
+x86_64                                rhel-9.4    clang-22
+x86_64                            rhel-9.4-bpf    gcc-14
+x86_64                           rhel-9.4-func    clang-22
+x86_64                     rhel-9.4-kselftests    clang-22
+x86_64                          rhel-9.4-kunit    gcc-14
+x86_64                            rhel-9.4-ltp    gcc-14
+x86_64                           rhel-9.4-rust    clang-22
+xtensa                             allnoconfig    clang-24
+xtensa                            allyesconfig    clang-20
+xtensa                   nommu_kc705_defconfig    clang-17
+xtensa                randconfig-1000-20261122    clang-24
+xtensa                randconfig-1001-20261122    clang-24
 
-I will send a v2 that does this, unless the list prefers to remove the
-direct send path for all queues and take this cost.
-
-Thanks,
-Seiji
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
