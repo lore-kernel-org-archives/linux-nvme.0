@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2E6606A32A
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 Nov 2026 01:20:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA7E606A320
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 Nov 2026 01:20:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1PgI9n99;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=de2S400J
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=tfTPGXxd;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=cvPjmkCF
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
@@ -14,47 +14,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=fWJHdnp4YwCtWnVVzUop7dWReDiuHEz0dyfLuLn6Ww4=; b=1PgI9n99yoa479lzc1T/Ti1/9/
-	ukFXokv138x6HfqKzuloZX5dfgAvieb6HpehC/6fCBPaXAnBFoUpe8Y+hFhpKpfmjQEj5FFO3NvFt
-	HZmFnFhVSFEN41YlSfXKWg3CMS8BlIeuXI0Son9Q3ZZe+bC6RZXcPCUbZfPq6eKS6VDV45WPsuJ4M
-	PpVDs0B1i4rv6fxWGxXEUJFWcrWhR8kyvwvKH+WeHk28eWxmB7kDd6dAyITPUH6oBnCSiNq6Ro9XL
-	EVSiCMzBuY6qtRvmXB4xa9jm4ckRIon/TUbBzfnJUIEi4cbmkAU4bNv51u1Zb1hySERIc72VARVCG
-	ZmgQb35w==;
+	bh=vqC6JaIi9wPgKET/5n4UqUkNpxqYQB/CR4jVp4a3Hhs=; b=tfTPGXxdNk0krTdSlMlTAkDfRu
+	APSuhcdzaf2rcyvQR7N46skEbeGsFKHq7rnOOh0hShtEJX/TBHTDS1cxoUUhZDPUd8UCreyXexcuH
+	3dxh9abw92Q8L6Ctjcn/l0nVWrzV27AnVfllMuyRvRIylrsg04AAM1Uh0Lz7HyHiRRPREwmLXVAX2
+	MN2VRhtRfEVQhwo7fc63lOMoG16l6HXeBW8YPdqC4Af/r2sSI7kYUEMub05HJmL2cWK/fsYdMq9DD
+	DVN1KbvEaH0bzAZRC0AjCIkFgZQmtE9EN2ekthGQIIepz15u90ezqaSMqrsltxXlogir9ILRnIRqO
+	ZyzCH9Gg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUwGA-00000000dvK-33pQ;
-	Sun, 22 Nov 2026 01:20:50 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1xUwGD-00000000dwm-3VYf;
+	Sun, 22 Nov 2026 01:20:53 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUwG7-00000000du9-3uCD
+	id 1xUwG9-00000000dus-1CQr
 	for linux-nvme@lists.infradead.org;
-	Sun, 22 Nov 2026 01:20:49 +0000
+	Sun, 22 Nov 2026 01:20:50 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795310446;
+	s=mimecast20190719; t=1795310448;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fWJHdnp4YwCtWnVVzUop7dWReDiuHEz0dyfLuLn6Ww4=;
-	b=de2S400JO7SpW2lU0OMLsVIYUnmDg02U1fPnulIyBtlojifaqESMcqOuk8eTxmuIk864eT
-	pZrreKqLUID9g6+LTabuDZ5nrDIRR8Dl8wicewEOE64XMt8tUPvZguuCYamibqBMxaLOIZ
-	VOaXcaJujVpqSQbMeo6X4vzzsaMcXjA=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=vqC6JaIi9wPgKET/5n4UqUkNpxqYQB/CR4jVp4a3Hhs=;
+	b=cvPjmkCFyVlOQ7uEqH8PUsYs9bYrZq0F7Y1zJfmK8MGCn92XMN3TqeP52L9ddCnL4Qmh+b
+	YW2NEeOF7VyzmMZ1w1bFdL5PvYMDjRhJD2F81G9K3/sMW0cj3r3bSLbEqwzcfn1Iht8f+y
+	l+cdWmZaKKENKTqdTYJxdJznVcKtBCo=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-448-e156JmlfNfOY5triLT84SA-1; Sun,
- 22 Nov 2026 01:19:21 +0000
-X-MC-Unique: e156JmlfNfOY5triLT84SA-1
-X-Mimecast-MFC-AGG-ID: e156JmlfNfOY5triLT84SA_1795310359
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-180-YEotI8lvOzmf2WVVKiJbYg-1; Sun,
+ 22 Nov 2026 01:19:26 +0000
+X-MC-Unique: YEotI8lvOzmf2WVVKiJbYg-1
+X-Mimecast-MFC-AGG-ID: YEotI8lvOzmf2WVVKiJbYg_1795310364
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3737E1955F18;
-	Sun, 22 Nov 2026 01:19:19 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9B165180047B;
+	Sun, 22 Nov 2026 01:19:24 +0000 (UTC)
 Received: from snishika-thinkpadp16vgen1.tokyo.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 553073003EBE;
-	Sun, 22 Nov 2026 01:19:15 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 40F8C3003EC5;
+	Sun, 22 Nov 2026 01:19:20 +0000 (UTC)
 From: Seiji Nishikawa <snishika@redhat.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -65,22 +65,22 @@ Cc: Hannes Reinecke <hare@suse.de>,
 	Seiji Nishikawa <snishika@redhat.com>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 1/2] nvme-tcp: remove the direct send path
-Date: Sun, 22 Nov 2026 10:18:25 +0900
-Message-ID: <20261122011826.1959697-2-snishika@redhat.com>
+Subject: [RFC PATCH 2/2] nvme-tcp: remove send_mutex
+Date: Sun, 22 Nov 2026 10:18:26 +0900
+Message-ID: <20261122011826.1959697-3-snishika@redhat.com>
 In-Reply-To: <20261122011826.1959697-1-snishika@redhat.com>
 References: <20261122011826.1959697-1-snishika@redhat.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-MFC-PROC-ID: pBtXm1C61o-Ufnm4xqt4TJ4kqDSkBuk7FALgOGogAkM_1795310359
+X-Mimecast-MFC-PROC-ID: l8rpNnT8fch3fus56XVT7mJYHs-P7XixUU5ytN9Sba8_1795310364
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261121_172048_048056_BD2141C5 
-X-CRM114-Status: GOOD (  20.61  )
-X-Spam-Score: 0.5 (/)
+X-CRM114-CacheID: sfid-20261121_172049_469894_9E8478ED 
+X-CRM114-Status: GOOD (  16.21  )
+X-Spam-Score: -2.8 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,96 +99,85 @@ X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-nvme_tcp_queue_request() sends the request directly from the submitting
-context when it runs on the io_cpu of the queue, the queue is empty and
-it can take send_mutex. Commit db5ad6b7f8cd ("nvme-tcp: try to send
-request in queue_rq context") added this to skip the workqueue hop when
-the queue is idle.
+With the direct send path gone, io_work is the only context that sends
+on a queue. A work item never runs concurrently with itself, so
+send_mutex does not protect anything anymore.
 
-Since then this path has needed a series of fixes for races and
-priority inversions between it and io_work. These are
-commit 5c11f7d9f843 ("nvme-tcp: Fix possible race of io_work and direct
-send"), commit a0fdd1418007 ("nvme-tcp: rerun io_work if req_list is
-not empty"), commit 70f437fb4395 ("nvme-tcp: fix io_work priority
-inversion"), commit 08acb54b063a ("nvme-tcp: defer TLS inline send to
-io_work") and commit 5db358f3a7f9 ("nvme-tcp: fix io_work priority
-inversion when send_mutex is held").
+Remove it, together with the mutex_trylock() in nvme_tcp_io_work() and
+the got_send_mutex check, which is now always true.
 
-All of them come from having 2 contexts that send on the same queue and
-coordinate through send_mutex, while io_work runs on a high priority
-workqueue and the submitting task does not.
-
-Remove the direct send path and always send from io_work. TLS queues
-already work this way since 08acb54b063a. With a single sender, io_work
-has to be queued whenever the last request of a batch is added, so the
-has_pending check in nvme_tcp_queue_request() goes away too, and
-nvme_tcp_send_all() has no caller left.
-
-Suggested-by: Hannes Reinecke <hare@suse.de>
 Assisted-by: LLM
 Signed-off-by: Seiji Nishikawa <snishika@redhat.com>
 ---
- drivers/nvme/host/tcp.c | 33 ++-------------------------------
- 1 file changed, 2 insertions(+), 31 deletions(-)
+ drivers/nvme/host/tcp.c | 27 +++++++--------------------
+ 1 file changed, 7 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 62a594b8ab9b..2b832ac3068a 100644
+index 2b832ac3068a..b116268fe2f5 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -213,7 +213,6 @@ struct nvme_tcp_ctrl {
- static struct workqueue_struct *nvme_tcp_wq;
- static const struct blk_mq_ops nvme_tcp_mq_ops;
- static const struct blk_mq_ops nvme_tcp_admin_mq_ops;
--static int nvme_tcp_try_send(struct nvme_tcp_queue *queue);
+@@ -142,7 +142,6 @@ struct nvme_tcp_queue {
+ 	int			io_cpu;
  
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- /* lockdep can detect a circular dependency of the form
-@@ -420,16 +419,6 @@ static inline void nvme_tcp_advance_req(struct nvme_tcp_request *req,
- 	}
- }
+ 	struct mutex		queue_lock;
+-	struct mutex		send_mutex;
+ 	struct mutex		pf_cache_lock;
+ 	struct llist_head	req_list;
+ 	struct list_head	send_list;
+@@ -1482,18 +1481,13 @@ static void nvme_tcp_io_work(struct work_struct *w)
  
--static inline void nvme_tcp_send_all(struct nvme_tcp_queue *queue)
--{
--	int ret;
--
--	/* drain the send queue as much as we can... */
--	do {
--		ret = nvme_tcp_try_send(queue);
--	} while (ret > 0);
--}
--
- static inline bool nvme_tcp_queue_has_pending(struct nvme_tcp_queue *queue)
- {
- 	return !list_empty(&queue->send_list) ||
-@@ -446,28 +435,10 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
- 		bool last)
- {
- 	struct nvme_tcp_queue *queue = req->queue;
--	bool empty;
+ 	do {
+ 		bool pending = false;
+-		bool got_send_mutex = false;
+ 		int result;
  
--	empty = llist_add(&req->lentry, &queue->req_list) &&
--		list_empty(&queue->send_list) && !queue->request;
--
--	/*
--	 * if we're the first on the send_list and we can try to send
--	 * directly, otherwise queue io_work. Also, only do that if we
--	 * are on the same cpu, so we don't introduce contention.
--	 *
--	 * TLS kTLS send takes ctx->tx_lock while blk_mq holds set->srcu.
--	 * lockdep reports circular locking via elevator_lock.  Defer TLS
--	 * sends to the io workqueue instead of inline from this path.
--	 */
--	if (queue->io_cpu == raw_smp_processor_id() &&
--	    !nvme_tcp_queue_tls(queue) &&
--	    empty && mutex_trylock(&queue->send_mutex)) {
--		nvme_tcp_send_all(queue);
--		mutex_unlock(&queue->send_mutex);
--	}
-+	llist_add(&req->lentry, &queue->req_list);
+-		if (mutex_trylock(&queue->send_mutex)) {
+-			got_send_mutex = true;
+-			result = nvme_tcp_try_send(queue);
+-			mutex_unlock(&queue->send_mutex);
+-			if (result > 0)
+-				pending = true;
+-			else if (unlikely(result < 0))
+-				break;
+-		}
++		result = nvme_tcp_try_send(queue);
++		if (result > 0)
++			pending = true;
++		else if (unlikely(result < 0))
++			break;
  
--	if (last && nvme_tcp_queue_has_pending(queue))
-+	if (last)
- 		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+ 		result = nvme_tcp_try_recv(queue);
+ 		if (result > 0)
+@@ -1501,13 +1495,8 @@ static void nvme_tcp_io_work(struct work_struct *w)
+ 		else if (unlikely(result < 0))
+ 			return;
+ 
+-		/*
+-		 * did we get some space after spending time in recv?
+-		 * Only check this if we could take send_mutex. Otherwise
+-		 * the task holding it sends the requests and queues io_work
+-		 * again after it releases the mutex.
+-		 */
+-		if (got_send_mutex && nvme_tcp_queue_has_pending(queue) &&
++		/* did we get some space after spending time in recv? */
++		if (nvme_tcp_queue_has_pending(queue) &&
+ 		    sk_stream_is_writeable(queue->sock->sk))
+ 			pending = true;
+ 
+@@ -2087,7 +2076,6 @@ static void nvme_tcp_init_queue(struct nvme_tcp_ctrl *ctrl, int qid)
+ 
+ 	queue->ctrl = ctrl;
+ 	mutex_init(&queue->queue_lock);
+-	mutex_init(&queue->send_mutex);
+ 	mutex_init(&queue->pf_cache_lock);
+ 	INIT_WORK(&queue->io_work, nvme_tcp_io_work);
+ 	queue->hdr_digest = ctrl->ctrl.opts->hdr_digest;
+@@ -2099,7 +2087,6 @@ static void nvme_tcp_exit_queue(struct nvme_tcp_ctrl *ctrl, int qid)
+ 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
+ 
+ 	mutex_destroy(&queue->queue_lock);
+-	mutex_destroy(&queue->send_mutex);
+ 	mutex_destroy(&queue->pf_cache_lock);
  }
  
 -- 
