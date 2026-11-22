@@ -2,82 +2,59 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571D1606A320
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 Nov 2026 01:21:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271D8606A320
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 Nov 2026 01:42:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=HSi/AyyD;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bSXar4kg
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=iVgXf/ed;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=onrTfMQ+
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=anvLIQ/gAVabMUhFwRkaKGx6MGoQfQXTcBbd/iuWriU=; b=HSi/AyyDh0Ij9Da638wamhWm4i
-	pS5h2HVrLNCIPKaLBKl3mGtUW528nodGvNbzKcLl6IFaqJaqQGSM0AvVDp8NRNJOTEvRN3S9GePVF
-	KM+G1cIKb4TyMvwl4b7z3iEFC+tqCJmqH6FQqeno6y3LPInZYupkXpYnTS6vbMDw35NWs6o/K/gpX
-	7iXdI3UFIcHeifpTH1c3g5cCbujQizQZnWRelwegFtB/K9v+lB6AXMxfR4tWOhf9CXQXaDOg2kr5R
-	QHihQfsyrLMemtn08jJkjLSrSMyUjHKREKxoyxY5ioaDkp9tK4LKKaaOmDUFW09xN6hnJCeLt4VKz
-	vBo/nlsQ==;
+	bh=2RXhtdX03YYhTyECJCW0C5gFw3Lx+7BYSRSxnYn+5NA=; b=iVgXf/ed8oyDnXWQkmT1O6kZRb
+	rTl2T3VeeeEVw+2G7/6xrSEXWWz4pAH55s4vXbdt18PjySADi9yJCVmYs/JALoaN3lyUFY05jjKsx
+	7OPJt8s/IQQukEKIw7K4iX86HVnPcnXH8KZtgbzYbCDinMGBlTNKdAAqANRREvq7vURr8dK+CJGlF
+	y4ZFfD4Rsi8m46ayZu8JRoJIlh2LHhbjkHkA9mhBSO/2GAyQUmyMA1MF9edPbFOoN6FGO7r3YIg02
+	eWwK3XMf6Yu5Z97DFgBvWNQBoQ3aRrd1dE8FavO9ScIhCgO8tUTfHNcx0Q74R00yN0vbn/G4LMzrG
+	Ov4610cw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUwGQ-00000000e0E-0CJ3;
-	Sun, 22 Nov 2026 01:21:06 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1xUwbT-00000000fPM-3Dni;
+	Sun, 22 Nov 2026 01:42:51 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUwGN-00000000dzZ-1YYE
+	id 1xUwbS-00000000fPG-1iVT
 	for linux-nvme@lists.infradead.org;
-	Sun, 22 Nov 2026 01:21:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795310462;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=anvLIQ/gAVabMUhFwRkaKGx6MGoQfQXTcBbd/iuWriU=;
-	b=bSXar4kgoYEVeGVXPVW7bbVw7Zw8/yjw2GBrIN9i9PtGyzFUSUe6V4FGqnOlQkPIHeDZ/w
-	OVRteYx7fgw69fkzFKbvgnHUMg4NdrA9F1ctHtGDZXw7Ww//IIF75FgcJxBJUIsxvwqXTl
-	U6PNOfLERvEQYZeIT9X7VBRLgAZGyUE=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-220-5zWvLQCYMx-y__GcH6rhNg-1; Sun,
- 22 Nov 2026 01:19:12 +0000
-X-MC-Unique: 5zWvLQCYMx-y__GcH6rhNg-1
-X-Mimecast-MFC-AGG-ID: 5zWvLQCYMx-y__GcH6rhNg_1795310351
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 31602180035E;
-	Sun, 22 Nov 2026 01:19:10 +0000 (UTC)
-Received: from snishika-thinkpadp16vgen1.tokyo.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AFC0D3003E88;
-	Sun, 22 Nov 2026 01:19:05 +0000 (UTC)
-From: Seiji Nishikawa <snishika@redhat.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Hannes Reinecke <hare@suse.de>,
-	Chris Leech <cleech@redhat.com>,
-	Seiji Nishikawa <snishika@redhat.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 0/2] nvme-tcp: remove the direct send path
-Date: Sun, 22 Nov 2026 10:18:24 +0900
-Message-ID: <20261122011826.1959697-1-snishika@redhat.com>
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-MFC-PROC-ID: iPBcJu04tm_IkQP2maqIX7AhDkOp2tgwViD78xIR2HQ_1795310351
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261121_172103_560662_13F04986 
-X-CRM114-Status: GOOD (  13.65  )
-X-Spam-Score: -2.8 (--)
+	Sun, 22 Nov 2026 01:42:50 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id B77C342BA8;
+	Sun, 22 Nov 2026 01:42:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85E491F000C0;
+	Sun, 22 Nov 2026 01:42:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795311769;
+	bh=2RXhtdX03YYhTyECJCW0C5gFw3Lx+7BYSRSxnYn+5NA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=onrTfMQ+7/Fg61+18wNmv4wtT0RrIc4cCZRAzJT316VeqMo/Nwd1jrnvwl1V9SgKb
+	 mIhtV3xxnIT9gIhIJYPZFCLJ4XfWQyJbBqK5r+mpSxXocPh28Zlc6bObAV3yoybSPf
+	 re27vJIYLpbjr+b3OsnDFhIL5CugCLMjERhvb0CQGvT01VtPMaFIeF9Xx1nwMhmLIq
+	 /SUXtC2CrAJ/CcTkDVJz9Ti/4wffA8L+gAYyoMXZUf5hXAmCyh2G2W0KEYaler8GCY
+	 DlkJk6DQKqYMC1HIx+RB0WP47hfv+/WznqSUbE94JSNqP9KQ/zrshXCej5WcYK7T8r
+	 8GdZGZVjU9ukA==
+Message-ID: <sashiko-outbox-227628@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [RFC PATCH 1/2] nvme-tcp: remove the direct send path
+To: "Seiji Nishikawa" <snishika@redhat.com>
+Cc: linux-nvme@lists.infradead.org
+In-Reply-To: <20261122011826.1959697-2-snishika@redhat.com>
+References: <20261122011826.1959697-1-snishika@redhat.com>
+ <20261122011826.1959697-2-snishika@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 22 Nov 2026 01:42:49 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,6 +64,7 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
@@ -94,64 +72,92 @@ X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-Hannes suggested removing the direct send path in
-nvme_tcp_queue_request() while reviewing commit 5db358f3a7f9 ("nvme-tcp:
-fix io_work priority inversion when send_mutex is held"). This series
-does that, on top of nvme-7.4.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] nvme-tcp: poll queue starvation and latency regression in
+  nvme_tcp_queue_request()
+--
 
-Patch 1 removes the direct send path, so io_work is the only sender.
-Patch 2 removes send_mutex, which has nothing left to protect after
-patch 1.
+commit 7f6babf6da3e0f7ca956d6a355e996efe6f74e66
+Author: Seiji Nishikawa <snishika@redhat.com>
 
-The direct send path was added to cut latency when the queue is idle,
-so I measured it on two machines with 1Gb NICs. The target is nvmet-tcp
-backed by null_blk (irqmode=0). The host runs fio like this, 60 seconds
-per run and 3 runs per case:
+nvme-tcp: remove the direct send path
 
-  fio --name=qd1 --filename=/dev/nvme0n1 --direct=1 --ioengine=libaio \
-      --bs=4k --rw=randread --iodepth=1 --numjobs=1 --cpus_allowed=2 \
-      --time_based --runtime=60 --ramp_time=5
+This commit removes the inline direct send path in nvme_tcp_queue_request()
+and nvme_tcp_send_all(), deferring all request transmissions to
+queue->io_work on nvme_tcp_wq.
 
-Average of the 3 runs at queue depth 1, latency in usec, "patched" is
-this series:
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 62a594b8ab9bf..2b832ac3068a9 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+[ ... ]
+> @@ -446,28 +435,10 @@ static inline void nvme_tcp_queue_request(struct nv=
+me_tcp_request *req,
+>  		bool last)
+>  {
+>  	struct nvme_tcp_queue *queue =3D req->queue;
+> -	bool empty;
+> =20
+> -	empty =3D llist_add(&req->lentry, &queue->req_list) &&
+> -		list_empty(&queue->send_list) && !queue->request;
+> -
+> -	/*
+> -	 * if we're the first on the send_list and we can try to send
+> -	 * directly, otherwise queue io_work. Also, only do that if we
+> -	 * are on the same cpu, so we don't introduce contention.
+> -	 *
+> -	 * TLS kTLS send takes ctx->tx_lock while blk_mq holds set->srcu.
+> -	 * lockdep reports circular locking via elevator_lock.  Defer TLS
+> -	 * sends to the io workqueue instead of inline from this path.
+> -	 */
+> -	if (queue->io_cpu =3D=3D raw_smp_processor_id() &&
+> -	    !nvme_tcp_queue_tls(queue) &&
+> -	    empty && mutex_trylock(&queue->send_mutex)) {
+> -		nvme_tcp_send_all(queue);
+> -		mutex_unlock(&queue->send_mutex);
+> -	}
+> +	llist_add(&req->lentry, &queue->req_list);
+> =20
+> -	if (last && nvme_tcp_queue_has_pending(queue))
+> +	if (last)
+>  		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+>  }
 
-                      IOPS   slat   clat    lat  clat p99
-  randread   base     4153    7.1  232.3  239.3       277
-             patched  4154    4.7  234.7  239.4       280
-  randwrite  base     2472   24.5  375.6  400.1       553
-             patched  2460   14.3  387.6  402.0       570
+[Severity: Medium]
+Does removing the inline send from nvme_tcp_queue_request() break polled
+I/O on HCTX_TYPE_POLL queues?
 
-The send time moves from slat to clat. With the direct send path,
-io_submit() itself sends the command on the socket, so that time is
-counted in slat. Without it, io_submit() only queues the request and
-returns, and io_work sends it, so the same time is counted in clat. lat
-is the sum of the two, and it changes by 0.1 usec for randread and 1.9
-usec (+0.5%) for randwrite.
+nvme_tcp_set_queue_io_cpu() binds queue->io_cpu for a poll queue to a CPU
+in set->map[HCTX_TYPE_POLL].mq_map, while nvme_tcp_poll() only polls the
+receive side and never drains queue->req_list:
 
-At queue depth 32 with 4 jobs, both kernels reach the 1Gb link limit
-(28.2k IOPS), so there is no difference there.
+drivers/nvme/host/tcp.c:nvme_tcp_poll() {
+    ...
+	set_bit(NVME_TCP_Q_POLLING, &queue->flags);
+	if (sk_can_busy_loop(sk) && skb_queue_empty_lockless(&sk->sk_receive_queue=
+))
+		sk_busy_loop(sk, true);
+	ret =3D nvme_tcp_try_recv(queue);
+	clear_bit(NVME_TCP_Q_POLLING, &queue->flags);
+    ...
+}
 
-On the same two machines, I also ran 5 controller resets during a 120
-second randrw fio run on the patched kernel, and fio finished with no
-errors. Separately, blktests nvme over tcp on a VM with an nvmet tcp
-loopback target gives the same results with and without this series.
+Previously, a task submitting and polling on queue->io_cpu sent the
+request inline when the queue was idle and completed it without waking
+nvme_tcp_wq.  With all sends deferred to queue->io_work on queue->io_cpu,
+a SCHED_FIFO or SCHED_RR task polling via io_uring IORING_SETUP_IOPOLL or
+blk_execute_rq() on queue->io_cpu starves the SCHED_NORMAL nvme_tcp_wq
+worker on the same CPU and spins in nvme_tcp_poll() waiting for a request
+still sitting in queue->req_list until RT throttling or the 30-second
+NVMe I/O timeout fires.  For SCHED_NORMAL tasks on queue->io_cpu, waking
+the WQ_HIGHPRI worker sets TIF_NEED_RESCHED, causing blk_hctx_poll() and
+io_iopoll_check() to abort polling on need_resched() or forcing two
+context switches per polled I/O.
 
-On a 1Gb network one I/O takes about 240 us, so a difference of a few
-microseconds is easy to miss. Numbers from faster networks would show
-whether it matters there. I am posting this as RFC so the performance
-side can be discussed on the list.
-
-Seiji Nishikawa (2):
-  nvme-tcp: remove the direct send path
-  nvme-tcp: remove send_mutex
-
- drivers/nvme/host/tcp.c | 60 +++++++----------------------------------
- 1 file changed, 9 insertions(+), 51 deletions(-)
-
-
-base-commit: 68099cf27253a8c89d703a282d3d811446d9453b
--- 
-2.56.1
-
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261122011826.1959=
+697-1-snishika@redhat.com?part=3D1
 
