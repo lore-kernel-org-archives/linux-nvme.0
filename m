@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC802606A335
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 12:34:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36626606A68B
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 12:35:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=bYSySnvN;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RrVNT3oy
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=xFKo3VNZ;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P9N9wf6/
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,47 +14,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=aXhSaYn7FB4FfCk0IAqjmbKNJRF7SKbSWnVKWnjnYeo=; b=bYSySnvNTL6vvq8twYBEh68Ag0
-	IRXJD38aDczBqsGfU0xMm5GGvp1yx24QwksZvWLHicGru2V+epMyoRYGprBiIkY00Wk/Pd5h3tF3f
-	MOyXSTbuMfvfuhjcM6DjUoB3CWs1FS0BsTHUilbCK68+untMAvpDsNxiL42pqO1+DcUFrVw6wxzZ6
-	Us+vVn7zXpo5TP8cMZsdm4uDQvzQkXsHbzB0cj4jpHJWZ7J4nqNREJVCmq4lse0QbXdiqrAQtnssD
-	H7BWfM8Zvf4Vmnkqf6Valtts6FKkuyyZsGSbhKjbBgNzLyF4U7avf2rTUqv381w6EEWEDGRKUWOic
-	nmNImbMQ==;
+	bh=ukA5JlJemlbaumtfSq/3DOtQML6qJIIswA49TIqmLok=; b=xFKo3VNZuV/RMwl/49/DCVDp53
+	+Ihr78YhPM3IPrQzyP5Je9GUCypI9c5umLoIw8PiFKXG5ZsVaPrUKRQPUkzN4QXRlCcjhSMfzfKxv
+	E8Sb9zSOD7GDDcH8AVtGOCDu/evoobfjB/6gViWpeDD0H4UIIUfu1s+7dUIPBG4Re1Kw7FjWjecgR
+	HW+59MCUkAoQY/dHTQE1YCwJWlyCPaZnMVczKZt9x6rn/QWka0dfLw0Lgk6SYIesCFtgJlfok8UTz
+	SIU346NMUOY1ay/tpkjj48xjP8dbpU5MEMg6YgH7P4KHxCAM81QKRS/+yyOG0eicsTaEFMDJPwGCc
+	bWEgp9HA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVTG1-00000003NWs-32me;
-	Mon, 23 Nov 2026 12:34:53 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xVTGb-00000003Npn-2CPd;
+	Mon, 23 Nov 2026 12:35:30 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVTFu-00000003NVw-3GDz
+	id 1xVTGZ-00000003Np1-3Q1z
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Nov 2026 12:34:46 +0000
+	Mon, 23 Nov 2026 12:35:27 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 52EE341409
-	for <linux-nvme@lists.infradead.org>; Mon, 23 Nov 2026 12:34:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93DE71F000EC;
-	Mon, 23 Nov 2026 12:34:45 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 9087E40C41
+	for <linux-nvme@lists.infradead.org>; Mon, 23 Nov 2026 12:35:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43B6F1F000D0;
+	Mon, 23 Nov 2026 12:35:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795437285;
-	bh=aXhSaYn7FB4FfCk0IAqjmbKNJRF7SKbSWnVKWnjnYeo=;
+	s=k20260515; t=1795437327;
+	bh=ukA5JlJemlbaumtfSq/3DOtQML6qJIIswA49TIqmLok=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RrVNT3oyEGB2Kj6dNEZQqljHpG+IZ6Tgj9vAE5UKvM4uJfwQlZE+TDVpE0X3FeW+1
-	 XCPlSJO6hnC1IFFGdhuh3cPlsGp0s3gEpwTTdQXJuLx0JTjUwq6AkyhI3Sjw/9Pmwf
-	 6X7s1iDnFDKepsZ8GS5WEUR1pltuHOIvj/B/Tf8GwlZXh+kfVZ/hBoaGjlMF0xwnC1
-	 TL4CCWGw0Sm/AsX8bfwgViJJ/H3tC1wAhn9lfqbego98G590q+X6webBKmI+r0nQAf
-	 g6GlaVlxQhJTZurj9TCaOJMwAS8Fdjoeof4FcOGRV79VCZIiyul07YgCnG6xhVBcuV
-	 qDFTPl6hxLCjg==
-Message-ID: <sashiko-outbox-229226@kernel.org>
+	b=P9N9wf6/iTLvfF7beOM6zqED5jegUPnVrMJdjRy6orXkI8F4VcILAdmyoF4ebFlBb
+	 XyFUjZ05nyrOYqkGfB5Ool5U1D0P6brBFyrGok6JGfgXzgErF6tSGraOKj/vWoV74y
+	 dhkam/GC/zW9OOfXxaGBaCndJA7gxU5WM9qwJYC4y8V9/UekgDL8sJQxQC5wHTqRt7
+	 5c6JDZCyNZXUkCvrv6wPDhztq304NPd9XHv8QT21kCCavltLI1ok89q7f/UqhGgtnb
+	 4shSrUpO7TbsVALqWXcMbqUohiEKbUUxVvuy3uSe79yE8N8NcfPPFZYH+cn9Sierjw
+	 RuzAmz+rvHcHQ==
+Message-ID: <sashiko-outbox-229228@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 4/9] nvme: parse dhchap keys during option parsing
+Subject: Re: [PATCH v5 9/9] nvmet: add configfs attribute 'dhchap_keyring'
 To: "Hannes Reinecke" <hare@kernel.org>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261123-dhchap-keyring-v4-v5-4-81eefb4c0724@kernel.org>
+In-Reply-To: <20261123-dhchap-keyring-v4-v5-9-81eefb4c0724@kernel.org>
 References: <20261123-dhchap-keyring-v4-v5-0-81eefb4c0724@kernel.org>
- <20261123-dhchap-keyring-v4-v5-4-81eefb4c0724@kernel.org>
+ <20261123-dhchap-keyring-v4-v5-9-81eefb4c0724@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 23 Nov 2026 12:34:45 +0000
+Date: Mon, 23 Nov 2026 12:35:26 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,251 +74,178 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 6 potential
+Thank you for your contribution! Sashiko AI review found 3 potential
 issues to consider:
-- [High] nvme: build failure in sysfs.c when CONFIG_NVME_KEYRING is
-  disabled
-- [Low] nvme-auth: log of unassigned keys and NULL device in
-  nvme_auth_init_ctrl()
-- [Low] nvme-fabrics: dead !CONFIG_NVME_HOST_AUTH branches in
-  nvmf_parse_options()
-- [Low] nvme: missing trailing newline in dhchap_ctrl_secret_show() on
-  invalid key
-- [Low] nvme: wrong device pointer logged in dhchap_secret_store() and
-  ctrl store
-- [Low] nvme: undocumented dhchap_key sysfs attrs and inaccurate
-  changelog
+- [High] nvmet: NULL pointer dereference in nvmet_auth_set_key() when
+  clearing key
+- [Medium] nvmet: cannot write or reset .nvme in
+  nvmet_host_dhchap_keyring_store()
+- [Medium] nvmet: 1-byte OOB write in nvmet_host_dhchap_keyring_show()
+  via sprintf()
 --
 
-commit 8a46b5c132a1f37ed808c2b1576c3ace8af7cf7f
+commit 1e868858e36190db74c6e7c75fe1ba260a535d71
 Author: Hannes Reinecke <hare@kernel.org>
 
-nvme: parse dhchap keys during option parsing
+nvmet: add configfs attribute 'dhchap_keyring'
 
-This commit extracts DH-HMAC-CHAP secrets into key objects during fabrics
-option parsing and exposes the active keys and their serial numbers via
-controller sysfs attributes.
+This commit adds a dhchap_keyring configfs attribute to the nvmet host
+group so userspace can select which keyring is used to look up DH-HMAC-CHAP
+keys.
 
-> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-> index 0ddf3834f4ea2..535cc433dd35d 100644
-> --- a/drivers/nvme/host/auth.c
-> +++ b/drivers/nvme/host/auth.c
-[ ... ]
-> @@ -1029,40 +1024,106 @@ static void nvme_ctrl_auth_work(struct work_stru=
-ct *work)
-[ ... ]
-> +	dev_dbg(ctrl->device,
-> +		"%s: using dhchap host key %08x\n",
-> +		__func__, key_serial(ctrl->host_key));
-> +	if (ctrl->host_key)
-> +		nvme_auth_clear_host_key(ctrl);
-> +	ctrl->host_key =3D host_key;
-> +
-> +	if (ctrl->ctrl_key)
-> +		nvme_auth_clear_ctrl_key(ctrl);
-> +	if (ctrl_key) {
-> +		dev_dbg(ctrl->device,
-> +			"%s: using dhchap ctrl key %08x\n",
-> +			__func__, key_serial(ctrl->ctrl_key));
-> +		ctrl->ctrl_key =3D ctrl_key;
-> +	}
-
-[Severity: Low]
-Do these two dev_dbg() calls pass ctrl->host_key and ctrl->ctrl_key to
-key_serial() before assigning host_key and ctrl_key, always logging key
-serial 00000000?
-
-Also, nvme_init_ctrl() calls nvme_auth_init_ctrl() before setting
-ctrl->device =3D &ctrl->ctrl_device, so ctrl->device is NULL for all
-dev_warn() and dev_dbg() calls in nvme_auth_init_ctrl().
-
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 5ed91557f0706..0c09888be31f7 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-[ ... ]
-> @@ -1086,6 +1078,53 @@ static int nvmf_parse_options(struct nvmf_ctrl_opt=
-ions *opts,
->  			pr_warn("failfast tmo (%d) larger than controller loss tmo (%d)\n",
->  				opts->fast_io_fail_tmo, ctrl_loss_tmo);
+> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+> index 7204ace149565..84091803af300 100644
+> --- a/drivers/nvme/target/auth.c
+> +++ b/drivers/nvme/target/auth.c
+> @@ -68,7 +68,9 @@ int nvmet_auth_set_key(struct nvmet_host *host, const c=
+har *secret,
+>  		return 0;
 >  	}
-> +
-> +	opts->host =3D nvmf_host_add(hostnqn, &hostid);
-> +	if (IS_ERR(opts->host)) {
-> +		ret =3D PTR_ERR(opts->host);
-> +		opts->host =3D NULL;
-> +		goto out;
-> +	}
-> +
-> +	if (host_secret) {
-> +#ifdef CONFIG_NVME_HOST_AUTH
-> +		pr_debug("lookup host identity '%s'\n", host_secret);
-> +		key =3D nvme_auth_extract_key(opts->keyring, host_secret,
-> +					    strlen(host_secret));
-> +		if (IS_ERR(key)) {
-> +			ret =3D PTR_ERR(key);
-> +			goto out;
-> +		}
-> +		pr_debug("using dhchap host key %08x\n", key_serial(key));
-> +		opts->dhchap_key =3D key;
-> +#else
-> +		pr_warn("nvme authentication is disabled\n");
-> +		ret =3D -EINVAL;
-> +		goto out;
-> +#endif
-> +	}
-> +	if (ctrl_secret) {
-> +#ifdef CONFIG_NVME_HOST_AUTH
-> +		if (!opts->dhchap_key) {
-> +			ret =3D -EINVAL;
-> +			goto out;
-> +		}
-> +		pr_debug("lookup ctrl identity '%s'\n", ctrl_secret);
-> +		key =3D nvme_auth_extract_key(opts->keyring, ctrl_secret,
-> +					    strlen(ctrl_secret));
-> +		if (IS_ERR(key)) {
-> +			ret =3D PTR_ERR(key);
-> +			goto out;
-> +		}
-> +		pr_debug("using dhchap ctrl key %08x\n", key_serial(key));
-> +		opts->dhchap_ctrl_key =3D key;
-> +#else
-> +		pr_warn("nvme authentication is disabled\n");
-> +		ret =3D -EINVAL;
-> +		goto out;
-> +#endif
-> +	}
-
-[Severity: Low]
-Can the !CONFIG_NVME_HOST_AUTH branches under if (host_secret) and
-if (ctrl_secret) ever be reached?
-
-NVMF_OPT_DHCHAP_SECRET and NVMF_OPT_DHCHAP_CTRL_SECRET in opt_tokens are
-guarded by #ifdef CONFIG_NVME_HOST_AUTH, so when CONFIG_NVME_HOST_AUTH is
-disabled, match_token() rejects dhchap_secret and dhchap_ctrl_secret as
-unknown parameters and jumps to out while host_secret and ctrl_secret are
-still NULL.
-
-> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> index a5c1511e49ac2..e73c3ad89adc0 100644
-> --- a/drivers/nvme/host/sysfs.c
-> +++ b/drivers/nvme/host/sysfs.c
-> @@ -6,6 +6,8 @@
->   */
-> =20
->  #include <linux/nvme-auth.h>
-> +#include <linux/nvme-keyring.h>
-> +#include <linux/key-type.h>
->  #include <linux/blkdev.h>
+>  	len =3D strcspn(secret, "\n");
+> -	key =3D nvme_auth_extract_key(NULL, secret, len, &generated);
+> +	down_read(&nvmet_config_sem);
+> +	key =3D nvme_auth_extract_key(host->dhchap_keyring, secret, len, &gener=
+ated);
+> +	up_read(&nvmet_config_sem);
+>  	if (IS_ERR(key)) {
+>  		pr_debug("%s: invalid key specification\n", __func__);
+>  		return PTR_ERR(key);
 
 [Severity: High]
-Does including linux/nvme-keyring.h unconditionally in sysfs.c break the
-build when CONFIG_NVME_CORE is enabled and CONFIG_NVME_KEYRING is
-disabled?
+Does nvmet_auth_set_key() dereference a NULL secret when clearing a key via
+configfs?
 
-In the !IS_ENABLED(CONFIG_NVME_KEYRING) block of
-include/linux/nvme-keyring.h (updated earlier in commit "nvme-auth: switch
-to use 'struct key'"), nvme_tls_psk_refresh() has a malformed parameter
-list and nvme_dhchap_psk_hash() is defined without static inline:
+Earlier in this series, commit "nvmet-auth: parse dhchap key from configfs
+attribute" updated nvmet_host_dhchap_key_store() and
+nvmet_host_dhchap_ctrl_key_store() to leave keydata as NULL when an empty
+line is written:
 
-include/linux/nvme-keyring.h:
-    static inline struct key *nvme_tls_psk_refresh(struct key *keyring,
-		const char *hostnqn, const char *subnqn, *data, u8 hmac_id,
-		u8 *data, size_t data_len, const char *digest)
-    ...
-    u8 nvme_dhchap_psk_hash(struct key *key)
-    {
-	return 0;
-    }
+drivers/nvme/target/configfs.c:nvmet_host_dhchap_key_store() {
+	...
+	len =3D strcspn(page, "\n");
+	if (len) {
+		keydata =3D kstrndup(page, len, GFP_KERNEL);
+		if (!keydata)
+			return -ENOMEM;
+	}
 
-Since sysfs.c is built for any CONFIG_NVME_CORE configuration and does not
-use any symbols from linux/nvme-keyring.h, compiling with
-CONFIG_NVME_KEYRING=3Dn fails with syntax and multiple-definition errors.
+	ret =3D nvmet_auth_set_key(host, keydata, false);
+	...
+}
 
-> @@ -830,36 +850,47 @@ static ssize_t dhchap_secret_store(struct device *d=
-ev,
-[ ... ]
-> +	down_read(&key->sem);
-> +	ret =3D key_validate(key);
-> +	up_read(&key->sem);
-> +	if (ret) {
-> +		dev_warn(ctrl->dev, "key %08x invalidated\n", key_serial(key));
-> +		dev_dbg(ctrl->dev, "revoke host key %08x\n", key_serial(key));
-> +		key_revoke(key);
-> +		key_put(key);
-> +		kfree_sensitive(dhchap_secret);
-> +		return ret;
-> +	}
-> +	mutex_lock(&ctrl->dhchap_auth_mutex);
-> +	old_key =3D ctrl->host_key;
-> +	dev_dbg(ctrl->dev, "revoke host key %08x\n",
-> +		key_serial(old_key));
-> +	key_revoke(old_key);
+nvmet_auth_set_key() then checks if (!strlen(secret)) without testing
+!secret first, triggering a NULL pointer dereference whenever an empty
+string or newline is written to dhchap_key or dhchap_ctrl_key to revoke a
+configured key.
 
-[Severity: Low]
-Should these dev_warn() and dev_dbg() calls in dhchap_secret_store() and
-dhchap_ctrl_secret_store() use ctrl->device instead of ctrl->dev?
-
-ctrl->dev is the parent transport device (such as the shared
-/sys/class/nvme-fabrics/ctl device), whereas ctrl->device is the nvmeX
-controller device used by the rest of the function.
-
-> @@ -873,11 +904,28 @@ static ssize_t dhchap_ctrl_secret_show(struct devic=
-e *dev,
->  		struct device_attribute *attr, char *buf)
->  {
->  	struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
-> -	struct nvmf_ctrl_options *opts =3D ctrl->opts;
-> +	struct key *key;
-> +	ssize_t count;
+> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configf=
+s.c
+> index bc46d760aaa4a..eb20599cf372d 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -2348,6 +2348,62 @@ static ssize_t nvmet_host_dhchap_ctrl_key_store(st=
+ruct config_item *item,
 > =20
-> -	if (!opts->dhchap_ctrl_secret)
-> +	mutex_lock(&ctrl->dhchap_auth_mutex);
-> +	key =3D ctrl->ctrl_key;
-> +	if (!key) {
-> +		mutex_unlock(&ctrl->dhchap_auth_mutex);
->  		return sysfs_emit(buf, "none\n");
-> -	return sysfs_emit(buf, "%s\n", opts->dhchap_ctrl_secret);
-> +	}
-> +	down_read(&key->sem);
-> +	if (key_validate(key))
-> +		count =3D sysfs_emit(buf, "<invalidated>");
-
-[Severity: Low]
-Is a trailing newline missing from "<invalidated>" in
-dhchap_ctrl_secret_show()?  dhchap_secret_show(), dhchap_key_show(), and
-dhchap_ctrl_key_show() all emit "<invalidated>\n".
-
-[ ... ]
-
-> @@ -925,6 +981,52 @@ static ssize_t dhchap_ctrl_secret_store(struct devic=
-e *dev,
->  }
+>  CONFIGFS_ATTR(nvmet_host_, dhchap_ctrl_key);
 > =20
->  static DEVICE_ATTR_ADMIN_RW(dhchap_ctrl_secret);
-> +
-> +static ssize_t dhchap_key_show(struct device *dev,
-> +		struct device_attribute *attr, char *buf)
+> +static ssize_t nvmet_host_dhchap_keyring_show(struct config_item *item,
+> +		char *page)
 > +{
-[ ... ]
-> +}
-> +static DEVICE_ATTR_ADMIN_RO(dhchap_key);
+> +	struct nvmet_host *host =3D to_host(item);
+> +	struct key *keyring;
+> +	ssize_t ret;
 > +
-> +static ssize_t dhchap_ctrl_key_show(struct device *dev,
-> +		struct device_attribute *attr, char *buf)
-> +{
-[ ... ]
+> +	down_read(&nvmet_config_sem);
+> +	keyring =3D key_get(host->dhchap_keyring);
+> +	if (!keyring) {
+> +		page[0] =3D '\0';
+> +		ret =3D 0;
+> +	} else {
+> +		down_read(&keyring->sem);
+> +		if (key_validate(keyring))
+> +			ret =3D sprintf(page, "<invalidated>\n");
+> +		else
+> +			ret =3D sprintf(page, "%s\n", keyring->description);
+> +		up_read(&keyring->sem);
+> +		key_put(keyring);
+> +	}
+> +	up_read(&nvmet_config_sem);
+> +	return ret;
 > +}
-> +static DEVICE_ATTR_ADMIN_RO(dhchap_ctrl_key);
 
-[Severity: Low]
-This isn't a bug, but the new dhchap_key and dhchap_ctrl_key sysfs
-attributes are not mentioned in the commit message or documented in
-Documentation/ABI/stable/sysfs-nvme.  Also, the commit message says the
-key serial is stored in struct nvmf_ctrl_options, whereas opts stores
-struct key pointers (dhchap_key and dhchap_ctrl_key).
+[Severity: Medium]
+Can sprintf(page, "%s\n", keyring->description) write one byte past the end
+of the PAGE_SIZE configfs read buffer?
+
+add_key() allows keyring descriptions of up to KEY_MAX_DESC_SIZE - 1 (4095)
+bytes, and writing a 4095-byte description without a trailing newline to
+dhchap_keyring succeeds in nvmet_host_dhchap_keyring_store().  Reading
+dhchap_keyring afterwards writes 4095 description bytes, a newline, and a
+NUL terminator at page[4096], overflowing the 4096-byte buffer by one byte.
+Using snprintf(page, PAGE_SIZE, ...) avoids the out-of-bounds write.
+
+> +
+> +static ssize_t nvmet_host_dhchap_keyring_store(struct config_item *item,
+> +		const char *page, size_t count)
+> +{
+> +	struct nvmet_host *host =3D to_host(item);
+> +	struct key *keyring;
+> +	char *desc;
+> +	size_t len;
+> +	int ret =3D 0;
+> +
+> +	len =3D strcspn(page, "\n");
+> +	if (!len)
+> +		return -EINVAL;
+> +	desc =3D kstrndup(page, len, GFP_KERNEL);
+> +	if (!desc)
+> +		return -ENOMEM;
+> +	keyring =3D request_key(&key_type_keyring, desc, NULL);
+> +	if (IS_ERR(keyring)) {
+> +		ret =3D PTR_ERR(keyring);
+> +	} else {
+> +		down_write(&nvmet_config_sem);
+> +		key_put(host->dhchap_keyring);
+> +		host->dhchap_keyring =3D keyring;
+> +		up_write(&nvmet_config_sem);
+> +	}
+> +	kfree(desc);
+> +
+> +	return ret < 0 ? ret : count;
+> +}
+
+[ ... ]
+
+> @@ -2446,6 +2504,11 @@ static struct config_group *nvmet_hosts_make_group=
+(struct config_group *group,
+>  #ifdef CONFIG_NVME_TARGET_AUTH
+>  	/* Default to SHA256 */
+>  	host->dhchap_hash_id =3D NVME_AUTH_HASH_SHA256;
+> +	host->dhchap_keyring =3D key_lookup(nvme_keyring_id());
+> +	if (IS_ERR(host->dhchap_keyring)) {
+> +		kfree(host);
+> +		return ERR_PTR(-ENOKEY);
+> +	}
+>  #endif
+
+[Severity: Medium]
+Can userspace restore or reset dhchap_keyring back to the default .nvme
+keyring through nvmet_host_dhchap_keyring_store()?
+
+nvmet_hosts_make_group() initializes host->dhchap_keyring to the .nvme
+keyring via key_lookup(nvme_keyring_id()), so reading dhchap_keyring shows
+".nvme" (and the !keyring branch in nvmet_host_dhchap_keyring_show() is
+unreachable).  However, nvme_keyring_init() allocates .nvme without linking
+it into any process keyring, while nvmet_host_dhchap_keyring_store() looks
+up desc via request_key(&key_type_keyring, desc, NULL), which only searches
+the calling process's keyrings and rejects empty writes with -EINVAL.
+
+As a result, tools such as nvmetcli that save and restore configfs
+attributes fail with -ENOKEY when writing ".nvme" back unless .nvme was
+manually linked into the caller's session keyring, and writing an empty
+value to reset dhchap_keyring to the default fails with -EINVAL.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123-dhchap-key=
-ring-v4-v5-0-81eefb4c0724@kernel.org?part=3D4
+ring-v4-v5-0-81eefb4c0724@kernel.org?part=3D9
 
