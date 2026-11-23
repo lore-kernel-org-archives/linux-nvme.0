@@ -2,64 +2,68 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2B9606A31E
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 21:21:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1150606A31E
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 22:41:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=U83pFXee;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H7v5HFrd
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=DnV4/F20;
+	dkim=pass (2048-bit key, unprotected) header.d=molgen.mpg.de header.i=@molgen.mpg.de header.a=rsa-sha256 header.s=20260906 header.b=lqRIXnIl
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=oK69RON+lsCt00ViP4o69fvdYWZ6O8Adv4O6ypLAgdk=; b=U83pFXeeGQYBgRs3hsxSBs7uuS
-	jS2Caa1Tq/PDHtw10fDg+r71279Diq5g9n4zEYDWv6gVwkd3Vb4jUTmPqhiSfjDD8KLIAyzyNmfJy
-	k9A0QCw09Rq53IsQ669lXGwsyZ5Eod7BSXXXmYi5+rVH8S07z+nVKSbjGMjIl7FVihEcJqxEndUd7
-	LpRbz5aps0TIMJCYxXE77yMyZ3wsCyaSjtwLaGKK2yy0azGaCvd2MXWn4HGRgQW4FxTzFlBIKtF3H
-	nCZtg4Xubrh+B9l7v3AtA1BVBUbjHLf+CvvCM7cxWzj8XNNgEMW/aeIeMxzOLPr9Ieoy1tVLBuvFi
-	2+G2oWTw==;
+	bh=P679Rl3XhQ1PcDNlcvazMnRpUQ1twsPQEDJNLqeUCt0=; b=DnV4/F20u2Jaag9D7xOPtyvoGo
+	L4ALN0zkC88qRVQWAvIS9nhdcyT271ssirMMQrncCRzJrjwGxEexeQ6fpzIwWItK78kqGMZbLktkW
+	a6ph5DczBekIGOSr4CJoZ+AR95ARvLEcM4ROPYCLU5W5j7OXRFIQWr08QNu0EDASKTuxyNnJvNHIy
+	5Sjl7SPWS4wMbMUeHio3R9m9VZ1p/fndsEihZVl9uoyIGSUUm045A3gwxYwaj2kAQK35iZkDzbc/h
+	V+WaTlr54QAtkqsEVYo4KQ5irRusvu5o39zOsR+n3PoiCk0OpDdrNd8PbplvIindtxshfDpuW1jXo
+	6HiI1J4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVbTJ-00000004xQg-41jD;
-	Mon, 23 Nov 2026 21:21:09 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xVcj2-000000056Fs-3rr7;
+	Mon, 23 Nov 2026 22:41:28 +0000
+Received: from mx3.molgen.mpg.de ([141.14.17.11])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVbTI-00000004xQW-04pn
+	id 1xVciy-000000056Eo-3KKc
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Nov 2026 21:21:08 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 9EE8041659;
-	Mon, 23 Nov 2026 21:21:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26A1E1F000C0;
-	Mon, 23 Nov 2026 21:21:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795468867;
-	bh=oK69RON+lsCt00ViP4o69fvdYWZ6O8Adv4O6ypLAgdk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=H7v5HFrdX453GUoX1AkV9s3bworAQ4Z9Vz8MM83NcgW9jAZyG2cPfzrke4f65hOjr
-	 nMXfvS8nwJiRG7/buZ5j4im7v4vHTk2K77zB6brcTxvdaI+gnyj+c7GQd7zMRINk6H
-	 F8pZX0S+0I2pmcsiMsTd7s+Nw7Dc6iZjUZAaXBrmIXYMmQHdAN4Ru+ybK1pM/l3Am3
-	 VpBqNmU996R7gqDAvBdo5M0qTYVDe9GMVXfYPAugt5QsvIj3S6EryKXE1jGJsBt+B6
-	 jCobdoJsrc27tfktCHbxurRDhXcieLMgp/xlukYErj7DqFIPf1/PvWzT5crlZ6i2kl
-	 eeolWwu2pFrfg==
-Date: Mon, 23 Nov 2026 21:21:05 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	keyrings@vger.kernel.org
-Subject: Re: [PATCH v6 0/9] nvme-auth: switch to use the kernel keyring
-Message-ID: <20261123212105.GA18468@google.com>
-References: <20261123-dhchap-keyring-v4-v6-0-5082a49715ab@kernel.org>
+	Mon, 23 Nov 2026 22:41:27 +0000
+Received: from abreu (ip-095-090-245-070.vkd79.pools.vodafone-ip.de [95.90.245.70])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 758B24C442F809;
+	Mon, 23 Nov 2026 23:40:34 +0100 (CET)
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Paul Menzel <pmenzel@molgen.mpg.de>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme-pci: Add IGNORE_DEV_SUBNQN quirk for Phison E19
+Date: Mon, 23 Nov 2026 23:40:18 +0100
+Message-ID: <20261123224020.134113-1-pmenzel@molgen.mpg.de>
+X-Mailer: git-send-email 2.55.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261123-dhchap-keyring-v4-v6-0-5082a49715ab@kernel.org>
+Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=molgen.mpg.de; s=20260906; 
+	t=1795473634; 
+	h=from:from:subject:date:message-id:mime-version:content-type:content-transfer-encoding; 
+	bh=P679Rl3XhQ1PcDNlcvazMnRpUQ1twsPQEDJNLqeUCt0=; 
+	b=lqRIXnIllF9m9FMdQz2sCp8x6Q0K6x9rWIe7ifeKCi4g0ijxIOMgpHprI8kowuRfSTP/0uV9kIvQ
+	dHFuN4+8H9EO2PEwjNGbHvZt6FexuTqCi3NEqAjorz8aKTCLLAQUIk7HRvc5UXijRlz9pY7t3AyW/C
+	I/s8gFymp3cL6vgActokfdhFGjiyHmsNDc8cqWt4wL7x+UPcLqaj0YxfMOXRGH5gIvpOcJ2Qi+LEVE
+	X+5eS9jbz/bVoPRGoGmdbiyXw27dNfPMz5W2mgVDb2ygyWSnYC3ctPFERyYDQvUKRam0CJJLGIzq8U
+	cY4VU3vJGzZSH2DlVJRU5bFcZ8/o492A==
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261123_144125_296170_A1CE57A7 
+X-CRM114-Status: GOOD (  12.06  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,104 +74,56 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-[ +Cc keyrings@vger.kernel.org ]
+The Phison E19 (198:5019) in a Dell XPS 13 9315 reports:
 
-On Mon, Nov 23, 2026 at 06:10:00PM +0100, Hannes Reinecke wrote:
-> Hey all,
-> 
-> the current NVMe authentication code is using a hand-crafted key
-> structure; idea was to have the initial implementation with a minimal
-> set of dependencies.
-> (And me not having a good grasp on how to use the kernel keyring :-)
-> That had the drawback that keys always had to be specified on the
-> nvme-cli commandline, which is far from ideal from a security standpoint.
-> 
-> So this patchset switches the authentication code over to use the
-> kernel keyring. User-facing interface (namely argument to 'nvme
-> connect') remain the same, but the key data is converted into keys
-> which are stored as a new key type 'dhchap' with a random UUID as
-> description in the kernel keyring.
-> 
-> With this I have updated the dhchap arguments to 'nvme connect' and
-> the configfs interface to either be the keydata (ie the original
-> interface) _or_ a key description referring to a pre-populated dhchap
-> key in the kernel keyring. This allows for easier provisioning of keys
-> and avoids the security risk from having to specify the key data on
-> the kernel commandline.
-[...]
->  16 files changed, 1140 insertions(+), 386 deletions(-)
+    $ sudo nvme id-ctrl /dev/nvme0 | grep -E '^(vid|mn|fr|ver|subnqn) '
+    vid       : 0x1987
+    mn        : ESE2A044-512 NVMe Phison 512GB
+    fr        : 19010008
+    ver       : 0x10400
+    subnqn    :
 
-This should have been Cc'ed to the keyrings mailing list.  I found it
-via lore search.
+So every boot warns:
 
-As far as I can tell, this series is trying to do two main things:
+    nvme nvme0: missing or invalid SUBNQN field.
 
-    (1) parse secrets up front instead of keeping raw "DHHC-1:..."
-    strings around in 'opts' and 'nvmet_host'; and
+and the kernel falls back to the generated NQN anyway:
 
-    (2) let userspace reference pre-loaded keys in a keyring so
-    cleartext secrets don't have to live in config files or
-    sysfs/configfs 'show' output.
+    $ cat /sys/class/nvme/nvme0/subsysnqn
+    nqn.2014.08.org.nvmexpress:19871987298E07241E4B00121487ESE2A044-512 NVMe Phison 512GB
 
-(Patch 7's flush_work() change looks independent of the rest.)
+Add NVME_QUIRK_IGNORE_DEV_SUBNQN, as for the Phison E16 (1987:5016), to
+use the generated NQN without the warning. For this drive the subsystem
+NQN stays the same.
 
-Neither of those requires replacing 'struct nvme_dhchap_key' with
-'struct key' at runtime, or synthesizing random-UUID keys in ".nvme"
-when raw secrets are passed.  Doing that adds a lot of complexity and
-opportunity for bugs (as Sashiko's review already seems to show), for no
-real gain.  Note that 'user_key_payload' still lives in slab memory just
-like 'struct nvme_dhchap_key' does.
+Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
+---
+ drivers/nvme/host/pci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-The semantics of the keyrings subsystem just don't match storage very
-well, and it's quite hard to integrate with correctly.  In fscrypt, I
-had to deal with a lot of bugs before moving away from the keyrings
-subsystem almost entirely, due to issues with per-process keyring
-scoping, delayed key destruction, locking, and LSM checks.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 076603df01abb..ba5b1cdbb95e1 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -4398,7 +4398,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN |
+ 				NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1987, 0x5019),  /* phison E19 */
+-		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
++		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN |
++				NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+ 	{ PCI_DEVICE(0x1987, 0x5021),   /* Phison E21 */
+ 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+ 	{ PCI_DEVICE(0x1b4b, 0x1092),	/* Lexar 256 GB SSD */
+-- 
+2.54.0
 
-This series already runs into the first of these: patches 8-9 use
-request_key(), which only searches the caller's process keyrings and
-won't even find ".nvme".  And keys are no longer wiped synchronously
-with kfree_sensitive(), but rather whenever the last reference is
-dropped and the garbage collector gets around to it.
-
-Note that NVMe-TCP TLS isn't a relevant precedent here, either.  TLS
-handshakes run in userspace (tlshd), which needs to read the PSK via
-keyctl, whereas DH-HMAC-CHAP is done entirely in-kernel.
-
-This series also gives the 'dhchap' key type a ->read() method, so even
-pre-populated keys remain readable from userspace via keyctl_read() (by
-default, by any possessor).
-
-And inserting raw secrets into ".nvme" with KEY_USR_READ makes them
-readable via keyctl_read() by any process running as uid 0, even without
-CAP_SYS_ADMIN and without access to sysfs or configfs.  Due to the
-KEY_USR_* permissions on ".nvme" and the keys, such processes can also
-invalidate or revoke in-use keys, breaking authentication.  (Separately,
-the existing nvmet dhchap_key and dhchap_ctrl_key configfs attributes
-are 0644 world-readable, which should be fixed regardless.)
-
-How about keeping 'struct nvme_dhchap_key' as the runtime
-representation, and just parsing into it up front in 'opts' and
-'nvmet_host'?  The sysfs/configfs 'show' methods could re-encode the
-secret if really needed, though not exposing it at all would be better.
-
-Then if keyring-based provisioning is still wanted so config files don't
-need raw secrets, it could work like "fscrypt-provisioning" keys: define
-a write-only key type (no ->read(), ->update(), or ->revoke()), look up
-the key by serial number with lookup_user_key() once when the
-option/attribute is written, copy the decoded key (and description, if
-needed for 'show') into 'struct nvme_dhchap_key', and immediately
-key_put() it.
-
-Raw secrets wouldn't touch keyrings at all, and the keyrings subsystem
-would stay out of the runtime path.
-
-- Eric
 
