@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155EB606A31F
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 17:31:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FEA606A31A
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 17:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2wZno/Qr;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ip3GEWHC
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=UHibapEm;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HT5Lfx9f
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,47 +14,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=MBTG8aTG4NZsomoN2tTnNE+OH3jvG/0srwcN5yAElaQ=; b=2wZno/QrfQuQf0scCbci/r7m9Q
-	4vd1tAXURc6a3XgxdjaZ/zjJbhgK6RCE69ddBxa3Atfr+WXF5bzE+rksKBrIfn/9vA6GJ3MAAMr/S
-	ZG+g6HNc+UKLRcfMMIzF3u9VTRrnDQLIlOP24Xe2YdAY7AaBau9rqMAum6jFXZ6+PO/0A5Khr1hik
-	z4zJ28DXismu+KJu4UnTTIZIo2FpmUqJdif4v2AMIy28QX8zjaEkhWfna8edRvszgsUM7/uRJ8XNl
-	0fwfBSHqcFgbb8Y4QeI+8jgW8uWdLrbT30rcZRl50kIBVIZfKyGP6jnqGpWO4kQr+fOD9fr0UN7m1
-	cBJkqaWQ==;
+	bh=viczR+ECZn4ml27Q5qrdEk+oMwYKBqYz6CVa4yr3QGo=; b=UHibapEmgijCDpzcF80MpnF0Aj
+	riQ2WpFboTIOdsLf72AUWbgjtTfs81rsqTJVGO9Bk0u4xg+cCC82rOLOEHhBLe6FqoU4G8+rPY8Fz
+	svnuJ5g5VdB+gCaWCJQ8ACJBPBrKqcUEfmUvmdKksYaxmE3VX/Huv3iuzMEBod478DtNRoKkKHyI7
+	GvdACbwaotWkaoS9lgwdNwqSPkR96NxvQdh5O5adZUf1o5JqHp2QK4c63S0FQQlIVxYHWCoqIGSwE
+	bIjQx93/Iqz7ZvbwT6SZlrr3+6VJigArK6R+vatAuSfXwQLGFV5PHjcWpL008ENr4BPVViN8NKZRe
+	mWV796jw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVXt0-00000004Mpp-3Hst;
-	Mon, 23 Nov 2026 17:31:26 +0000
+	id 1xVXu7-00000004NA1-1EHb;
+	Mon, 23 Nov 2026 17:32:35 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVXsz-00000004MpX-44OU
+	id 1xVXu5-00000004N9N-3yzn
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Nov 2026 17:31:26 +0000
+	Mon, 23 Nov 2026 17:32:34 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 586FE61EBC
-	for <linux-nvme@lists.infradead.org>; Mon, 23 Nov 2026 17:31:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE7E61F000D0;
-	Mon, 23 Nov 2026 17:31:24 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 66D6D611E0
+	for <linux-nvme@lists.infradead.org>; Mon, 23 Nov 2026 17:32:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E95601F000D2;
+	Mon, 23 Nov 2026 17:32:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795455084;
-	bh=MBTG8aTG4NZsomoN2tTnNE+OH3jvG/0srwcN5yAElaQ=;
+	s=k20260515; t=1795455153;
+	bh=viczR+ECZn4ml27Q5qrdEk+oMwYKBqYz6CVa4yr3QGo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Ip3GEWHCu0zSzGi+Ji0KS1Dpk5tTCtjX6nnBUn/cCjiWlRbC0VAqkWQNpzzWyFDye
-	 yrUg8ULZDtT70eTdCNamlAmiWauU6bEcNz42F92rft//B+oUnHNP4fzpgZVPNgSPl6
-	 ugwkcj1EbWmhOjJWzoAsuRFpxqWStc2OJv1nZSuDmX6Um1FOY5LoIh8UsN3K7s+/Nq
-	 chRcTEBgUfkuHsieoH61xpgkhytQm8Fvs3RTGMtVaVkXwyiHI2Pwl6453yPpv4ZMeC
-	 gpXKDd/qAen/AMP9l2Rhg+tmJBNV3JoI+h7eCOwoG43yDZGa4s8a0/ozySAe+vIo6i
-	 sptcBtTYBzpmQ==
-Message-ID: <sashiko-outbox-229754@kernel.org>
+	b=HT5Lfx9fwwAbck5CAyBgBpq7PqGeaDpv0lSezqGeX9676w7mXKeo3NbneBWoN5HFV
+	 N7X/DvWMhKZByhBLf+111R6z3VTF5YSNo008YnVzJ/pgBOl8m23cBzdFjCMaJLfZAw
+	 qInBmmz3pNd2xtiwZuNUfA06sAKFbZbKCxCUz5r5OuTNiMlYco8J/CE5aZiHvp2m9D
+	 lApz7hRf+kmIf3yr3bJUr552nqlaDhe2JOB8oDLssngeS0zwfMr/DpuVP2z3luRbVg
+	 yOmBQNaot/XtuFZiG+Ad3WStsX96EfXLVhq0hF3xv5uWdkzeFw0xt0/GKF9Undeq3e
+	 aCpc4qH+o3S7w==
+Message-ID: <sashiko-outbox-229755@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 2/9] nvme-keyring: add 'dhchap' key type
+Subject: Re: [PATCH v6 6/9] nvme: allow to pass in key description as dhchap
+ secret
 To: "Hannes Reinecke" <hare@kernel.org>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261123-dhchap-keyring-v4-v6-2-5082a49715ab@kernel.org>
+In-Reply-To: <20261123-dhchap-keyring-v4-v6-6-5082a49715ab@kernel.org>
 References: <20261123-dhchap-keyring-v4-v6-0-5082a49715ab@kernel.org>
- <20261123-dhchap-keyring-v4-v6-2-5082a49715ab@kernel.org>
+ <20261123-dhchap-keyring-v4-v6-6-5082a49715ab@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 23 Nov 2026 17:31:24 +0000
+Date: Mon, 23 Nov 2026 17:32:32 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,264 +75,316 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 5 potential
+Thank you for your contribution! Sashiko AI review found 6 potential
 issues to consider:
-- [Critical] nvme-keyring: out-of-bounds read on prep->data in
-  nvme_dhchap_psk_preparse()
-- [Medium] nvme-keyring: broken colon handling in
-  nvme_dhchap_psk_preparse()
-- [Medium] nvme-keyring: broken buffer length check in
-  nvme_dhchap_psk_read()
-- [Low] nvme-keyring: use kfree_sensitive() on error in
-  nvme_dhchap_psk_preparse()
-- [Low] nvme-keyring: inverted name and comment for
-  nvme_dhchap_decoded_key_size()
+- [Medium] nvmet-auth: self-revocation of active generated key in
+  nvmet_auth_set_key()
+- [Medium] nvmet-auth: host_key reference leak on ctrl_key error in
+  nvmet_setup_auth()
+- [Medium] nvme-auth: dhchap_secret_store() returns -EBUSY instead of
+  re-authenticating
+- [Low] nvme-auth: key_serial(ctrl->host_key) logged before assignment
+  in nvme_auth_init_ctrl()
+- [Low] nvme: wrong device pointer ctrl->dev used for logging in sysfs
+  store helpers
+- [Low] nvme-auth: mismatched key serial comments in
+  nvme_auth_extract_key()
 --
 
-commit 821eb4c808c34e952c59ff2fa90f5898d0eb2667
+commit bea90f054bc2ef7a55e7fb9326ffa4aa13dd0817
 Author: Hannes Reinecke <hare@kernel.org>
 
-nvme-keyring: add 'dhchap' key type
+nvme: allow to pass in key description as dhchap secret
 
-This commit adds a 'dhchap' key type to the NVMe keyring to store and read
-DH-HMAC-CHAP secret keys in a user-key compatible payload.
+This commit updates nvme_auth_extract_key() to look up a pre-populated key
+in the keyring before falling back to generating a new key from raw secret
+data, and tracks whether the key was auto-generated so only generated keys
+are revoked on cleanup.
 
-> diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
-> index 87cb51e1f5a7f..fc7f833a7c6b6 100644
-> --- a/drivers/nvme/common/keyring.c
-> +++ b/drivers/nvme/common/keyring.c
-> @@ -253,6 +256,213 @@ key_serial_t nvme_tls_psk_default(struct key *keyri=
-ng,
+> diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
+> index 158c9cb886c15..8c84595018258 100644
+> --- a/drivers/nvme/common/auth.c
+> +++ b/drivers/nvme/common/auth.c
+> @@ -144,20 +144,32 @@ EXPORT_SYMBOL_GPL(nvme_auth_hmac_hash_len);
+>   * nvme_auth_extract_key - extract the DH-HMAC-CHAP key
+>   *
+>   * @keyring: keyring to be used for the resulting key
+> - * @secret: key data
+> - * @secret_len: length of @secret
+> + * @input: key serial or key data
+> + * @input_len: length of @input
+> + * @generated: indicate whether a key has been generated
+>   *
+> - * Extracts a dhchap key from @secret.
+> + * Extracts or generates a key from @input.
+> + * @input can either be a key serial or raw key data; in
+> + * the latter case a key is generated from @input and
+> + * @generated is set to 'true'.
+>   *
+>   * Returns the dhchap key or an error pointer on failure.
+>   */
+> -struct key *nvme_auth_extract_key(struct key *keyring, const char *secre=
+t,
+> -				  size_t secret_len)
+> +struct key *nvme_auth_extract_key(struct key *keyring, const char *input,
+> +				  size_t input_len, bool *generated)
+>  {
+>  	struct key *key;
+> =20
+> -	key =3D nvme_dhchap_psk_create(keyring, secret, secret_len);
+> +	/* Check if @input is a key serial number */
+> +	key =3D nvme_dhchap_psk_lookup(keyring, input);
+
+[Severity: Low]
+This isn't a bug, but the comments here and the commit message body say
+that @input can be a key serial number, whereas nvme_dhchap_psk_lookup()
+searches the keyring by key description (matching the commit subject and
+the sysfs/configfs show callbacks).
 
 [ ... ]
 
-> +static int nvme_dhchap_psk_preparse(struct key_preparsed_payload *prep)
-> +{
-> +	struct user_key_payload *upayload;
-> +	size_t datalen =3D prep->datalen;
-> +	int ret, offset =3D 0;
-> +	char *p;
-> +	u32 crc;
-> +	u8 version, hmac;
-> +
-> +	if (!prep->data) {
-> +		pr_debug("%s: Empty data", __func__);
-> +		prep->payload.data[0] =3D NULL;
-> +		prep->quotalen =3D 0;
-> +		return -EINVAL;
-> +	}
-> +	if (sscanf(prep->data, "DHHC-%01hhu:%02hhu:%n",
-> +		   &version, &hmac, &offset) !=3D 2 || offset !=3D 10) {
-> +		pr_debug("%s: invalid key header\n", __func__);
-> +		prep->payload.data[0] =3D NULL;
-> +		prep->quotalen =3D 0;
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (version !=3D 1 || hmac > 3) {
-> +		pr_debug("%s: invalid key version\n", __func__);
-> +		prep->payload.data[0] =3D NULL;
-> +		prep->quotalen =3D 0;
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* skip header and final ':' character */
-> +	if (offset > prep->datalen) {
-> +		pr_debug("%s: invalid key data\n", __func__);
-> +		prep->payload.data[0] =3D NULL;
-> +		prep->quotalen =3D 0;
-> +		return -EINVAL;
-> +	}
+> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+> index 26e8f321650e7..2c73da4cd3c61 100644
+> --- a/drivers/nvme/host/auth.c
+> +++ b/drivers/nvme/host/auth.c
 
-[Severity: Critical]
-As reported by Martin Belanger on v5 [1], can sscanf() and the pr_debug()
-below read past the end of prep->data?
+[ ... ]
 
-add_key() allocates a buffer of size plen (prep->datalen) and copies the raw
-userspace payload without appending a NUL terminator:
+> @@ -1104,6 +1117,7 @@ int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
+>  	if (ctrl->host_key)
+>  		nvme_auth_clear_host_key(ctrl);
+>  	ctrl->host_key =3D host_key;
+> +	ctrl->host_key_generated =3D host_key_generated;
 
-security/keys/keyctl.c:SYSCALL_DEFINE5(add_key)() {
+[Severity: Low]
+Just above this hunk, pr_debug() logs key_serial(ctrl->host_key) before
+ctrl->host_key is assigned host_key:
+
+drivers/nvme/host/auth.c:nvme_auth_init_ctrl() {
     ...
-	if (_payload) {
-		payload =3D kvmalloc(plen, GFP_KERNEL);
-		if (!payload)
-			goto error2;
-
-		ret =3D -EFAULT;
-		if (copy_from_user(payload, _payload, plen) !=3D 0)
-			goto error3;
-	}
+	pr_debug("%s: using dhchap host key %08x\n",
+	       __func__, key_serial(ctrl->host_key));
+	if (ctrl->host_key)
+		nvme_auth_clear_host_key(ctrl);
+	ctrl->host_key =3D host_key;
     ...
 }
 
-When userspace passes a non-NUL-terminated payload (for example, fewer than
-10 bytes, or "DHHC-" followed by whitespace), sscanf() scans past
-prep->data + prep->datalen into adjacent kernel memory before the
-offset > prep->datalen check runs.  Similarly, when base64_decode() fails
-below, pr_debug("%s: Failed to decode key %s\n", ...) formats
-(char *)prep->data + offset with %s without bounding it by datalen.
-
-> +	datalen =3D prep->datalen - offset;
-> +	p =3D memchr(prep->data + offset, ':', datalen);
-> +	if (p)
-> +		datalen--;
-> +
-> +	/*
-> +	 * payload is < key | version | hmac >
-> +	 * base64 decode will always return less data
-> +	 * than the encoded data, so allocating the size
-> +	 * of the encoded data will be large enough.
-> +	 */
-> +	upayload =3D kzalloc(sizeof(*upayload) + datalen, GFP_KERNEL);
-> +	if (!upayload) {
-> +		prep->payload.data[0] =3D NULL;
-> +		prep->quotalen =3D 0;
-> +		return -ENOMEM;
-> +	}
-
-[Severity: Medium]
-Does decrementing datalen by 1 leave the trailing ':' in the base64 input
-whenever the payload ends with a NUL byte or newline?
-
-If userspace passes a NUL-terminated or newline-terminated key string, ':'
-is not the final byte of prep->data, so datalen-- only strips the trailing
-NUL or newline and leaves ':' inside the slice passed to base64_decode(),
-which then fails with -EINVAL.  Truncating at p (datalen =3D p - (char *)
-(prep->data + offset)) and validating that datalen is a supported encoded
-key size before calling kzalloc() would also avoid allocating an arbitrary
-buffer up to 1 MB prior to length validation.
-
-> +
-> +	/* decode the data */
-> +	prep->payload.data[0] =3D upayload;
-> +	ret =3D base64_decode(prep->data + offset, datalen, upayload->data,
-> +			    true, BASE64_STD);
-> +	if (ret < 0) {
-> +		pr_debug("%s: Failed to decode key %s\n",
-> +			 __func__, (char *)prep->data + offset);
-> +		prep->payload.data[0] =3D NULL;
-> +		prep->quotalen =3D 0;
-> +		kfree(upayload);
-> +		return -EINVAL;
-> +	}
-> +	if (ret !=3D 36 && ret !=3D 52 && ret !=3D 68) {
-> +		pr_debug("%s: invalid decoded key size '%d'\n",
-> +			 __func__, ret);
-> +		prep->payload.data[0] =3D NULL;
-> +		prep->quotalen =3D 0;
-> +		kfree(upayload);
-> +		return -EINVAL;
-> +	}
-> +	ret -=3D 4;
-> +	crc =3D ~crc32(~0, upayload->data, ret);
-> +	if (get_unaligned_le32(upayload->data + ret) !=3D crc) {
-> +		pr_debug("%s: CRC mismatch for key\n", __func__);
-> +		/* CRC mismatch */
-> +		prep->payload.data[0] =3D NULL;
-> +		prep->quotalen =3D 0;
-> +		kfree(upayload);
-> +		return -EKEYREJECTED;
-> +	}
-
-[Severity: Low]
-Should these three error paths use kfree_sensitive(upayload) instead of
-kfree(upayload)?  base64_decode() has already written decoded secret key
-bytes into upayload->data, and clearing prep->payload.data[0] prevents
-user_free_preparse() from zeroizing the buffer.
+Should that log key_serial(host_key) instead, like the ctrl_key message a
+few lines below?  Otherwise it logs 00000000 on initial controller setup
+and the old key serial on re-initialization.
 
 [ ... ]
 
-> +/**
-> + * nvme_dhchap_decoded_key_size - Size of the base64-decoded key
-> + * @size: size of the encoded key
-> + *
-> + * Returns the expected size of the key after base64 decoding
-> + * include 4 bytes of CRC.
-> + */
-> +static inline int nvme_dhchap_decoded_key_size(int size)
-> +{
-> +	int keylen =3D -EINVAL;
-> +
-> +	switch (size) {
-> +	case 32:
-> +		keylen =3D 48;
-> +		break;
-> +	case 48:
-> +		keylen =3D 72;
-> +		break;
-> +	case 64:
-> +		keylen =3D 92;
-> +		break;
-> +	default:
-> +		break;
+> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+> index 6fab0d217e749..c94abb901a73c 100644
+> --- a/drivers/nvme/host/sysfs.c
+> +++ b/drivers/nvme/host/sysfs.c
+
+[ ... ]
+
+> @@ -874,22 +877,34 @@ static ssize_t dhchap_secret_store(struct device *d=
+ev,
+>  	ret =3D key_validate(key);
+>  	up_read(&key->sem);
+>  	if (ret) {
+> -		dev_warn(ctrl->device, "key %08x invalidated\n",
+> +		dev_warn(ctrl->dev, "key %08x invalidated\n",
+>  			 key_serial(key));
+> -		dev_dbg(ctrl->device, "revoke host key %08x\n",
+> -			key_serial(key));
+> -		key_revoke(key);
+> +		if (generated) {
+> +			dev_dbg(ctrl->dev, "revoke host key %08x\n",
+> +				key_serial(key));
+> +			key_revoke(key);
+> +		}
+>  		key_put(key);
+>  		kfree_sensitive(dhchap_secret);
+>  		return ret;
+>  	}
+>  	mutex_lock(&ctrl->dhchap_auth_mutex);
+>  	old_key =3D ctrl->host_key;
+> -	dev_dbg(ctrl->device, "revoke host key %08x\n",
+> -		key_serial(old_key));
+> -	key_revoke(old_key);
+> -
+> +	if (old_key && key_serial(old_key) =3D=3D key_serial(key)) {
+> +		dev_warn(ctrl->device, "key %08x already present\n",
+> +			 key_serial(key));
+> +		mutex_unlock(&ctrl->dhchap_auth_mutex);
+> +		key_put(key);
+> +		kfree_sensitive(dhchap_secret);
+> +		return -EBUSY;
 > +	}
-> +	return keylen;
-> +}
+> +	if (ctrl->host_key_generated) {
+> +		dev_dbg(ctrl->dev, "revoke host key %08x\n",
+> +			key_serial(old_key));
+> +		key_revoke(old_key);
+> +	}
 
 [Severity: Low]
-This isn't a bug, but the function name and kernel-doc comment are inverted:
-this helper takes the decoded key size (32, 48, or 64) and returns the
-base64-encoded size including the 4-byte CRC (48, 72, or 92).
+Should these dev_warn() and dev_dbg() calls (and the one in
+dhchap_ctrl_secret_store() below) keep using ctrl->device instead of
+ctrl->dev?  ctrl->device is the nvmeX controller class device, whereas
+ctrl->dev is the parent device (such as the shared /dev/nvme-fabrics misc
+device), so switching to ctrl->dev loses the controller name in the logs.
 
-> +
-> +/**
-> + * nvme_dhchap_psk_read - read callback for dhchap key types
-> + * @key: key to read from
-> + * @buffer: buffer for the key contents
-> + * @buflen: length of @buffer
-> + *
-> + * Formats the DH-HMAC-CHAP key in base64-encoded form as
-> + * defined in the NVM Express TCP Transport Specification Rev 1.1,
-> + * Section 3.6.1.5 'PSK Interchange Format'. The payload of @key
-> + * is assumed to be of 'struct user_key_payload', with the data
-> + * consisting of the key data of length 'upayload->datalen', followed
-> + * by four bytes of CRC, one byte version, and one byte hmac fields.
-> + */
-> +static long nvme_dhchap_psk_read(const struct key *key,
-> +				 char *buffer, size_t buflen)
-> +{
-> +	const struct user_key_payload *upayload;
-> +	size_t datalen, keylen;
-> +	u8 version, hmac;
-> +	long ret;
-> +
-> +	upayload =3D user_key_payload_locked(key);
-> +	/*
-> +	 * Expected output string length:
-> +	 * strlen("DHHC-") +
-> +	 * version (=3D 1) +
-> +	 * ':' (=3D 1) +
-> +	 * hmac (=3D 2) +
-> +	 * ':' (=3D 1) +
-> +	 * encoded base64 key length +
-> +	 * ':' (=3D 1)
-> +	 */
-> +	ret =3D nvme_dhchap_decoded_key_size(upayload->datalen);
-> +	if (ret < 0)
-> +		return ret;
-> +	keylen =3D ret + 11;
-> +	if (!buffer && !buflen)
-> +		return keylen;
-> +	else if (buflen < keylen)
-> +		return -EINVAL;
-> +
-> +	memset(buffer, 0, buflen);
+>  	ctrl->host_key =3D key;
+> +	ctrl->host_key_generated =3D generated;
+>  	mutex_unlock(&ctrl->dhchap_auth_mutex);
+>  	key_put(old_key);
+>  	kfree_sensitive(dhchap_secret);
+
+[ ... ]
+
+> @@ -960,20 +979,32 @@ static ssize_t dhchap_ctrl_secret_store(struct devi=
+ce *dev,
+>  	if (ret) {
+>  		dev_warn(ctrl->device, "key %08x invalidated\n",
+>  			 key_serial(key));
+> -		dev_dbg(ctrl->device, "revoke ctrl key %08x\n",
+> -			key_serial(key));
+> -		key_revoke(key);
+> +		if (generated) {
+> +			dev_dbg(ctrl->device, "revoke ctrl key %08x\n",
+> +				key_serial(key));
+> +			key_revoke(key);
+> +		}
+>  		key_put(key);
+>  		kfree_sensitive(dhchap_secret);
+>  		return ret;
+>  	}
+>  	mutex_lock(&ctrl->dhchap_auth_mutex);
+>  	old_key =3D ctrl->ctrl_key;
+> -	dev_dbg(ctrl->device, "revoke ctrl key %08x\n",
+> -		key_serial(old_key));
+> -	key_revoke(old_key);
+> -
+> +	if (old_key && key_serial(old_key) =3D=3D key_serial(key)) {
+> +		dev_warn(ctrl->device, "ctrl key %08x already present\n",
+> +			 key_serial(key));
+> +		mutex_unlock(&ctrl->dhchap_auth_mutex);
+> +		key_put(key);
+> +		kfree_sensitive(dhchap_secret);
+> +		return -EBUSY;
+> +	}
+> +	if (ctrl->ctrl_key_generated) {
+> +		dev_dbg(ctrl->dev, "revoke ctrl key %08x\n",
+> +			key_serial(old_key));
+> +		key_revoke(old_key);
+> +	}
+>  	ctrl->ctrl_key =3D key;
+> +	ctrl->ctrl_key_generated =3D generated;
+>  	mutex_unlock(&ctrl->dhchap_auth_mutex);
+>  	key_put(old_key);
+>  	kfree_sensitive(dhchap_secret);
 
 [Severity: Medium]
-Does this buffer check violate the key_type->read() contract and allow a
-NULL pointer dereference in memset()?
+Does returning -EBUSY when key_serial(old_key) =3D=3D key_serial(key) in
+dhchap_secret_store() and dhchap_ctrl_secret_store() break triggering
+re-authentication via sysfs when using pre-populated keys?
 
-Per include/linux/key-type.h and keyctl_read_key(), ->read() should return
- the required buffer size whenever buffer is NULL or buflen is too small
-(if (!buffer || buflen < keylen) return keylen;).  As written, calling
-keyctl(KEYCTL_READ) with a non-NULL buffer and 0 < buflen < keylen fails
-with -EINVAL instead of returning keylen, and a call with buffer =3D=3D NUL=
-L and
-buflen >=3D keylen falls through to memset(NULL, 0, buflen).
+Writing the currently active secret to dhchap_secret or dhchap_ctrl_secret
+is the documented interface for triggering controller re-authentication.
+When a raw secret is written, nvme_dhchap_psk_create() allocates a new key
+with a new serial number and queues ctrl->dhchap_auth_work, but when the
+active pre-populated key description is written, nvme_dhchap_psk_lookup()
+returns the existing key, so these functions stop any pending auth work
+via nvme_auth_stop(ctrl) and fail with -EBUSY instead of queueing
+ctrl->dhchap_auth_work.
 
-[1] https://lore.kernel.org/r/463a55e8-c2ef-4d83-94ff-7599c7d931e6@gmail.com
+[ ... ]
+
+> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+> index 6348c810bd168..c3fa4ab78fb94 100644
+> --- a/drivers/nvme/target/auth.c
+> +++ b/drivers/nvme/target/auth.c
+
+[ ... ]
+
+> @@ -56,7 +67,7 @@ int nvmet_auth_set_key(struct nvmet_host *host, const c=
+har *secret,
+>  		return 0;
+>  	}
+>  	len =3D strcspn(secret, "\n");
+> -	key =3D nvme_auth_extract_key(NULL, secret, len);
+> +	key =3D nvme_auth_extract_key(NULL, secret, len, &generated);
+>  	if (IS_ERR(key)) {
+>  		pr_debug("%s: invalid key specification\n", __func__);
+>  		return PTR_ERR(key);
+> @@ -72,10 +83,13 @@ int nvmet_auth_set_key(struct nvmet_host *host, const=
+ char *secret,
+>  	up_read(&key->sem);
+>  	down_write(&nvmet_config_sem);
+>  	nvmet_auth_revoke_key(host, set_ctrl);
+> -	if (set_ctrl)
+> +	if (set_ctrl) {
+>  		host->dhchap_ctrl_key =3D key;
+> -	else
+> +		host->dhchap_ctrl_key_generated =3D generated;
+> +	} else {
+>  		host->dhchap_key =3D key;
+> +		host->dhchap_key_generated =3D generated;
+> +	}
+>  	up_write(&nvmet_config_sem);
+>  	return 0;
+>  }
+
+[Severity: Medium]
+Can nvmet_auth_set_key() revoke the newly looked-up key in place if the
+host currently has an auto-generated key and its description (UUID) is
+written back to configfs?
+
+nvme_auth_extract_key() finds the active key in the keyring via
+nvme_dhchap_psk_lookup() and returns it with generated =3D false, and then
+nvmet_auth_revoke_key() sees the old generated flag set and calls
+key_revoke() on that same struct key before it is reinstalled on host,
+leaving the host with a permanently revoked key that fails all subsequent
+authentications.  Also, if key_validate(key) fails when generated is true,
+nvmet_auth_set_key() calls key_put(key) without key_revoke(key), leaving
+the generated key linked in the keyring.
+
+[Severity: Medium]
+Later in drivers/nvme/target/auth.c, does nvmet_setup_auth() leak the
+host_key reference when acquiring or validating ctrl_key fails?
+
+drivers/nvme/target/auth.c:nvmet_setup_auth() {
+    ...
+	host_key =3D key_get(host->dhchap_key);
+    ...
+	if (host->dhchap_ctrl_key) {
+		ctrl_key =3D key_get(host->dhchap_ctrl_key);
+		if (!ctrl_key) {
+			pr_warn("%s: ctrl key %08x not found\n",
+				__func__, key_serial(host->dhchap_ctrl_key));
+			ret =3D NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
+			goto out_unlock;
+		}
+		down_read(&ctrl_key->sem);
+		ret =3D key_validate(ctrl_key);
+		key_id =3D key_serial(ctrl_key);
+		up_read(&ctrl_key->sem);
+		if (ret) {
+			pr_warn("ctrl key %08x invalidated\n", key_id);
+			key_put(ctrl_key);
+			ret =3D NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
+			goto out_unlock;
+		}
+	}
+    ...
+out_unlock:
+	up_read(&nvmet_config_sem);
+
+	return ret;
+}
+
+When a pre-populated ctrl_key in the keyring is revoked or expired,
+key_validate(ctrl_key) fails and jumps to out_unlock without calling
+key_put(host_key), leaking a reference on host_key on every authentication
+attempt.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123-dhchap-key=
-ring-v4-v6-0-5082a49715ab@kernel.org?part=3D2
+ring-v4-v6-0-5082a49715ab@kernel.org?part=3D6
 
