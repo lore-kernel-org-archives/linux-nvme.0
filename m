@@ -2,70 +2,59 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06117606A691
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 17:10:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834E7606A31A
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 17:26:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=cHFX80ud;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PsaJzDF6
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=MfMfF64t;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=htqwd27A
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=clzuwGDChSjnuYA9Nc3biU06zpgNonmQHwPRIr1/QGQ=; b=cHFX80ud93Vt47
-	XpKesyRwXssndw6nRbkl1G4iwID2cr/lRPEkNQWtfNxhPBQ/6WV3KeoNLae3Ks3lYfi5fLiEJ7Nfm
-	PRUdw+d9stunjVZMndA+PHtXlmKQWeSDkN7yMDcvv4cyRKg159AcmNKnYtIPO+telOEGhHGlLsn9y
-	OcpNfWQMv/DCcOir2FmOjrOiBiIA3k45Se+8icxTQkW+nk5NXmnLROe0fDQrscG91Sv+C4eQTza3P
-	pO1JYTMLT5rotjvTZpkRqNEVIi37Ust+CoJkzaOH4qo4xG0TeW+27dzxztYPSI5VV8lXAwDqs1WlD
-	Lyjo7/DO66OzW4xVff5A==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=3dtS1lgHuK2JefZETiWpXEJQW6X0gc6PrWWneEKG8BU=; b=MfMfF64tXJ8tG8BEbX1BjTHrG+
+	4ts2nOhS48DBAyo7MX1yU1C5XkWSBR/mFENXgWJzRTWlCRFsUhV8qea3aotGg0/Py9wA3vamxPQYd
+	S1B0P0dhsaHn1Hpam5Jd0sSETogGFSFztNexT1CoDEj2kmN7gkI45sU17gejpCfYVEtCQEaUVvzQG
+	P201rXHB7g3puP6lM5v+LqrT2MPF+dYUIPn/JM0Vo/3EkagfC4geE1k6y2Tf559/W6lFN+LjXjGOE
+	bMWY0g6Sqx+Xb8QpswLvixXBMSx3BllfLjkK83PIJMX50SxJBhNIT+P6i4mLWpW+SfwzOhAseYDPM
+	34NOiUuA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVXYx-00000004JA6-2po5;
-	Mon, 23 Nov 2026 17:10:43 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xVXoM-00000004MBQ-0brp;
+	Mon, 23 Nov 2026 17:26:38 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVXYs-00000004J3w-2p2K
+	id 1xVXoK-00000004MB0-2DWG
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Nov 2026 17:10:38 +0000
+	Mon, 23 Nov 2026 17:26:37 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 6C6AC456E7;
-	Mon, 23 Nov 2026 17:10:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 701DD1F01563;
-	Mon, 23 Nov 2026 17:10:36 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 00F34623BD
+	for <linux-nvme@lists.infradead.org>; Mon, 23 Nov 2026 17:26:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6030D1F000C4;
+	Mon, 23 Nov 2026 17:26:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795453838;
-	bh=clzuwGDChSjnuYA9Nc3biU06zpgNonmQHwPRIr1/QGQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=PsaJzDF6BiVbo5ChLte9A6tyEVBXaHNddNzDmL2ZLNbnPcer1zpO/mj3fqaVq3pN2
-	 hwy/Jv5raJNcB5wCP4Obc1NmG3jxdJ0ni4KnG44iie2+wubKIBsPvrQO1Iz8pkOOXf
-	 HXCtU3fyHJouHzDdg0XSTfHqx3ZXMeJW4CD7JYetADrO+FF8ewCHx/ZXkJXJkkFdRZ
-	 bF8UP1lJXW0idFx1EQqXOy6HvYb+yGOWiHsNg1e7lHol2Nap6+yTsZ6kayH4J6I0eA
-	 j4j0nnQdzuFE8a+XJ0V26lBBO0wO3qSSZNynq2G1dIskrtuD/yhYzHOGxBIjKozksm
-	 0EkpRihiMbqHw==
-From: Hannes Reinecke <hare@kernel.org>
-Date: Mon, 23 Nov 2026 18:10:09 +0100
-Subject: [PATCH v6 9/9] nvmet: add configfs attribute 'dhchap_keyring'
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261123-dhchap-keyring-v4-v6-9-5082a49715ab@kernel.org>
+	s=k20260515; t=1795454795;
+	bh=3dtS1lgHuK2JefZETiWpXEJQW6X0gc6PrWWneEKG8BU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=htqwd27ANSo8rToS1jQZh71mLQoKiWPWEPgK4SbdXzOB5vsp6jrEP+sVUdH3y6Eia
+	 RNOMR6UOIQ+RnlNXWGMcixIGJAV0kedqyeNc9fqJqfElxRp2PB8LblVx5xzvv6pZio
+	 uaob/opnuWXelrP6eqXo1nz28suPIYMI5A0yuLUqI7UJyUOHzs8zBn7OFPBLsCXVPF
+	 io4mnW6HV0SKt0198dUt8tCN7kq5xD29QUeu7jFV+Sf71W0rtl+S8ddTXT7TwzbYtT
+	 JFJQBY5a6ex2a2asbnAujzXwTjUdb9UszqzeHTgNgJyEu6PIZuIaHqd3n8wi2icQzn
+	 KXvskusgFztQQ==
+Message-ID: <sashiko-outbox-229738@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 4/9] nvme: parse dhchap keys during option parsing
+To: "Hannes Reinecke" <hare@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+In-Reply-To: <20261123-dhchap-keyring-v4-v6-4-5082a49715ab@kernel.org>
 References: <20261123-dhchap-keyring-v4-v6-0-5082a49715ab@kernel.org>
-In-Reply-To: <20261123-dhchap-keyring-v4-v6-0-5082a49715ab@kernel.org>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
- Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Hannes Reinecke <hare@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795453811; l=4650;
- i=hare@kernel.org; s=20260619; h=from:subject:message-id;
- bh=2Cc2DvJN7A2cNvu7PZ1WA6a3wRTvTTqQcSgCiiCecqA=;
- b=iqaQNNSJjXdgloNKj3CEnomCUzAFYQSknrm7Y/vgsk1aBKNY7EViLd79dttdIXwhFIvpp08u4
- GuhQGwIBjCnBDPpX+9pARCf77ToJdzibGvS52gubvVhb1HkKZalO74S
-X-Developer-Key: i=hare@kernel.org; a=ed25519;
- pk=iekPF4ZZFva3sutm7d1ryPNR1G/WFfUgHaDB423JXho=
+ <20261123-dhchap-keyring-v4-v6-4-5082a49715ab@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Nov 2026 17:26:34 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,154 +64,117 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-The authentication code now fetches the key from the kernel keystore, so
-we should be able to specify which keyring to use for looking up keys.
-So add a configfs attribute 'dhchap_keyring' for the 'host' directory
-to specify the keyring to use.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Low] nvme: dhchap_key_show() and dhchap_ctrl_key_show() return 0
+  instead of none
+- [Low] nvme-auth: log of unassigned ctrl->host_key in
+  nvme_auth_init_ctrl()
+--
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/target/auth.c     |  4 ++-
- drivers/nvme/target/configfs.c | 65 ++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/target/nvmet.h    |  1 +
- 3 files changed, 69 insertions(+), 1 deletion(-)
+commit bfaa9fb3c74e5de5eb5e03ecba9893bb438923f7
+Author: Hannes Reinecke <hare@kernel.org>
 
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index c3fa4ab78fb94a34390e0ef9c0ce68df95392741..eb6c1f7598f6303b901ebab0b4674e5b7b0d43c8 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -67,7 +67,9 @@ int nvmet_auth_set_key(struct nvmet_host *host, const char *secret,
- 		return 0;
- 	}
- 	len = strcspn(secret, "\n");
--	key = nvme_auth_extract_key(NULL, secret, len, &generated);
-+	down_read(&nvmet_config_sem);
-+	key = nvme_auth_extract_key(host->dhchap_keyring, secret, len, &generated);
-+	up_read(&nvmet_config_sem);
- 	if (IS_ERR(key)) {
- 		pr_debug("%s: invalid key specification\n", __func__);
- 		return PTR_ERR(key);
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index e19af764561ec4eec504f0ce4e6f301a0dded257..179f6bef77372029d99d7aa0cae3456c7fbea1d9 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -2350,6 +2350,64 @@ static ssize_t nvmet_host_dhchap_ctrl_key_store(struct config_item *item,
- 
- CONFIGFS_ATTR(nvmet_host_, dhchap_ctrl_key);
- 
-+static ssize_t nvmet_host_dhchap_keyring_show(struct config_item *item,
-+		char *page)
-+{
-+	struct nvmet_host *host = to_host(item);
-+	struct key *keyring;
-+	ssize_t ret;
-+
-+	down_read(&nvmet_config_sem);
-+	keyring = key_get(host->dhchap_keyring);
-+	if (!keyring) {
-+		page[0] = '\0';
-+		ret = 0;
-+	} else {
-+		down_read(&keyring->sem);
-+		if (key_validate(keyring))
-+			ret = sprintf(page, "<invalidated>\n");
-+		else
-+			ret = scnprintf(page, PAGE_SIZE,
-+					"%s\n", keyring->description);
-+		up_read(&keyring->sem);
-+		key_put(keyring);
-+	}
-+	up_read(&nvmet_config_sem);
-+	return ret;
-+}
-+
-+static ssize_t nvmet_host_dhchap_keyring_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_host *host = to_host(item);
-+	struct key *keyring;
-+	char *desc = NULL;
-+	size_t len;
-+	int ret = 0;
-+
-+	len = strcspn(page, "\n");
-+	if (len) {
-+		desc = kstrndup(page, len, GFP_KERNEL);
-+		if (!desc)
-+			return -ENOMEM;
-+		keyring = request_key(&key_type_keyring, desc, NULL);
-+	} else
-+		keyring = key_lookup(nvme_keyring_id());
-+	if (IS_ERR(keyring)) {
-+		ret = PTR_ERR(keyring);
-+	} else {
-+		down_write(&nvmet_config_sem);
-+		key_put(host->dhchap_keyring);
-+		host->dhchap_keyring = keyring;
-+		up_write(&nvmet_config_sem);
-+	}
-+	kfree(desc);
-+
-+	return ret < 0 ? ret : count;
-+}
-+
-+CONFIGFS_ATTR(nvmet_host_, dhchap_keyring);
-+
- static ssize_t nvmet_host_dhchap_hash_show(struct config_item *item,
- 		char *page)
- {
-@@ -2407,6 +2465,7 @@ CONFIGFS_ATTR(nvmet_host_, dhchap_dhgroup);
- static struct configfs_attribute *nvmet_host_attrs[] = {
- 	&nvmet_host_attr_dhchap_key,
- 	&nvmet_host_attr_dhchap_ctrl_key,
-+	&nvmet_host_attr_dhchap_keyring,
- 	&nvmet_host_attr_dhchap_hash,
- 	&nvmet_host_attr_dhchap_dhgroup,
- 	NULL,
-@@ -2420,6 +2479,7 @@ static void nvmet_host_release(struct config_item *item)
- #ifdef CONFIG_NVME_TARGET_AUTH
- 	nvmet_auth_revoke_key(host, false);
- 	nvmet_auth_revoke_key(host, true);
-+	key_put(host->dhchap_keyring);
- #endif
- 	kfree(host);
- }
-@@ -2448,6 +2508,11 @@ static struct config_group *nvmet_hosts_make_group(struct config_group *group,
- #ifdef CONFIG_NVME_TARGET_AUTH
- 	/* Default to SHA256 */
- 	host->dhchap_hash_id = NVME_AUTH_HASH_SHA256;
-+	host->dhchap_keyring = key_lookup(nvme_keyring_id());
-+	if (IS_ERR(host->dhchap_keyring)) {
-+		kfree(host);
-+		return ERR_PTR(-ENOKEY);
-+	}
- #endif
- 
- 	config_group_init_type_name(&host->group, name, &nvmet_host_type);
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index c8757cedcd841742ff79c830335cfab6e9fc2401..0f76633c6aa65cec26516bd7f0c55dea815a57f5 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -403,6 +403,7 @@ struct nvmet_host {
- 	bool			dhchap_key_generated;
- 	struct key		*dhchap_ctrl_key;
- 	bool			dhchap_ctrl_key_generated;
-+	struct key		*dhchap_keyring;
- 	u8			dhchap_hash_id;
- 	u8			dhchap_dhgroup_id;
- };
+nvme: parse dhchap keys during option parsing
 
--- 
-2.51.0
+This commit creates DH-HMAC-CHAP keys during fabric option parsing to store
+struct key pointers instead of plain text secrets in nvmf_ctrl_options, and
+adds dhchap_key and dhchap_ctrl_key sysfs attributes exposing their key
+serial numbers.
 
+> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+> index 0ddf3834f4ea2..26e8f321650e7 100644
+> --- a/drivers/nvme/host/auth.c
+> +++ b/drivers/nvme/host/auth.c
+[ ... ]
+> @@ -1029,40 +1024,100 @@ static void nvme_ctrl_auth_work(struct work_stru=
+ct *work)
+[ ... ]
+> +	pr_debug("%s: using dhchap host key %08x\n",
+> +	       __func__, key_serial(ctrl->host_key));
+> +	if (ctrl->host_key)
+> +		nvme_auth_clear_host_key(ctrl);
+> +	ctrl->host_key =3D host_key;
+
+[Severity: Low]
+Should this pr_debug() pass key_serial(host_key) instead of
+key_serial(ctrl->host_key)?  Because ctrl->host_key has not been assigned
+yet, it logs 00000000 instead of the new key serial.
+
+> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+> index a5c1511e49ac2..6fab0d217e749 100644
+> --- a/drivers/nvme/host/sysfs.c
+> +++ b/drivers/nvme/host/sysfs.c
+[ ... ]
+> @@ -925,6 +985,52 @@ static ssize_t dhchap_ctrl_secret_store(struct devic=
+e *dev,
+> =20
+>  static DEVICE_ATTR_ADMIN_RW(dhchap_ctrl_secret);
+> +
+> +static ssize_t dhchap_key_show(struct device *dev,
+> +		struct device_attribute *attr, char *buf)
+> +{
+> +	struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
+> +	struct key *key;
+> +	ssize_t count =3D 0;
+> +
+> +	mutex_lock(&ctrl->dhchap_auth_mutex);
+> +	key =3D ctrl->host_key;
+> +	if (key) {
+> +		down_read(&key->sem);
+> +		if (key_validate(key))
+> +			count =3D sysfs_emit(buf, "<invalidated>\n");
+> +		else
+> +			count =3D sysfs_emit(buf, "%08x\n",
+> +					   key_serial(key));
+> +		up_read(&key->sem);
+> +	}
+> +	mutex_unlock(&ctrl->dhchap_auth_mutex);
+> +	return count;
+> +}
+> +static DEVICE_ATTR_ADMIN_RO(dhchap_key);
+> +
+> +static ssize_t dhchap_ctrl_key_show(struct device *dev,
+> +		struct device_attribute *attr, char *buf)
+> +{
+> +	struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
+> +	struct key *key;
+> +	ssize_t count =3D 0;
+> +
+> +	mutex_lock(&ctrl->dhchap_auth_mutex);
+> +	key =3D ctrl->ctrl_key;
+> +	if (key) {
+> +		down_read(&key->sem);
+> +		if (key_validate(key))
+> +			count =3D sysfs_emit(buf, "<invalidated>\n");
+> +		else
+> +			count =3D sysfs_emit(buf, "%08x\n",
+> +					   key_serial(key));
+> +		up_read(&key->sem);
+> +	}
+> +	mutex_unlock(&ctrl->dhchap_auth_mutex);
+> +	return count;
+> +}
+> +static DEVICE_ATTR_ADMIN_RO(dhchap_ctrl_key);
+
+[Severity: Low]
+Should dhchap_key_show() and dhchap_ctrl_key_show() emit "none\n" when key
+is NULL?  The Documentation/ABI/stable/sysfs-nvme entry added in this patch
+states that reading dhchap_key and dhchap_ctrl_key returns "none" if not
+set, matching dhchap_secret_show() and dhchap_ctrl_secret_show(), but both
+functions currently return 0 (empty output).
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123-dhchap-key=
+ring-v4-v6-0-5082a49715ab@kernel.org?part=3D4
 
