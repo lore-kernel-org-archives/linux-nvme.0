@@ -2,100 +2,74 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6653C606A31E
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 16:40:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B48D606A331
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 17:10:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=bCvsC0xZ;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vkBY5Fja
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=q+Ump3vA;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P0Wp1NYD
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=P5/ZiEeoOQolEtqZd6duqT2B+ydqubbd46Mv2EwUK7A=; b=bCvsC0xZ8aoJi0/aAkf5rrL+Ea
-	TWNfhb+DXiOM+3qGGEa9WwXxpGvxcyNqscYidz7oGPXSskzA7pcA4DD5GgZydORFecLXmZblVfdVx
-	myK4cEsvFLIhH03gh3lhL6qEVHa2iW0rTgKXgtlWwoRkbkv3FaO0u6abptQEAKasptW28aud6gNtJ
-	s1o+lEhTEwgUWYZrqvpXgvQwdqow7u2v/Ul537YGaywxlpGaglKmhwWFG2kZ91fXnbQkyZRRG/pSo
-	vrr04670hE2phEOITHS6XbzFnqLB//eJAhoM9JZHUJcVGIMk8CTZpqzdNAMVH8e1y9l9hmtrAJlY0
-	CRqj1fEw==;
+	bh=c3TaoASfd8PzD5S4tgYOpeLOWlNif+silHEuUYg9+28=; b=q+Ump3vArX6r7XVFGBQ9nTyfs1
+	YFVE2sSQnj7I3KsPjzCSayhFUk7jML1lnEkjPLgy+HUHsp53evqlPJx2Uhrtjw4HERLxr1qY93rJb
+	XUbnr2zAUDTApHAp0eW/cKrguHG6DiOCOXkiiQJcgfgVsbHGWSTI+XMLzONrxeLtmyDk961kKC0P9
+	ofepXCn79aGLxyFRjBKD0t6eUb5SYDEgwkAm4Y5iMWb0B6x9j/U4eFim6qh3pDjP/fVe4tvyW9Qi4
+	Ol8ngebvK9D2La32T6DqbL6ZxntJNBXnDJSrainv7OabtUM0i6dkdg6w8rJDfgjpNmhey2hJnUpBt
+	MgzB16wA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVX65-00000004E4l-0t9d;
-	Mon, 23 Nov 2026 16:40:53 +0000
-Received: from mail-dl1-x122c.google.com ([2607:f8b0:4864:20::122c])
+	id 1xVXYW-00000004Ilg-3mWO;
+	Mon, 23 Nov 2026 17:10:16 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVX60-00000004E42-0NJO
+	id 1xVXYU-00000004Ikw-4BIA
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Nov 2026 16:40:50 +0000
-Received: by mail-dl1-x122c.google.com with SMTP id a92af1059eb24-1b50a4bd2f3so5162097c88.1
-        for <linux-nvme@lists.infradead.org>; Mon, 23 Nov 2026 08:40:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795452046; x=1796056846; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=P5/ZiEeoOQolEtqZd6duqT2B+ydqubbd46Mv2EwUK7A=;
-        b=vkBY5FjalMZ/8c1o7kMFmXZsCc/LRjL1jWgKPYSFGPuVt99bSFaam7MaJx9gJ2tkqw
-         OF/EcxZmjw99DPbuFjZOGIv4E48gz2M/PcTm+7IhfeCYVKOCNR6eI45UzdQL+Ni7NywW
-         loty7MUJhH+Dad1tEiA7SwdlfE+02OAtpEElTXm/nROg49YbvnuzkqPd5KlfuX/1aBvu
-         f+yhebMSHqJYXxS0U1IW5g/NFYr/RB4I0Z2X9hjCuQ5ayC82k8LSgVPSZ+WoBHaxevwR
-         FGgYAHxHMRvgvS6PQ4H1UfVNBrU0j++V8v8aJ8EMbBjEr9Txhb0VLolPWN6c2Ck0s81Y
-         Hzlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795452046; x=1796056846;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=P5/ZiEeoOQolEtqZd6duqT2B+ydqubbd46Mv2EwUK7A=;
-        b=IMAkUO+x0MvKXnWv1ZANsCqZR9bumUBv+9cRzkIV8hD3i/zU3RRMr++9Ss7OUgeFML
-         b0kN2j8jHfIuWTW1agcjdtou2lK3v6AbpxpK+RPx0Zo7J0H/2iuRTzmy4ClDaZmdb6x3
-         U85vuvOl6YtZ5JaDEdZ2Nu+aH2L6ocFRam439sp0YOVZC/Jy6TtM/q8uVciS6ZSiwmUU
-         CLLN4FobVrdN81WhXVHa+1mEJeihUrTEmIXXUR21FH+crbAQ13/Wg3h23gbfre4YKk2q
-         TfjHjOwqsjCdJ7PXNzJmHkGqX7OwywTgy4fs+ph79KPGAT2XXaKYX+ZAeCqD0rzJTZaZ
-         4j/Q==
-X-Forwarded-Encrypted: i=1; AL+hErEq9BuNF447CWWN8GV9iVJqeSN0x9NO6L4WovDLiFK6ohoeibhEX67A3uq2Z8esNw4oEhIS5FJ4k4Py@lists.infradead.org
-X-Gm-Message-State: APuU4Z+mOWT9zsrtUJB8GzuM32f8poTIEzmo5A2rV0sC9Qwxs9PBoQJH
-	oVsQF54szx76DHGhc7V0eGve//5pBZ2xE4bbvRAHKhEATuv6sO81vTaF
-X-Gm-Gg: AZFdTZfZfSAoQaSfYHuDGbu9V+mQ17I50DGi2PETO5zY+gou6R/yyS6Qy1sbc0wgDiK
-	+ZS2hxhQpPHbfzm0aCDxgcy7GxcHzOHtgn1WufxHldL6xeq53fececRpwOJ9XlIHi7HsrmjIri4
-	hLsG8dqI4SUtU4HA29SPVyyd4i6bVLhdMvMnlviuS3g79XQlt3QWtJ+FdOXcyQLmBD+8zVsEF3C
-	qjSwmD1IDAR8MlR01UJP/7/OBfNSdcek/DR433gUjaDDeV8vsmJOgvsYmxHislwwFuSj0m0Wc/s
-	n7LRsuWz7shkgKwudy+qiNWeDngLMig8Q4rZwhIY8sDfi3wkq+VA5f0aG72ikWUstjWSCyrhvxM
-	vf8ICpB/EFLJJwErbE+EUvc/RYn1GKw+0VZQ2WsMyWroIK/8Zo/jdJImTFevfCoaATnsDl5zgGz
-	/rLGagxUIwtvn6Ls1QkdAAjIZJM4C5BrQ2cNZwro8dQ+qxQnKfxWHKbTZYWzXaaX3f5Fm50/Aj+
-	LE7ipyLfJM1hc/0nBmJCn8JEC7WjghaEI3Ct9u/UnRSka3HKYJ2/5Knss1gGDps6K6GXZVit6Cw
-	i4yuBin0v1s0ZcFG2tUM83abuP5QG/lORl/FezASxVzHmIca34R29pCHEMqOS/1g5fBOQbs2qug
-	t3u7XuA3i
-X-Received: by 2002:a05:701a:844e:20b0:1b5:6c13:c76c with SMTP id a92af1059eb24-1b56c13c7a8mr6689110c88.15.1795452045824;
-        Mon, 23 Nov 2026 08:40:45 -0800 (PST)
-Received: from lounas.tail428e48.ts.net ([157.131.129.22])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b556847fdasm33225486c88.13.2026.11.23.08.40.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 08:40:45 -0800 (PST)
-From: Louis Thiery <thiery.louis@gmail.com>
-To: agk@redhat.com,
-	snitzer@kernel.org,
-	mpatocka@redhat.com,
-	bmarzins@redhat.com
-Cc: ming.lei@redhat.com,
-	dm-devel@lists.linux.dev,
-	linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Louis Thiery <thiery.louis@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] dm: clear REQ_DM_POLL_LIST on embedded clone bio
-Date: Mon, 23 Nov 2026 16:40:21 +0000
-Message-ID: <20261123164021.463361-1-thiery.louis@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Mon, 23 Nov 2026 17:10:15 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 8EBBE44140;
+	Mon, 23 Nov 2026 17:10:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FA391F000C4;
+	Mon, 23 Nov 2026 17:10:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795453813;
+	bh=c3TaoASfd8PzD5S4tgYOpeLOWlNif+silHEuUYg9+28=;
+	h=From:Subject:Date:To:Cc;
+	b=P0Wp1NYDxrcIM/ovxNdDS2GML5fETI33+s23IQyeMMUOPdCBGzc1Q2IuS70wSxsdn
+	 kfeKfNwsLon8IYx2XhR3BYX/rg7HTYhxh5urAl8B98fMBHm4LMROASzcf5pYxWXwK5
+	 WwcQR3tQNr7iHFXyK+l75GFY0EHBNr2gDfEgKeB+Y8Wqlgj4nfswpHABgZjtSkW+W+
+	 tVu4XPQSlFObSZv2rvXSU3kF05Td+gpdkWMXfsStWCyJfA9FTqIhMltrMAbX2WTJsN
+	 qKaQcDEu0YztWLoyzfj51efHqw1+YvExLTu6dlhiFH2/Pjh07FULonFb/pvbVy2oIY
+	 LYYZj/IKlwTYQ==
+From: Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH v6 0/9] nvme-auth: switch to use the kernel keyring
+Date: Mon, 23 Nov 2026 18:10:00 +0100
+Message-Id: <20261123-dhchap-keyring-v4-v6-0-5082a49715ab@kernel.org>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261123_084048_128595_E71FFA61 
-X-CRM114-Status: GOOD (  13.27  )
-X-Spam-Score: -2.1 (--)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGhzBGsC/33NTQrCMBCG4avIrI0kMemPK+8hLtpk0g6VtCQSL
+ KV3N+1KQVy+H8wzC0QMhBEuhwUCJoo0+hzF8QCmb3yHjGxukFwWQkjObJ/3iQ04B/IdS4rx2vG
+ 2McJWRkO+mwI6eu3m7Z67p/gcw7y/SGpb/2kbyLSrTGnrWhaI1wGDx8dpDB1sXNKfxPkXoTNRC
+ UTXKsNLqb6IdV3fM7+1HvYAAAA=
+X-Change-ID: 20261120-dhchap-keyring-v4-09f0bac1d8c5
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Hannes Reinecke <hare@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795453811; l=3667;
+ i=hare@kernel.org; s=20260619; h=from:subject:message-id;
+ bh=V+0LlW5boOKjqhOSfCsSFocUMOFEm9YF8ORqXxyW5FU=;
+ b=87eeiZDT71LjnfENvAOJN84m+RtQNL7gTyHnReEVG5tGhUAkF29Wg60BDRpFCmW3GRDT7YXvI
+ TnpyvyQchRBDIFKGTGepHpTq5BUc778P/I8fU+Jrgo1zkN/HFaECwAu
+X-Developer-Key: i=hare@kernel.org; a=ed25519;
+ pk=iekPF4ZZFva3sutm7d1ryPNR1G/WFfUgHaDB423JXho=
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,78 +80,103 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-23.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-When a polled bio is split across a target boundary (for example a
-dm-striped chunk boundary), dm_split_and_process_bio() re-submits the
-trimmed remainder of the original bio and then calls dm_queue_poll_io(),
-which sets REQ_DM_POLL_LIST (aliased to REQ_DRV) on the original bio.
+Hey all,
 
-When the remainder subsequently enters dm_split_and_process_bio(),
-alloc_io() clones it into the embedded io->tio.clone, inheriting
-REQ_DM_POLL_LIST. alloc_tio() only clears REQ_DM_POLL_LIST in its else
-branch for non-embedded clones, leaving REQ_DRV set on the embedded
-clone that polled normal I/O uses.
+the current NVMe authentication code is using a hand-crafted key
+structure; idea was to have the initial implementation with a minimal
+set of dependencies.
+(And me not having a good grasp on how to use the kernel keyring :-)
+That had the drawback that keys always had to be specified on the
+nvme-cli commandline, which is far from ideal from a security standpoint.
 
-The leaked REQ_DRV flag is misinterpreted by lower layers. On NVMe
-(where REQ_NVME_MPATH is also defined as REQ_DRV), nvme_start_request()
-calls nvme_mpath_start_request(). For a single-path namespace where
-ns->head->disk is NULL (with CONFIG_NVME_MULTIPATH=y), dereferencing
-disk->queue triggers a kernel NULL pointer dereference:
+So this patchset switches the authentication code over to use the
+kernel keyring. User-facing interface (namely argument to 'nvme
+connect') remain the same, but the key data is converted into keys
+which are stored as a new key type 'dhchap' with a random UUID as
+description in the kernel keyring.
 
-  BUG: kernel NULL pointer dereference, address: 0000000000000050
-  RIP: 0010:nvme_mpath_start_request+0x28/0xc0
-  Call Trace:
-   nvme_prep_rq+0x5e0/0xa90
-   nvme_queue_rq+0x40/0x1a0
-   __blk_mq_issue_directly+0x45/0xb0
-   blk_mq_try_issue_directly+0x85/0x100
-   blk_mq_submit_bio+0x6c9/0x710
-   submit_bio_noacct_nocheck+0x127/0x330
-   blkdev_direct_IO+0x230/0x680
+With this I have updated the dhchap arguments to 'nvme connect' and
+the configfs interface to either be the keydata (ie the original
+interface) _or_ a key description referring to a pre-populated dhchap
+key in the kernel keyring. This allows for easier provisioning of keys
+and avoids the security risk from having to specify the key data on
+the kernel commandline.
 
-On stacked DM devices, a lower DM layer also sees REQ_DM_POLL_LIST
-already set on the incoming clone and treats its bi_private as a dm_io
-poll list head.
+The entire patchset can be found at
+git://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git
+branch dhchap-keyring.v6
 
-Move the REQ_DM_POLL_LIST clear out of the else branch in alloc_tio() so
-it applies to both embedded and non-embedded clones.
+As usual, comments and reviews are welcome.
 
-Fixes: b99fdcdc3636 ("dm: support bio polling")
-Cc: stable@vger.kernel.org
-Signed-off-by: Louis Thiery <thiery.louis@gmail.com>
+Changes to v3:
+- Update to 7.4
+- Add patch to set keyring for nvmet
+
+Changes to v2:
+- Update to v7.1
+- Include reviews fromn Sagi
+- Clarify decoded PSK length
+- Add more function descriptions
+
+Changes to the original submission:
+- Dropped patches merged with upstream
+- Modified the interface to refer to keys via the description
+  and not the serial number
+
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
 ---
- drivers/md/dm.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Changes in v6:
+- Fixup next round of issues from sashiko
+- Fixup kbuild robot issues
+- Link to v5: https://lore.kernel.org/r/20261123-dhchap-keyring-v4-v5-0-81eefb4c0724@kernel.org
 
-diff --git a/drivers/md/dm.c b/drivers/md/dm.c
-index 1881d8611..79972f17f 100644
---- a/drivers/md/dm.c
-+++ b/drivers/md/dm.c
-@@ -628,13 +628,13 @@ static struct bio *alloc_tio(struct clone_info *ci, struct dm_target *ti,
- 		if (!clone)
- 			return NULL;
- 
--		/* REQ_DM_POLL_LIST shouldn't be inherited */
--		clone->bi_opf &= ~REQ_DM_POLL_LIST;
--
- 		tio = clone_to_tio(clone);
- 		tio->flags = 0; /* also clears DM_TIO_INSIDE_DM_IO */
- 	}
- 
-+	/* REQ_DM_POLL_LIST shouldn't be inherited */
-+	clone->bi_opf &= ~REQ_DM_POLL_LIST;
-+
- 	tio->magic = DM_TIO_MAGIC;
- 	tio->io = ci->io;
- 	tio->ti = ti;
+Changes in v5:
+- Fixup issues found by sashiko
+- Link to v4: https://lore.kernel.org/r/20261120-dhchap-keyring-v4-v4-0-5f8c7d9926ee@kernel.org
+
+---
+Hannes Reinecke (9):
+      nvme-auth: modify nvme_auth_transform_key() to return status
+      nvme-keyring: add 'dhchap' key type
+      nvme-auth: switch to use 'struct key'
+      nvme: parse dhchap keys during option parsing
+      nvmet-auth: parse dhchap key from configfs attribute
+      nvme: allow to pass in key description as dhchap secret
+      nvme-auth: wait for authentication to finish when changing keys
+      nvme-fabrics: allow to pass in keyring by name
+      nvmet: add configfs attribute 'dhchap_keyring'
+
+ Documentation/ABI/stable/sysfs-nvme |  10 ++
+ drivers/nvme/common/Kconfig         |   2 +
+ drivers/nvme/common/auth.c          | 216 +++++++++++--------------
+ drivers/nvme/common/keyring.c       | 315 ++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/Kconfig           |   1 -
+ drivers/nvme/host/auth.c            | 173 ++++++++++++++------
+ drivers/nvme/host/fabrics.c         | 131 +++++++++++----
+ drivers/nvme/host/fabrics.h         |  12 +-
+ drivers/nvme/host/nvme.h            |   6 +-
+ drivers/nvme/host/sysfs.c           | 246 ++++++++++++++++++++++------
+ drivers/nvme/target/Kconfig         |   1 -
+ drivers/nvme/target/auth.c          | 204 ++++++++++++++---------
+ drivers/nvme/target/configfs.c      | 150 +++++++++++++++--
+ drivers/nvme/target/nvmet.h         |  16 +-
+ include/linux/nvme-auth.h           |  17 +-
+ include/linux/nvme-keyring.h        |  26 ++-
+ 16 files changed, 1140 insertions(+), 386 deletions(-)
+---
+base-commit: 68099cf27253a8c89d703a282d3d811446d9453b
+change-id: 20261120-dhchap-keyring-v4-09f0bac1d8c5
+
+Best regards,
 -- 
-2.43.0
+Hannes Reinecke <hare@kernel.org>
 
 
