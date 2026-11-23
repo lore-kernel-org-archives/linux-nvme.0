@@ -2,134 +2,144 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118B0606A31A
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 04:27:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4540A606A31F
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 08:12:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=aqpNj0Dp;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Y79qNJlB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=4mWa5KSS;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=bwHeyV4e;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=7TQ6p7yx;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=S3aMWpnQ;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=EEVVx+f4
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:References:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=Q8GzbssS3ce2cvF37/hG6jt4wTocjO9dETl/uLhcC9c=; b=aqpNj0DpppSzv8
-	/0yYD5mMgO3xUeeSHeazp84Oo2DB0kq+CdKtiMFjBVC2O/4JD0OHoUhY7GHgPupZqhjKW3ncJdp7F
-	/UpNxKk4Txuulxd5PCoLTiVmRluA89zQZOdgHk6M+zBlz2qBwA/tmQ4J5Atfz+WjJ67rx1IvhU0df
-	Sq6DBownO2kTdtw+CHgPZqhd3QBLnzEExF0jpQ+ajDsubkBkRp2xtKyNqRzjv6UcgqkMialnxdCBy
-	AKIqFe+uYNB40eJWoTY6pNsIOPN1M9orM5b7c1US2eeqQCTbPlAaEEamwDZUyGHaiNBN/qAil03B5
-	tXEk4rwlJlq0P2k2vQyg==;
+	List-Owner; bh=cVdkjZcu7zAJ6PrpW5zx6rDzwJZVY4gtOGIBtdWuyS4=; b=4mWa5KSSXJbnHB
+	4nAJ2Yn9bzyO0j3WOCUChNBeOnMBTyxEPP5CKFXD4gU+ZFJVIHP6MjEriQDZ3Ipdx5rZKLg7gzZRd
+	dQDdkBv2URefttDJn+NQrioBZymQYpUeswYBHHDqbvYzUzEik770sbAPcun4gDZ8gJL9lpHtusiT7
+	CMd5VosJImdnZcExTaHFfP1rWQW2XlCcR0HQONc5I8qnZLTX6mopJMgcZr6PbzBgGncFVbwULKiI0
+	Dz3d7QjvfhqwFqSJGENYVQhqdL1SgsagYDZpFZpehWepXiA8stZ7M+D3MhF7yA86emhhacpvk2mKP
+	HpNIAGENTAS6JP8qBo3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVLe6-00000002FhV-06cH;
-	Mon, 23 Nov 2026 04:27:14 +0000
-Received: from mail-westus3azlp170100009.outbound.protection.outlook.com ([2a01:111:f403:c107::9] helo=PH7PR06CU001.outbound.protection.outlook.com)
+	id 1xVPAA-00000002XjS-16At;
+	Mon, 23 Nov 2026 08:12:34 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVLe3-00000002FhB-1gaU
+	id 1xVP9u-00000002Xim-3F1t
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Nov 2026 04:27:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o8B0mTK4g5mWlbvRiilZ5DI7mchKEwDwSK3WRfTVEpRUFZ4H/T0mbn7vjK0tAZp07toMFM+oCdd7sOj600UQxr6V4MnQlSn5rwaA3iTfYitGr3YBOWOsH3cP4TNFWRhbqaxfnKHoOPfdRaSxzEZtiHLBVgkkNV94sVGkzDPVzJGlPElBa7k5P39T6Nl/lWSCuhD8szlAn4F59RfUaru1l8xY9heGpB/SNkatWQFaBYjlGsVG21K+yScOTaO20iLISYjPjtaTNlq2NdQCoWcSlFsd4vhD2HSYfJChjsAg8GzVr2QZsDQSdlYToq42IsKwF3WVtkLVui4EXP07jroGoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8shtKh2CJeynvZijkpOm7SxmCfLX+b7ZHs3NPJGOD64=;
- b=hE/40mX8MmOLDBDK4ujqNbZt8aIUZDn4f0f7/XbByKP0g4gW4wIkrMKVIFxjv+/Bwes14/leKGvRyjlxbfKLm9iLPZpUIe8T8T4jVX5gD3edNGCjacBkbHaly4BSS6npqo6KB+bDRefJRFuxymJr8M247zVu2Rcgh5CZGXwMoKCgRHoX9Vait+RgvOVImLpYiK/aqWaZcO9/4glD9orgqYaUpo4rWYsQbDTFSshoF/WsT/Ib1zD11TrnS7OlhtIWz3YTtllH4HN4IRtcpIJ6oirsE+7ze497YaSt3T3ax/zAt5zjKZ/LmRxtefo9OMJyPNgiwYsPHMdnf/gGPswL6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8shtKh2CJeynvZijkpOm7SxmCfLX+b7ZHs3NPJGOD64=;
- b=Y79qNJlBxJZ5hm1xtTD9GMeIH8hkOG5xuGw5+Rt2EuKQXNRkH1OT6B92zwE/CLnvo2RxL7i5Iki2LdMPENN/TBK6qwIZNrrKNYYLdDs4b4UzDf9ta331ACKtTJG2un4BfFtSGqfbI1efMpo3wmO4NZpNP8u1WoB966ajJreOn2Vt15utdIsWzAb+zzdPsvhlunc49eJItAsWBqzvTajmgx5WyTzelq9LyuTik/dTZltzk35GEjLWJxoOBEpPIt4mISrCF6rJqtzGr7LNnloXyQfTUaLyiyjlA4F/v7eew/cgYdmJL9LtV8Mt7wSdd300JCDRG10eKpYjVcYYPitZwg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SA3PR12MB598757.namprd12.prod.outlook.com
- (2603:10b6:806:52d::14) by LV8PR12MB9665.namprd12.prod.outlook.com
- (2603:10b6:408:297::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Mon, 23 Nov
- 2026 04:27:03 +0000
-Received: from SA3PR12MB598757.namprd12.prod.outlook.com
- ([fe80::e206:100:5946:a777]) by SA3PR12MB598757.namprd12.prod.outlook.com
- ([fe80::e206:100:5946:a777%5]) with mapi id 15.21.0639.012; Mon, 23 Nov 2026
- 04:27:03 +0000
-Date: Mon, 23 Nov 2026 15:26:57 +1100
-From: Alistair Popple <apopple@nvidia.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-	amd-gfx@lists.freedesktop.org, linux-rdma@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	media-ci@linuxtv.org
-Subject: Re: [PATCH v3 24/24] dma-buf: Add kunit tests for mapping type
- selection
-Message-ID: <awO8FGMeDLMfDgv9@nvdebian.thelocal>
-References: <20261120-dma_mapping_type_v4-v3-0-c0183a409bdf@nvidia.com>
- <20261120-dma_mapping_type_v4-v3-24-c0183a409bdf@nvidia.com>
- <sashiko-outbox-226692@kernel.org>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <sashiko-outbox-226692@kernel.org>
-X-ClientProxiedBy: SYYP282CA0001.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:b4::11) To SA3PR12MB598757.namprd12.prod.outlook.com
- (2603:10b6:806:52d::14)
+	Mon, 23 Nov 2026 08:12:25 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A5F911F7D4;
+	Mon, 23 Nov 2026 08:12:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795421534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cVdkjZcu7zAJ6PrpW5zx6rDzwJZVY4gtOGIBtdWuyS4=;
+	b=bwHeyV4eAH2ONzs/qod/qQYwV+4gg9OvRg41XQBh/L/Ic9h28SfIREL2fof4Ljbc+7m16C
+	hjMOZd0HinWLsk92fEwGNpZRxmtvBFe7snFaBJgXUyP5wkMlZyx799iNulGL69NFxfUc//
+	UIPHJmj5LnsQaefm8voIlVBVKIbJfCU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795421534;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cVdkjZcu7zAJ6PrpW5zx6rDzwJZVY4gtOGIBtdWuyS4=;
+	b=7TQ6p7yxKlPwp5S1jG7Kr8KveOV8NXg/pcSkKqHlAdVRVGQ+onlyvdvHN0d0+oj+ZacfeO
+	7OSY/NtZytp32hDA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=S3aMWpnQ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=EEVVx+f4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795421532; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cVdkjZcu7zAJ6PrpW5zx6rDzwJZVY4gtOGIBtdWuyS4=;
+	b=S3aMWpnQY0E8YwNsoMOBVtAxTByOyn4Bna3tsmXwgrnjnTld0QN68yzRVXlPPLjvhG3s0O
+	8lblUanrrLrAp3VQviG8nfpONwWLoyZ9ZU2Qb9jcvzhqTaMIWTIm+hVMXBWG/pzbw9FBae
+	1DcnAG/TP1hcLYJVs8Td+Q3jFucG990=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795421532;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cVdkjZcu7zAJ6PrpW5zx6rDzwJZVY4gtOGIBtdWuyS4=;
+	b=EEVVx+f4zqkyCAhUsVYrdXtcqB72NgpAlLnJFUYvD0bGbOF+dIGfmVfqKNir+jpRvcqp85
+	ITv2fjhN/6oD6vBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5130F13510;
+	Mon, 23 Nov 2026 08:12:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id buuCBlz1A2tqUwAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 23 Nov 2026 08:12:12 +0000
+Message-ID: <95a4bbac-9f88-4da1-9a48-406a6152344a@suse.de>
+Date: Mon, 23 Nov 2026 09:12:11 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA3PR12MB598757:EE_|LV8PR12MB9665:EE_
-X-MS-Office365-Filtering-Correlation-Id: a7e2ce4f-f08b-4f4f-cc09-08df491a0628
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|261009223027099003|18002099003|22082099003|261022075727099003|261022105027099003|261026121527099003|261026140227099003|261028144727099003|261021135927099003|56012099006|4143699003|10067099003|11063799006;
-X-Microsoft-Antispam-Message-Info: bguJ5aGcy/+L5mC6h4DVt5sY7GBj022e52iRW3YUNdJOtUAmuJNEemWzvpZa9yIVBdiIdDZ3+X2rMBCWHN662VynTBMUPDehLtptKKKPg6ohMwRGm2E4SZLh+OcKv6z/o/rvDT2e6rbccQ+/dVBqaIshi+0VPVwh8pGnvHhya4xNpRf49lqM0pgfXXUolPZvIInR/9orRyslOd+eFHEYZlg0oMS9a3QyMQmyHMJQnu1Ma3rrH6zTDLKWMDsMRbrgrdAPLR66KXz+YLBQCW3ZprZ04ORI1xMRf7Q8qOBXejYRjZm4nqLbdpuh8MkJCDnTPZ/E5Rucm0swReYIYdjpEgKsl66jfJn2igqSrdCJ7L+SIWofrrIl2+AjHDjPnUOsmiOhjttZsg2GF+SXbSdFEYdcpVtUn8NNDSKuG/c5vH1aHS+wMOp9KK+kAkLkWXf98swlcKH0AT/hWmQ+D16IZDocKSb3vaZtuhWGYmI8t16UUG/+Pywvuf7xInR3CZJ4p+oUng56BSgsVgHukrC0SjU7i5kyYQhUkCv4NIOarKWVLwp6Gh5cTLs/PNlsMHOE5KWgsu+2ixiykq9WQxQ4L8r9rAUdwyRgb3FaGB6x/4qba6dpMYDARCgqRP6kDFgYx843vTcs5r77Bxf8Ghai6sI5WBVg7O1UQ0vIUDiGh6I=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR12MB598757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(261009223027099003)(18002099003)(22082099003)(261022075727099003)(261022105027099003)(261026121527099003)(261026140227099003)(261028144727099003)(261021135927099003)(56012099006)(4143699003)(10067099003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?zSOljHM3F0jmHLYn8osrojFxQ7TWnHxuxdjnM2GxsvAagtSvyrr4W4qJKt?=
- =?iso-8859-1?Q?3q5M09szxRs4fFT52r7DRf+luspZem9nZVwm6PQpaVdvKLt8ykCxsB7xZf?=
- =?iso-8859-1?Q?8DWWA+GEuMH47KOeu9zNZ/URjAdiYNb3Yg6PCxMx8w4gD3+JxAHNeAqwiX?=
- =?iso-8859-1?Q?ttHBJN2xsvAOl/BovQ5P4TkyOXGjXkGNzLClS/1disAzTzVvr5mPTkPzSL?=
- =?iso-8859-1?Q?DYrygLx4/O0ZZG4xt2x+d7Bg4yiwQfFslJuEgZFgQ653rUJWZjwEHChJPW?=
- =?iso-8859-1?Q?fRx4UxLXfDzRKab83AWObNfRu1ihAFKxvrI2oVpwRa9YEHc7TFpkijV8I5?=
- =?iso-8859-1?Q?h6zehne3gHZv+6xJBGOkXikud6G1blUcfUSVPx2/9w7VIdGYIHZiYx+PBW?=
- =?iso-8859-1?Q?H67FZ391xKphuGclsS0eThh0GWHgRue9AgYK7JRjxfk97y2Yv+dCHg2QwE?=
- =?iso-8859-1?Q?AQgfCUx0Z3C2NMO1zdU77a/bFafhFaqd8OUyhh83cbcdLBM5iiVfDJBOYl?=
- =?iso-8859-1?Q?sJ/HnnJefzBL52w1HIXo+od3aCNL9FQtCp0v5pgsDnpJI11Mrf6AX1HojK?=
- =?iso-8859-1?Q?GIzCh1XvFHhCXiwQrzs40W/88rOYwp8PJ2XML7KVUDIpXsjc7Op4e83TFl?=
- =?iso-8859-1?Q?P5XtFRmSX4wSr28YScfLzaMD8glBm3owtvzMNBb3tRBZQdwJzjB1MtR+cV?=
- =?iso-8859-1?Q?Y/e2f+tPhQb+DaXD+ZJ8TkeE6XGSg5Bm9zQEyuN12EL+AD6fDa5sooHwkH?=
- =?iso-8859-1?Q?alfth2XiBkbaMqDE7shoz2wOOf711uvQd93LMS7JJpUGAf9twGY6UPAQNs?=
- =?iso-8859-1?Q?I0mVX6f4h03yOea5i6FpqkLnobRNVNJ9pbYKaT/seOKiplOFqRNkOb/Zhq?=
- =?iso-8859-1?Q?I26ehwFRIQgeIj27pBA7qHL/SMAvaZt14Zz3fKFPyCVpOdoZb8kIzuc60B?=
- =?iso-8859-1?Q?rEnbLRofuQxfTJR2Paa7Z7Nch/yL+Ahu7oshxJWtvqqCuXUT+8HnlZMSJZ?=
- =?iso-8859-1?Q?NsAPvhPj0ycYdAsPuX7auD9oAVTDS59T/kA4gcMoPCnKpBdrOe/NzsvuiE?=
- =?iso-8859-1?Q?n+vqI7thZYOL0qE9pcn+UkA5Uz/4SPicZzD7y4J92wXM44DE5EuU5Xoa2B?=
- =?iso-8859-1?Q?8zvvdYGuocxcrY1Zfchpka83Bhzod1YjgfkvVxxpx9/Ky66Gd+LObllJFW?=
- =?iso-8859-1?Q?0f/U+LW8vc+Ai/7rTtoxEw52wsiEUO9/14yRgsfY9nsNBMdkmJ0N0TSuxK?=
- =?iso-8859-1?Q?QeonEA0T/QNzfJHojDEefhDzN06I27/UdMHFqThL1HnOSf3Zdq1wjWomXC?=
- =?iso-8859-1?Q?ixFJvE8OE1WA0npS+k7xbV35GbenUcIhCLJbb4XGur/DVYVkYh4hAsmdoM?=
- =?iso-8859-1?Q?I63j2Qx2dU7CyAjr1m8DX/L04EyZbTkZBO9hJOWXy0ZWFjoO/PjlcVr+8S?=
- =?iso-8859-1?Q?jNmxAsJ75NfIW/KfGMsNoJ3zkltImtNTcGLpSZNzUG1SVX1+ZV6OnBD1s4?=
- =?iso-8859-1?Q?sw6Wk9bS+4tyqKLCLU0rwQ6Ake6FEFX9T9NSdCEpmTp0h7D3G8bf0IJFfD?=
- =?iso-8859-1?Q?IPElmIkWyrjKmwh6Qahhmxq91GpXbfs6l9pAQW3ER6kzr3xf9qFs/6ODqY?=
- =?iso-8859-1?Q?g3hYymzEcGkXD98Z/LDYixE1Kaa6kkkwuUhhy3jNMgd/+WXGQyMcZz8J1j?=
- =?iso-8859-1?Q?jFm/wEW0TbqSIBxfoKtPfCE3qxsHkChTZhc+hutOcOBv74LgCmXI3OVt5r?=
- =?iso-8859-1?Q?No9ErStPTcAN/toMujstq1zWKK7AUVHlQhVFhPrNC3Svse1337RWet0JTF?=
- =?iso-8859-1?Q?bI6v6kLtjg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7e2ce4f-f08b-4f4f-cc09-08df491a0628
-X-MS-Exchange-CrossTenant-AuthSource: SA3PR12MB598757.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2026 04:27:03.2392
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gcMZGHWpV3qhGSWIE+hzq1T29IBtyLQfjtTS/+ZGkxxLFNvMFo3RZsZcV9HfSDfiBbLCWo8hAa+s+J6JZ8JvVA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9665
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] nvmet: Synchronize the TLS key debugfs read with admin
+ queue teardown
+To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Nilay Shroff <nilay@linux.ibm.com>,
+ Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org
+References: <20261116075447.1713255-1-kanie@linux.alibaba.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20261116075447.1713255-1-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: A5F911F7D4
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-13.50 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	XM_UA_NO_VERSION(0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[alibaba.com:email,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -13.50
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261122_202711_444325_7FE0DDEE 
-X-CRM114-Status: GOOD (  14.07  )
-X-Spam-Score: -1.7 (-)
+X-CRM114-CacheID: sfid-20261123_001220_511264_D14D7DB6 
+X-CRM114-Status: GOOD (  25.08  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,71 +150,102 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 2026-11-21 at 16:58 +1100, sashiko-bot@kernel.org wrote...
-> Thank you for your contribution! Sashiko AI review found 3 potential
-> issues to consider:
-> - [High] dma-buf: build failure from mapping2->type access in selection
->   KUnit tests
-
-[ ... ]
-
-> > +	/* A second map does not reselect. */
-> > +	mock_select_idx = 0;
-> > +	mapping2 = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-> > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mapping2);
-> > +	KUNIT_EXPECT_PTR_EQ(test, mapping2->type, &mock_type_b);
+On 11/16/26 8:54 AM, Guixin Liu wrote:
+> nvmet_ctrl_tls_key_show() dereferences ctrl->sqs[0] and its tls_key
+> without any synchronization.  The admin queue may not be installed
+> yet or be destroyed concurrently, and nvmet_sq_put_tls_key() can drop
+> the key reference while a reader is looking at it, leading to NULL or
+> use-after-free dereferences.
 > 
-> [Severity: High]
-> Does accessing mapping2->type break the build when CONFIG_DMABUF_KUNIT_TEST
-> is enabled?
+> Take the admin queue's percpu reference for the duration of the read
+> so the queue cannot be torn down, and use ctrl->lock to serialize with
+> nvmet_sq_put_tls_key() so the key cannot be dropped mid-read.
 > 
-> struct dma_buf_mapping only has a match member, not type, so these two
-> checks in test_unmap_uses_own_type() and
-> test_select_survives_own_invalidate() should use
-> dma_buf_mapping_type_of(mapping2).
-
-Ugh. I made an accessor for the type in my final iteration before sending this
-and clearly forgot to do a full module rebuild and retest. It's a trivial fix,
-and I just re-tested to ensure the kunit tests pass.
-
-I have also been writing and running some basic tests that exercise the new
-dma-buf paths via vfio-pci and iommufd, nvme or nic rdma which are working. I
-haven't posted these as part of the series as they are user-space tests that
-require fairly specific HW setups. If anyone is interested I can put them
-somewhere though.
-
----
-
-index 42e6748f0ae6..6e88c36d8c9b 100644
---- a/drivers/dma-buf/st-dma-mapping.c
-+++ b/drivers/dma-buf/st-dma-mapping.c
-@@ -950,7 +950,7 @@ static void test_unmap_uses_own_type(struct kunit *test)
-        mock_select_idx = 0;
-        mapping2 = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-        KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mapping2);
--       KUNIT_EXPECT_PTR_EQ(test, mapping2->type, &mock_type_a);
-+       KUNIT_EXPECT_PTR_EQ(test, dma_buf_mapping_type_of(mapping2), &mock_type_a);
-        KUNIT_EXPECT_TRUE(test, attach->selected);
-        KUNIT_EXPECT_EQ(test, mock_select_count, 2);
-        KUNIT_EXPECT_PTR_EQ(test, dma_buf_attach_map_type(attach)->type,
-@@ -1043,7 +1043,7 @@ static void test_select_survives_own_invalidate(struct kunit *test)
-        mock_select_idx = 0;
-        mapping2 = dma_buf_mapping_map(attach, DMA_BIDIRECTIONAL);
-        KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mapping2);
--       KUNIT_EXPECT_PTR_EQ(test, mapping2->type, &mock_type_b);
-+       KUNIT_EXPECT_PTR_EQ(test, dma_buf_mapping_type_of(mapping2), &mock_type_b);
-        KUNIT_EXPECT_TRUE(test, attach->selected);
-        KUNIT_EXPECT_EQ(test, mock_select_count, 1);
-
-
+> Fixes: 316dabe6089fe ("nvmet: add tls_concat and tls_key debugfs entries")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+> ---
 > 
-> -- 
-> Sashiko AI review � https://sashiko.dev/#/patchset/20261120-dma_mapping_type_v4-v3-0-c0183a409bdf@nvidia.com?part=24
+> Changes since v2:
+> - Take the admin queue's percpu reference during the read and use
+>    ctrl->lock to serialize with nvmet_sq_put_tls_key(), so the queue
+>    and its key cannot go away mid-read (Christoph Hellwig)
+> Link: https://lore.kernel.org/all/20261029034306.3626274-1-kanie@linux.alibaba.com/
+> 
+> Changes since v1:
+> - Simply return 0 when the admin queue is absent in
+>    nvmet_queue_tls_keyid() instead of dereferencing it, covering the
+>    not-yet-created and already-destroyed windows (Hannes Reinecke)
+> Link: https://lore.kernel.org/all/20261028064417.548948-1-kanie@linux.alibaba.com/
+>   drivers/nvme/target/debugfs.c | 15 +++++++++++++--
+>   drivers/nvme/target/nvmet.h   |  4 ++++
+>   2 files changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/debugfs.c b/drivers/nvme/target/debugfs.c
+> index e85fe1d4c9f8..cc451e25ea1d 100644
+> --- a/drivers/nvme/target/debugfs.c
+> +++ b/drivers/nvme/target/debugfs.c
+> @@ -136,8 +136,19 @@ NVMET_DEBUGFS_ATTR(nvmet_ctrl_host_traddr);
+>   static int nvmet_ctrl_tls_key_show(struct seq_file *m, void *p)
+>   {
+>   	struct nvmet_ctrl *ctrl = m->private;
+> -	key_serial_t keyid = nvmet_queue_tls_keyid(ctrl->sqs[0]);
+> -
+> +	struct nvmet_sq *sq = ctrl->sqs[0];
+> +	key_serial_t keyid = 0;
+> +
+> +	/*
+> +	 * Pin the admin queue against teardown, and serialize with
+> +	 * nvmet_sq_put_tls_key() so the key cannot be dropped mid-read.
+> +	 */
+> +	if (sq && percpu_ref_tryget_live(&sq->ref)) {
+> +		mutex_lock(&ctrl->lock);
+> +		keyid = nvmet_queue_tls_keyid(sq);
+> +		mutex_unlock(&ctrl->lock);
+> +		percpu_ref_put(&sq->ref);
+> +	}
+>   	seq_printf(m, "%08x\n", keyid);
+>   	return 0;
+>   }
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index e315f1c24e73..24df9e4a1e1c 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -957,13 +957,17 @@ static inline void nvmet_req_bio_put(struct nvmet_req *req, struct bio *bio)
+>   #ifdef CONFIG_NVME_TARGET_TCP_TLS
+>   static inline key_serial_t nvmet_queue_tls_keyid(struct nvmet_sq *sq)
+>   {
+> +	if (!sq)
+> +		return 0;
+>   	return sq->tls_key ? key_serial(sq->tls_key) : 0;
+>   }
+>   static inline void nvmet_sq_put_tls_key(struct nvmet_sq *sq)
+>   {
+>   	if (sq->tls_key) {
+> +		mutex_lock(&sq->ctrl->lock);
+>   		key_put(sq->tls_key);
+>   		sq->tls_key = NULL;
+> +		mutex_unlock(&sq->ctrl->lock);
+>   	}
+>   }
+>   #else
+
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
