@@ -2,56 +2,55 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3BF606A686
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 17:10:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14C8606A6B8
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 17:10:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Yn3yfZAs;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NwBwPo52
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=yhSMaaeV;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B6ZEaits
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=LNEib23kdbMBmadoWSW0XQ0A3tFBRek9SSNN92u2eYk=; b=Yn3yfZAszop/NB
-	kQ+joa73+GEOeT8fsZOI59rr8C1D9ecPsOnzJRNAIhlJU0tMAQPgf2adDVv1X5TZuHOLf8SdAGVgj
-	3abzI5SUSxN+h3Qu7cc9WUGjYiBsNRZdaG5AaIhd41EPKpWdTHjgEO5XbsylKhWzcWodvsdI/q7Sp
-	a+3TOsDNkMMNYH1osIGE+yKsaGyu122AVdWk8JscRR2DbVKp0c8zY7vxuLMnhqGqxkZ5WxxE3uxCj
-	UwA9goRGNYWAhfrxkdx3ImDw+DM8Rr00skH3Ee7LQkxh5MLSTdKw8Jvr7WQHF8BpsLXaxUaSiUCOh
-	j76zfrFs3od2Iv1WkztQ==;
+	List-Owner; bh=Fs3FqRZzbQW0RewIgCSZdDBXczxL1ml7PaOPSTLmICY=; b=yhSMaaeVh2MpbW
+	4qzsxLqWoiZQwd8piPpRWH33P3h+VArCNs5e2AraMSBnN54OWR4MSjWky/sQVZmE5/aykQcIo3ZI1
+	gLQgCzm08T/1+s1+mfuIU27aoiGsIWreklIqIar68ORQKBiL+SLXq2mCmAenU2aBc3cP46aKjzBEV
+	FNkGouwOIPkCeIym7qOJgOffJx+MJ7lKIq7cbMoL9cXBAgR1KAgPNr/68Mk/cprbHe0XzAew5W6OT
+	qoZP5PMTIrWINAfti3Gh1pikwgrc5G12hYz2vsngCaVGLJJ8rY6k5XRHpRgOnfD1dYsZnb5pGtpTr
+	tDWVW+dl4hNTD7LNKRNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVXYp-00000004IzB-2FLZ;
-	Mon, 23 Nov 2026 17:10:35 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xVXYt-00000004J5T-30cq;
+	Mon, 23 Nov 2026 17:10:39 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVXYo-00000004Ivy-0TTU
+	id 1xVXYp-00000004Izw-3loX
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Nov 2026 17:10:34 +0000
+	Mon, 23 Nov 2026 17:10:35 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 84A4B61D1E;
+	by sea.source.kernel.org (Postfix) with ESMTP id 9B03840796;
+	Mon, 23 Nov 2026 17:10:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD4BE1F00AD3;
 	Mon, 23 Nov 2026 17:10:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E02A51F00ACF;
-	Mon, 23 Nov 2026 17:10:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795453832;
-	bh=LNEib23kdbMBmadoWSW0XQ0A3tFBRek9SSNN92u2eYk=;
+	s=k20260515; t=1795453835;
+	bh=Fs3FqRZzbQW0RewIgCSZdDBXczxL1ml7PaOPSTLmICY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=NwBwPo52aWGqeBDE3K8inUD7CkUpn9i8jWv0waSEL4+rB+96wntI0/gn9s6UsnRpB
-	 gGXsD51QLUw27YDxj/Jixq9/V6ncpBzIg7qge6jwCDQsLCl0y/lwOJixECErwhxzu6
-	 zD7iOUZJ6QPJWL1XAQl47/lt1qvblIkriJgPxVUcQc3tpL+OmXvXCmk1Wfl0ZIDLYk
-	 DcJtmT0gdiSesMXXiC8eGsaZNHl29+m/HtNmL6s70l/znr+an3msKPVs+dG4ttBZyg
-	 nomttMkoMGXcdQ7RBSH5NpKxFrRRzzfcBOgaTdEWDKowoFX+JTCKmtfVapWZiTHq6o
-	 81NRyF2hMnsbQ==
+	b=B6ZEaitsb8F6ruj0sbwOJpHqUJdoG6rCPd9eSRnw+Q1/n3PPlO9b1+Nj6cwN+pPuO
+	 byyIKlJZkcQIaUTNjzVUtMdU0A6XuKYQq0+iE9DtOKwQEHTAesYzdjVeGLmTpcEBEj
+	 bU28Yt9iax38UNGXDtOOAP97GL2FfiefFGfuhChtYFiwk6pxY2mTRLFevUeqYCxOzq
+	 UcOS2K9H7RsSZMXN56fZis4wMznBpR7aQfCpKr4GZv2+k8fN3T3xe/SQLc3hDJqq+H
+	 LnA2PXuRpOtcw4f1gf6bjgb0nkTgk2FwFaqp6Z+GzurTGAE3lH+kUqs1ymjiSUEsa5
+	 Ybak8gTuU3CmA==
 From: Hannes Reinecke <hare@kernel.org>
-Date: Mon, 23 Nov 2026 18:10:07 +0100
-Subject: [PATCH v6 7/9] nvme-auth: wait for authentication to finish when
- changing keys
+Date: Mon, 23 Nov 2026 18:10:08 +0100
+Subject: [PATCH v6 8/9] nvme-fabrics: allow to pass in keyring by name
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261123-dhchap-keyring-v4-v6-7-5082a49715ab@kernel.org>
+Message-Id: <20261123-dhchap-keyring-v4-v6-8-5082a49715ab@kernel.org>
 References: <20261123-dhchap-keyring-v4-v6-0-5082a49715ab@kernel.org>
 In-Reply-To: <20261123-dhchap-keyring-v4-v6-0-5082a49715ab@kernel.org>
 To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
@@ -60,11 +59,11 @@ To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
  Hannes Reinecke <hare@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795453811; l=1265;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795453811; l=2420;
  i=hare@kernel.org; s=20260619; h=from:subject:message-id;
- bh=7VrlctXLlyrYagLcRP+azunhus4YGknA+amKa/OT2yU=;
- b=86wY3AwPcjlAEvnt1dEXGhuEDNj1ouzJDAlgAFI6PsqSD+k0URXGPHEwNvCTxCl7CUuAwYa5+
- j6Yji3VlCj9CaSeo4ecb8F2C5XyCZzGN5NvBzVF4F9pG1JZydeRRWcD
+ bh=ITKJc1nZRUkbL6beI0dJDy5VCw8yabe1G6B7/FWmKhA=;
+ b=kNH+ZvatLTk1c/SMb9GRdgbdE6NknztFK3IUvfXpL55/dyQv6VaZzLoLXtCqIIzMpoxbymgZx
+ Pa7nxxQCtV5COCC4laAHKl5FM7bK5uqC7rOLFZ1qlqjkSoBhPN9peBA
 X-Developer-Key: i=hare@kernel.org; a=ed25519;
  pk=iekPF4ZZFva3sutm7d1ryPNR1G/WFfUgHaDB423JXho=
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -85,39 +84,79 @@ X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-When changing DH-HMAC-CHAP keys in sysfs we need to wait for authentication
-to complete on all queues. Otherwise the user might change the keys while
-authentication is in progress, causing the authentication to fail and
-I/O to be interrupted.
+The current interface of passing in keyrings by serial number is very
+impractical for configuration scripts, as the serial number is not
+persistent across reboots, and so any configuration files will need
+to be adjusted.
+This patchs allows to specify the TLS keyring by name in addition to
+the serial number to simplify configuration file handling.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/sysfs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvme/host/fabrics.c | 31 +++++++++++++++++++++++--------
+ 1 file changed, 23 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index c94abb901a73c880d354d9c1223d89fe5c9b0e89..8b6e5409f4893d8e56ff6fb15a89b540b1f733da 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -911,7 +911,7 @@ static ssize_t dhchap_secret_store(struct device *dev,
- 	/* Start re-authentication */
- 	dev_info(ctrl->device, "re-authenticating controller\n");
- 	queue_work(nvme_wq, &ctrl->dhchap_auth_work);
--
-+	flush_work(&ctrl->dhchap_auth_work);
- 	return count;
- }
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 2937e5dc9ecd22fd3eb684e2dce909b41e5a6e20..aae094bbbf0dddfa507acae5e35ba94ffdbcb245 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -14,6 +14,7 @@
+ #include "fabrics.h"
+ #include <linux/nvme-auth.h>
+ #include <linux/nvme-keyring.h>
++#include <linux/key-type.h>
  
-@@ -1011,7 +1011,7 @@ static ssize_t dhchap_ctrl_secret_store(struct device *dev,
- 	/* Start re-authentication */
- 	dev_info(ctrl->device, "re-authenticating controller\n");
- 	queue_work(nvme_wq, &ctrl->dhchap_auth_work);
--
-+	flush_work(&ctrl->dhchap_auth_work);
- 	return count;
- }
- 
+ static DECLARE_RWSEM(nvmf_transports_rwsem);
+ static LIST_HEAD_GUARDED(nvmf_transports, nvmf_transports_rwsem);
+@@ -696,8 +697,10 @@ static const match_table_t opt_tokens = {
+ 	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
+ 	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
+ 	{ NVMF_OPT_TOS,			"tos=%d"		},
++#if IS_ENABLED(CONFIG_NVME_KEYRING)
++	{ NVMF_OPT_KEYRING,		"keyring=%s"		},
++#endif
+ #ifdef CONFIG_NVME_TCP_TLS
+-	{ NVMF_OPT_KEYRING,		"keyring=%d"		},
+ 	{ NVMF_OPT_TLS_KEY,		"tls_key=%d"		},
+ #endif
+ 	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
+@@ -992,17 +995,29 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			opts->tos = token;
+ 			break;
+ 		case NVMF_OPT_KEYRING:
++#if IS_ENABLED(CONFIG_NVME_KEYRING)
+ 			if (match_int(args, &key_id) || key_id <= 0) {
+-				ret = -EINVAL;
+-				goto out;
+-			}
+-			key = nvmf_parse_key(key_id);
+-			if (IS_ERR(key)) {
+-				ret = PTR_ERR(key);
+-				goto out;
++				p = match_strdup(args);
++				if (!p) {
++					ret = -ENOMEM;
++					goto out;
++				}
++				key = request_key(&key_type_keyring, p, NULL);
++				kfree(p);
++				if (IS_ERR(key)) {
++					ret = PTR_ERR(key);
++					goto out;
++				}
++			} else {
++				key = nvmf_parse_key(key_id);
++				if (IS_ERR(key)) {
++					ret = PTR_ERR(key);
++					goto out;
++				}
+ 			}
+ 			key_put(opts->keyring);
+ 			opts->keyring = key;
++#endif
+ 			break;
+ 		case NVMF_OPT_TLS_KEY:
+ 			if (match_int(args, &key_id) || key_id <= 0) {
 
 -- 
 2.51.0
