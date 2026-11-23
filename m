@@ -2,64 +2,88 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE5E606A31A
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 12:02:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2C1606A31A
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 12:08:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=OdXj2zQm;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=YXH4IGKh
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=IUdnU3uG;
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=XV/b7lph
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=DWu8RTq4M1mT4SAcEK2jsmnlCAu63IAngi1ivrZyiJ0=; b=OdXj2zQmo7/st+
-	FuW7QpvMCYKLMj8zfZXPCoXd+lPlZNgXT5P/TaGER4/9riXuv5Tz51aBO07dMycfmbPuLkN1Cgev9
-	/SaAn5NpDgRV7AU9jWvDA57AgbcaocXsnEWV1U9+lCSbA3I10WepwWg4M/7yrbE/p1LQ7c4A1ke6T
-	0tf88pJWSFYoJR8NJQ9E8nOXl5+nVHfCGUTz7aXWfsDiQyPIX09oZeJ0ClXkXrBJj/87NAKLNM1zA
-	f8a7zJnWziCOvsp4jgxCvJIQpMuKMl2dECnJuaL2YjW3rGM+2tw+Vqq5mHzNlzcq575LqYp8S3XhQ
-	JefCiMpqKaNIf56NtA0w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=akrhacg0cFqsWcufz/98MzPSnTNhvwT4AO9anWTNIAA=; b=IUdnU3uGR6Yf+ORH7VEDmvCytl
+	CGPLQUvOlvsokmyFG+9UryBbg8F55b57aEJDnZ7PWeqKEJiQG9DTeSghJtvx5Tan5aCFZ4bPpm8kB
+	Ju77CUjxe3rs1ahQq17afVCTjxVJ+C2Hzg2smJm/XH6N3z3GSoWhoKHblpYIyjsavL+56UPeFJ/IW
+	1HJl5XyZce91WLMGQ2rb6F7NrAkyOn+kmt04DEmI39OD6ljROK+mF3Uwq64XO2dzm7C/8zvYROg2c
+	8sC7G4Gsk9vNT8lmUs4q6X2APPu8MImlQWftLSLDyEt6LLSlQqcd+NpBLqBuLc5kdeVvlJ9XlRGQi
+	8MZvcoVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVSl4-00000003Gm1-0mLW;
-	Mon, 23 Nov 2026 12:02:54 +0000
-Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
+	id 1xVSqJ-00000003Hdj-3YSu;
+	Mon, 23 Nov 2026 12:08:19 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVSkz-00000003GlU-2DVo
+	id 1xVSqC-00000003HbH-3y3G
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Nov 2026 12:02:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1795435365; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=DWu8RTq4M1mT4SAcEK2jsmnlCAu63IAngi1ivrZyiJ0=;
-	b=YXH4IGKhc0WzrngSYu/1GkYdCYyc1l6d9t8ER8zpnZZwb4ADZwXK4+WuQVo5+nb6M1vemUkZMODYGgqtGJ+lDvlaJuDIPiYmzQNpIaJCX1sH/xcHNFzH3aSxDgWC6lcF7pu9f8LYV7ZFgAS2UiFL8Y4hPH6IqtjhbPavrsPI1Lg=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XFIfL2x_1795435364;
-Received: from 30.178.68.101(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XFIfL2x_1795435364 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 23 Nov 2026 20:02:44 +0800
-Message-ID: <2ba54f54-d04a-4c59-9b24-19653debbd6f@linux.alibaba.com>
-Date: Mon, 23 Nov 2026 20:02:43 +0800
+	Mon, 23 Nov 2026 12:08:18 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20261123120805epoutp0153388e408dee33ec4953818e48ba58cf~qqz5GfoOO1300313003epoutp01V
+	for <linux-nvme@lists.infradead.org>; Mon, 23 Nov 2026 12:08:05 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20261123120805epoutp0153388e408dee33ec4953818e48ba58cf~qqz5GfoOO1300313003epoutp01V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1795435685;
+	bh=akrhacg0cFqsWcufz/98MzPSnTNhvwT4AO9anWTNIAA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XV/b7lphJyyKfcaX/THzVnSHnMj4tx+l95LECMiyorjl7jEYL0pdofA4bdueEyqxI
+	 p53/N/1UBqAtBBAYDsHa4t8Im4exzQBF+Lq+BvbMqlD/aYwa0N4fyW/BZM8kAPmnr2
+	 7cEa7yfqgOcEO6YY/LaXP7DIOlTWYDRnVQLFPJJA=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+	20261123120804epcas5p3788cac14b0f09cb98132ffe169443142~qqz4pzvFC0180301803epcas5p3W;
+	Mon, 23 Nov 2026 12:08:04 +0000 (GMT)
+Received: from epcas5p3.samsung.com (unknown [182.195.38.94]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4jY4TH6rdNz6B9m9; Mon, 23 Nov
+	2026 12:08:03 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20261123111745epcas5p17516b453f15308229dde84316befc59f~qqH8P0YiZ0439404394epcas5p11;
+	Mon, 23 Nov 2026 11:17:45 +0000 (GMT)
+Received: from green245.gost (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20261123111743epsmtip1a4e1c759b0126a595d8444f1f5a558a2~qqH6w5V0s0525305253epsmtip1R;
+	Mon, 23 Nov 2026 11:17:43 +0000 (GMT)
+Date: Mon, 23 Nov 2026 16:46:55 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Anuj Gupta <anuj20.g@samsung.com>, kbusch@kernel.org, axboe@kernel.dk,
+	sagi@grimberg.me, jgg@ziepe.ca, leon@kernel.org, asml.silence@gmail.com,
+	joshi.k@samsung.com, anuj1072538@gmail.com, linux-nvme@lists.infradead.org,
+	linux-rdma@vger.kernel.org
+Subject: Re: [RFC 4/4] nvme-rdma: support dma-buf backed requests
+Message-ID: <20261123111040.7b2q7fe2xd6k6777@green245.gost>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] nvme-auth: fix data race on ctrl->transaction
-To: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Nilay Shroff <nilay@linux.ibm.com>, Daniel Wagner <dwagner@suse.de>
-References: <20261116081211.1757155-1-kanie@linux.alibaba.com>
- <20261116081211.1757155-3-kanie@linux.alibaba.com>
- <6dc083eb-7286-418b-92fe-f7245f653ba0@suse.de>
- <e048eab7-b8b9-4782-8f91-e79309d8be12@linux.alibaba.com>
- <cccc262a-a35f-4c6b-96df-c55fe7815818@suse.de>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <cccc262a-a35f-4c6b-96df-c55fe7815818@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261121003730.GB14598@lst.de>
+X-CMS-MailID: 20261123111745epcas5p17516b453f15308229dde84316befc59f
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----vhhXPwE56qUOnQTJq0qPMy__lLDvQDDlUWfIrVOyiFlHsdqU=_68caa_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261118103457epcas5p17770752b910960b84cc259d007120965
+References: <20261118103327.1788667-1-anuj20.g@samsung.com>
+	<CGME20261118103457epcas5p17770752b910960b84cc259d007120965@epcas5p1.samsung.com>
+	<20261118103327.1788667-5-anuj20.g@samsung.com>
+	<20261121003730.GB14598@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261123_040250_137188_3F483385 
-X-CRM114-Status: GOOD (  15.60  )
-X-Spam-Score: -17.6 (-----------------)
+X-CRM114-CacheID: sfid-20261123_040814_247813_5F0E8CFE 
+X-CRM114-Status: GOOD (  12.58  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,81 +94,35 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-14.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=4.0.1
+	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
+------vhhXPwE56qUOnQTJq0qPMy__lLDvQDDlUWfIrVOyiFlHsdqU=_68caa_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-
-在 2026/11/17 15:31, Hannes Reinecke 写道:
-> On 11/17/26 3:16 AM, Guixin Liu wrote:
->>
->>
->> 在 2026/11/16 21:22, Hannes Reinecke 写道:
->>> On 11/16/26 9:12 AM, Guixin Liu wrote:
->>>> nvme_ctrl_auth_work() queues the DH-HMAC-CHAP exchange of every queue
->>>> on nvme-auth-wq without waiting for them, so multiple
->>>> nvme_queue_auth_work() instances run concurrently and all increment
->>>> ctrl->transaction in nvme_queue_auth_work(). The plain increment is a
->>>> data race, and the lost updates hand the same transaction id to
->>>> concurrent queues.
->>>>
->>>> The counter does not need to be shared at all: the controller only
->>>> echoes the transaction id within a queue, so a per-queue counter is
->>>> sufficient. Increment chap->transaction instead, drop the reset in
->>>> nvme_auth_reset_dhchap() so the id stays monotonic across
->>>> re-authentication, and remove the now unused ctrl->transaction field.
->>>>
->>> I disagree. The authentication transaction ID identifies the
->>> transaction itself, and is used to differentiate between different
->>> transactions. As such it needs to be unique within each queue.
->>> But as it carries controller-specific data we should also ensure
->>> the ID is unique per controller, ensuring we catch any possible
->>> misdirected authentication packet.
->> A misdirected packet is caught regardless of the transaction id.
->> Each queue's exchange carries its own random challenge:
->> nvmet_auth_challenge() fills req->sq->dhcahp_c1 with get_random_bytes()
->> per exchange, and the response digest covers that challenge.
->> A response computed for queue A fails the digest check on queue B even
->> when the transaction id and the step happen to match, because the
->> expected digest is different.
->>
->> So controller-level uniqueness would only detect a case the crypto
->> layer already rejects, while within a queue the id is unique either
->> way.
->>
-> True, but that's valid only for challenge and response.
-> Success (and, more importantly, Failure) are not protected
-> in a similar manner. So spoofing any of these will be quite
-> easy if we only have per-queue transaction ids.
+On 21/11/26 01:37AM, Christoph Hellwig wrote:
+>How does this work with rxe/siw or non-PCIe based HCAs?
 >
-> But as mentioned in my response to Keith: these are
-> primarily security concerns, and really are just stop-gap
-> measures to cover the most obvious issues.
-> In the end it's still a number and as such
-> not _that_ hard to guess.
-> So if the consensus is that the protocol provisions
-> are good enough it's fine with me.
-Hi Hannes,
-  Fair point. The digest only protects the challenge and response;
-Success and Failure have no such protection, and the cross-queue
-distinguishability costs nothing.
+rxe/swi do not provide a DMA device, so registration fails with
+-EOPNOTSUPP (patch 3).
 
-Hi Keith,
-  Could you take this patch's v2 version instead, with the fixes
-tag from v3 added (Fixes: f50fff73d620 ("nvme: implement In-Band authentication"))?
+For hardware HCAs, the dma-buf is attached to the DMA device of the
+ib_device. Nothing in the mapping path is PCI specific, and if P2P is
+not possible for non-PCI device, we expect the exporter's
+pci_p2pdma_distance() check to take care of it. We do not have access to
+non-PCI HCA setup, so that path is untested.
 
-v2: https://lore.kernel.org/all/20261109022646.290792-4-kanie@linux.alibaba.com/
+Thanks,
+Nitesh
 
-Best Regards,
-Guixin Liu
->
-> Cheers,
->
-> Hannes
+------vhhXPwE56qUOnQTJq0qPMy__lLDvQDDlUWfIrVOyiFlHsdqU=_68caa_
+Content-Type: text/plain; charset="utf-8"
 
+
+------vhhXPwE56qUOnQTJq0qPMy__lLDvQDDlUWfIrVOyiFlHsdqU=_68caa_--
 
