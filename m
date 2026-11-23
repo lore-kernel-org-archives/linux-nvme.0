@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D479A606A327
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 17:33:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11015606A333
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 17:33:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ip4SRums;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bdik7rPB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=jlYrqasF;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RJDhOIIw
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,47 +14,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=ftJF8s8/PKSYLo2Ov5PSFlBeZaQ8sDR4vfDU94oNg1o=; b=Ip4SRumsXg3SE4Oz+OQ3IL2kkC
-	mHi53pUKEALYzwdQnqGe8aoSWyFZfTYV/YDgH06YRgQ6+NyGxA/l0MkUpWmv3Tw5FDTS6AWtROATi
-	sfkYvROiUudzYVYO4A7v4+y2NE/37JYYAl8oz8LIHhfQnA9IOEiT4XOTyROdjYwIIiLZ1UncSMAFf
-	NYsshYl6dJJ1aA+CvLDdj/jLxR15CSIZhu0upTpav+UvC2bypcWEvL4qR5RvBVilof64Tc1KLnUXL
-	dh8NCWCOtdD4RD/ZJIam+ON4wtLCpjTCuRuQJz6Bi9Ux4Ec93x/w+mBMHzHS78+xYEHznX4kiXZ13
-	06LNrwvw==;
+	bh=MINZ9cxyybLTXhDc3p4zukM7MQc3QBKqAdhTnoECCYo=; b=jlYrqasF0lmIuHKWQJO0+yz6vq
+	YmbKf3bkS/Q2eGEarf+0/DoIde7xuGs6OXjaYsIN68aShYhwHkakSPBYhp0LORGqm2Lg8Pvru6w20
+	mmUFhy53rCf8FoBcPRvknl74H+JHrU5oCk/TZo4jKBc5zLigd8lqFOWSXcHqkrE/kswimYr2dQu/U
+	ULd9uIx+YJstA18jb0IZaJhYKnigIOtbC+JsV+XI2gEa4oFKYRPkYYALXWerD/ivWmtfguxldoLpq
+	abgJLUHIY2Wv2hOm07IoQ4YBu0CKcIoPU+ieyaYKpFXFjelaU7qPyuGf0+DdeAo1vhn1uAU31E6w8
+	0h/tjm7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVXuh-00000004NIo-0m1B;
-	Mon, 23 Nov 2026 17:33:11 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xVXur-00000004NNp-2CBS;
+	Mon, 23 Nov 2026 17:33:21 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVXuX-00000004NHf-3BeN
+	id 1xVXuk-00000004NLB-2FB2
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Nov 2026 17:33:01 +0000
+	Mon, 23 Nov 2026 17:33:19 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id D0BA860616
-	for <linux-nvme@lists.infradead.org>; Mon, 23 Nov 2026 17:33:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49E091F000D3;
-	Mon, 23 Nov 2026 17:33:00 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 4A8D74018E
+	for <linux-nvme@lists.infradead.org>; Mon, 23 Nov 2026 17:33:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EA2C1F000CF;
+	Mon, 23 Nov 2026 17:33:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795455180;
-	bh=ftJF8s8/PKSYLo2Ov5PSFlBeZaQ8sDR4vfDU94oNg1o=;
+	s=k20260515; t=1795455193;
+	bh=MINZ9cxyybLTXhDc3p4zukM7MQc3QBKqAdhTnoECCYo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bdik7rPBLkngQPm+PyVEITGc9LiihyI2hZJT1nElMuWjhU42iwJ7KrlsFzlpEJadp
-	 onB8QdxbXoMty17P+d95S8G6Dmjm4kiwVvmLmGkjq4E9TTp9MIdEg2Oo/lu3KmXnZt
-	 wYo/XTzWCFBrT7BBDPG0IwCl4eM/xqSAL85rS1kDK6+8JJSjEQ98t0Oa0CdV5UYHV1
-	 44AX394ffCZkZbpsPMY5OrbWYHc69d4GjXlhGAzDQBlbtX/H4uld/oFgEXCIlDqIdF
-	 CiJEFcrQ7Goseh8ufTPKBCF7pBnnHx8HoDF34zV0PZDRXljghIgSVb85fzrV2jhJJZ
-	 QMR7nEkhWEkgQ==
-Message-ID: <sashiko-outbox-229762@kernel.org>
+	b=RJDhOIIwu+UsZWCEqDoaadzKPNJdUuGZ32ExhSgYDvzXAhvP7DHE7NaC2P0aPzWlC
+	 dGsokRCTCvG3vaB6uUOgSZmJ+8D6EQDq3rcPktURobSyWeTvSMpsD2X0Simrio0R4U
+	 cNXwGeULLlBLYG4UA3oOJFYfuke1FOr7x0iMqpcf/DulNhF+qbpxy8J8Vam28Bx8g4
+	 voxDKidcDRYfavMr9mjHsajgyIIaf+fUb8Yh7xVKHs8WBlrKIUdMPv66kjNSFlOUAY
+	 QAe5uqXhQbabOju22b9/XlSMvi9Q/cDPOSfpfAD6QccJMp8AsWDlqyMyDaBwMQr9RM
+	 P6xV2N5Tej5yQ==
+Message-ID: <sashiko-outbox-229765@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 3/9] nvme-auth: switch to use 'struct key'
+Subject: Re: [PATCH v6 9/9] nvmet: add configfs attribute 'dhchap_keyring'
 To: "Hannes Reinecke" <hare@kernel.org>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261123-dhchap-keyring-v4-v6-3-5082a49715ab@kernel.org>
+In-Reply-To: <20261123-dhchap-keyring-v4-v6-9-5082a49715ab@kernel.org>
 References: <20261123-dhchap-keyring-v4-v6-0-5082a49715ab@kernel.org>
- <20261123-dhchap-keyring-v4-v6-3-5082a49715ab@kernel.org>
+ <20261123-dhchap-keyring-v4-v6-9-5082a49715ab@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 23 Nov 2026 17:32:59 +0000
+Date: Mon, 23 Nov 2026 17:33:13 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,62 +76,89 @@ X-Archived-By: <archiver.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] nvme-auth: memory leak of transformed_data in
-  nvme_auth_transform_key()
+- [Medium] nvmet: writing .nvme to nvmet_host_dhchap_keyring_store()
+  fails with -ENOKEY
 --
 
-commit 4697c9583f14fbc14890cc4dbfaed8c9987d382a
+commit 11d3b355e4b75a4b62f576abb3e457739f6b882d
 Author: Hannes Reinecke <hare@kernel.org>
 
-nvme-auth: switch to use 'struct key'
+nvmet: add configfs attribute 'dhchap_keyring'
 
-This commit switches NVMe DH-HMAC-CHAP key storage and handling from
-struct nvme_dhchap_key to struct key using the dhchap key type.
+This commit adds a dhchap_keyring configfs attribute to the nvmet host
+directory so userspace can configure the keyring used for DH-HMAC-CHAP key
+lookups.
 
-> diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-> index 308af3d7c7383..158c9cb886c15 100644
-> --- a/drivers/nvme/common/auth.c
-> +++ b/drivers/nvme/common/auth.c
-[ ... ]
-> @@ -317,11 +261,13 @@ static int nvme_auth_hash(u8 hmac_id, const u8 *dat=
-a, size_t data_len, u8 *out)
->  	return -EINVAL;
->  }
+> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configf=
+s.c
+> index e19af764561ec..179f6bef77372 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -2350,6 +2350,64 @@ static ssize_t nvmet_host_dhchap_ctrl_key_store(st=
+ruct config_item *item,
 > =20
-> -int nvme_auth_transform_key(const struct nvme_dhchap_key *key, const cha=
-r *nqn,
-> +int nvme_auth_transform_key(struct key *key, const char *nqn,
->  			    u8 **transformed_secret)
->  {
-[ ... ]
-> +	transformed_len =3D nvme_auth_hmac_hash_len(key_hash);
-> +	transformed_data =3D kzalloc(transformed_len, GFP_KERNEL);
-> +	if (!transformed_data) {
-> +		ret =3D -ENOMEM;
-> +		goto out_free_data;
-> +	}
+>  CONFIGFS_ATTR(nvmet_host_, dhchap_ctrl_key);
+> =20
+> +static ssize_t nvmet_host_dhchap_keyring_show(struct config_item *item,
+> +		char *page)
+> +{
+> +	struct nvmet_host *host =3D to_host(item);
+> +	struct key *keyring;
+> +	ssize_t ret;
 > +
-> +	ret =3D nvme_auth_hmac_init(&hmac, key_hash, key_data, key_len);
-> +	if (ret)
-> +		goto out_free_data;
->  	nvme_auth_hmac_update(&hmac, nqn, strlen(nqn));
->  	nvme_auth_hmac_update(&hmac, "NVMe-over-Fabrics", 17);
-> -	nvme_auth_hmac_final(&hmac, key_data);
-> -	*transformed_secret =3D key_data;
-> -	return transformed_len;
-> +	nvme_auth_hmac_final(&hmac, transformed_data);
-> +	*transformed_secret =3D transformed_data;
-> +	ret =3D transformed_len;
-> +out_free_data:
-> +	kfree_sensitive(key_data);
+> +	down_read(&nvmet_config_sem);
+> +	keyring =3D key_get(host->dhchap_keyring);
+> +	if (!keyring) {
+> +		page[0] =3D '\0';
+> +		ret =3D 0;
+> +	} else {
+> +		down_read(&keyring->sem);
+> +		if (key_validate(keyring))
+> +			ret =3D sprintf(page, "<invalidated>\n");
+> +		else
+> +			ret =3D scnprintf(page, PAGE_SIZE,
+> +					"%s\n", keyring->description);
+> +		up_read(&keyring->sem);
+> +		key_put(keyring);
+> +	}
+> +	up_read(&nvmet_config_sem);
 > +	return ret;
->  }
+> +}
+> +
+> +static ssize_t nvmet_host_dhchap_keyring_store(struct config_item *item,
+> +		const char *page, size_t count)
+> +{
+> +	struct nvmet_host *host =3D to_host(item);
+> +	struct key *keyring;
+> +	char *desc =3D NULL;
+> +	size_t len;
+> +	int ret =3D 0;
+> +
+> +	len =3D strcspn(page, "\n");
+> +	if (len) {
+> +		desc =3D kstrndup(page, len, GFP_KERNEL);
+> +		if (!desc)
+> +			return -ENOMEM;
+> +		keyring =3D request_key(&key_type_keyring, desc, NULL);
+> +	} else
+> +		keyring =3D key_lookup(nvme_keyring_id());
 
 [Severity: Medium]
-Does this leak transformed_data when nvme_auth_hmac_init() fails and jumps
-to out_free_data?
+Does writing ".nvme" to dhchap_keyring fail with -ENOKEY?
+
+nvmet_hosts_make_group() initializes host->dhchap_keyring via
+key_lookup(nvme_keyring_id()), so nvmet_host_dhchap_keyring_show() outputs
+".nvme" by default (making the !keyring branch in show unreachable).
+However, nvme_keyring_init() allocates the ".nvme" keyring with dest set to
+NULL, so it is not linked into the calling task's process keyrings.
+
+When a tool such as nvmetcli saves and restores the configuration by
+writing ".nvme" back to dhchap_keyring, len is non-zero and
+nvmet_host_dhchap_keyring_store() calls request_key(), which searches only
+the process keyrings and fails with -ENOKEY unless ".nvme" was manually
+linked into them.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123-dhchap-key=
-ring-v4-v6-0-5082a49715ab@kernel.org?part=3D3
+ring-v4-v6-0-5082a49715ab@kernel.org?part=3D9
 
