@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CD7606A321
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 12:35:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17FF606A6AC
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 12:36:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ZgXUmU3Y;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B/Z+YQF4
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2uQRDWQ5;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nouw4Fjy
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,47 +14,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=vJU0sEF+Sf67UUUq40QTrQSCmA2w1D+e29uVMjMQoaw=; b=ZgXUmU3YPqUVdlNVl+Rd1x6dxJ
-	s2ZfWitx4hcp7G6TleVNl4TMsY5bHbTeDnIsng5QjrWdgYinYRE8Cl+J0NKF2abZYPOrbiLJbtg8U
-	tCdo3GYqkDJ5wK2c3OtEii3ii5uypSkkFJvWi8k6DCa06FLIVdmdUnB9e7W2vj91Z+GXYPgK1WBtS
-	BqW/MBWvZR2UaCyvZw65iMQG0AemWnXt10glfrdtKUMr1EQeLkOENxhpoZ5mBdSFcKNkZQHH/WYxT
-	KXknZIsOMBguVFgxMIfQwAFXlmwdQdOwqLbE9FnR7QaUztuXbc5U+65ElyuAzT8M3N6H6dTM3OZVb
-	qMqsSpvg==;
+	bh=2A9R6q0uPN262b37a+QcoEy5Z/bD/HTojx3xGQdZc3g=; b=2uQRDWQ5wcCpat4bwGb9PdrVI0
+	rQ3c5ALAxPR5gWP4j08fzBrcBksAqLNQATPxLcL9qMKWb8TzhxypvNguRVyUezXgoLNDOg2K3roch
+	Wzf/WkGQavxpkRjOA7mBpyVZ6xGRybewdEqjNtvzl6Ktrp5MrweKA+kpMWIpvwui+6ygTKFAwSsDC
+	J9t5aDhLJgcw8DHuo4RzjWiYWIQVtXsTtYsJTaQwa4MwpKMEOxYievcpYuWoujCVfTBYrN4f8mb4Y
+	53kPfJ66d9Eb0J3ymMetbTZME3SBcL6bH2jULo4KQZk0EJgvpoBDTMV8FxnZESL5vO9B98frIaHIE
+	WA2NAgTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVTGd-00000003Nr9-40oJ;
-	Mon, 23 Nov 2026 12:35:31 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xVTHf-00000003OIy-196x;
+	Mon, 23 Nov 2026 12:36:35 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVTGa-00000003NpG-3NS7
+	id 1xVTHb-00000003OGp-0hMV
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Nov 2026 12:35:28 +0000
+	Mon, 23 Nov 2026 12:36:33 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 8FF1C40C41
-	for <linux-nvme@lists.infradead.org>; Mon, 23 Nov 2026 12:35:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DE891F000C0;
-	Mon, 23 Nov 2026 12:35:28 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 8E94562100
+	for <linux-nvme@lists.infradead.org>; Mon, 23 Nov 2026 12:36:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2F301F000ED;
+	Mon, 23 Nov 2026 12:36:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795437328;
-	bh=vJU0sEF+Sf67UUUq40QTrQSCmA2w1D+e29uVMjMQoaw=;
+	s=k20260515; t=1795437389;
+	bh=2A9R6q0uPN262b37a+QcoEy5Z/bD/HTojx3xGQdZc3g=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=B/Z+YQF4kb4pKE6TyC+Jc1XsDvCKAjxI7pTxA+H12FK16ezwmNQLecil9ZYdkw40S
-	 ulrXjBXAhMOnIeqmu/rHDytSdeZDzdCilnd4CIJDGr4nk6IA7u78TUyFjKNVlLbwZ7
-	 uP3gWXk9Zcyld1kclqlkMNnMLfyQJOT5jbchG0p1tTtblwIcf4RGao7waSVpuYZzkm
-	 6Y3uj/WkhxQMckCJOuAT31i9Y31KU0prMSv/bmwBdJScaB5fHQDVdycCPqdScMmGlD
-	 lb10GjelzlmczUxOqLpluopC5/JmIojOW7GI20EW2hg1rzGQiKhexmnChYsHYl9MVu
-	 616MdV3zEqnOw==
-Message-ID: <sashiko-outbox-229229@kernel.org>
+	b=nouw4FjyHnN2Z6fS40yP4YtQklcdB92pLPqVMptZCxMUCRKmxdUz+ZWU7zER6PEwp
+	 JIPN50uXxO6oBSDElsS+b/jCE+8YbZQwGxHSm50rF8H+q3R7RnBh/oHNXM44UweJSN
+	 5j9p/XovM3IXSC1FQ8EULtN4d1ysnNqMmeGlvuakemUKswZ9o0YitKCCkDJgS1PoBg
+	 9n7vmJk1H3cIIqQJnhYkX+6NWNjD2F2Xi/+xIWHpWPYZz7sHPcO+Olm3nBcECOxz0D
+	 B2xtXoyz1TZUBFLTxN2ku+0oipBrkQO5VqLaE+pNERbXBb5PuglvINqODrBzxChRLh
+	 /lTlKixcXr20A==
+Message-ID: <sashiko-outbox-229231@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 3/9] nvme-auth: switch to use 'struct key'
+Subject: Re: [PATCH v5 6/9] nvme: allow to pass in key description as dhchap
+ secret
 To: "Hannes Reinecke" <hare@kernel.org>
 Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <20261123-dhchap-keyring-v4-v5-3-81eefb4c0724@kernel.org>
+In-Reply-To: <20261123-dhchap-keyring-v4-v5-6-81eefb4c0724@kernel.org>
 References: <20261123-dhchap-keyring-v4-v5-0-81eefb4c0724@kernel.org>
- <20261123-dhchap-keyring-v4-v5-3-81eefb4c0724@kernel.org>
+ <20261123-dhchap-keyring-v4-v5-6-81eefb4c0724@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 23 Nov 2026 12:35:28 +0000
+Date: Mon, 23 Nov 2026 12:36:29 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,297 +75,409 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 X-Archived-By: <archiver.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 3 potential
+Thank you for your contribution! Sashiko AI review found 10 potential
 issues to consider:
-- [High] nvme-keyring: build failure in !CONFIG_NVME_KEYRING header
-  stubs
-- [High] nvme-auth: broken offset, payload leak, and -ENOKEY in key
-  extraction
-- [Low] nvme-auth: missing memzero_explicit() on error in
-  nvme_auth_transform_key()
+- [High] nvmet-auth: NULL pointer dereference in nvmet_auth_set_key()
+  when clearing key
+- [High] nvme-keyring: broken !CONFIG_NVME_KEYRING stubs in
+  include/linux/nvme-keyring.h
+- [Medium] nvme: broken key visibility check in
+  nvme_dev_attrs_are_visible()
+- [Medium] nvme-auth: self-revocation when updating key with active key
+  description
+- [Medium] nvmet: off-by-one PAGE_SIZE overflow via sprintf() in dhchap
+  key configfs show
+- [Medium] nvme-auth: unnecessary synchronize_rcu() stalls after
+  key_revoke() under locks
+- [Low] nvme-auth: mismatched key serial docs and prototype in
+  nvme_auth_extract_key()
+- [Low] nvme-auth: key_serial() logged before key assignment in
+  nvme_auth_init_ctrl()
+- [Low] nvme-sysfs: missing trailing newline on invalidated in
+  dhchap_ctrl_secret_show()
+- [Low] nvme-auth: nvme_auth_init_ctrl() logs key_serial() before
+  assigning ctrl keys
 --
 
-commit 784e3a15ff15feda9e4de8c374a9d16d4c147b86
+commit 4ce0c96fc574d457ee6098926055522bf6b8f799
 Author: Hannes Reinecke <hare@kernel.org>
 
-nvme-auth: switch to use 'struct key'
+nvme: allow to pass in key description as dhchap secret
 
-This commit switches NVMe in-band authentication to store DH-HMAC-CHAP keys
-in struct key using the dhchap key type and removes struct nvme_dhchap_key.
+This commit updates nvme_auth_extract_key() to look up a pre-populated
+DH-HMAC-CHAP key in the keyring before falling back to generating a key
+from raw secret data, and tracks whether the key was auto-generated so
+only generated keys are revoked on teardown.
 
 > diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-> index 308af3d7c7383..ee26fb416ee62 100644
+> index ee26fb416ee62..abdad41daa8fb 100644
 > --- a/drivers/nvme/common/auth.c
 > +++ b/drivers/nvme/common/auth.c
-[ ... ]
-> @@ -317,11 +261,13 @@ static int nvme_auth_hash(u8 hmac_id, const u8 *dat=
-a, size_t data_len, u8 *out)
->  	return -EINVAL;
->  }
-> =20
-> -int nvme_auth_transform_key(const struct nvme_dhchap_key *key, const cha=
-r *nqn,
-> +int nvme_auth_transform_key(struct key *key, const char *nqn,
->  			    u8 **transformed_secret)
+> @@ -144,20 +144,32 @@ EXPORT_SYMBOL_GPL(nvme_auth_hmac_hash_len);
+>   * nvme_auth_extract_key - extract the DH-HMAC-CHAP key
+>   *
+>   * @keyring: keyring to be used for the resulting key
+> - * @secret: key data
+> - * @secret_len: length of @secret
+> + * @input: key serial or key data
+> + * @input_len: length of @input
+> + * @generated: indicate whether a key has been generated
+>   *
+> - * Extracts a dhchap key from @secret.
+> + * Extracts or generates a key from @input.
+> + * @input can either be a key serial or raw key data; in
+> + * the latter case a key is generated from @input and
+> + * @generated is set to 'true'.
+>   *
+>   * Returns the dhchap key or an error pointer on failure.
+>   */
+> -struct key *nvme_auth_extract_key(struct key *keyring, const char *secre=
+t,
+> -				  size_t secret_len)
+> +struct key *nvme_auth_extract_key(struct key *keyring, const char *input,
+> +				  size_t input_len, bool *generated)
 >  {
->  	struct nvme_auth_hmac_ctx hmac;
-> -	u8 *key_data;
-> +	long key_len =3D 0;
-> +	u8 *transformed_data;
-> +	u8 *key_data, key_hash;
->  	size_t transformed_len;
->  	int ret;
+>  	struct key *key;
 > =20
-> @@ -329,28 +275,64 @@ int nvme_auth_transform_key(const struct nvme_dhcha=
-p_key *key, const char *nqn,
->  		pr_warn("No key specified\n");
->  		return -ENOKEY;
->  	}
-> -	if (key->hash =3D=3D 0) {
-> -		key_data =3D kzalloc(key->len, GFP_KERNEL);
-> -		if (!key_data)
-> -			return -ENOMEM;
-> -		memcpy(key_data, key->key, key->len);
-> -		*transformed_secret =3D key_data;
-> -		return key->len;
-> -	}
-> -	ret =3D nvme_auth_hmac_init(&hmac, key->hash, key->key, key->len);
-> -	if (ret)
-> +	down_read(&key->sem);
-> +	ret =3D key_validate(key);
-> +	if (ret) {
-> +		pr_warn("%s: key %08x invalidated\n",
-> +			__func__, key_serial(key));
-> +		up_read(&key->sem);
->  		return ret;
-> -	transformed_len =3D nvme_auth_hmac_hash_len(key->hash);
-> -	key_data =3D kzalloc(transformed_len, GFP_KERNEL);
-> +	}
-> +	key_len =3D user_read(key, NULL, 0);
-> +	if (key_len <=3D 0) {
-> +		pr_warn("failed to get length from key %08x: error %ld\n",
-> +			key_serial(key), key_len);
-> +		up_read(&key->sem);
-> +		return key_len < 0 ? key_len : -ENOKEY;
-> +	}
-> +
-> +	key_data =3D kzalloc(key_len, GFP_KERNEL);
->  	if (!key_data) {
-> -		memzero_explicit(&hmac, sizeof(hmac));
-> +		up_read(&key->sem);
->  		return -ENOMEM;
->  	}
-> +	ret =3D user_read(key, (char *)key_data, key_len);
-> +	key_hash =3D nvme_dhchap_psk_hash(key);
-> +	up_read(&key->sem);
-> +	if (ret !=3D key_len) {
-> +		if (ret < 0) {
-> +			pr_warn("failed to read from key %08x: error %d\n",
-> +				key_serial(key), ret);
-> +		} else {
-> +			pr_warn("only read %d of %ld bytes from key %08x\n",
-> +				ret, key_len, key_serial(key));
-> +			ret =3D -ENOKEY;
-> +		}
-> +		goto out_free_data;
-> +	}
-> +	if (key_hash =3D=3D 0) {
-> +		*transformed_secret =3D key_data;
-> +		return key_len;
-> +	}
-> +
-> +	ret =3D nvme_auth_hmac_init(&hmac, key_hash, key_data, key_len);
-> +	if (ret)
-> +		goto out_free_data;
-> +	transformed_len =3D nvme_auth_hmac_hash_len(key_hash);
-> +	transformed_data =3D kzalloc(transformed_len, GFP_KERNEL);
-> +	if (!transformed_data) {
-> +		ret =3D -ENOMEM;
-> +		goto out_free_data;
-> +	}
+> -	key =3D nvme_dhchap_psk_create(keyring, secret, secret_len);
+> +	/* Check if @input is a key serial number */
+> +	key =3D nvme_dhchap_psk_lookup(keyring, input);
 
 [Severity: Low]
-Does the !transformed_data error path leave key-derived state in hmac on
-the stack?  Before this patch, failing to allocate the output buffer after
-nvme_auth_hmac_init() called memzero_explicit(&hmac, sizeof(hmac)) because
-nvme_auth_hmac_final() is not reached to zeroize the context.
+This isn't a bug, but the commit message body, kernel-doc and inline
+comment refer to @input as a key serial number, whereas
+nvme_dhchap_psk_lookup() searches the keyring by key description
+(key->description).
 
-> diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
-> index d0c36d153afdb..08e2a8e39faac 100644
-> --- a/drivers/nvme/common/keyring.c
-> +++ b/drivers/nvme/common/keyring.c
-> @@ -481,6 +481,104 @@ static struct key_type nvme_dhchap_psk_key_type =3D=
- {
->  	.read           =3D nvme_dhchap_psk_read,
->  };
-> =20
-> +/**
-> + * nvme_dhchap_psk_create - Create DH-HMAC-CHAP key
-> + * @keyring: keyring for the new key or NULL for the default keyring
-> + * @data: Key data
-> + * @data_len: Length of @data
-> + *
-> + * Creates a new DH-HMAC-CHAP key with a random UUID as the key identity.
-> + * Returns the new key or an error pointer on failure.
-> + */
-> +struct key *nvme_dhchap_psk_create(struct key *keyring,
-> +		const char *data, size_t data_len)
-> +{
-> +	key_perm_t keyperm =3D
-> +		KEY_POS_SEARCH | KEY_POS_VIEW | KEY_POS_READ |
-> +		KEY_POS_WRITE | KEY_POS_LINK | KEY_POS_SETATTR |
-> +		KEY_USR_SEARCH | KEY_USR_VIEW | KEY_USR_READ;
-> +	char *identity;
-> +	key_ref_t keyref;
-> +	key_serial_t keyring_id;
-> +	struct key *key;
-> +	uuid_t key_uuid;
-> +
-> +	if (data =3D=3D NULL || !data_len)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	generate_random_uuid(key_uuid.b);
-> +	identity =3D kasprintf(GFP_KERNEL, "%pU", &key_uuid);
-> +	if (!identity)
-> +		return ERR_PTR(-ENOMEM);
-> +	if (!keyring)
-> +		keyring =3D nvme_keyring;
-> +	keyring_id =3D key_serial(keyring);
-> +
-> +	pr_debug("keyring %x generate dhchap psk '%s'\n",
-> +		 keyring_id, identity);
-> +	keyref =3D key_create(make_key_ref(keyring, true),
-> +			    "dhchap", identity, data, data_len,
-> +			    keyperm, KEY_ALLOC_NOT_IN_QUOTA |
-> +			    KEY_ALLOC_BUILT_IN |
-> +			    KEY_ALLOC_BYPASS_RESTRICTION);
-> +	if (IS_ERR(keyref)) {
-> +		pr_warn("refresh dhchap psk '%s' failed, error %ld\n",
-> +			identity, PTR_ERR(keyref));
-> +		kfree(identity);
-> +		return ERR_PTR(-ENOKEY);
-> +	}
+> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+> index 535cc433dd35d..98913eaeb6d68 100644
+> --- a/drivers/nvme/host/auth.c
+> +++ b/drivers/nvme/host/auth.c
+[ ... ]
+> @@ -1109,6 +1122,7 @@ int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
+>  	if (ctrl->host_key)
+>  		nvme_auth_clear_host_key(ctrl);
+>  	ctrl->host_key =3D host_key;
+> +	ctrl->host_key_generated =3D host_key_generated;
 
-[Severity: High]
-Routing nvme_auth_extract_key() through nvme_dhchap_psk_create() and
-nvme_dhchap_psk_preparse() introduces several regressions when parsing or
-rejecting DH-HMAC-CHAP secrets:
+[Severity: Low]
+Just above this in nvme_auth_init_ctrl(), dev_dbg() logs
+key_serial(ctrl->host_key) before ctrl->host_key =3D host_key is assigned:
 
-drivers/nvme/common/keyring.c:nvme_dhchap_psk_preparse() {
+drivers/nvme/host/auth.c:nvme_auth_init_ctrl() {
 	...
-	if (sscanf(prep->data, "DHHC-%01hhu:%02hhu:%n",
-		   &version, &hmac, &offset) !=3D 2 || !offset) {
-	...
-	/* skip header and final ':' character */
-	datalen =3D strlen(prep->data + offset);
-	p =3D strrchr(prep->data + offset, ':');
-	if (p)
-		datalen--;
-	...
-	prep->payload.data[0] =3D upayload;
-	ret =3D base64_decode(prep->data + 10, datalen, upayload->data,
-			    true, BASE64_STD);
-	if (ret < 0) {
-		pr_debug("%s: Failed to decode key %s\n",
-			 __func__, (char *)prep->data + 10);
-		prep->payload.data[0] =3D NULL;
-		return ret;
-	}
-	if (ret !=3D 36 && ret !=3D 52 && ret !=3D 68) {
-		pr_debug("%s: invalid decoded key size '%d'\n",
-			 __func__, ret);
-		prep->payload.data[0] =3D NULL;
-		return -EINVAL;
-	}
-	ret -=3D 4;
-	crc =3D ~crc32(~0, upayload->data, ret);
-	if (get_unaligned_le32(upayload->data + ret) !=3D crc) {
-		pr_debug("%s: CRC mismatch for key\n", __func__);
-		/* CRC mismatch */
-		prep->payload.data[0] =3D NULL;
-		return -EKEYREJECTED;
-	}
+	dev_dbg(ctrl->device,
+		"%s: using dhchap host key %08x\n",
+		__func__, key_serial(ctrl->host_key));
+	if (ctrl->host_key)
+		nvme_auth_clear_host_key(ctrl);
+	ctrl->host_key =3D host_key;
 	...
 }
 
-Does base64_decode() fail on secrets with a single-digit hash ID (such as
-"DHHC-1:0:...") and leak upayload on error?
+Should that log key_serial(host_key) instead so it does not print 00000000
+(or the previous key's serial on reset)?
 
-With a 1-digit hash ID, offset is 9, so hardcoding prep->data + 10 skips
-the first base64 character and reads one byte past the end of the payload.
-When base64_decode(), the decoded length check, or the CRC check fails,
-setting prep->payload.data[0] =3D NULL before returning prevents
-user_free_preparse() from freeing upayload, leaking it on every rejected
-key.
+>  	if (ctrl->ctrl_key)
+>  		nvme_auth_clear_ctrl_key(ctrl);
+> @@ -1117,6 +1131,7 @@ int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
+>  			"%s: using dhchap ctrl key %08x\n",
+>  			__func__, key_serial(ctrl->ctrl_key));
+>  		ctrl->ctrl_key =3D ctrl_key;
+> +		ctrl->ctrl_key_generated =3D ctrl_key_generated;
+>  	}
 
-In addition, prep->data is passed to sscanf(), strlen(), and strrchr()
-without bounding to prep->datalen (and with offset uninitialized if the
-colon after the hash ID is omitted), "if (p) datalen--" only subtracts 1
-instead of truncating at p when a trailing newline follows ':', and
-nvme_dhchap_psk_create() overwrites the error from key_create() with
--ENOKEY.
+[Severity: Low]
+Similarly, nvme_auth_clear_ctrl_key(ctrl) clears ctrl->ctrl_key to NULL
+right before dev_dbg() logs key_serial(ctrl->ctrl_key), so this always
+prints 00000000 instead of key_serial(ctrl_key).
 
-> diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
-> index ab8971afa9734..a2ba7588e2d73 100644
-> --- a/include/linux/nvme-keyring.h
-> +++ b/include/linux/nvme-keyring.h
-> @@ -18,12 +18,18 @@ key_serial_t nvme_tls_psk_default(struct key *keyring,
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index 0c09888be31f7..1277749c6e2e3 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+[ ... ]
+> @@ -1339,15 +1343,25 @@ void nvmf_free_options(struct nvmf_ctrl_options *=
+opts)
+>  	kfree(opts->host_traddr);
+>  	kfree(opts->host_iface);
+>  	if (opts->dhchap_key) {
+> -		pr_debug("revoke dhchap host key %08x\n",
+> +		if (opts->dhchap_key_generated) {
+> +			pr_debug("revoke dhchap host key %08x\n",
+> +				 key_serial(opts->dhchap_key));
+> +			key_revoke(opts->dhchap_key);
+> +			synchronize_rcu();
+> +		}
+> +		pr_debug("drop dhchap host key %08x\n",
+>  			 key_serial(opts->dhchap_key));
+> -		key_revoke(opts->dhchap_key);
+>  		key_put(opts->dhchap_key);
+>  	}
+>  	if (opts->dhchap_ctrl_key) {
+> -		pr_debug("revoke dhchap ctrl key %08x\n",
+> +		if (opts->dhchap_ctrl_key_generated) {
+> +			pr_debug("revoke dhchap ctrl key %08x\n",
+> +				 key_serial(opts->dhchap_ctrl_key));
+> +			key_revoke(opts->dhchap_ctrl_key);
+> +			synchronize_rcu();
+> +		}
+> +		pr_debug("drop dhchap ctrl key %08x\n",
+>  			 key_serial(opts->dhchap_ctrl_key));
+> -		key_revoke(opts->dhchap_ctrl_key);
+>  		key_put(opts->dhchap_ctrl_key);
+>  	}
+>  	kfree(opts);
+
+[Severity: Medium]
+Why call synchronize_rcu() after key_revoke() here, in
+dhchap_secret_store(), dhchap_ctrl_secret_store() and
+nvmet_auth_revoke_key()?
+
+key_revoke() sets KEY_FLAG_REVOKED under key->sem and schedules payload
+destruction via call_rcu(), while all DH-HMAC-CHAP key readers serialize
+on key->sem and key_validate().  Waiting synchronously for an RCU grace
+period stalls callers unnecessarily, including while holding
+ctrl->dhchap_auth_mutex in dhchap_[ctrl_]secret_store() and while holding
+down_write(&nvmet_config_sem) in nvmet_auth_set_key(), which blocks all
+concurrent target connections and configfs operations.
+
+> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+> index e73c3ad89adc0..e6d42da84e168 100644
+> --- a/drivers/nvme/host/sysfs.c
+> +++ b/drivers/nvme/host/sysfs.c
+[ ... ]
+> @@ -875,19 +878,25 @@ static ssize_t dhchap_secret_store(struct device *d=
+ev,
+>  	up_read(&key->sem);
+>  	if (ret) {
+>  		dev_warn(ctrl->dev, "key %08x invalidated\n", key_serial(key));
+> -		dev_dbg(ctrl->dev, "revoke host key %08x\n", key_serial(key));
+> -		key_revoke(key);
+> +		if (generated) {
+> +			dev_dbg(ctrl->dev, "revoke host key %08x\n", key_serial(key));
+> +			key_revoke(key);
+> +			synchronize_rcu();
+> +		}
+>  		key_put(key);
+>  		kfree_sensitive(dhchap_secret);
+>  		return ret;
+>  	}
+>  	mutex_lock(&ctrl->dhchap_auth_mutex);
+>  	old_key =3D ctrl->host_key;
+> -	dev_dbg(ctrl->dev, "revoke host key %08x\n",
+> -		key_serial(old_key));
+> -	key_revoke(old_key);
+> -
+> +	if (ctrl->host_key_generated) {
+> +		dev_dbg(ctrl->dev, "revoke host key %08x\n",
+> +			key_serial(old_key));
+> +		key_revoke(old_key);
+> +		synchronize_rcu();
+> +	}
+>  	ctrl->host_key =3D key;
+> +	ctrl->host_key_generated =3D generated;
+>  	mutex_unlock(&ctrl->dhchap_auth_mutex);
+
+[Severity: Medium]
+Can this revoke the newly selected key when the active key was
+auto-generated?
+
+An auto-generated key is linked into the keyring with a UUID description.
+If a user writes that active key's description to dhchap_secret_store()
+(or dhchap_ctrl_secret_store(), or nvmet_auth_set_key() on the target),
+nvme_auth_extract_key() finds it in the keyring before the old key is
+revoked and returns key =3D=3D old_key with generated =3D false.  Because
+ctrl->host_key_generated is still true, key_revoke(old_key) then revokes
+key itself, causing subsequent authentication to fail with -EKEYREVOKED.
+Should these paths check old_key !=3D key before revoking old_key?
+
+> @@ -913,16 +922,18 @@ static ssize_t dhchap_ctrl_secret_show(struct devic=
+e *dev,
+>  		mutex_unlock(&ctrl->dhchap_auth_mutex);
+>  		return sysfs_emit(buf, "none\n");
+>  	}
+> +
+>  	down_read(&key->sem);
+>  	if (key_validate(key))
+>  		count =3D sysfs_emit(buf, "<invalidated>");
+
+[Severity: Low]
+Should "<invalidated>" have a trailing newline here to match
+dhchap_secret_show() and the other branches of dhchap_ctrl_secret_show()?
+
+[ ... ]
+
+> @@ -1090,9 +1110,11 @@ static umode_t nvme_dev_attrs_are_visible(struct k=
+object *kobj,
+>  		return 0;
+>  	if (a =3D=3D &dev_attr_dhchap_ctrl_secret.attr && !ctrl->opts)
+>  		return 0;
+> -	if (a =3D=3D &dev_attr_dhchap_key.attr && !ctrl->opts)
+> +	if (a =3D=3D &dev_attr_dhchap_key.attr && !ctrl->opts &&
+> +	    !ctrl->host_key_generated)
+>  		return 0;
+> -	if (a =3D=3D &dev_attr_dhchap_ctrl_key.attr && !ctrl->opts)
+> +	if (a =3D=3D &dev_attr_dhchap_ctrl_key.attr && !ctrl->opts &&
+> +	    !ctrl->ctrl_key_generated)
+>  		return 0;
+>  #endif
+
+[Severity: Medium]
+Should the visibility conditions for dev_attr_dhchap_key.attr and
+dev_attr_dhchap_ctrl_key.attr use || instead of &&?
+
+On Fabrics controllers ctrl->opts is non-NULL, so !ctrl->opts is false and
+the !ctrl->host_key_generated / !ctrl->ctrl_key_generated checks are never
+reached.  In addition, because sysfs group visibility is only evaluated at
+device creation unless sysfs_update_group() is called, changing
+ctrl->host_key_generated or ctrl->ctrl_key_generated later in
+dhchap_secret_store() or dhchap_ctrl_secret_store() will not update the
+visibility of these attributes.
+
+> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+> index 8b77164512c9c..7204ace149565 100644
+> --- a/drivers/nvme/target/auth.c
+> +++ b/drivers/nvme/target/auth.c
+[ ... ]
+> @@ -46,6 +57,7 @@ void nvmet_auth_revoke_key(struct nvmet_host *host, boo=
+l set_ctrl)
+>  int nvmet_auth_set_key(struct nvmet_host *host, const char *secret,
+>  		       bool set_ctrl)
+>  {
+> +	bool generated =3D false;
+>  	struct key *key;
+>  	size_t len;
 > =20
->  key_serial_t nvme_keyring_id(void);
->  struct key *nvme_tls_key_lookup(key_serial_t key_id);
-> +
-> +struct key *nvme_dhchap_psk_create(struct key *keyring,
-> +		const char *data, size_t data_len);
-> +struct key *nvme_dhchap_psk_lookup(struct key *keyring, const char *iden=
-tity);
-> +u8 nvme_dhchap_psk_hash(struct key *key);
-> +
->  #else
->  static inline struct key *nvme_tls_psk_refresh(struct key *keyring,
-> -		const char *hostnqn, char *subnqn, u8 hmac_id,
-> +		const char *hostnqn, const char *subnqn, *data, u8 hmac_id,
->  		u8 *data, size_t data_len, const char *digest)
->  {
-> -	return ERR_PTR(-ENOTSUPP);
-> +	return ERR_PTR(-EOPNOTSUPP);
->  }
->  static inline key_serial_t nvme_tls_psk_default(struct key *keyring,
->  		const char *hostnqn, const char *subnqn)
-> @@ -36,7 +42,21 @@ static inline key_serial_t nvme_keyring_id(void)
->  }
->  static inline struct key *nvme_tls_key_lookup(key_serial_t key_id)
->  {
-> -	return ERR_PTR(-ENOTSUPP);
-> +	return ERR_PTR(-EOPNOTSUPP);
-> +}
-> +static inline struct key *nvme_dhchap_psk_create(struct key *keyring,
-> +		const char *data, size_t data_len)
-> +{
-> +	return ERR_PTR(-EOPNOTSUPP);
-> +}
-> +static inline struct key *nvme_dhchap_psk_lookup(struct key *keyring,
-> +		const char *identity)
-> +{
-> +	return ERR_PTR(-EOPNOTSUPP);
-> +}
-> +u8 nvme_dhchap_psk_hash(struct key *key)
-> +{
-> +	return 0;
->  }
->  #endif /* !CONFIG_NVME_KEYRING */
->  #endif /* _NVME_KEYRING_H */
+> @@ -56,7 +68,7 @@ int nvmet_auth_set_key(struct nvmet_host *host, const c=
+har *secret,
+>  		return 0;
+>  	}
+>  	len =3D strcspn(secret, "\n");
+> -	key =3D nvme_auth_extract_key(NULL, secret, len);
+> +	key =3D nvme_auth_extract_key(NULL, secret, len, &generated);
 
 [Severity: High]
-As reported by kernel test robot on v4 [1], does this break the build when
-CONFIG_NVME_KEYRING is disabled?  The !CONFIG_NVME_KEYRING stub for
-nvme_tls_psk_refresh() has a stray untyped *data parameter before hmac_id,
-and nvme_dhchap_psk_hash() is defined in the header without static inline,
-causing multiple-definition linker errors across translation units that
-include linux/nvme-keyring.h.
+Does clearing a host or controller key via configfs trigger a NULL pointer
+dereference in nvmet_auth_set_key()?
 
-[1] https://lore.kernel.org/r/202611210318.EedT1DJk-lkp@intel.com
+In nvmet_host_dhchap_key_store() and nvmet_host_dhchap_ctrl_key_store(),
+writing an empty string or newline leaves keydata as NULL:
+
+drivers/nvme/target/configfs.c:nvmet_host_dhchap_key_store() {
+	...
+	len =3D strcspn(page, "\n");
+	if (len) {
+		keydata =3D kstrndup(page, len, GFP_KERNEL);
+		if (!keydata)
+			return -ENOMEM;
+	}
+
+	ret =3D nvmet_auth_set_key(host, keydata, false);
+	...
+}
+
+nvmet_auth_set_key() then calls strlen(secret) at the start of the
+function without checking if (!secret), dereferencing NULL.
+
+> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configf=
+s.c
+> index 12c093f4c8363..bc46d760aaa4a 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -2248,13 +2248,14 @@ static ssize_t nvmet_host_dhchap_key_show(struct =
+config_item *item,
+>  		down_read(&key->sem);
+>  		if (key_validate(key))
+>  			ret =3D sprintf(page, "<invalidated>\n");
+> -		else {
+> +		else if (host->dhchap_key_generated) {
+>  			ret =3D key->type->read(key, page, PAGE_SIZE);
+>  			if (ret > 0) {
+>  				page[ret] =3D '\n';
+>  				ret++;
+>  			}
+> -		}
+> +		} else
+> +			ret =3D sprintf(page, "%s\n", key->description);
+>  		up_read(&key->sem);
+>  		key_put(key);
+>  	}
+> @@ -2305,13 +2306,14 @@ static ssize_t nvmet_host_dhchap_ctrl_key_show(st=
+ruct config_item *item,
+>  		down_read(&key->sem);
+>  		if (key_validate(key))
+>  			ret =3D sprintf(page, "<invalidated>\n");
+> -		else {
+> +		else if (host->dhchap_ctrl_key_generated) {
+>  			ret =3D key->type->read(key, page, PAGE_SIZE);
+>  			if (ret > 0) {
+>  				page[ret] =3D '\n';
+>  				ret++;
+>  			}
+> -		}
+> +		} else
+> +			ret =3D sprintf(page, "%s\n", key->description);
+>  		up_read(&key->sem);
+>  		key_put(key);
+>  	}
+
+[Severity: Medium]
+Can sprintf(page, "%s\n", key->description) in nvmet_host_dhchap_key_show()
+and nvmet_host_dhchap_ctrl_key_show() overflow the PAGE_SIZE configfs
+buffer by 1 byte?
+
+add_key() permits key->description up to 4095 characters (KEY_MAX_DESC_SIZE
+is 4096 including the NUL terminator), so appending "\n" and the
+terminating NUL writes 4097 bytes into the 4096-byte page buffer.  Using
+scnprintf(page, PAGE_SIZE, "%s\n", key->description) would avoid writing
+past the end of page.
+
+> diff --git a/include/linux/nvme-auth.h b/include/linux/nvme-auth.h
+> index 75e1e75e298e1..d5fbae8fc510b 100644
+> --- a/include/linux/nvme-auth.h
+> +++ b/include/linux/nvme-auth.h
+> @@ -32,7 +32,7 @@ void nvme_auth_hmac_update(struct nvme_auth_hmac_ctx *h=
+mac, const u8 *data,
+>  void nvme_auth_hmac_final(struct nvme_auth_hmac_ctx *hmac, u8 *out);
+> =20
+>  struct key *nvme_auth_extract_key(struct key *keyring, const char *secre=
+t,
+> -				  size_t secret_len);
+> +				  size_t secret_len, bool *generated);
+
+[Severity: Low]
+The commit message notes that the secret parameter of
+nvme_auth_extract_key() was renamed to input, but this declaration in
+include/linux/nvme-auth.h still uses secret and secret_len.
+
+[Severity: High]
+Also in the keyring headers included by drivers/nvme/host/sysfs.c,
+drivers/nvme/host/fabrics.c and drivers/nvme/target/configfs.c, do the
+!CONFIG_NVME_KEYRING stubs in include/linux/nvme-keyring.h break the build
+when CONFIG_NVME_KEYRING is disabled?
+
+include/linux/nvme-keyring.h {
+	...
+static inline struct key *nvme_tls_psk_refresh(struct key *keyring,
+		const char *hostnqn, const char *subnqn, *data, u8 hmac_id,
+		u8 *data, size_t data_len, const char *digest)
+{
+	return ERR_PTR(-ENOTSUPP);
+}
+	...
+u8 nvme_dhchap_psk_hash(struct key *key)
+{
+	return 0;
+}
+}
+
+nvme_tls_psk_refresh() has a stray untyped *data parameter before
+u8 hmac_id, and nvme_dhchap_psk_hash() is missing static inline, causing
+compile and multiple-definition link errors whenever CONFIG_NVME_KEYRING=3D=
+n.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123-dhchap-key=
-ring-v4-v5-0-81eefb4c0724@kernel.org?part=3D3
+ring-v4-v5-0-81eefb4c0724@kernel.org?part=3D6
 
