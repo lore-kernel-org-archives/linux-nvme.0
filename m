@@ -2,111 +2,110 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A80C606A31E
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 17:38:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03781606A31E
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Nov 2026 17:38:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=WMV9KZ5E;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=D8R8lEeG
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=YeirQqjQ;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=NnQHUzil
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Unsubscribe-Post:List-Owner;
-	bh=EyRgYOFVImnebIcWSNF86vkRsvFfWCH+VI7OFr+Ov3o=; b=WMV9KZ5EUgv8Sqa2cIQRqevmVl
-	hjZPi30V5YhkEOacDvkKfTr/whMPeDE+mqKsqlPhslfBv4PiHwYOW0JrDwzVUluTYsD/UyZ4+J7Zk
-	jJj5rqhdt0lEvFjWnGBX59catvjwEhGb3n/GfH0D/R/vu9d7SUZ+fnSGbdyX/vb5zWZI0y/f0GSmG
-	ZKjEdCYHUmtiv6zJtc9/bJ/rtjPMQPL5HRcc9kVKNK+dBzkKQ+m4G4DeFCukBJYHOZJqnfwtBTewq
-	wq8bj7SRU9jugwHjjRhlYeYXNSguGnLxMgyy6Ch0CXdGkLXC0+ll7UNQ4DQhVuxN5KT+VyC+2vBLv
-	MbPLm6kQ==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=0yzbSXb4DaEiFTK+YYTI3MlfmnN2SG6H45hvvbA27do=; b=YeirQqjQv2OS70
+	qgANLfCUCSYjdu+OAnpkRidoT9MLz3nR28SP/iJDY+5c2m2+izOJnxsgtYqzXLxDR01nnfcWB9gpz
+	lRM3Am1NCsTDAbrlps4PULlNqDNYgHlM2u5J2vOxC/isw/v+xMqSqNRguLoIM8sc9DLOgk0F+gXW7
+	NquZvX5TCQqqG3x9vpW0JpDt7Ub/AXlResIDMZA7cLaBz8F4PbU/PMgfKKsrPwI5CT6WcYnRibodX
+	hKL2TZiP++EmJEFMuNzmpSlqZpFmJE1BXJ9zMp9uAVsTSmnmFqXHL0k4WfOWIROnLYr9gnn6y8q/m
+	QTIrH1hmUOT0icoFNSqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVXzZ-00000004OG9-0QQw;
-	Mon, 23 Nov 2026 17:38:13 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1xVXzb-00000004OH5-1esV;
+	Mon, 23 Nov 2026 17:38:15 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVXzV-00000004OEa-3HDW
+	id 1xVXzW-00000004OEt-3Wqm
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Nov 2026 17:38:11 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ANGYg1F4069030;
-	Mon, 23 Nov 2026 17:37:48 GMT
+	Mon, 23 Nov 2026 17:38:12 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ANGYWua4112012;
+	Mon, 23 Nov 2026 17:37:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=pp1; bh=EyRgYOFVImnebIcWSNF86vkRsvFfWCH+VI7OFr+Ov
-	3o=; b=D8R8lEeGH39lBCrezFYYdnpVMOI3uaBJAAJOHnGDMnvSQwDvDhkm0cubZ
-	Apou1Dvltg93TvwljQSvFpj8y5GH40iP0Tl3fQqGTGz7rZeKeVi4L6rkBOQF0woj
-	akNWuQr8YFktnEEIZ6v2Xe6QKr7dzkwschTcl8rSSU4ik4VYb+QjNPDEpUvMgGZ6
-	TpFGZSedJHqRXG7bgJrp+B9LzsYoS+dmXtEOhoVf/OInjLteBUrm4KOLBUskF4sx
-	mi5y31YlGmi8uNDhwkDCSBTkupSZ4CpIAPECjxOLY8VLrg59O5Va7wB8tac5wqz0
-	Z+XNWhUoi5RdB+gLnD1oYKhbqA+yQ==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j34gv42cn-1
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=0yzbSXb4DaEiFTK+Y
+	YTI3MlfmnN2SG6H45hvvbA27do=; b=NnQHUzilvmQ0cTjMCxgivjbOl4wmuvCcx
+	4jgcY+N5+TZpRG4YR6ix6dQv45DiscreafF/X6OQUV0MQrx+hORHI8F1mRS73kwu
+	qepPGJNmWDGFbOZAf1zhraOXgmg0veDymXPKreTNztxZVMpi3Mt/HXVJHpd0drKu
+	Hn3Ms8o9RA9XirWXFk1Ow1jMpUDZ5o8BYMVjTE9VnMIFwiP8WkIv1YWERDiUZcBw
+	ibMZO9sGXsrFpexFu+tLpKFGXNlAklU5vWTfvY58BxqBDU5ria0Joh9o9TPw+fyG
+	A9vs8ASKIflizNyVkBi5cuV+86dT/pAOfZ09UBac++jqfkAO3moIw==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j34fkcc4q-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 23 Nov 2026 17:37:48 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6ANGJuY53225873;
-	Mon, 23 Nov 2026 17:37:47 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4j3q4h7mdf-1
+	Mon, 23 Nov 2026 17:37:52 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6ANGJgQH1000887;
+	Mon, 23 Nov 2026 17:37:52 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j3qufqghf-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 23 Nov 2026 17:37:47 +0000 (GMT)
+	Mon, 23 Nov 2026 17:37:52 +0000 (GMT)
 Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6ANHbhq950856444
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6ANHbmmJ50594168
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 23 Nov 2026 17:37:43 GMT
+	Mon, 23 Nov 2026 17:37:48 GMT
 Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8A3752004B;
-	Mon, 23 Nov 2026 17:37:43 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 5A8172004B;
+	Mon, 23 Nov 2026 17:37:48 +0000 (GMT)
 Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 72C1420043;
-	Mon, 23 Nov 2026 17:37:39 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 5164520043;
+	Mon, 23 Nov 2026 17:37:44 +0000 (GMT)
 Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.61.173.125])
 	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 23 Nov 2026 17:37:39 +0000 (GMT)
+	Mon, 23 Nov 2026 17:37:43 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
 To: kbusch@kernel.org, dwagner@suse.de, hch@lst.de, hare@suse.de,
         sagi@grimberg.me, chaitanyak@nvidia.com, gjoyce@linux.ibm.com
 Cc: linux-nvme@lists.infradead.org, Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCH v4 0/2] nvme-tcp: NIC topology aware I/O queue scaling and queue info export
-Date: Mon, 23 Nov 2026 23:07:22 +0530
-Message-ID: <20261123173727.2022020-1-nilay@linux.ibm.com>
+Subject: [PATCH v4 1/2] nvme-tcp: expose per-queue socket addresses via sysfs
+Date: Mon, 23 Nov 2026 23:07:23 +0530
+Message-ID: <20261123173727.2022020-2-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261123173727.2022020-1-nilay@linux.ibm.com>
+References: <20261123173727.2022020-1-nilay@linux.ibm.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=CYCdd7rl c=1 sm=1 tr=0 ts=6b0479ec cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIzMDA3MCBTYWx0ZWRfX5qOWSUnfgGF1
+ CSEF15wxMtvJSrlWG1Q6OY2I+/Vty8v5ar2idegPYrBtLYJD57JWVgIcvmOd3EDNs8QHhr3+/BT
+ QJonE6poULP+8/+vlocZcDXdMXa0GR1npNE2hXFDIavDaDPHt6Q+AmrD+0buKf45vxCHTqDG76x
+ +cTH+G/FEAV5OpCYD391OTw6HFDvfBUGRGTq6aRYpp/v9CFwDnQftdmYlAr2IAd0vlSHCk5Ze2/
+ YtOPlQowadtChyEXO5MQp4pvCm9L2EFA6+SbZROKN/eGcPY6fbkX+DnzlQyLfqqvHrZbNRyafPZ
+ ceNzJkGI27OAyIKse8RQj6isNVFmBX8oMO8Fd9l1P4KN4jTgKNzJtMNB6yD0ZxZcn9B32n2RpL6
+ GXfHwSUEq7NzDYHvNg5aleNi35mOy/kC1rTsuF+Oe3JIHMKAvGI7qs8Q8SursE0nDQgyGCXYwqU
+ PS7NcMrUwmepAHjkt1A==
+X-Proofpoint-ORIG-GUID: 4Ixa7W0zfj9hDuQ_I9lI4FEWo3Qwh01a
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIzMDA3MCBTYWx0ZWRfX/iy9OFG2rkrT
+ URoHlfUZ/XD6M8X7rdpL9q7Z3VAhRI05MxV0B3x3+36t7AaG7oQqPFf2GtV5e80ISpHJEDNKQK3
+ xx/i8EpcHmg7bxF38tVvRvqW/SqQpmQ=
+X-Authority-Analysis: v=2.4 cv=A9z5rKWG c=1 sm=1 tr=0 ts=6b0479f0 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
  a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VwQbUJbxAAAA:8 a=NEAV23lmAAAA:8 a=VnNF1IyMAAAA:8
- a=6zI6yM-bqozbs1XlkEoA:9
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIzMDA3MCBTYWx0ZWRfXwC0bJVZAdM8W
- 8NK6yQZQa50Mx9oJqkqLu7AzL8dlJbEdIqAANhyQ+/uXaq2s9eDHVbvKA+NXWVMIJgPIbWygymX
- j3DJMZwVhJv2/8YoVe+XKd61fH5Pvf0=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIzMDA3MCBTYWx0ZWRfX+k8hiHiLgTJg
- 2ZeXDD9EwWlDNGEnsx2jISHnnPiq+GGmcBL5rQcQS9OGvBJ9NkTDIfig8j0qRtE7dSx3evZGpld
- gPjHh68GiYL/G9z5Sk/drPi8oC9MgQidHT/cDy2/gShl2y4Ly76s1ki7COJ2RNP7k5uwhEVBsAY
- n2OmROvuXF9+NA3+Slqd1HmyHcrQ87jro469HM9pLpLEj1MnwE6a7l8EW11k8DxBcYISsLa7hd6
- nTrpvWgctIxSNlsriqr1CFu9Hu/doUJViMWFqxzzFFtCDGRFjrKAt0x+XI0Md3NE4hZuzAnWgba
- qOzSUyht1BqKey8dhEo2h9fJExDbb0ulfnY+ohOK99EcXo9zK3oxwQQZzStzDvKMDYLARdGMJ0j
- eb7RvO0etTnnxcJEwTnaDamBpl+KEoDexzwHv/5/v9KCBcyrpzW80yN/XPT4GbGmWG4Hbb2PN7R
- 4MJYYomuuGNjk6iotew==
-X-Proofpoint-ORIG-GUID: 2fK3ol9aZICDi34dLQDLuWFZ1y1HuU8D
-X-Proofpoint-GUID: 2fK3ol9aZICDi34dLQDLuWFZ1y1HuU8D
+ a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8 a=DDAwuWw7pe0VjTk75GEA:9
+X-Proofpoint-GUID: 4Ixa7W0zfj9hDuQ_I9lI4FEWo3Qwh01a
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-23_04,2026-11-23_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
- clxscore=1015 spamscore=0 bulkscore=0 impostorscore=0 adultscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611230070
+ clxscore=1015 adultscore=0 phishscore=0 priorityscore=1501 impostorscore=0
+ bulkscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611230070
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261123_093809_936030_20F0BC88 
-X-CRM114-Status: GOOD (  16.25  )
+X-CRM114-CacheID: sfid-20261123_093810_902272_A24C7630 
+X-CRM114-Status: GOOD (  17.11  )
 X-Spam-Score: -2.6 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -120,70 +119,106 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-This patch series has been revised based on feedback from the netdev
-community [1].
+Add a read-only per-queue sysfs attribute named "address" to expose
+the socket addresses associated with each NVMe/TCP I/O queue.
 
-Following the feedback, the logic for determining the number of fabric I/O
-queues (nr-io-queues) has been now moved to userspace in nvme-cli [2]. As a
-result, the first two patches from the earlier series v2, which implemented
-this logic in the kernel driver, have been dropped in series v3. 
+The attribute reports the socket's peer and local endpoint information
+using the following fields:
 
-Based on further feedback received on v3, this revision also moves the
-export of NVMe/TCP I/O queue information from debugfs to sysfs, making
-it easier for userspace tools to access the information and configure
-host-side network tuning.
+- traddr: Peer transport address
+- trsvcid: Peer transport service identifier
+- host_traddr: Host transport address
+- host_trsvcid: Host transport service identifier
 
-The first patch exports the socket endpoint addresses of each NVMe/TCP
-I/O queue through a new per-queue sysfs attribute named address.
-This provides the TCP flow information (source/destination IP addresses
-and ports) for each I/O queue. The associated CPU assignment can be
-retrieved through the existing io_cpu attribute.
+The attribute is available at:
+    /sys/class/nvme/nvmeX/queues/&lt;qid&gt;/address
 
-Together, these attributes provide userspace tools with the information
-needed to configure:
-   - IRQ affinity
-   - RPS/XPS
-   - ntuple steering
-   - or any other scaling as deemed feasible
+Together with the existing per-queue "io_cpu" attribute, this
+information helps correlate NVMe/TCP I/O queues with network stack
+components and tune their interaction, including IRQ affinity,
+RPS/RFS, XPS and NIC flow steering (ntuple).
 
-Together with tunning, these changes allow better alignment of:
-   flow -> NIC queue -> IRQ -> CPU -> NVMe/TCP I/O worker
+No changes to I/O behavior are expected.
 
-Improving this alignment can enhance flow-to-CPU locality, potentially
-improving performance and reducing I/O latency. Performance evaluation
-results comparing the baseline with the tuned configuration are
-available in [3].
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ drivers/nvme/host/tcp.c | 50 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
-Thanks!
-
-[1]: https://lore.kernel.org/all/20260807160904.2eb1b3d1@kernel.org/
-[2]: https://github.com/linux-nvme/nvme-cli/pull/4140
-[3]: https://lore.kernel.org/all/20260731073918.614014-1-nilay@linux.ibm.com/
-
-Changes from v3
-  - Moved per-queue tcp flow information from debugfs to sysfs
-    (Daniel Wagner, Hannes Reinecke)
-Link to v3: https://lore.kernel.org/all/20261026123411.1988949-4-nilay@linux.ibm.com/   
-  
-Changes from v2
-  - Dropped patch #1 and #2 from v2
-  - Added new debugfs attribute parameter "is_visible" which could be useful
-    to hide the attribute for certain configuration or transport. 
-Link to v2: https://lore.kernel.org/all/20260731073918.614014-1-nilay@linux.ibm.com/
-
-Nilay Shroff (2):
-  nvme-tcp: expose per-queue socket addresses via sysfs
-  nvme: document NVMe/TCP per-queue address sysfs attribute
-
- Documentation/ABI/stable/sysfs-nvme | 18 +++++++++++
- drivers/nvme/host/tcp.c             | 50 +++++++++++++++++++++++++++++
- 2 files changed, 68 insertions(+)
-
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index f1d29d9f75cc..c7e736df71d2 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2123,14 +2123,64 @@ static ssize_t managed_show(struct kobject *kobj, struct kobj_attribute *attr,
+ 			  !test_bit(NVME_TCP_Q_IO_CPU_USER, &queue->flags));
+ }
+ 
++static ssize_t address_show(struct kobject *kobj, struct kobj_attribute *attr,
++			    char *buf)
++{
++	struct nvme_tcp_queue *queue = nvme_queue_info_data(kobj);
++	struct sockaddr_storage src, dst;
++	int ret = 0;
++
++	mutex_lock(&queue->queue_lock);
++
++	if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
++		goto out;
++
++	ret = kernel_getsockname(queue->sock, (struct sockaddr *)&src);
++	if (ret <= 0)
++		goto out;
++
++	ret = kernel_getpeername(queue->sock, (struct sockaddr *)&dst);
++	if (ret <= 0)
++		goto out;
++
++	if (src.ss_family != dst.ss_family) {
++		ret = -EAFNOSUPPORT;
++		goto out;
++	}
++
++	if (src.ss_family == AF_INET) {
++		struct sockaddr_in *sip = (struct sockaddr_in *)&src;
++		struct sockaddr_in *dip = (struct sockaddr_in *)&dst;
++
++		ret = sysfs_emit(buf, "traddr=%pI4,trsvcid=%hu,host_traddr=%pI4,host_trsvcid=%hu\n",
++				&dip->sin_addr.s_addr, ntohs(dip->sin_port),
++				&sip->sin_addr.s_addr, ntohs(sip->sin_port));
++	} else if (src.ss_family == AF_INET6) {
++		struct sockaddr_in6 *sip6 = (struct sockaddr_in6 *)&src;
++		struct sockaddr_in6 *dip6 = (struct sockaddr_in6 *)&dst;
++
++		ret = sysfs_emit(buf, "traddr=%pI6c,trsvcid=%hu,host_traddr=%pI6c,host_trsvcid=%hu\n",
++				&dip6->sin6_addr, ntohs(dip6->sin6_port),
++				&sip6->sin6_addr, ntohs(sip6->sin6_port));
++	} else {
++		ret = -EAFNOSUPPORT;
++	}
++out:
++	mutex_unlock(&queue->queue_lock);
++	return ret;
++}
++
+ static struct kobj_attribute nvme_tcp_io_cpu_attr =
+ 	__ATTR(io_cpu, 0644, io_cpu_show, io_cpu_store);
+ static struct kobj_attribute nvme_tcp_managed_attr =
+ 	__ATTR_RO(managed);
++static struct kobj_attribute nvme_tcp_address_attr =
++	__ATTR_RO(address);
+ 
+ static struct attribute *nvme_tcp_queue_attrs[] = {
+ 	&nvme_tcp_io_cpu_attr.attr,
+ 	&nvme_tcp_managed_attr.attr,
++	&nvme_tcp_address_attr.attr,
+ 	NULL,
+ };
+ ATTRIBUTE_GROUPS(nvme_tcp_queue);
 -- 
 2.53.0
 
