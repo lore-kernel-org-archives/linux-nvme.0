@@ -2,121 +2,103 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0D5606A31E
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Nov 2026 15:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014D6606A331
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Nov 2026 15:28:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=azThDw8C;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=IIdZnNiC
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=KpShhEeB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IWT4N0tu
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Subject:References:In-Reply-To:Message-Id:Cc:To:From:Date:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=Hk+1WeUZHedbU6UW8UjcAD8gpoCBmTCchZ7yxAalg50=; b=azThDw8Ci+rqfB
-	NotvEvM+dEHfvS1S0dqoBg/9QptQ0ZE6joOCOWH+wEaGpJlKU4hiD988y7Jyzs7CWmNJYxQs1/Mgy
-	B4G0b41s7h+WlyKK7IYl4ofOWD/o44OUEr+QxUsH4LSYhvf2bILrW2zIH/v9/czvg2sUcSgBRd8XO
-	CSPyX6OFDejL9DcJJLrY+65beWm1QIiyv3jYHu7Kl1yrfZEAFXfm/ZMk5GVcTucuYm1REYSEK4Bjv
-	zMNV3zeCcqyROSYU6QyfQp5S7cSvY1RvlLKtzSd9jK7NHk7SQyClx5/AnBVoglms8JCCQmliKMFoy
-	cWpbdlNwDxxOuZcVSNzA==;
+	List-Owner; bh=946ec9uZoayF6niegcR4Rr8CIDVjkdBCZGxp/mlLHkc=; b=KpShhEeBg/yL4d
+	uAH8EKyk1rYdx0BZ1XeQ40duFJ2SWUh5hLKFTm4U8oOikZ75ymVzqgC/kwgKtuDZZj2Q933XDh1m8
+	3s+iNvnn2LIglsK/S5lLnFPoL5DZwD1zHyO8UmfMV/ODvPnCb5EQGnWQZT0UIj8sFiPTZBLB+9BRg
+	FqYtMtgXY4WaKZaLMbvmcM7PMp3VBtGY6z/V/3bAdmxxpHFvTLGsGWX7N6b74Awv/HVC8KxHF1cJz
+	96N3IroeM8Qdg6j4xeFODLoaGluZNTDMISdJ/p8vg8Z24g9KYo6oIvlKc9UJYMPOzwiFCSqOdLkRv
+	nuJ7SNlhSpsrgBeNuyMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVsPB-00000006t3v-3geK;
-	Tue, 24 Nov 2026 15:26:01 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1xVsRJ-00000006tTi-45pP;
+	Tue, 24 Nov 2026 15:28:13 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVsP2-00000006szm-0JDH
+	id 1xVsRE-00000006tTM-2vzJ
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Nov 2026 15:25:57 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOF4n822743212;
-	Tue, 24 Nov 2026 15:25:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=Hk+1We
-	UZHedbU6UW8UjcAD8gpoCBmTCchZ7yxAalg50=; b=IIdZnNiCexp95CpvDYEUzH
-	u+9rr7rK6iLJ5k7uTFhgl94i5GTNjcS/aikToMy2ssMvnDlE7OeUGKhpGFMH8Awf
-	HzyLQ6v9wzfdfDftpais73dSJ8pKNY3KcicVwWY2ltDPKd0fzOlLq5rwTMosDM+i
-	1Z0Z4iVGbYypxTBatXv/slcU+4iAz0h+plIWJ5CHbXPrJOfNxQCyyFGc/gbexPwH
-	XpZoAgIB/wK1u+OJgJximkT9Woj1N+Zzj15RLYV2jH/uqG3AU5ktR+DeMNXfyyjv
-	ruNBMduYjKFENm4/0DIaL9S0pdsGFSRcTN75nVpB0D5Ysh31xeRnBiAL7bkUAvyQ
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j34gv7xsd-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 24 Nov 2026 15:25:38 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOFJKHe2467765;
-	Tue, 24 Nov 2026 15:25:37 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j3quftud7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 24 Nov 2026 15:25:37 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
-	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AOFPaWd55836942
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Nov 2026 15:25:37 GMT
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DBE8B5805E;
-	Tue, 24 Nov 2026 15:25:36 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9A98758051;
-	Tue, 24 Nov 2026 15:25:34 +0000 (GMT)
-Received: from [9.61.113.35] (unknown [9.61.113.35])
-	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 24 Nov 2026 15:25:34 +0000 (GMT)
-Message-ID: <4c21b2f8-6b0b-4728-af20-6d91bb13a6b0@linux.ibm.com>
-Date: Tue, 24 Nov 2026 20:55:33 +0530
+	Tue, 24 Nov 2026 15:28:08 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 1636C410A8;
+	Tue, 24 Nov 2026 15:28:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FF1D1F000D3;
+	Tue, 24 Nov 2026 15:28:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795534087;
+	bh=946ec9uZoayF6niegcR4Rr8CIDVjkdBCZGxp/mlLHkc=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=IWT4N0tu9LxKsrrXsZ1tSnZeK42PPUoUCk8n/FMTFiAMrIz8MSaY043+096F7X+sb
+	 ZaS/qCn4t62wfgaYzRRfsVEo+1bEE9rolLbuZFWKUPp8HAnhsnj8py+Y1bedYP15B7
+	 Kw9K3S1ZFq4T7i8r6+ZxGZF3vhI6ekgZsd98xJWGAa09UAE7X+IkWmoV5sd71qHrc8
+	 n1I9j1Ti6nPn+gSDKxMbz1y+Orua7nRXtu5VkBxhePCVEiQw2VNavwgVJkDTR3V6+n
+	 grnLobhMEde9zaA2o97FMCRID85iTqvRBR1CiWJOja69oOQvlgL4MPqX+WjZ0K8qDs
+	 aAfnFHe4ykFrg==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id CEEC9F40066;
+	Tue, 24 Nov 2026 10:28:05 -0500 (EST)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Tue, 24 Nov 2026 10:28:05 -0500
+X-ME-Sender: <xms:Ba0Fa1G4Llv2NB1_WVZXdcUQIg2hcdZZdQLFQnKB2u6dyxAcZrBIIg>
+    <xme:Ba0Fa1IUuNBUHhtk7GoeugYCHZdMf28B-F4gWoJXbUMFMgp3dq35UCki2kN6aBe3_
+    R2VjghtMikYERTOQqWI2KZeMDoS-9-NtvLDgREz6VO6nb4KlB4AAAOf>
+X-ME-Proxy-Cause: dmFkZTGFJZDUBuTX/zDjzwu8yflFHzRnhD42ZVk+TPJsCJt4ylKPgTsw1FN45Yj2JOSuFn
+    JOP/Qtyx+HMEGRKKCgksavD1tnPkvpPnv7pLbINWjuuQYhTon6UwHHs+ikbtTzbMFBcT+p
+    I6Fsnago8uWw03dJkVIxoPYosAhm4Q8mlXMvJT5X8rEntFkEru7HnQqooDS7isvwz90b6K
+    aXnVLMDYGRrz6pWAbX1OSmKrZLaAql2KuXF75sGdpbrB8tV21WVFvvwyOl7nDXy+y2sGDo
+    8jy39bzJTQB0u5OEAmnKbzZBm6TP8BCtns9GFsFRDvz/u89xNOpm2hX7S9xhKfyKGSK+CA
+    +G5YhpO+m6Wj5tsigD6MGL6DIqsCzfWstEnzpw4IXv8242ST43uwBLL9CKaoNdhfqgYUh7
+    kZYJ1zFVQmyavcAor5QUxnvInVuqUIshanAeJwiHLf20awXfy9tAVr+4w/8fa1bXanSp1A
+    fB4Y9pi1Q371xMRUqAmpzSD8K0Zl9bcddbMZ0IePsmqA6kCZNnFJna2UU2hvzyMJvyIeQD
+    Eyj94yuwRczu7VVC4iKH7HBVFl3BAxhyhvHIxNzcVW8sAwjWbe5Sp3NB+nPTd3N5diPfU0
+    Nd1w8rci+0zD5r/u/RXGimCCyso8Tp75HYy8EsT8iesWyjeTEBNXzgMLi6Jw
+X-ME-Proxy: <xmx:Ba0Fa4EaJ6wHylGugGzwD1JbVAOzrHEXQIPGeVcfTTwGHgR6r6qLSw>
+    <xmx:Ba0Fa2Mis713kAt-MdWVW2jzJiujCBl1eWjChiXiOfw2GrYoTrXnMA>
+    <xmx:Ba0Fa_ummptp4zGB3W792LrdD1Ir78KIXo-wZzgYolanxN8IVV5FxA>
+    <xmx:Ba0Fa8Jq5dge73COF_bJq6T5yHnalSAsW1FBHKcRRM-S6ryyGE108w>
+    <xmx:Ba0Fa9cZubrLuTmM1Z4rogUjROmlNZKqr2JZ08TtYXyp5qZddJ4ruFoH>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 8716D780070; Tue, 24 Nov 2026 10:28:05 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] nvme-hwmon: notify hwmon alarms on the SMART /
- Health Status AEN
-To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
-        Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
-        Hannes Reinecke <hare@suse.de>
-Cc: linux-nvme@lists.infradead.org
-References: <20261124120032.1824788-1-kanie@linux.alibaba.com>
- <20261124120032.1824788-4-kanie@linux.alibaba.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20261124120032.1824788-4-kanie@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=CYCdd7rl c=1 sm=1 tr=0 ts=6b05ac73 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=SRrdq9N9AAAA:8
- a=VnNF1IyMAAAA:8 a=g5ZX1A3Pyp0KHW-r8XIA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI0MDA1OSBTYWx0ZWRfXzuxHjyVqb1cv
- /F/Ho0205kZ/Xf5EZKS4IuoJT7nsgUcY68HPht9P4lmJr4v7qRaMqV5KGZPdcHa3HQDE0LMZycF
- ++zA0ydj+1T0mnJib7n84mLBYupggas=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI0MDA1OSBTYWx0ZWRfX78iGoToB1BGh
- gKOkD+TrNGE8dd6cWwP2WOEXYfRBnxtGQOe7iemKDWd/WDWvNX+vrhWiDV5zzur1MrJebf9tYpR
- z7Re/pB8oDZ8Bu3PpDRSj1wuiv+cWkv0dCRzXLUk1za+WdasN14g68X713C3+evycfnMzigAfF4
- msFN7FzYRzDSktXmGRMKSOJ0rhLlzPq47tWSQKsnr1UH6srCMGo66HsCEitm4MhY0d44oqMD3O6
- 7ouLWZuZoKK8p0hcyFO4bSRgHRS9fjBuQc/vbHxtLV/xT9qsDxZcbz2tfSNxsVbuFdkw7iCxoQM
- mUeutLGwbpJRxtxhAZpw5BUF/QhbB3o3k4LGboIRmKwvfz5QxxWHvXGwHk02456gAf49Vmk/MIj
- eX1ALL33V+fZJwt+btWYyLlsRTJHc9yOylAgSbuFoqCQcpAtWWT33KEgQrs5HpkGUy359HCaqBJ
- LKHGGegvl/JrHICTAJQ==
-X-Proofpoint-ORIG-GUID: iitE6Zci-jsAceZOkET7ujndk2I_wZWS
-X-Proofpoint-GUID: Uy0kgNU6Xv5jNDtXCch5eKKhtYBwwVq8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-24_03,2026-11-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
- clxscore=1015 spamscore=0 bulkscore=0 impostorscore=0 adultscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611240059
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261124_072556_109662_9BCD6D8B 
-X-CRM114-Status: GOOD (  21.43  )
-X-Spam-Score: -2.6 (--)
+X-ThreadId: A8Z6fJDuAPLk
+Date: Tue, 24 Nov 2026 10:27:45 -0500
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jakub Kicinski" <kuba@kernel.org>
+Cc: "Donald Hunter" <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, "Paolo Abeni" <pabeni@redhat.com>,
+ "Simon Horman" <horms@kernel.org>,
+ "John Fastabend" <john.fastabend@gmail.com>,
+ "Sabrina Dubroca" <sd@queasysnail.net>, "Keith Busch" <kbusch@kernel.org>,
+ "Jens Axboe" <axboe@kernel.dk>, "Christoph Hellwig" <hch@lst.de>,
+ "Sagi Grimberg" <sagi@grimberg.me>, "Chaitanya Kulkarni" <kch@nvidia.com>,
+ "Jeff Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, "Eric Dumazet" <edumazet@kernel.org>,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
+ "Hannes Reinecke" <hare@kernel.org>
+Message-Id: <fbcfb7b2-4cd9-47c9-9cd9-1186a5b15059@app.fastmail.com>
+In-Reply-To: <20261123155242.49d87894@kernel.org>
+References: <20261113-tls-session-tags-v3-0-91271964cdb0@kernel.org>
+ <20261121161302.69f202c8@kernel.org>
+ <7a0695c2-bf7a-4394-8cfe-a92deeba51e3@app.fastmail.com>
+ <20261123155242.49d87894@kernel.org>
+Subject: Re: [PATCH net-next v3 00/10] Deliver TLS session tags to upper-layer
+ consumers (NFSD)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,43 +109,90 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/24/26 5:30 PM, Guixin Liu wrote:
-> The NVMe hwmon support exposes the temperature alarm as a plain sysfs
-> attribute, so monitoring tools have to poll temp1_alarm to learn about
-> a critical temperature condition. The device does send a SMART / Health
-> Status asynchronous event when a critical warning is raised, but the
-> host never enables it in the Asynchronous Event Configuration, and the
-> completion path silently drops the event.
-> 
-> The temperature warning is configured through the SMART / Health
-> Critical Warnings field of the Asynchronous Event Configuration, which
-> mirrors the critical_warning byte of the SMART log and has no OAES
-> capability bit, so the subscription does not go through ctrl->oaes.
-> A rejection with Invalid Field in Command falls back to the
-> notice-only mask, so the notice events are not lost with it.
-> 
-> On the event, a work item embedded in nvme_ctrl re-reads the SMART log
-> to clear the latched event and notifies temp1_alarm through
-> hwmon_notify_event(), which also feeds the registered thermal zone.
-> The notification fires when the event information indicates the
-> temperature threshold, or when the re-read log has the temperature
-> critical warning set, so that a transient excursion that recovered
-> before the log is read is still reported.
-> The work is only queued while the controller is live and is drained
-> before its data is freed.  The nvme-pci transport completes
-> asynchronous events from interrupt context, so the completion path
-> only queues the work.
-> 
-> Signed-off-by: Guixin Liu<kanie@linux.alibaba.com>
 
-Looks good to me:
+On Mon, Nov 23, 2026, at 7:34 PM, Jakub Kicinski wrote:
+> On Sun, 22 Nov 2026 16:27:08 -0800 Chuck Lever wrote:
+>> On Sat, Nov 21, 2026, at 4:13 PM, Jakub Kicinski wrote:
+>> > Naively I'd think it creates unnecessarily wide API on both ends
+>> > (handshake and server). My knee jerk design would be to populate
+>> > the full policy in the server, and only carry some "policy ID"
+>> > thru the handshake. Number of policy IDs would equal to the number
+>> > of tag combinations (which result in different behavior). =20
+>>=20
+>> How is a tag much different than a policy ID?
+>>=20
+>> It wouldn=E2=80=99t be impossible to impose another layer here that m=
+akes
+>> a specific set of tags into a single policy, but I=E2=80=99m not seei=
+ng
+>> that doing such adds a lot of value.
+>
+> My thinking was that we have two user space components (TLS handshake
+> handler and the storage server stack) which are required to render
+> their decision in the language of tags, and upload the result
+> to the kernel via independent APIs. The policy ID limits the kernel
+> to mechanical enforcement.
 
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+That is basically the structure I have planned.
+
+- tlshd parses the x.509 certificate and assigns matching tags to
+  TLS sessions
+
+- The exportfs command assigns tags to NFS exports and passes the
+  tags to the kernel as part of its usual downcall
+
+- Kernel NFSD grants access to an NFS export only when there is a
+  non-empty intersection between the tags on the TLS session and
+  the tags on the export being accessed.
+
+This might be more helpful than the scant series cover letter:
+
+  https://github.com/linux-nfs/ktls-utils/blob/main/man/man7/tls-session=
+-tags.7
+
+It describes the configuration of tlshd's tagging policies. The man
+page actually describes how these things are stored in YAML; to
+make it easier for humans, we could build a bespoke editing tool.=20
+
+The exportfs command will get an "allow-tags=3D" option that specifies
+the set of tags that are granted access. I have some prototype
+patches in a private tree, so nothing publishable here yet.
+
+
+> The components resolve all decisions in user
+> space, and give the kernel full list of policy ID -> allowed resources.
+
+Yes, exactly so.
+
+
+> Could be purely a subjective preference, I won't insist.
+
+I will do another survey of policy mechanisms, as you suggested, at
+least for reviewer reference.
+
+
+> Tho an ack
+> from someone experienced with building kernel (security?) policies
+> would be awesome.
+
+Agreed, review welcome. I'm open to suggestion on modifying the Cc:
+list.
+
+
+> BTW someone marked the patches as changes requested, so repost will be
+> needed.
+
+Yes, I plan a re-roll to address the sashiko review findings you
+referred me to.
+
+
+--=20
+Chuck Lever
 
