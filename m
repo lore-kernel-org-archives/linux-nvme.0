@@ -2,66 +2,103 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E647606A31E
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Nov 2026 20:11:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05CED606A329
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Nov 2026 20:50:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mwue5oPa;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BXlVDEjo
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=b9UXAzUk;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U15P/sIe
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=GPdlpMaV9B9H+5mUiWoXm0dHDRx+tPUGbDQufOLp/FM=; b=mwue5oPatduI/n6jYN4nM+62SL
-	xRgOgnZiNqCPaI9Ov5hOIhoRhuMc9nmI23StIIUfDgF+QqnsHbB6fh9n0gRxXB8qytIpcIXq5KScq
-	JqbN8UfV4C1MMZsES3AJmUHj+ry2ZzZ9JDiorQX2NcYRCQYmwO097WN9Y4QO16aBhmvJYOuConxcC
-	nLZH7dry1mfsk+LSqUBQ3BDPIULD+/QbmAE4t97UG68Di21qbiHBtYdOTxzpq8fc2bOEngbfDFovR
-	ZvKHX9hjCh45AtnWHFRj1F5pdCyOjiIR1kp236bbFTUXMLzQ++Pq4mdSmXWIiGdgn7BupYx78Srdi
-	aB89ATKw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=QlnDF8ulAZKGPu7aCBrq01jV/667L8OVxhejMMbVnbs=; b=b9UXAzUkZ1Q7q3
+	Ffm6BmuLmuq8U61vbIQBdtLXlpELefOomfDyvdlooz6dggAtvZ3R0mhBqDfTLCcgK3+N+m0Awwv5y
+	FREkYNJuUPC21etw2MQ8zBpZHrHsYnUeNeXDn7PP3tRVu/t1io7Cua8sLCfHVSXRrJ2jHMfb3apO9
+	cbDXYN3A9VzArCfXsGunVzHKhuRpoi1fGHe8XPR95nl5g84YurS9oXaAqYhtZFH7xMYyNRIeS647Q
+	LYUnr6wUgz/3AE6TzKNV7FSFymTXNMRXSccKk/p9N1SNmYbnqPebW5uqfx+Un4W8Wm5uB/lu16dh5
+	6P5k8BGJcT2Y8U1lrNQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVwrt-00000007hoI-0A9q;
-	Tue, 24 Nov 2026 20:11:57 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xVxT1-00000007mhW-1oQt;
+	Tue, 24 Nov 2026 20:50:19 +0000
+Received: from mail-yx2-x00.google.com ([2607:f8b0:4864:41::])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVwrr-00000007hoB-2P5Y
+	id 1xVxSz-00000007mgv-2INS
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Nov 2026 20:11:55 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id E63DA61B62;
-	Tue, 24 Nov 2026 20:11:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E73781F000CF;
-	Tue, 24 Nov 2026 20:11:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795551114;
-	bh=GPdlpMaV9B9H+5mUiWoXm0dHDRx+tPUGbDQufOLp/FM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BXlVDEjoWFBKlFX4dY5Y6SZzpsmoiCusaWPr4DnP6xsb/M3XuR+4kupDz9RNMI67m
-	 2Wbrg9mJ2ZaO/5B8FgxEhmJ1cYuWHpr3J6iJhdYN726R2xVcNlk/6v0161FpVE32Ic
-	 2lXkCYc6BlzoFxPmt3Q0GF1D1Ox6HdAM14m1DtYDxdsh9Ds1GizqTW3UAslmZBOCd4
-	 sgJ3xoCGo/+MtVLfrA2/BoAjB/mEZn9kVr/TjYsuKUhs8skYcv3JQNBi4YTeZku3yO
-	 XYqQJwTpY8Ze0TJsrbXQwhqt99evufmpisy58eIET7dF7t6GrXBO6ICT97J2HrBLds
-	 918HnQ2RuDMog==
-Date: Tue, 24 Nov 2026 20:11:52 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Hannes Reinecke <hare@kernel.org>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org
+	Tue, 24 Nov 2026 20:50:19 +0000
+Received: by mail-yx2-x00.google.com with SMTP id 00721157ae682-8b343763c6eso5852017b3.0
+        for <linux-nvme@lists.infradead.org>; Tue, 24 Nov 2026 12:50:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795553416; x=1796158216; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QlnDF8ulAZKGPu7aCBrq01jV/667L8OVxhejMMbVnbs=;
+        b=U15P/sIeQzEp7Efr6DxXAv5UCmvY4mxxkrTXnqhlkvoezR9MzxuLkyNBtHjbf5QG1p
+         7D6qJ97FL79Au+14GlpJDC9SmEsMfRYc4/XeVViXlY/POVM2FCniy5lqlw3kPs90gEea
+         +Rq2zIuUsbKwMTHZPMVA5w3rHT+0hNWjAgoWsDm4Nbx/p6HoKpltIsnTQwKUVgilGhrL
+         QfQW2/M6F8i6J5v2zEcz+rkIvhm5iN4AKUpSxq0UABQM+5y1RMu1EMBhfI3uoOxRzj3c
+         Ej5BoYWvUBLzmXU0H+uoohoSla6rwVIaHUxE67kGNHKFCYVQtg0etOo9XCuTX27VRNnn
+         glgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795553416; x=1796158216;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QlnDF8ulAZKGPu7aCBrq01jV/667L8OVxhejMMbVnbs=;
+        b=J6DpB96gKZtWr43uJQGtR1gbv9zfCmiuJVpHRjGkHRb8LrvAFBXdi6eIwrYd48mc8E
+         FdfdKOFEm+ESi+KThzGoxEL/G5VvzRi/5kDcJWVa8mVX28q6u3rz6Vsjxi0NaIExdik9
+         +Gg3U25nTS3f6ghrIWBE/vsf/sTlwM5w5eYDe4jOSZKyRgxCq0edgCZdGShkI5j6xR7A
+         KIS4pIffoTH+iLXbG39sgOd2TMbedTgrlJZitr1o2SDG3E0T9rpEGqUnvMUmR/O0H30q
+         LtqgQIXooO/6NauE+sZhNN6QaCzQY933XPaZuc7zV31hOxNxE+O3P67XwHbYh2zBi4Jb
+         DUIg==
+X-Forwarded-Encrypted: i=1; AL+hErGXvp3Vm6sT4HUhicZjcw6fxFwD2dBXbZiCOpNxRjDHPdSLE+ObA9ZoZl2W4idNVIZXUUuzupQSPCRK@lists.infradead.org
+X-Gm-Message-State: APuU4Z9YMRTtjsykeyhGwMznt1/4lTVI87f9obLglDoI3Dzf+UO8CC/Y
+	NHBwnlHPwXdLX/jWv23xATk+giTbbOeeyjV//PZ09bRW5XN8Y4Tv4t6+
+X-Gm-Gg: AZFdTZcu3qyM99Yc43dOvc/CsnJbSOJCMk1AyPTFCg5iE10tq9xhdxbXv+6gyzckSU+
+	MEr7BuPpnd6X9w42niHDqnyOmusO4Dje0NXj5wmZp64pyfkjfeRJyfGBSBoYGGqn5d9979XFYG+
+	2FFjJo4uXt+ClZ54faQ4//mjdqGDcmz8IgLQ87XRh3zWZQ6sl6HNsUsiX/ykoNJOqEPhDqWKdzK
+	xCqvuSEb6i2qXy3xwpdkGKUDXebjUjpfrOvwtxsRlxpUlBL+GAzpNXKAhSexSsqrzuXucyk+hwu
+	MX7Vn4Xe4kSsZoMIvxkLMjOVkQrKHaGDgo+mhxf6Kv+knl17oIyA5LFstiaz28/R7PrG7ogRsRn
+	UnE53bpvB6vyUz+8YWEzJRxAAI5y8RI1xGHSASOgMcJBwYLRDmg6MywuycFCjqbJQ4yt9bmbIII
+	faWctbzbWLmoSj6bibUygpNwLwaF/obRc8vSQ1sHHDXcGPbqoy4E9VTs9OLW50pUgIHEFvmhnnN
+	kW7aiSNp50whfNEtaFlKxEDBmL4zYwh+9jdJ9JyWRt3NW9kTgLfrM/Kk1yQKVUYrJzRyjlrLg06
+	4v73kS5YNqZQgE03ow1F3nHitCHP651O9OBrx+DhHneJSp9kKENZmuhHXw==
+X-Received: by 2002:a05:690c:d21:b0:8b3:7621:f695 with SMTP id 00721157ae682-8b5204e0571mr84581997b3.34.1795553415580;
+        Tue, 24 Nov 2026 12:50:15 -0800 (PST)
+Received: from [10.0.0.48] ([71.69.222.122])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b52028c7f5sm64501607b3.12.2026.11.24.12.50.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2026 12:50:15 -0800 (PST)
+Message-ID: <851e3fa5-ad88-4470-877f-e977bb1a6ad9@gmail.com>
+Date: Tue, 24 Nov 2026 15:50:14 -0500
+X-Archived-By: <archiver.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v6 0/9] nvme-auth: switch to use the kernel keyring
-Message-ID: <20261124201152.GA2227373@google.com>
+To: Eric Biggers <ebiggers@kernel.org>, Hannes Reinecke <hare@suse.de>
+Cc: Hannes Reinecke <hare@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ keyrings@vger.kernel.org
 References: <20261123-dhchap-keyring-v4-v6-0-5082a49715ab@kernel.org>
  <20261123212105.GA18468@google.com>
  <692e91cc-e2ea-47cc-926f-6639952fb195@suse.de>
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <692e91cc-e2ea-47cc-926f-6639952fb195@suse.de>
+ <20261124201152.GA2227373@google.com>
+Content-Language: en-US
+From: Martin Belanger <martin.nvme.dev@gmail.com>
+In-Reply-To: <20261124201152.GA2227373@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261124_125017_602620_C772AC88 
+X-CRM114-Status: GOOD (  25.75  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,153 +109,64 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Tue, Nov 24, 2026 at 11:30:42AM +0100, Hannes Reinecke wrote:
-> > Neither of those requires replacing 'struct nvme_dhchap_key' with
-> > 'struct key' at runtime, or synthesizing random-UUID keys in ".nvme"
-> > when raw secrets are passed.  Doing that adds a lot of complexity and
-> > opportunity for bugs (as Sashiko's review already seems to show), for no
-> > real gain.  Note that 'user_key_payload' still lives in slab memory just
-> > like 'struct nvme_dhchap_key' does.
-> > 
-> > The semantics of the keyrings subsystem just don't match storage very
-> > well, and it's quite hard to integrate with correctly.  In fscrypt, I
-> > had to deal with a lot of bugs before moving away from the keyrings
-> > subsystem almost entirely, due to issues with per-process keyring
-> > scoping, delayed key destruction, locking, and LSM checks.
-> > 
-> Hmm.
-> 
-> > This series already runs into the first of these: patches 8-9 use
-> > request_key(), which only searches the caller's process keyrings and
-> > won't even find ".nvme".  And keys are no longer wiped synchronously
-> > with kfree_sensitive(), but rather whenever the last reference is
-> > dropped and the garbage collector gets around to it.
-> > 
-> But I sincerely would hope that the key subsystem will wipe them correctly
-> eventually, right?
 
-It happens asynchronously, and processes can look up the keys by serial
-number and pin them in memory.  Even a process without permission to
-access the key can pin it in memory temporarily.  Not a huge issue, but
-it's an unnecessary complication, which caused problems for tests that
-tried to verify that keys were gone.  It was nice to finally fix this in
-fscrypt (by no longer using the keyrings subsystem).
 
-> > Note that NVMe-TCP TLS isn't a relevant precedent here, either.  TLS
-> > handshakes run in userspace (tlshd), which needs to read the PSK via
-> > keyctl, whereas DH-HMAC-CHAP is done entirely in-kernel.
-> > 
-> > This series also gives the 'dhchap' key type a ->read() method, so even
-> > pre-populated keys remain readable from userspace via keyctl_read() (by
-> > default, by any possessor).
-> > 
-> Which is kinda the main idea. And it's no different from the current
-> behaviour, where the DH-CHAP keys remain visible via sysfs.
+On 11/24/26 15:11, Eric Biggers wrote:
+> Keys not being readable from userspace is one of the usual reasons
+> people think they want to use the keyrings.  The cover letter should say
+> what this series is actually trying to accomplish.  Currently, it only
+> mentions making it so that keys no longer need to be specified on the
+> command line.  But when stated like that, it's a userspace issue: if the
+> nvme program doesn't accept keys on stdin like keyctl does, that's an
+> issue in the nvme program, not the kernel.
 
-Keys not being readable from userspace is one of the usual reasons
-people think they want to use the keyrings.  The cover letter should say
-what this series is actually trying to accomplish.  Currently, it only
-mentions making it so that keys no longer need to be specified on the
-command line.  But when stated like that, it's a userspace issue: if the
-nvme program doesn't accept keys on stdin like keyctl does, that's an
-issue in the nvme program, not the kernel.
+The goal from the user side is that no DH-HMAC-CHAP secret appears on a
+command line, in a connect string or in a configuration file. These end
+up in shell scripts, config files and logs, where unprivileged users can
+read them. With the keyring, the configuration only names the key.
+nvme-keysd (in nvme-cli) imports the secrets into the keyring from
+systemd credentials or from a KMS, and the connection passes only the
+key description.
 
-So that leaves the cover letter not stating any real motivation for
-these kernel changes, as far as I can tell.
+> It sounds like the idea is that the kernel would look up the 'struct
+> key' by description again at runtime, such as on reset?  But this series
+> doesn't actually do that.  The lookup just happens once, when the option
+> or sysfs/configfs attribute is written to.  The key is not updatable
+> either, so an external provider that rotates the key has to write to the
+> attribute.  So there's no benefit to keeping the 'struct key' around
+> after that write.
 
-> > And inserting raw secrets into ".nvme" with KEY_USR_READ makes them
-> > readable via keyctl_read() by any process running as uid 0, even without
-> > CAP_SYS_ADMIN and without access to sysfs or configfs.  Due to the
-> > KEY_USR_* permissions on ".nvme" and the keys, such processes can also
-> > invalidate or revoke in-use keys, breaking authentication.  (Separately,
-> > the existing nvmet dhchap_key and dhchap_ctrl_key configfs attributes
-> > are 0644 world-readable, which should be fixed regardless.)
-> > 
-> Again, one could argue that this was the intention.
-> The idea behind this patchset is to separate key provisioning from
-> key usage; the DH-CHAP key values have to be present whenever the
-> nvme subsystem is doing a reset, and the current way of providing
-> them via the nvme-cli command-line requires quite some instrumentation
-> to insert the correct settings.
-> It also makes integration with other entities providing external
-> DH-CHAP keys quite hard as these entities have to deal not only with
-> the kernel side (to trigger re-authentication), but also the whatever
-> tooling is there to generate the nvme-cli commandline.
-> 
-> Moving to a separate storage for DH-CHAP keys hence seemed appealing
-> to me, especially as we already have a keyring integration, so adding
-> another key type for DH-CHAP felt quite a natural step.
-> And it allows for an easy integration with external key providers,
-> as adding keys to the key store is a quite simple process and
-> doesn't require you to integrate with nvme-cli tooling.
+That is the part that does not work for a key provider. The secret
+behind a key description can change at any time, and the new secret
+must be used at the next authentication. This includes a controller
+that is in a reconnect loop, which can last for a long time.
 
-It sounds like the idea is that the kernel would look up the 'struct
-key' by description again at runtime, such as on reset?  But this series
-doesn't actually do that.  The lookup just happens once, when the option
-or sysfs/configfs attribute is written to.  The key is not updatable
-either, so an external provider that rotates the key has to write to the
-attribute.  So there's no benefit to keeping the 'struct key' around
-after that write.
+v6 looks up the key by description once, when the connect options are
+parsed, and keeps it in opts->dhchap_key for the lifetime of the
+controller. Every reconnect uses that same key. When nvme-keysd
+replaces the key with add_key(), the controller keeps the old secret.
+When the old key is revoked instead, the reconnect fails with -ENOKEY.
 
-> > How about keeping 'struct nvme_dhchap_key' as the runtime
-> > representation, and just parsing into it up front in 'opts' and
-> > 'nvmet_host'?  The sysfs/configfs 'show' methods could re-encode the
-> > secret if really needed, though not exposing it at all would be better.
-> > 
-> It really feels naff to have this structure. We already have
-> a 'struct key', providing basically all the features we need.
+The same happens when an admin changes the secret on the storage
+system. The host must use the new secret at the next reconnect,
+otherwise every reconnect fails until someone writes the new secret to
+the sysfs attribute or connects the controller again.
 
-Could you elaborate on what those features are, in your view?  It
-doesn't seem like you're using anything other than the provisioning by
-description, which doesn't require keeping the 'struct key' around.
+Copying the secret into 'struct nvme_dhchap_key' once has the same
+problem. What the provider needs is a lookup by description at each
+authentication, the way NVMe/TCP TLS without a pinned key already
+works: nvme_tcp_alloc_admin_queue() calls nvme_tls_psk_default() at
+each reconnect. That lookup runs in a kernel worker, which has no
+process keyrings, so it also needs a fixed keyring: '.nvme', or the one
+given with the 'keyring' option.
 
-> > Then if keyring-based provisioning is still wanted so config files don't
-> > need raw secrets, it could work like "fscrypt-provisioning" keys: define
-> > a write-only key type (no ->read(), ->update(), or ->revoke()), look up
-> > the key by serial number with lookup_user_key() once when the
-> > option/attribute is written, copy the decoded key (and description, if
-> > needed for 'show') into 'struct nvme_dhchap_key', and immediately
-> > key_put() it.
-> > 
-> The main idea here is to allow for external provisioning of the keys,
-> which then can be looked up by nvme-cli tooling to assemble the
-> actual command-line.
-> The write-only key method would leave us with an abstract key serial,
-> which then will have to be passed between the key provisioning tooling
-> over to nvme-cli. Which really doesn't gain us anything.
-> 
-> > Raw secrets wouldn't touch keyrings at all, and the keyrings subsystem
-> > would stay out of the runtime path.
-> > 
-> Main issue here is to keep compability with previous versions.We currently
-> have 'dhchap_secret' and 'dhchap_ctrl_secret' sysfs
-> attributes holding the encoded DH-CHAP keys.
-> And these values are written to the configuration file to be
-> able to re-establish the connection upon the next boot.
-> So whatever we do, we need to have 'something' in here allowing
-> us to identify the DH-CHAP key. So a key serial is out of question
-> here (we tried that with TLS, and failed miserably).
-> 
-> So really we just use the keystore to be able to lookup external
-> keys; I really want to get away from having to store the keys
-> as a file or in encoded from in the configuration file.
-
-If it needs to be a stable string it could be a key description instead
-of a key serial.  The point is the same.  Note that the kernel can keep
-around the key description to return in the sysfs attributes even if it
-doesn't keep the 'struct key' itself; see dm-crypt for example.
-
-Anyway, separately from that, the user-configurable dhchap_keyring still
-seems odd.  It's consulted only when dhchap_key is written to, and that
-might as well do the lookup in the process's keyrings similar to what
-dm-crypt's support for keyring keys does.
-
-- Eric
+Martin
 
