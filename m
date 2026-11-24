@@ -2,119 +2,142 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74C7606A31E
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Nov 2026 08:39:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5605E606A6A5
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Nov 2026 09:21:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=VhqD9hZY;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=lkpk9ngI
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=GVa06R5E;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MlfU0uCP;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Cj9bT3po;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MlfU0uCP;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Cj9bT3po
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=/UzbNZ1drUHp89khCDRZ9WfXtgw6mtSDZ30XIN2lAfM=; b=VhqD9hZYsjsdHR
-	EsU3cFiNeR8GFicdVIrBmJJKSXGqzNgMBxgjw62Bjw0C7jws7zd5sadA2oqcOFXOaCu+8Nwe3teiD
-	4IWp/ovKELx7wu+0UJYH+2f6h1F5QRAkvdIxnFr+KdCnU5pbLQNXmmSd+dx92nTaiTEMlpRWcS/3o
-	voGbgGM7HioScB0F/ZqJFjyXKtf2WcFcsuIgZJna2LJnydLztfIfKGQFSBHDvCG+ym95bS+S2jiWG
-	hpGZhQXMzUEB0HG35oknxuA7a12196w7dZkb06j/PPIEf7XiW2uk2S5aOulBWPL809GMB/T0F/iDo
-	E4ly4miIhVCdWoLzvffA==;
+	List-Owner; bh=lO+YBM6uqjMSJ6b8eHPVHtfj+YlagF2nKgrC7nzqIck=; b=GVa06R5E3J8swl
+	/7eBSy94P+eFaiMcCfeL5GjAvDruvjOBF+lsVwQ7kffy1BKVGYdEO+TzcYEqAdjr/tDpTLx21KTno
+	SpH3Ym7cXNMkRxBl5N8DwlPamXd0i3syCshPZAJQhGJvXKj0J1o5vDRf13hqle/jjL5KZBu86YSk+
+	VCDRQJi888yd2QTDKZe/qYx3IIqQ5cm3/c66HHOdgJrUw+H1OkTq0AUhg0KAlVPw0eDTKHXvyzcvG
+	lyxv6U1qk7WXBQW7hE7KhiyhLFTWa2D25c7hfc6kOc7EZN1npoLsjRcFNwf8jMymiYJY507ivoMAW
+	BMvPQjurMUhYU3xueeMQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVm3R-00000005voj-2TH0;
-	Tue, 24 Nov 2026 08:39:09 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1xVmil-000000062h8-3Fnt;
+	Tue, 24 Nov 2026 09:21:51 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVm3O-00000005voA-47W0
+	id 1xVmii-000000062gY-2h0x
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Nov 2026 08:39:08 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AO34ajY3825940;
-	Tue, 24 Nov 2026 08:38:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=/UzbNZ
-	1drUHp89khCDRZ9WfXtgw6mtSDZ30XIN2lAfM=; b=lkpk9ngIWD7celpvfyTP7J
-	jFFLWg4J4ywcO0JmftJ7iY1sA3LOjvp1LfEbIleWhYPu6hPJDtnYcZzxphT0n3dD
-	rDP56Hn7JaNAlok7mGV0jTvSUmlQHZgSV2amNzc6dzqsGECNDofjWd1ov9zo9/Sr
-	Aj05Dl8iyiy7pbzNyhVUSm3JuK2UER82eUq60CLmEfTxYO90jsdiMOdAIOKxiyLU
-	UzbZkMBNq97DBqvRSkksM0fI7qD/ZUu4SqHa+G/9AS6ga6r+zeGAnKm/XJlG4E4V
-	qQWkXm8t7DaF4ib1I0CgKrr1TMHvUqI9J320dvQsjL14njD1hhbNC2RkS1j4oe2g
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j34g36u8j-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 24 Nov 2026 08:38:55 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AO2nGbP2086937;
-	Tue, 24 Nov 2026 08:38:54 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4j3p0vj1e8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 24 Nov 2026 08:38:54 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AO8csWB26149406
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Nov 2026 08:38:54 GMT
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E792658051;
-	Tue, 24 Nov 2026 08:38:53 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A76C658062;
-	Tue, 24 Nov 2026 08:38:51 +0000 (GMT)
-Received: from [9.61.113.35] (unknown [9.61.113.35])
-	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 24 Nov 2026 08:38:51 +0000 (GMT)
-Message-ID: <d176a40e-9446-455d-8ae5-8bb76ae33682@linux.ibm.com>
-Date: Tue, 24 Nov 2026 14:08:50 +0530
+	Tue, 24 Nov 2026 09:21:50 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2F32022333;
+	Tue, 24 Nov 2026 09:21:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795512106; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lO+YBM6uqjMSJ6b8eHPVHtfj+YlagF2nKgrC7nzqIck=;
+	b=MlfU0uCPHlZppS7xCuhOeZOvbRGu0ZgUfNUqezThrV6CK47s0fYyZ6p3rokOqOw9b09HIJ
+	3TcIAqEqAznkWotq2uUXaKTm1YM4eOiIc0L6dcmAkjoIjovU51Nqx/Roc1cy/gRB9mG9yF
+	LKbVILoUR5N9bh8sk7Ol5ChqRRjW1dc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795512106;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lO+YBM6uqjMSJ6b8eHPVHtfj+YlagF2nKgrC7nzqIck=;
+	b=Cj9bT3poPNYBUkTnE68XXH/amW3tR/G2PgHXEK61lO75Ty6Kj5CBUL23O8ft8pJXidLEwt
+	JL7l/JdQY8gfXcBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MlfU0uCP;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Cj9bT3po
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795512106; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lO+YBM6uqjMSJ6b8eHPVHtfj+YlagF2nKgrC7nzqIck=;
+	b=MlfU0uCPHlZppS7xCuhOeZOvbRGu0ZgUfNUqezThrV6CK47s0fYyZ6p3rokOqOw9b09HIJ
+	3TcIAqEqAznkWotq2uUXaKTm1YM4eOiIc0L6dcmAkjoIjovU51Nqx/Roc1cy/gRB9mG9yF
+	LKbVILoUR5N9bh8sk7Ol5ChqRRjW1dc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795512106;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lO+YBM6uqjMSJ6b8eHPVHtfj+YlagF2nKgrC7nzqIck=;
+	b=Cj9bT3poPNYBUkTnE68XXH/amW3tR/G2PgHXEK61lO75Ty6Kj5CBUL23O8ft8pJXidLEwt
+	JL7l/JdQY8gfXcBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 03C1C13505;
+	Tue, 24 Nov 2026 09:21:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id RIIwNClXBWu8QgAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 24 Nov 2026 09:21:46 +0000
+Message-ID: <7c40a1c2-dd4f-47ae-aae4-63c5b9f0aab1@suse.de>
+Date: Tue, 24 Nov 2026 10:21:45 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] nvme: document NVMe/TCP per-queue address sysfs
- attribute
-To: Hannes Reinecke <hare@suse.de>, kbusch@kernel.org, dwagner@suse.de,
-        hch@lst.de, sagi@grimberg.me, chaitanyak@nvidia.com,
-        gjoyce@linux.ibm.com
+Subject: Re: [PATCH v6 8/9] nvme-fabrics: allow to pass in keyring by name
+To: sashiko-reviews@lists.linux.dev, Hannes Reinecke <hare@kernel.org>
 Cc: linux-nvme@lists.infradead.org
-References: <20261123173727.2022020-1-nilay@linux.ibm.com>
- <20261123173727.2022020-3-nilay@linux.ibm.com>
- <a4ade153-75b8-47f6-908a-b61b207c85da@suse.de>
+References: <20261123-dhchap-keyring-v4-v6-0-5082a49715ab@kernel.org>
+ <20261123-dhchap-keyring-v4-v6-8-5082a49715ab@kernel.org>
+ <sashiko-outbox-229752@kernel.org>
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <a4ade153-75b8-47f6-908a-b61b207c85da@suse.de>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <sashiko-outbox-229752@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=SoQFe/O0 c=1 sm=1 tr=0 ts=6b054d1f cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8
- a=GJq86qgG9mpgkJBzaI8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI0MDAzMyBTYWx0ZWRfX4GgDCW0OScWV
- IudssZdQ62AZzxxs1IanBGtqg0GdwPaBvys3g8Q+m+68dZhfliNAOPo3eQGduKsZuNndEFdggpm
- geNead56X+wtZy4vXYlXUzeADvbx60w=
-X-Proofpoint-ORIG-GUID: j9OGs4PuP7hNxgG_PD-oHzdAMRjnohLp
-X-Proofpoint-GUID: j9OGs4PuP7hNxgG_PD-oHzdAMRjnohLp
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI0MDAzMyBTYWx0ZWRfX2ReEE0Lc8SV/
- uBgy8Edc2cV7wAb9PmDrM9Sq/cS+zU61kLX10pg8YlLABUdWlKPYqhIgtcBI8Ll4Jho1zS2x9dC
- Iqz86mEDC/92YzFgyOLLt4UZkU/eleZLJjCENHlO8MsLnToE2ZA3MSOGUyWWDoWN2SoJ3130qrb
- /3jLDspablSTJSZ+vCdqnH4fRQ0cTXIqDG4JMkf2J7C4v0jHDw5Z1Lb9y8eAQ5hEJ2aiyY2PhEW
- WoyZXBx9dwsQK/g9DmFUOhserqtkJ8QOcJSXkUPECJ9IKt1P6nwKlWYV0NEQrhiTaaSWSNx+lHh
- dh4ZIOm7d0s85UbV1J0PMUpGEc2oTme8XAIASRlY5NKi33Kd1ZSVEsV9/EN/HjIAddufiR4Zhh6
- /rfRf5ocXyTGwDQ78mJDs3Ai2SLCEBYN0XmUNgqbYwdSgfBMwx6cMZp0fxZF8riT/x2MM8sbqnI
- Nd39duQpAyT6vjA/uLQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-24_01,2026-11-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 spamscore=0 bulkscore=0 adultscore=0
- lowpriorityscore=0 clxscore=1015 malwarescore=0 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611240033
+X-Spamd-Result: default: False [-14.50 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	XM_UA_NO_VERSION(0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -14.50
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 2F32022333
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261124_003907_026488_9C81A66C 
-X-CRM114-Status: GOOD (  16.51  )
-X-Spam-Score: -2.6 (--)
+X-CRM114-CacheID: sfid-20261124_012148_834835_0197FA85 
+X-CRM114-Status: GOOD (  23.87  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,59 +148,144 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=4.0.1
+X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/24/26 12:33 PM, Hannes Reinecke wrote:
-> On 11/23/26 6:37 PM, Nilay Shroff wrote:
->> Document the per-I/O-queue "address" sysfs attribute introduced
->> for NVMe/TCP. The attribute is available at:
->>
->>      /sys/class/nvme/nvmeX/queues/<qid>/address
->>
->> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
->> ---
->>   Documentation/ABI/stable/sysfs-nvme | 18 ++++++++++++++++++
->>   1 file changed, 18 insertions(+)
->>
->> diff --git a/Documentation/ABI/stable/sysfs-nvme b/Documentation/ABI/stable/sysfs-nvme
->> index fcfd0426866c..953ecee81c43 100644
->> --- a/Documentation/ABI/stable/sysfs-nvme
->> +++ b/Documentation/ABI/stable/sysfs-nvme
->> @@ -534,3 +534,21 @@ Description:
->>           managed: (RO) Shows who owns the CPU placement. 1 while
->>           io_cpu is driver managed, 0 once the user assigned it,
->>           for the life of the controller.
->> +
->> +What:        /sys/class/nvme/nvmeX/queues/<qid>/address
->> +Date:        November 2026
->> +KernelVersion:    7.5
->> +Contact:    Nilay Shroff <nilay@linux.ibm.com>
->> +Description:
->> +        (RO) Shows the socket endpoint addresses associated with
->> +        an NVMe/TCP I/O queue. The output contains the following
->> +        comma-separated fields:
->> +
->> +        traddr: Peer transport address (IPv4/IPv6).
->> +        trsvcid: Peer transport service identifier (TCP port).
->> +        host_traddr: Local transport address (IPv4/IPv6).
->> +        host_trsvcid: Local transport service identifier (TCP port).
->> +
->> +        Returns an empty result if the I/O queue is not live.
->> +        Returns error if host or peer transport address can't be
->> +        determined or transport address family is unsupported.
+On 11/23/26 6:30 PM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issues to consider:
+> - [Medium] nvme-fabrics: keyring=<id> fails in nvmf_parse_key() when TLS
+>    is disabled
+> - [Medium] nvme-fabrics: match_int() in nvmf_parse_options() misparses
+>    keyring names
+> --
 > 
-> Please merge it with the previous patch.
+> commit 1438f3b90feece0503d30638e100925a9591818f
+> Author: Hannes Reinecke <hare@kernel.org>
 > 
-Yeah will fold this patch into the previous.
+> nvme-fabrics: allow to pass in keyring by name
+> 
+> This commit updates the fabrics keyring= option to accept keyring names via
+> request_key() in addition to numeric key serial IDs, and guards the option
+> with CONFIG_NVME_KEYRING instead of CONFIG_NVME_TCP_TLS.
+> 
+>> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+>> index 2937e5dc9ecd2..aae094bbbf0dd 100644
+>> --- a/drivers/nvme/host/fabrics.c
+>> +++ b/drivers/nvme/host/fabrics.c
+>> @@ -14,6 +14,7 @@
+>>   #include "fabrics.h"
+>>   #include <linux/nvme-auth.h>
+>>   #include <linux/nvme-keyring.h>
+>> +#include <linux/key-type.h>
+>>   
+>>   static DECLARE_RWSEM(nvmf_transports_rwsem);
+>>   static LIST_HEAD_GUARDED(nvmf_transports, nvmf_transports_rwsem);
+>> @@ -696,8 +697,10 @@ static const match_table_t opt_tokens = {
+>>   	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
+>>   	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
+>>   	{ NVMF_OPT_TOS,			"tos=%d"		},
+>> +#if IS_ENABLED(CONFIG_NVME_KEYRING)
+>> +	{ NVMF_OPT_KEYRING,		"keyring=%s"		},
+>> +#endif
+>>   #ifdef CONFIG_NVME_TCP_TLS
+>> -	{ NVMF_OPT_KEYRING,		"keyring=%d"		},
+>>   	{ NVMF_OPT_TLS_KEY,		"tls_key=%d"		},
+>>   #endif
+>>   	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
+>> @@ -992,17 +995,29 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+>>   			opts->tos = token;
+>>   			break;
+>>   		case NVMF_OPT_KEYRING:
+>> +#if IS_ENABLED(CONFIG_NVME_KEYRING)
+>>   			if (match_int(args, &key_id) || key_id <= 0) {
+> 
+> [Severity: Medium]
+> Can match_int() misparse a keyring name that starts with digits as a
+> numeric serial ID?
+> 
+> Because opt_tokens now matches keyring=%s, args[0] holds the full string.
+> match_int() calls match_number(), which uses simple_strtol() and only
+> checks endp == buf without verifying that the entire string was consumed:
+> 
+> lib/parser.c:match_number() {
+>      ...
+> 	val = simple_strtol(buf, &endp, base);
+> 	if (endp == buf)
+> 		ret = -EINVAL;
+>      ...
+> }
+> 
+> Any keyring name shorter than 24 bytes beginning with a positive integer
+> prefix (such as "1nvme") returns 0 from match_int() with key_id > 0,
+> routing the truncated prefix to nvmf_parse_key() instead of looking up the
+> keyring by name with request_key().
+> 
+Inverted the check for the next version.
 
-Thanks,
---Nilay
+>> -				ret = -EINVAL;
+>> -				goto out;
+>> -			}
+>> -			key = nvmf_parse_key(key_id);
+>> -			if (IS_ERR(key)) {
+>> -				ret = PTR_ERR(key);
+>> -				goto out;
+>> +				p = match_strdup(args);
+>> +				if (!p) {
+>> +					ret = -ENOMEM;
+>> +					goto out;
+>> +				}
+>> +				key = request_key(&key_type_keyring, p, NULL);
+>> +				kfree(p);
+>> +				if (IS_ERR(key)) {
+>> +					ret = PTR_ERR(key);
+>> +					goto out;
+>> +				}
+>> +			} else {
+>> +				key = nvmf_parse_key(key_id);
+>> +				if (IS_ERR(key)) {
+>> +					ret = PTR_ERR(key);
+>> +					goto out;
+>> +				}
+>>   			}
+> 
+> [Severity: Medium]
+> Does passing a keyring by serial number fail when CONFIG_NVME_HOST_AUTH is
+> enabled but CONFIG_NVME_TCP_TLS is disabled?
+> 
+> NVMF_OPT_KEYRING is now guarded by CONFIG_NVME_KEYRING (which is also
+> selected by CONFIG_NVME_AUTH), and keyring=<name> succeeds via
+> request_key().  However, the numeric path calls nvmf_parse_key(), which
+> still requires CONFIG_NVME_TCP_TLS:
+> 
+> drivers/nvme/host/fabrics.c:nvmf_parse_key() {
+> 	struct key *key;
+> 
+> 	if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
+> 		pr_err("TLS is not supported\n");
+> 		return ERR_PTR(-EINVAL);
+> 	}
+>      ...
+> }
+> 
+> In addition, NVMF_ALLOWED_OPTS includes NVMF_OPT_DHCHAP_SECRET and
+> NVMF_OPT_DHCHAP_CTRL_SECRET for all transports, which use opts->keyring in
+> nvmf_parse_options(), but NVMF_OPT_KEYRING is still only set in
+> nvme_tcp_transport.allowed_opts and omitted from NVMF_ALLOWED_OPTS.
+> 
+Fixed for the next version.
 
+Cheers,
 
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
