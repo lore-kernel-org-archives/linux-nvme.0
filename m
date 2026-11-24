@@ -2,167 +2,148 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D3E606A336
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Nov 2026 16:13:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F418606A33A
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Nov 2026 16:13:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=bJWDh36D;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=mbA21XMT
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=X+LrRJW9;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Hhkj6+jC
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=5bQJNMobLMqtuKHhwgVId/roqubolCM8LnRFW1vjp3o=; b=bJWDh36DxYt0wpsUgf1W1cWBnx
-	zM1qF6oLQ/SngHv2P/k5WFBjInZvFI2/SiqN4xxltHfZvj/UPI89bKprYWbNaJybuuvEK/gY4YrOD
-	HoCgiqrzC4tvvJtj3cv4TU6A3ELQBsNhtToPNx/dg2HF/+VWJqoovnsjUfXG2X3+jCMq1wFuYxuHy
-	XFC9/troZBI6G05lJE22zHJ8zW7/qsBLIBCzAImA3f+FaQaG5E2udDbEeZeaZeyn9G70Z0ovauzDL
-	DCXQKOB+UxWZctR603Dsgb47938+dxVh1bLKXuoy6pbp+Ij1xnBAIZN3w5q2WdafAUyn7B9iypS2R
-	mpoYjgxQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:References:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=r33YAfWEZujB12h0Wcd/BdyI/qt4RRuoFmTelGzkT+8=; b=X+LrRJW9vJxLxH
+	My2e7iCXQp4vj8DOePh9wTe6ZQ8aETbkhv26yRoY++kom0G+DeKdoi7J217aOF395uxv4+kBwndC9
+	1o/wS69aEHEPY9mapMxUbBZKUdgJVZ5lO0JtDo7WoOTfcP6q4AC4mwuesqi/tJaYwUkMsULD8YyiI
+	H7IL39j9FNkcW06mEaIGivc/OAaRcKczW00CTauinzZbaPQ2b1pHLoSLdDWdiKo27lNUckcqHsgRI
+	krBlJ17urfpPOVqxJ/MlJHEFEPMhbhKDHSkx44jGsARzAiuyGTg2HxmfDwAOY8AKhG+KRONWe0Hei
+	3MyyORd4MMIKcWEbZtig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVt97-000000074lL-1dvs;
-	Tue, 24 Nov 2026 16:13:29 +0000
-Received: from mail-eastusazlp170120007.outbound.protection.outlook.com ([2a01:111:f403:c101::7] helo=BL0PR03CU003.outbound.protection.outlook.com)
+	id 1xVt96-000000074kp-2qNM;
+	Tue, 24 Nov 2026 16:13:28 +0000
+Received: from mail-northcentralusazlp170120005.outbound.protection.outlook.com ([2a01:111:f403:c105::5] helo=CH5PR02CU005.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVszb-000000073Ll-2b1f
+	id 1xVjw2-00000005eKr-2dWf
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Nov 2026 16:03:41 +0000
+	Tue, 24 Nov 2026 06:23:24 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gq0Jh1gCOjTATy4Jm2MMKtHvk65tQl0FSyePRv/vKMI98tnlaTxQYUqJN7Bg2/zAgqSo7uYP6bGPxxrjal7rq8pugKcFPkw2Z8i7noD5LDOfR9+TRTsFRAlMKnI44DBx5V3qrqUR64NqkUYnqznZkyephAo8t3QWg7QrZFaRkQNz09ZqLu2hUuhhHeMmLVatvkIoccwlQDQ20F5vKUhWULQz02jdO76QJPFECk9p4W6UM2tOWtVwCpMDV3h/184/QlPcGT71golPOI70XwBWAK/lb1Dnhl8eeiU2FXayNCsnMcV6bXOjc47uNgQMX4IEc4E28AAix8PtLQIXNZ9J9A==
+ b=bh9IZe2V8hpiaW/Rf34l0P7yQ08jlEFwQ4jv8jIgTwPkZuZRPouJZyEz9v8CUUHc++6ePK+F0KCquVEaRymabVz8GTc6trOJSpuf1+QfKxi1Kg2mvVhmad8jkgpE1ZbIEnxbrOAlKSGgjx3DPdPmXlgbuZpYzWra1Rb256+wKF7NE755FUWJdwZZO7ltUdTAlYlSTlKDmrzgnBqhfpMiJO3rZRX0MDYztphrBRmZjlJOEPxsME2m8Oau0l9rrxHFr9wGeDgk8mliHOzZ9nUOfoMvb3rXx9fsyFRqnb5SamxkRJi84U1ab3NnrYrjaC3AAKRcg1tzfYi1TZB0yyR7qw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5bQJNMobLMqtuKHhwgVId/roqubolCM8LnRFW1vjp3o=;
- b=AnKh4GO2r58cT0mkgRyNQscqPeT9yQgLi/CSsPL1R265ulQHjKpd4a7ebxccUzyMCgDOR3XWuuT77Ec2JW3V+UWPq1mrGmNJ25MXm1JMHtMjSOUYq4OVbnQEbK938TRfKIPdNIcMntph/O3N9p5NLI6vhuiWNBPocMLSu4FKGLXCG2TDV7bNEaLI+7I6rK28gErgvOkiTtUBLI7E/qINIP4AqW2a8tWFVPD7N+6EUXMuzX+qmLyn75OwD7ZP42s5p7UYJITrkJKEBO/enAaKpg7s/Uxdyfb/kWmKz87IJpPBkJA8g2l8VSS0gR2LiKiv/PO3bU/68FCL92yG+J2+SA==
+ bh=tqi+R+vu1GIxiTyBYta7xruWzQf7XYaXeCi8UHJQINU=;
+ b=c5/xP/NYc0UsS0yKnPFxC4IIDFSeRE12QBW4DgOl7F0ddKuKg7O5C+faFfVVFv0aao+lb5b9+15eTjF8TQOy1ADPWroaQAOEHxajHwe+qVg6W9boRs/ck39yWV79tn4LGy2+6Ffzhlz/LmQNOvZnnIpoL8Ir4x+DF1XkTQ1W8KvAZW5+r1tY6jtfT5lyn8QiCCeQ74Y7ah3BnMjk90HWhWcY+9g0veY632kwRpSKbIk6dbH6LPt2DI/ZIUTEhFYnrngZIWxtYb/XrK0eYOig1N+5bNusXMYZ0QTKLciOblvTKXifQ3bAyXWoDhfFP3v+dm/eq0l1Lx4MctrUGpRaMw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5bQJNMobLMqtuKHhwgVId/roqubolCM8LnRFW1vjp3o=;
- b=mbA21XMT6a1VPpfZHwdu5BOyKuhRJTcSCb6hRPL8WD7/8XmyZpsqFYRaLUkd3xW3Iy8rgBgbb1QsGZq1c3ERQ8DK4O1YXZi2N69DIOBEz7zC32I60PLmbeTZvkh6TywNfBUssB++jOsWhkrGYIHceLI1Mju7cMAjBo1aMpegJHQ=
+ bh=tqi+R+vu1GIxiTyBYta7xruWzQf7XYaXeCi8UHJQINU=;
+ b=Hhkj6+jCtOVPHAmaDHWu1Q+4vRkKKr1fgeodbYMoLMF7kQqzsWQm2JqmslyMaez7JGRkxSN5oqhuulkZfFpy4vVUQ2txGiYzZzCI78m3w6Z9pg/4y3C5V36LJLh6eQKjDaGziumscKhcAN2CJuK7bOThdlaRqqu+1i5aD5f60wlvFoQrxgiP8gtW/mOHixOqiEykwTQoM6z0/AYtXJHZ7IMhXFUczIS/pAG36h1JHzh5QyHVxXBSquuxHOwxbDIYXDk7SmGZTl6mjaZNiLaMqF1XzmnTx/86F0AlXyg95UKz6V0y+VASDqvsNr5XoGkuv0guXbq/W/RJoaH+xspQwg==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY5PR12MB6179.namprd12.prod.outlook.com (2603:10b6:930:24::22) with
- Microsoft SMTP Server (version=TLS1_2,
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SA3PR12MB598757.namprd12.prod.outlook.com
+ (2603:10b6:806:52d::14) by DS6PR12MB600903.namprd12.prod.outlook.com
+ (2603:10b6:8:4d2::17) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Tue, 24 Nov
- 2026 16:02:50 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%3]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
- 16:02:43 +0000
-Message-ID: <7a5a2d3a-e42e-4dc0-8d22-8dd1bd249501@amd.com>
-Date: Tue, 24 Nov 2026 17:02:31 +0100
-User-Agent: Mozilla Thunderbird
+ 2026 06:23:12 +0000
+Received: from SA3PR12MB598757.namprd12.prod.outlook.com
+ ([fe80::e206:100:5946:a777]) by SA3PR12MB598757.namprd12.prod.outlook.com
+ ([fe80::e206:100:5946:a777%5]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
+ 06:23:12 +0000
+Date: Tue, 24 Nov 2026 17:23:07 +1100
+From: Alistair Popple <apopple@nvidia.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Matthew Brost <matthew.brost@intel.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+	Dongwon Kim <dongwon.kim@intel.com>, Kevin Tian <kevin.tian@intel.com>, 
+	Xu Yilun <yilun.xu@linux.intel.com>, Karl Mehltretter <kmehltretter@gmail.com>, 
+	Baolu Lu <baolu.lu@linux.intel.com>, Felix Kuehling <felix.kuehling@amd.com>, 
+	Alex Deucher <alexander.deucher@amd.com>, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org, iommu@lists.linux.dev, 
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org, Alexey Kardashevskiy <aik@amd.com>, 
+	zhipingz@meta.com, treding@nvidia.com, jhubbard@nvidia.com, chaitanyak@nvidia.com, 
+	Leon Romanovsky <leon@kernel.org>
 Subject: Re: [PATCH v3 03/24] dma-buf: Add the SGT DMA mapping type
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Alistair Popple <apopple@nvidia.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Dongwon Kim <dongwon.kim@intel.com>, Kevin Tian <kevin.tian@intel.com>,
- Xu Yilun <yilun.xu@linux.intel.com>,
- Karl Mehltretter <kmehltretter@gmail.com>,
- Baolu Lu <baolu.lu@linux.intel.com>, Felix Kuehling
- <felix.kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- Alexey Kardashevskiy <aik@amd.com>, zhipingz@meta.com, treding@nvidia.com,
- jhubbard@nvidia.com, chaitanyak@nvidia.com, Leon Romanovsky <leon@kernel.org>
+Message-ID: <awT8prWsj11TBdmP@nvdebian.thelocal>
 References: <20261120-dma_mapping_type_v4-v3-0-c0183a409bdf@nvidia.com>
  <20261120-dma_mapping_type_v4-v3-3-c0183a409bdf@nvidia.com>
  <ad46d60a-189d-4dd5-9ad8-ecfd3c90f9d9@amd.com>
  <20261123165716.GM179082@ziepe.ca>
  <7ac7edd0-5c38-440a-b26a-21bcbb6f4702@amd.com>
- <awT8prWsj11TBdmP@nvdebian.thelocal>
- <63eb7b6e-e0a8-4443-a434-0301ed59beae@amd.com>
- <20261124142032.GN9566@ziepe.ca>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20261124142032.GN9566@ziepe.ca>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0045.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:92::17) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+In-Reply-To: <7ac7edd0-5c38-440a-b26a-21bcbb6f4702@amd.com>
+X-ClientProxiedBy: SY0PR01CA0003.ausprd01.prod.outlook.com
+ (2603:10c6:10:1bb::13) To SA3PR12MB598757.namprd12.prod.outlook.com
+ (2603:10b6:806:52d::14)
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6179:EE_
-X-MS-Office365-Filtering-Correlation-Id: ee4f091b-b256-4438-2ade-08df4a445f68
+X-MS-TrafficTypeDiagnostic: SA3PR12MB598757:EE_|DS6PR12MB600903:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4a3a7c7-7004-42cb-939b-08df49f36ab1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|7416014|376014|1800799024|261102130727099003|261026121527099003|10067099003|11063799006|5023799004|4143699003|56012099006|261028144727099003|261022105027099003|261026140227099003|261021121427099003|261102123227099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: CSGAM0gi8jGkyMss17S7FUuh3CUCJyHW0gDVBrOLeQ0Nvw8Jl5Sk3ZbSQIcxo4GZo3B+xZrZ0q4zz3OrX6pFQ35QoBEzId6zmMS9BEWiDlwEPFvkMc7cj906oA0/ui1++IUjt+GVu4Fsu1xw0Mzx0oMygVPKyS/wYdtts44UiZ2S4hxQ31oFxasqp1jMa5Zucrl5PD8Y4bV63rCbk0woTpUodga+GQlCWlJmBKXmFpEMMa30s2+nVk0h1EeYaQHgK5zUgMfPmNEmMneXMIpXm4139Iowqc/w76BRkgv9Ljp/icf+vcrOLuhPgY+S0aIwq78OgTzjEQ5WfM3MglJKo521Je34YAxKEm5ZZLzmf8mEerrVCeXObBEYUtpdwKXvapxQwpBmbL58qZOEY533WXVQk5KWUtS5t0ptHzvNVrhfx6kWUCT+Xa+GjAlebIgRApL3/W0LyvjCZAtch9soI2K/eBFh7dgSp6VorU6q3cHW49MyI1Lq57FFXhCxzRcdJTinY6sGBqliCbp93VTVSj1cwxQm2bR6n6hz54QAn2/7Bd6ejtVkGnDKqDaNCqPgDbA82EsPCFtHsJx4HdQ/qXyu+dcMybNI+k5+ICETjTOli1J0EhW6uJgTk4I80Uzi6/qNmpCreX6ct28iKbvz/rzjpurIPZbo9OV0vz5YNuc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(7416014)(376014)(1800799024)(261102130727099003)(261026121527099003)(10067099003)(11063799006)(5023799004)(4143699003)(56012099006)(261028144727099003)(261022105027099003)(261026140227099003)(261021121427099003)(261102123227099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016|23010399003|18002099003|22082099003|261021121427099003|261022105027099003|261102123227099003|261026121527099003|261026140227099003|261022115727099003|261022075727099003|261028144727099003|56012099006|10067099003|4143699003|261102130727099003|11063799006;
+X-Microsoft-Antispam-Message-Info: 22+9zj8L8mjHXaQmdlfm1aZq7Q2pWCNNassGBIULYKSRSUoDHYFUhX1NPfhL3ijriZ01zRFjJDyPMZaYEctsXeS8h2/dBu6/k5SChDxPS/tdp73yYCp5ZmIGNuId7a2QEpCHeeJB7mC9u7Qe18K4/k6vT91cAJpzNGT9QtM8n969YPNQbGWeGcv/w9V/K5K36WgVwhdROp4lGKqTPcbTrkxKIJMPWoshIdMV+oygXkBPM0cNT2R0pgPpYXVyLyue8yhnijsIjC/1AYXn2QfLWbz9LXbTyve253iPbrHrl5lr4mTpI+eW40zEpbvOLLxzjG0GRCbstDk4fvfJVQjLQ1JJYxQc3DPTJiOBOS24oEpwvtjdPuJhu0WK2oPCtDo9tvB0UWtFCJSxZ4df5yd6hCl0+pBpO2U872A0w2Nj+O7UvJ2j2q/NCy8MVtS2ldfxlirAhuf7647GTmOordWkv6uTaqQM7dFT0ccwdtZ7TPPx1K7jlpDYn8mCoTfDaPOaqrdH3t7gJBJ35vMpRDRz2RnycpOkdSouMbi2zpr2gHpVw8h5xUfFmWatlRJHIbZo1xUTwpu72sHYr5f5nxmWm/hIX/l4IcyDfmVgj25n+9yHmto5GeG8UO303xvgE8XQUpbAGach78FgSB6C9N4uxBPxT7wldnyF8SQyY2ayZtk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR12MB598757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(23010399003)(18002099003)(22082099003)(261021121427099003)(261022105027099003)(261102123227099003)(261026121527099003)(261026140227099003)(261022115727099003)(261022075727099003)(261028144727099003)(56012099006)(10067099003)(4143699003)(261102130727099003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RHh0WmJ3VC84SUhURnlVclRMdzhPbVdVSDVXNmpwcEY5cFk5SElvY21DL01n?=
- =?utf-8?B?d003ckxkeXAxSjVHSENWR2IxS1ZOc09yODFYYnRrek9IZnZZZXFpR3hIYzda?=
- =?utf-8?B?L0pqU3lXQUk3eVVaWE9RdjBwSk14ZmZiQm1SYUtMcXIxeEtWMU9maXFBU3lr?=
- =?utf-8?B?V0VtU3ZhNUJrRmJlSUhPL0lEQjhHckthMWtDK1NucHpEWUJaRWR1N2hTcUxS?=
- =?utf-8?B?V3ZwRjFRT3lwc3ZYaENkSGZyRnVZSVR6Sy80YTRFbGQ2czJkNkRaRUxwcXpI?=
- =?utf-8?B?TjVLcDJEbk1aYVNuTGx4NFJYRmF0ajhscDA1M2dqc0RtUUV3aTlHZ1FZSHJj?=
- =?utf-8?B?VlJodm5PeWNwWVNYcmE1T3FsSk0yb1AzcndMQ2p3MnNKOHdnaG4yQWNhV1Y3?=
- =?utf-8?B?K2FIRWtaNEhlWVZ6UU5EUjVyUmRNVmFrQ213V2ppdGZCL1krOGRRbmV0S1hy?=
- =?utf-8?B?UVo0Q01JcngwY0F6VlV6S0lubndCR0FiMzYzMk4wOVFBRkJXTFNFRFBONm5q?=
- =?utf-8?B?elp6TG5vN3VCOUZ5a1I3ZFl1cFB1UFVObXgrWUQ5Qk80U20ycllweGw1Mk45?=
- =?utf-8?B?dlQ3MS80eWpwcVlneHVhdm8xSGl6MDl3UTV2enc0ZUhERzI0TEd3QTRVSHVV?=
- =?utf-8?B?S0Eyc3VuWHB0L0VUK1JsMHNmZEs1MzB3T2pjNGxGTDJoTUxkR0F0M3NhUFZJ?=
- =?utf-8?B?TDY3WldjUnJ4NlV4Y1EzbTFBZXVXeU1MelJzMDVuSjgyMW9wOXdTU2pOUWds?=
- =?utf-8?B?UHd4VTBXOWFQY3ViT0RGM0NORldwZXM5a056SVJ5cVc2Y0VycnUxQjc4VzZt?=
- =?utf-8?B?V3E3emJRdGQ1RTh2MHJSU09TL2RVTko5Yk9PWWJERkJSS3Qyb0pDZkNJSFpw?=
- =?utf-8?B?L0FLL0UxRmNNb09QY3NlRHh0VlVkb2Q2UmxDVEpLcTBHNnRYVVgwR09OTG5H?=
- =?utf-8?B?d2dLblFMaWZoZEhwUFpyZEJXSTVQbXd6YjhNNERGZHhyS3VWU3laTVlYb0pD?=
- =?utf-8?B?NGR1TjJ5d2pTRko2Qk5CUmRqVmg0Q2x6YUdYUEtBT0l6bU1mUXlnUWxCcFBk?=
- =?utf-8?B?VWU4M29HZmNvdjVKcTdDTmMxdGZoRlZOblRYUWp1Y1pZSjdHWXZBY3lHWDAw?=
- =?utf-8?B?T2ZkTm9zNFRmRUN6MEVlNXF2czhESFlqVHhSL0xoMGVhLy9zSDljb1RnNU1M?=
- =?utf-8?B?ZFdsOU5uWmJHc2d2K0R5K1ZlNGwyYnpwZlBoSzRheURtQzA4SXhaQXNkQ09G?=
- =?utf-8?B?cGRlWjRGMDdIMlBaSTUyV2M3WDkyb0hBN2lodUlqanpibFQ4c3M1d0tIZ0d4?=
- =?utf-8?B?ZURTL2l6TnF6WmlQa0o2YmtFOU1CTEEwQXBTYlFDTzdhVzRlWUNzQjFuMDhD?=
- =?utf-8?B?Mms0RDRXc0tYdkdFQ3RPeFlNOGltaUpwNC92Q3FBaE9GTVJuQ1k1SGFuZk9H?=
- =?utf-8?B?RGt4ckF4Z0Jsc0ZiTUZUdXZtaHRuQ3grcjdpWWVYZC9Xd1lxRlpOU0pJb2lM?=
- =?utf-8?B?OEJzTXpuZFRnQzc4Y2FjL0NybUl5MkhkbXhwZGphYUJGRXNLODhrUjlyQTRB?=
- =?utf-8?B?dlF2bCtXTjV5disvODM4Y3NNNld2WjFKOUFXc3l3WXdzM25nRUhxNWJ4U2RM?=
- =?utf-8?B?dkVMTVdiYmw5WnZITFNtU3JVVW4xYjhtQ0Uvd0JVWWIwMkhXMTIzQnZRMjdn?=
- =?utf-8?B?YmhCbFhKV3dDMEFzTGNVR2VLMThaQlMyZTZ5MmZUNVkxYjJpT2ZrZmdKWTJN?=
- =?utf-8?B?R1NqQzlUZnZFeTg4dERNOWFuS3hGU3UxZmw5VlhVR1ZaWVNocU82ZE5qbVVo?=
- =?utf-8?B?TTk3QVBoRDk5bnBUa1RiMXhoaVVpNnFuMkl4dERzMDRWdHR4aW1raDVWWVpK?=
- =?utf-8?B?OWo5dU9yQ1dkVGxVNERxM29GVUVuby81c3JPdjN5TE5sUGg0SjVaVmt3L1Zu?=
- =?utf-8?B?WCtxOFB4UG9rbkdpWlV5ZFZmZ0Q2dk1UQlVRck5NNll2WU50YXJyR0JIT0pl?=
- =?utf-8?B?ZEg3dERwWnJhSE9BWnJmdGIwMWJVRXBnSFlLdXN6RUR6VUYxSzVnbXJrMFVJ?=
- =?utf-8?B?N1FnQ2tPRU50UnRGcS8xVEhma1AvcE5keTMwOGdnYXM2aUNILzdwWnRIbmdF?=
- =?utf-8?B?VW9NeFBISlgzOFNuZkxzU1dlNis3eG5YWFdicDNYUk56akd4MjJzbndTdW8w?=
- =?utf-8?B?ZFhMV3pMVHBsUUpFOWM3c0ljbWltQWhJa2RQdVptamM4UG5tWUhTTFk1VVVN?=
- =?utf-8?B?LzUybk94WVBsSkNPanErL3Nqc0E2NUpFSjd4VlhnemszSUJOWHgrQWtBN2Zm?=
- =?utf-8?Q?2thNZKfYtt+Mr00oiP?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee4f091b-b256-4438-2ade-08df4a445f68
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?OQw3WeM1bqlw5xW/4CLTp40EaiuOqI6HDAQDxBP4epVt1puF0fZMDSTy+0?=
+ =?iso-8859-1?Q?D/FNfy03+nlG5DozEsd57laR2wt9lUA53OhhvC0HALY8GhR9d2uiYwWk7+?=
+ =?iso-8859-1?Q?WFAIDAD37TyXmZoBkn4O9qq1ppx6BIZ8ZGiu2dDBZZmLpQcRIW3B4fEw7F?=
+ =?iso-8859-1?Q?nOsT5Q+WlVhQ8lUs6l3fTJuAFnnOfN1MGhwbbC5hZbe3gYlhgIDA8PxKgm?=
+ =?iso-8859-1?Q?41vERdR+JB6BRoeUvBerqReg/+AmoyBlSl/sV6Mb4gTJ2jayWP4TxvticE?=
+ =?iso-8859-1?Q?G7xHNh8MrbjALCEgE3rbW64ZQHxu4lsS5yU4S6QFZnlKlLUl8pa/kok5K1?=
+ =?iso-8859-1?Q?vWp6NoH5y/oUpDSVwLlX93ZGtN9BGWeNsTmPzKKIEmuTexVDJhpyZ/2AeN?=
+ =?iso-8859-1?Q?sUMuryszAgHQI2dUOyPTlpNIf1vwmnCrnXgWvKL7LeJp+A6ExAHqAwNBtU?=
+ =?iso-8859-1?Q?yw2q1eOMifJnHoWWR1r/eQLgH+M8nrI0fJMMJ7IVcUrtattzoKHpz+H/pE?=
+ =?iso-8859-1?Q?P5Vw1RfFmdtq4U+3MMAqfhPN2jSN+7QvUHW5z5PeeAnzFljGI6/ziZg+sg?=
+ =?iso-8859-1?Q?F6lL6uhjqtzhQWx27+aqnYnAZg1tL971joUPRSBeWXnlkx3Ma3DnIKCrI6?=
+ =?iso-8859-1?Q?g5ZRSRqg20e96WXpV2+5oJTE6XKruuiBXqkbcFXyYf3buyakn3PgAjONWp?=
+ =?iso-8859-1?Q?mnLzuHf1mwQo4kDbqjyGxxY3vCz6RrK90WhwFm6gwEaMma8295ehyQUdnw?=
+ =?iso-8859-1?Q?N/SKhwJzLTFPUILA+klWb0inI4LmcCwQpnI05VYEDtmeMZBPeIY6qT/8I7?=
+ =?iso-8859-1?Q?tcxg9Zo50hFKPGTYkHf9HUFpKZsdhahhPqtGH5HskLbs76RTyEkDqNzEs+?=
+ =?iso-8859-1?Q?yZkAaGDZW+YioZ/v0/NSk2z2BDl7EwFT3BBgr4+yw5nsJRXU22+bWBZxwG?=
+ =?iso-8859-1?Q?QgKsaE/++Iv5t8iuUhdBNHygdmXLprrf9YM8xkXZtBNNGjspaeB43PyAtL?=
+ =?iso-8859-1?Q?rEu9D+uBH6pXmdHowFR9OXPtmcqXaBVTms7/X/pahvdo2Z67WDEnmQGltt?=
+ =?iso-8859-1?Q?iplJ9g3E4XBwOLkQrGWYpFErEN71cb95G5Gv4FFzkxcfsO0zhZbc6kXzqs?=
+ =?iso-8859-1?Q?B9XbEtbJuFPTLmsgeClL1OH5xpdDOQ/m2RT740+3GSL8otjWk0Tl9jXKrB?=
+ =?iso-8859-1?Q?18IxhF8WmiYx9sSW3DxD3hWamjrREfdpizh/dJJ6bWEHXIwgbIoQ0pERDM?=
+ =?iso-8859-1?Q?ER919CXZlWRaryAXjFpgExBnD81/6PQYNtFQCplfkozzbA/RDqQD2ALgl3?=
+ =?iso-8859-1?Q?kUrVa6kHFtGUNxqxb0g5qJgUovKrBvpH+YAqiXNVkiMaZOTZgZF0K5tEGO?=
+ =?iso-8859-1?Q?QTZFkB5A+bkvn44GloF9QNzOQ6T8/NJoEidJodjx6tHhybQXS+M2wVm6iy?=
+ =?iso-8859-1?Q?fMRsrcGy2ojLTDWFkysf/MbFLF6/YP7LtcuHa45cBDL6iBFwfTOKEk6802?=
+ =?iso-8859-1?Q?uNoL9yfIH19XoNLE7bm/vU2l7/2O7JntH1krsrfLvXfwxMAEAFJGDhhi2t?=
+ =?iso-8859-1?Q?cuC3NU/xgruC56ITyLy1NfFXwotXjWIgWoJZYrPmCaOtQKJECD4mwAUA6g?=
+ =?iso-8859-1?Q?L6EgYrPs3XqWgF9k4ybbHKqI6dz7S+8ER4Tuyy8/Av1KFiV+GoOQweYKde?=
+ =?iso-8859-1?Q?j6dxzfKIt4Mmjx/VUj1GrOh6eZEYObiJFWFPqUEzUCS4U7SfN6UatEi+hs?=
+ =?iso-8859-1?Q?nE3nr2QwB8qkIKjwYMCrqnENG2c9IeD5OMdhyQZf8gonvG2MmQb2AavgBQ?=
+ =?iso-8859-1?Q?ZhbcW5g9tQ=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4a3a7c7-7004-42cb-939b-08df49f36ab1
+X-MS-Exchange-CrossTenant-AuthSource: SA3PR12MB598757.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 16:02:43.2072
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 06:23:12.6799
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HCJtcX6OJL5gLPJWv1WZrBnucO+5mrKnka3K10xkvL2RhEUSaVrMOP6mr1a+or3B
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6179
+X-MS-Exchange-CrossTenant-UserPrincipalName: HhVN8An1EdqAJGWf5Jp756wpzRcSn3YjfGu7IsXxtPiraDD4ymmAFnNnuws+cdqAMn6/b15l8ZMEB79hEfu0IQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS6PR12MB600903
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261124_080339_660918_6616BCE0 
-X-CRM114-Status: GOOD (  27.81  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261123_222323_005564_07D30B2B 
+X-CRM114-Status: GOOD (  43.75  )
+X-Spam-Score: -1.7 (-)
 X-Mailman-Approved-At: Tue, 24 Nov 2026 08:13:27 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -174,76 +155,109 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-7.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=4.0.1
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/24/26 15:20, Jason Gunthorpe wrote:
-> On Tue, Nov 24, 2026 at 01:36:21PM +0100, Christian KÃ¶nig wrote:
->>> The core then negotiates compatible types and adds converters between them,
->>
->> I have strong objections to that plan and would potentially NAK it.
->>
->> DMA-buf should *NEVER* accept CPU physical addresses nor provide
->> conversion between different address types.
->>
->> Keep in mind that DMA-buf is solely a container for DMA addresses,
->> nothing else and it should not provide any mapping functionality
->> whatsoever.
+On 2026-11-24 at 05:37 +1100, Christian König <christian.koenig@amd.com> wrote...
+> On 11/23/26 17:57, Jason Gunthorpe wrote:
+> > On Mon, Nov 23, 2026 at 02:36:46PM +0100, Christian König wrote:
+> >> On 11/20/26 06:55, Alistair Popple wrote:
+> >>> From: Jason Gunthorpe <jgg@nvidia.com>
+> >>>
+> >>> The SGT (Scatter Gather Table) DMA mapping type represents the existing
+> >>> sg_table/scatterlist based DMA mapping. For now it continues to use a
+> >>> sg_table for map/unmap, but this will allow a future patch series to
+> >>> convert to using a different data structure for importers without having
+> >>> to convert all at once.
+> >>
+> >> I strongly think we shouldn't have an SGT mapping type in the new DMA-buf mapping API.
+> >>
+> >> Instead we should have something like either an array or an xarray
+> >> of DMA addresses.
+> > 
+> > My plan was always to get there, but I don't think it is reasonable to
+> > start there? There are too many places all over the place that are
+> > just hardwired to do SGT right now.
+
+Right. There are around 70 drivers upstream that make use of the sg_table handed
+down via a dma-buf import, so I don't think it's tractable to convert them all
+in one go. So obviously we will need some way of phasing this in to give time
+for each driver change to be implemented, reviewed, etc.
+
+Obviously some of those will share a common structure/helper and conversions
+will be similar, so that is an over-estimate. But based on an initial poke
+around there are plenty of drivers that bake the sg_table more deeply into their
+data structures.
+
+> > Part of the design of this series was to allow the conversion away
+> > from SGT to be done incrementally without breaking compatibility.
 > 
-> dmabuf needs to provide support for drivers to help them use the
-> interface, and going from physical to dma_addr_t is absolutely a
-> common task every driver must do. I don't care how you call it, but it
-> is a service that must be provided by *something* and matched to the
-> needs of dmabuf.
+> Do you know the joke from the hitchhikers guide to the galaxy where the dolphins are happy for exactly the same reasons?
 > 
-> I will definitely NAK any direction to open code dma mapping in every
-> driver again. If we are going away from SGT then we are fixing all the
-> DRM mistakes, including the wrong open coded DMA mapping, sketchy use
-> of SGT, and abuse of P2P that seems to be endemic in drm.
-
-Completely agree to that as well.
-
-> Meaing the exporter constructs a phys_addr list, gets a P2P provider,
-> and some common code constructs what is passed to the importer. I
-> don't care if this is in "dmabuf" or some "dmabuf library" or
-> *whatever* but it must exist as common shared code.
+> I'm pushing against this plan for exactly the same reason because I think it will make the conversation away from SGT even more problematic than it already is.
 > 
-> dma_buf_phys_vec_to_sgt() is the template how to implement this
-> transformation.
-
-Well what I disagree with the dma_buf_ prefix here.
-
-DMA-buf is just the container of the result of this process and it shouldn't hold any code to actually generate the addresses. That is simply not part of the job of transferring those information between drivers.
-
-The whole conversion from phys_vec to DMA addresses is something some API should provide based on the data the exporter/importer have negotiated (e.g. p2pdma_provider for example). 
-
-I think we need something like a DMA P2P API which sits on top of the PCI and iova API.
-
+> > So it is effectively this:
+> > 
+> >> The framework should then either connect the SGT directly if both
+> >> importer and export are using the "classic" interface 
 > 
->>> and having SGT as a type is what allows that. It only exists for unconverted
->>> exporters and importers and eventually goes away once everything is converted.
->>> The idea being we don't have to convert everything all at once, whilst also being
->>> able to add support for different interconnect types. Are you ok with the SGT
->>> type if it is just transitional?
->>
->> Not really, it just complicate things.
->>
->> What we should do with the mapping interface is to add the
->> information in which domain the DMA addresses are to be used.
+> Yeah but that should not be a separate mapping type, it's rather that we just convert back and forth from DMA addresses to SGT for compatibility reasons.
+
+Right, I think this is actually fairly close to my plan, which is to provide a type
+for each address class an exporter can produce - either a CPU physical address
+or some device context + P2P/MMIO address but in future could be some other
+interconnect type.
+
+The core then negotiates compatible types and adds converters between them,
+and having SGT as a type is what allows that. It only exists for unconverted
+exporters and importers and eventually goes away once everything is converted.
+The idea being we don't have to convert everything all at once, whilst also being
+able to add support for different interconnect types. Are you ok with the SGT
+type if it is just transitional?
+
+As discussed a bit previously types also add enforcement of the rules around when
+the exporter type/location can change.
+
+I do have most of this coded up, so can post a mega series of all patches if
+it's helpful to see the overall direction in code form. I didn't do that because
+this conversion of exporters to not return sg_tables makes it quite a large
+patch series, so I was going to post them as separate RFCs building on top of
+this. Not sure if you have a preference there?
+
+> > And this:
+> > 
+> >> or convert
+> >> from DMA-addr array to SGT and back if either of them are using this
+> >> new interface.
+> > 
+> > Is something I imagined as a followup series.
+> > 
+> > As this is actually quite complicated and needs discussion exactly
+> > what it will look like.
 > 
-> You need to negotiate the actual C data types too, especially if you
-> want to do that nasty idea where dmabuf populates an iommu domain.
+> Actually that is the easy step I think because quite a lot of drivers already convert the SGT to a DMA addr array outside of the DMA-buf framework anyway.
+>
+> The more complicated one is then starting to come up with more bus types and doing optimization work.
 
-Yeah agree as well, but to be honest that task is negligible. We first need to figure out where to put the code. 
+Individually the actual data structure conversion isn't that hard, but there's
+a lot of them and the mapping types allow you to do them incrementally without
+breaking some unconverted importer importing from a converted exporter.
 
-Christian.
+That is also why I think adding the types now rather than later is reasonable.
+The rules for when an exporter may change type or placement are what most of the
+previous review discussion has been about, and I didn't want to drop them.
 
+Thanks for looking.
+
+ - Alistair
+
+> Christian.
 > 
-> Jason
-
+> > 
+> > Jason
+> 
 
