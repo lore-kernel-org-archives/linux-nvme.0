@@ -2,118 +2,87 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8C7606A31E
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2026 09:52:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8033B606A68D
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2026 10:29:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=huw20f8v;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=b5jX/OvD
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rMUBaRrK;
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=IaPqJDfY
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=ZtLd1G/pB/+QJ9Da7IBiGvGezeXGj8i9kitTdRqTzvg=; b=huw20f8vj2ox8x
-	viQA6s5UiIwas5+z3VMWWh22Bxwjfv+6PgfVo6fF0jzjkbUejbeRr/PCIPBOtLO8otgQX0j09mKbz
-	CEfOWz/WKslhWJZpRBvLUHrAE+rq/oGJXunwcy6RrGELb9Gdp9rKXr1AnWp73ZOdftwcmPumFNmF1
-	El0CGym/Wx3e9u51lFa0Ei/yqeJhT/RS+MyGFO61oXnhMKeKWRRIi66J6kqvCw3d5uRlasdolqFb+
-	CzUsxGI3Pr+tIfL9pUsPKyqTZklU1XNa2JoQAXcWw71uhwKPPOWCocYPQOdpE0bdvK9sEuEC0FyNU
-	hx6rY3U/ti2+WBAVU1RQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=xFlN4rclmJ3cTwSoXr8Ud2HB/tsk3Wve0CUo7sMxAvo=; b=rMUBaRrK+J66ZaHDL/o+KQWAAg
+	mDBoMh1cd42oflTiqdPw2CcC+Ft81kRz1s5mrk4bwrSmz0tab2V07PXvicQQfzTyv3t6cQ1w6y7LA
+	OKaB5Xm9jNDKYFxRZ0ok2FJCN/0F23UBZ69rz6ldSM/jEnkLqoqFLQG/2mUmaQGJdXb08i6RJwFQv
+	x4l/bfG9wtoJsInsWp2ulNkoIcJ0Aa1BJ5O6AaGd+cCvazBWuZ1U5HkHHM25vBXSVNxAMTIZYTFnF
+	HlN1zRXeCDLr5q8Tkh9JcMdTcYhiwabNkNAloAtzpjWXGn8hoJktwi0ygMDqvDtI2GEwaAt5tZ78B
+	YWRg9R9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xW9fs-00000009NgZ-1ja2;
-	Wed, 25 Nov 2026 09:52:24 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1xWAFU-00000009Rsu-3LL9;
+	Wed, 25 Nov 2026 10:29:12 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xW9fP-00000009NRs-43O5
+	id 1xWAFO-00000009Rrx-1DNR
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Nov 2026 09:51:57 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AP6Ymqa3467313;
-	Wed, 25 Nov 2026 09:51:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=ZtLd1G
-	/pB/+QJ9Da7IBiGvGezeXGj8i9kitTdRqTzvg=; b=b5jX/OvDch4CRXMWceLrYU
-	2HxeEjYSmDXvBFcTeZR20TNYD5yglBYpdm0PsiOxZtQZNwW4CelbFT7eyrefH/hJ
-	sv3ekTBWM3S4ou50X9/utQVVoSwQrrqW0VfAHbjAnazKozpUrh9EUBN3OSwE+l32
-	qmlYuJqEOSCPbji+PkvTc1K424rU2DdIDHlY8ZcYES+ZzKhHDL6fCpPxEGRgJEJ0
-	gBH79cZlpaQdRYvhsZnL0/QK53mrJJDk9jV8mpyWXH/xBtGMJPKLAGRPrN+Z+q/r
-	ef2apG0LvcPOKY3HYzFlmh1e1ciCWTemanLi+NruHtotCiZooEbjeIzyHMcA5LKA
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j34p4k5vt-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 25 Nov 2026 09:51:43 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AP9nW1f3650118;
-	Wed, 25 Nov 2026 09:51:42 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j5kfa1nac-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Nov 2026 09:51:42 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
-	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AP9pgtp26804910
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 25 Nov 2026 09:51:42 GMT
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3E7915805E;
-	Wed, 25 Nov 2026 09:51:42 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D67065805C;
-	Wed, 25 Nov 2026 09:51:39 +0000 (GMT)
-Received: from [9.61.9.230] (unknown [9.61.9.230])
-	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 25 Nov 2026 09:51:39 +0000 (GMT)
-Message-ID: <47654f8f-2ad7-4c5f-b92d-f8b0c5ac06c2@linux.ibm.com>
-Date: Wed, 25 Nov 2026 15:21:38 +0530
+	Wed, 25 Nov 2026 10:29:10 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20261125102859epoutp025f8d1fe9c5664625609e6c137a502923~rQv8QoOW53058830588epoutp02M
+	for <linux-nvme@lists.infradead.org>; Wed, 25 Nov 2026 10:28:59 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20261125102859epoutp025f8d1fe9c5664625609e6c137a502923~rQv8QoOW53058830588epoutp02M
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1795602539;
+	bh=xFlN4rclmJ3cTwSoXr8Ud2HB/tsk3Wve0CUo7sMxAvo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=IaPqJDfY2Ezy3MpR8ljLSiOz0O+P0b4vFneuttWJk9xIn+lvSFVBnb5S9oipbTo7A
+	 qCeXi+y4jAXosBQshuTtS3aK+0r3lf2JwN4hFt1aAl9UOPqmRw2ne0wPobijbiakaY
+	 GerV6MP3kYoBrjaVl4e5z3EKZZVfh4Hwk9mSunuM=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+	20261125102859epcas5p1f5a9e8472cf6d472e27e339ec3b48683~rQv8EdnHT0425104251epcas5p1e;
+	Wed, 25 Nov 2026 10:28:59 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.91]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4jZGB233Vnz3hhT4; Wed, 25 Nov
+	2026 10:28:58 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20261125102729epcas5p13bde0e5ffba2e9660726500efb20ab59~rQuoqdnWa0487904879epcas5p1u;
+	Wed, 25 Nov 2026 10:27:29 +0000 (GMT)
+Received: from green245.gost (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20261125102728epsmtip1facce2ecf66c1f2173177a007f33f963~rQunpYMbD2682226822epsmtip1S;
+	Wed, 25 Nov 2026 10:27:28 +0000 (GMT)
+Date: Wed, 25 Nov 2026 15:56:39 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Andrew Stellman <astellman@stellman-greene.com>
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi
+	Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>, Steve Wise
+	<larrystevenwise@gmail.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme-fabrics: limit nr_write_queues and nr_poll_queues
+ when parsing
+Message-ID: <20261125102639.ikftz2pvdwjuuagd@green245.gost>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet: zero the reservation report tail beyond NUMD
-To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
-        Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
-        Hannes Reinecke <hare@suse.de>
-Cc: linux-nvme@lists.infradead.org
-References: <20261125061453.230238-1-kanie@linux.alibaba.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20261125061453.230238-1-kanie@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI1MDAzOCBTYWx0ZWRfX1+Y4NhTw4fEZ
- D0ofg939Ofj2wLLcE9C1mQUtKIVuynnO7U+I9LFP8TC38dMqRz7ISolJG+mtJ7YR39g8YoMgcex
- MRT4+/6eO3J7DbiJaIM3JQY3pWpaRDg=
-X-Proofpoint-GUID: an-hiZdgA6lTaem6Fka_krhhmmbmpF1A
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI1MDAzOCBTYWx0ZWRfX2EtBCyyRd4y5
- +Nzq2NtBgKOEDtbDwkoNca5Blhsm1POIYe00XMXGMU0kNPHV4ga8UVJYhI0VIZDZsuGzrgMh7rM
- MsvMhOfmlEhLx2llJEIFTLY8TaPlMAuoO6MdvFTcUbKAjW9mCbL2NY2NQS3UKDpb3J2pLA1Gges
- HfAp4DVGD0PNkO39j/TljxFWyiHSuKQ1FrnsIJ8xL0U9z2+1+a4kG9YSRpZeU0aTXj2aydkBN1/
- WDSEJGbTBCV62eBhBBXMilEVywaqZIU2BUal3+mLtclYbvab9ib9dHb/YX5D9hmlsb80Hh3efUm
- ZKSzMDxhJ/mu7BaIHdZYPkD89hdkCQ0C90fC+yr/MV2y7g67Jedy1yAMYDeOMgZZ2sEXTZ5+X8+
- 2Wo09Pvo4pJPK+mm0ZQJSUZmETCHaRPEQw5X6GkB+wJZb2SrtcNtZlurBHlHylv7SM6BLDV7gne
- bw5qqaU8P5uX+Zy5j2w==
-X-Proofpoint-ORIG-GUID: zii9ZzjsesAFLbVsQ4R-WAei8CxtzNes
-X-Authority-Analysis: v=2.4 cv=QabzLcbv c=1 sm=1 tr=0 ts=6b06afaf cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VwQbUJbxAAAA:8
- a=SRrdq9N9AAAA:8 a=VnNF1IyMAAAA:8 a=tt4zvXYUHk92gA-qOcUA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-25_02,2026-11-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0
- bulkscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611250038
+In-Reply-To: <20261122233951.8912-1-astellman@stellman-greene.com>
+X-CMS-MailID: 20261125102729epcas5p13bde0e5ffba2e9660726500efb20ab59
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----oDladO6Vwt0H_RtjxHNT8.74ezodDQj_tEbGsjA-MAFMp74Y=_5226_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261125102729epcas5p13bde0e5ffba2e9660726500efb20ab59
+References: <20261122233951.8912-1-astellman@stellman-greene.com>
+	<CGME20261125102729epcas5p13bde0e5ffba2e9660726500efb20ab59@epcas5p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261125_015156_150552_A964E631 
-X-CRM114-Status: GOOD (  16.06  )
-X-Spam-Score: -2.6 (--)
+X-CRM114-CacheID: sfid-20261125_022908_928670_D8B29625 
+X-CRM114-Status: GOOD (  10.32  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,29 +93,35 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/25/26 11:44 AM, Guixin Liu wrote:
-> The reservation report handler allocates a buffer of 4 * (NUMD + 1)
-> bytes and copies it to the command SGL, but the data is sent back to
-> the host using the SGL length, which is independent of NUMD. When the
-> host supplies a buffer larger than NUMD, the tail beyond the copied
-> data is returned uninitialised, leaking kernel heap contents to a
-> fabric host.
-> 
-> Zero the SGL tail beyond the transferred data, as the discovery log
-> page handler already does.
-> 
-> Fixes: 5a47c2080a73 ("nvmet: support reservation feature")
-> Cc:stable@vger.kernel.org
-> Signed-off-by: Guixin Liu<kanie@linux.alibaba.com>
+------oDladO6Vwt0H_RtjxHNT8.74ezodDQj_tEbGsjA-MAFMp74Y=_5226_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Looks good to me:
+On 22/11/26 06:39PM, Andrew Stellman wrote:
+>nr_io_queues is limited to num_online_cpus() when the options are
+>parsed, but nr_write_queues and nr_poll_queues are stored as given.
+>nvme-tcp and nvme-rdma size the queue array with the unsigned int sum
+>nr_io_queues + nr_write_queues + nr_poll_queues + 1, which wraps for
+>large values, while nvmf_nr_io_queues() limits each term to the online
+>CPUs and so asks for more I/O queues than were allocated.
+>
+>With 4 CPUs and nr_write_queues=2147483647 nr_poll_queues=2147483647 on
+>nvme-tcp, the sum wraps to 3, three queues are allocated and 12 I/O
+>queues are created:
+>
 
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
+
+------oDladO6Vwt0H_RtjxHNT8.74ezodDQj_tEbGsjA-MAFMp74Y=_5226_
+Content-Type: text/plain; charset="utf-8"
+
+
+------oDladO6Vwt0H_RtjxHNT8.74ezodDQj_tEbGsjA-MAFMp74Y=_5226_--
 
