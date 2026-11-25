@@ -2,41 +2,41 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F27D606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1738606A32C
 	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2026 06:15:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=oAzIEc4Q;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=X2RnWH9X
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=4YOyixR0;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=kl7D4D8a
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=EmkVMROC9T2l/9Ta3jXI8JVKHtKST6ZbqHCzyJHCNfE=; b=oAzIEc4Q8OVBH5
-	yz/d8SdfIO/JemOg8BzC1Xvs8NwBVNb9k5/kLqgdTWzwFyTr6udvD1YjgOj9DxIEPj6NDS+cvGM66
-	cKcwDiLrwAXgWZkR+Si+4WofjyDnLQbAj9EcUZf9XLe5FL2Fia5Wk5vhtDfuLdQuTyp7NJqHwgk4T
-	ZlRbXjVXI3OmCQ+R+b7xf28sGD3GeK/PO3SI7ZLLnvCO7Nn5mZrqW5J1Sji991sPnD7nlPQYJRIyx
-	BfknCZIPvpp2rAvuW/zJbgcNoMNoUJcylgdNzIFxmAOwTV8+rtde+HZ2HE5XUJXAaP5LZpJKo/Z6U
-	Rhs9TNxEO+CEdxlmAHeQ==;
+	List-Owner; bh=GV3Y3tNRTvYw1Ue9coRq0XGjKZ6SrLWwf7MPhaXizbk=; b=4YOyixR0GOyRiC
+	a5ZO0RVx6jNUBCG6C10DEWdMvFsS7MvIclraYTKkoMd2OsDrDtqu+ptElPeLNXDaa8y4OJ/lnjXaq
+	BcoSbmUC2rkgBGNK1uh1fGV9C9F9L4X00PBa9q3qNYtU5U+L9jr6ZBecs5b9R7RDfpd7vViEqzPvp
+	mxOsdaX6CYlOS64XKEJz2Qmbo37Zw+qoO0lbkhruz8DrZjXreVqEsMKqDqYA5Ck1H3/fk0xilm3gd
+	xy0kpz2QSyBnDm/53NjjQ9AG0+3bRdkG3lVzkwt1pjwtJL2wYCDjU9iapqrtYtho1lAOwPmVUOQJa
+	t4145UlVrU1dn1FQCLJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xW6Hy-00000008Y4x-0vaA;
+	id 1xW6Hy-00000008Y5O-1WDa;
 	Wed, 25 Nov 2026 06:15:30 +0000
-Received: from out30-118.freemail.mail.aliyun.com ([115.124.30.118])
+Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xW6Hu-00000008Y2F-1hMH
+	id 1xW6Hv-00000008Y2a-0tIX
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Nov 2026 06:15:27 +0000
+	Wed, 25 Nov 2026 06:15:28 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1795587324; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=EmkVMROC9T2l/9Ta3jXI8JVKHtKST6ZbqHCzyJHCNfE=;
-	b=X2RnWH9XqAM5kIitFDOCXIAjKYP1YxuA93Mr4MTz0GIrnssbtrjn5WhAC3eJxgIigTr00igUq4jJ718YP0sb0yDyNdiV2ybUQAKx8WlCZKZHD9u08YtYDHVaN0mBuUrB4XE0uCWVIcUJkOs0oDzOkZm7+JbL3Lb3Nvrg6Y73jJI=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R411e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XFQa5S-_1795587323;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XFQa5S-_1795587323 cluster:ay36)
+	t=1795587325; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=GV3Y3tNRTvYw1Ue9coRq0XGjKZ6SrLWwf7MPhaXizbk=;
+	b=kl7D4D8aLK9Btjf/JnZxYSJeYRupD3eMJzQnBlZlvRcbpr/2PpxpD9ZV/IypRidOUq5KdXXMED9qjNF9DGu8P45aVKIY4jI2Y+c7pheF/AiIU23e/Nscoxe4vijMQOmV1ONYb9gCUCAfJlLojR2XtVjzNjt0tuKB5WGgFcSLZ3A=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XFQgjit_1795587324;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XFQgjit_1795587324 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Wed, 25 Nov 2026 14:15:23 +0800
+          Wed, 25 Nov 2026 14:15:24 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -46,9 +46,9 @@ To: Keith Busch <kbusch@kernel.org>,
 	Daniel Wagner <dwagner@suse.de>,
 	Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v5 1/3] nvme: define an event bit enum for nvme_ctrl::events
-Date: Wed, 25 Nov 2026 14:15:20 +0800
-Message-ID: <20261125061522.231591-2-kanie@linux.alibaba.com>
+Subject: [PATCH v5 2/3] nvme: define the SMART / Health Status async event subtypes
+Date: Wed, 25 Nov 2026 14:15:21 +0800
+Message-ID: <20261125061522.231591-3-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20261125061522.231591-1-kanie@linux.alibaba.com>
 References: <20261125061522.231591-1-kanie@linux.alibaba.com>
@@ -56,8 +56,9 @@ X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261124_221526_627246_F0D9BE56 
-X-CRM114-Status: GOOD (  13.24  )
+X-CRM114-CacheID: sfid-20261124_221527_427020_659CAC62 
+X-CRM114-Status: UNSURE (   8.03  )
+X-CRM114-Notice: Please train this message.
 X-Spam-Score: -17.6 (-----------------)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -78,67 +79,32 @@ X-Spam-Status: No, score=-26.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The only bit used in nvme_ctrl::events is indexed with
-NVME_AER_NOTICE_NS_CHANGED, an AER subtype value that doubles as the
-bit number.  The AER subtypes are numbered per event type and are not
-a bit namespace -- the notice and SMART values overlap -- so borrowing
-them as indices gets ambiguous as soon as more bits are needed.  Give
-the events field its own numbering.
+Add the asynchronous event information values of the SMART / Health
+Status event type (NVMe 2.x, Figure 154) alongside the notice subtypes.
 
 Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- drivers/nvme/host/core.c | 6 +++---
- drivers/nvme/host/nvme.h | 5 +++++
- 2 files changed, 8 insertions(+), 3 deletions(-)
+ include/linux/nvme.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index cd0df9b038063..9da2061a0c0d5 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4692,7 +4692,7 @@ static void nvme_scan_work(struct work_struct *work)
- 		return;
- 	}
- 
--	if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events)) {
-+	if (test_and_clear_bit(NVME_EVENT_NS_CHANGED, &ctrl->events)) {
- 		dev_info(ctrl->device, "rescanning namespaces.\n");
- 		nvme_clear_changed_ns_log(ctrl);
- 	}
-@@ -4713,7 +4713,7 @@ static void nvme_scan_work(struct work_struct *work)
- 	mutex_unlock(&ctrl->scan_lock);
- 
- 	/* Requeue if we have missed AENs */
--	if (test_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events))
-+	if (test_bit(NVME_EVENT_NS_CHANGED, &ctrl->events))
- 		nvme_queue_scan(ctrl);
- #ifdef CONFIG_NVME_MULTIPATH
- 	else if (ctrl->ana_log_buf)
-@@ -4947,7 +4947,7 @@ static bool nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
- 
- 	switch (aer_notice_type) {
- 	case NVME_AER_NOTICE_NS_CHANGED:
--		set_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events);
-+		set_bit(NVME_EVENT_NS_CHANGED, &ctrl->events);
- 		nvme_queue_scan(ctrl);
- 		break;
- 	case NVME_AER_NOTICE_FW_ACT_STARTING:
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2543e52d6358a..4eafdcf59c821 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -356,6 +356,11 @@ enum nvme_ctrl_flags {
- 	NVME_CTRL_FROZEN		= 6,
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 6248711784b37..66fcd5a160684 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -859,6 +859,12 @@ enum {
+ 	NVME_AER_ERROR_PERSIST_INT_ERR	= 0x03,
  };
  
-+/* event bits in nvme_ctrl::events */
-+enum nvme_events {
-+	NVME_EVENT_NS_CHANGED,
++enum {
++	NVME_AER_SMART_RELIABILITY	= 0x00,
++	NVME_AER_SMART_TEMP_THRESH	= 0x01,
++	NVME_AER_SMART_SPARE_THRESH	= 0x02,
 +};
 +
- struct nvme_ctrl {
- 	bool comp_seen;
- 	bool identified;
+ enum {
+ 	NVME_AER_NOTICE_NS_CHANGED	= 0x00,
+ 	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
 -- 
 2.43.7
 
