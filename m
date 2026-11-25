@@ -2,10 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB48606A31E
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2026 05:25:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DE0606A321
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2026 05:25:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=VuzkuWaj
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=NPeAw+7p
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -13,42 +13,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=VuzkuWajhelqhb3K6BUVTT622G
-	/6DldWf+99IM+BLaJ1wstvZEw2t47wnkW6qELHWTDutkn/Q0bghb3hysBnjU632ykMwtigcARpV7+
-	QquEDqQwkKHZoGDNUegTRXqpKU7JvA84RyZjg3aG4XOIyBaXL1fueB4Fc7pXYBdSkrfo4PMRQ4spm
-	43w4APhEZe9DyJ8y8jYrrqF8K6rL1qdKD+PFEDQdu4dQfcopQ81skr79jDnUoggzW8Gz6JYgMPR/m
-	fRuW9AB3GDFVdfyUHavPlfrtjOjIbnkzNd4388DXk6lqk9z7fIe4mRokzfBQAGGHNZzKAiZvmzKiq
-	kC1fTIGg==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=NPeAw+7pwxqiR2GTvYgdiW7cGE
+	mtjhWgcjcum+04GQMLW0QDqzmYglJjoSmmlv7t1z673SvyRhtNvqP4cY4LlDqRVPigQJ6jm3jPuYw
+	jMrROocELkFPB8xjtKzcmyUarqHCTSShsBbYSMI7leNX+kumxRaOdQNmw7ppMlY9cemPE8+GPau3G
+	ws55+4x3n8+WTGmtETwLTQ+L1qsUHgZGVJ1WjMqgStpnLvK8a0j+vZNIMnyqPuLjfNNgSDQmTlHcf
+	jFWO14U85BguJLzRb9zZDR2wASJpK0Fe4omlCSl/R+Vda9xJp7kbzJTKlARQh/KcWGy91xRXQBx3i
+	0q4bPr/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xW5VL-00000008SeB-3EQx;
-	Wed, 25 Nov 2026 05:25:15 +0000
+	id 1xW5Vw-00000008Skq-396D;
+	Wed, 25 Nov 2026 05:25:52 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xW5V7-00000008SaJ-18Dj
+	id 1xW5Vb-00000008Shu-3tqN
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Nov 2026 05:25:10 +0000
+	Wed, 25 Nov 2026 05:25:39 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 047EF68AFE; Wed, 25 Nov 2026 06:24:58 +0100 (CET)
-Date: Wed, 25 Nov 2026 06:24:57 +0100
+	id A5DE468AFE; Wed, 25 Nov 2026 06:25:28 +0100 (CET)
+Date: Wed, 25 Nov 2026 06:25:28 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: shao.mingyin@zte.com.cn
-Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] nvme: decode the FDP Get Features result as a
- dword
-Message-ID: <20261125052457.GB20248@lst.de>
-References: <20261122224829803Cnc907ditjVjp2YzW1gmE@zte.com.cn> <20261122224834044bbU8YIyVINFDqdSezEwkG@zte.com.cn>
+To: Andrew Stellman <astellman@stellman-greene.com>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Jens Axboe <axboe@kernel.dk>,
+	Steve Wise <larrystevenwise@gmail.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme-fabrics: limit nr_write_queues and nr_poll_queues
+ when parsing
+Message-ID: <20261125052528.GC20248@lst.de>
+References: <20261122233951.8912-1-astellman@stellman-greene.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261122224834044bbU8YIyVINFDqdSezEwkG@zte.com.cn>
+In-Reply-To: <20261122233951.8912-1-astellman@stellman-greene.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261124_212508_847220_852910B5 
-X-CRM114-Status: UNSURE (   9.68  )
+X-CRM114-CacheID: sfid-20261124_212538_397172_E494A86C 
+X-CRM114-Status: UNSURE (   9.94  )
 X-CRM114-Notice: Please train this message.
 X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -71,4 +72,5 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 Looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+
 
