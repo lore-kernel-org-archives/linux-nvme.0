@@ -2,134 +2,167 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D1E606A31C
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 04:12:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAFB606A31C
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 04:12:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=aG/LKbsd;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=BsG6NVeK
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=0/kldJnv;
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=EveQdXXe
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=JisVSgs385NGuntA6erRX4QYHX+VR40SrOV715tgnK0=; b=aG/LKbsd9BA3uYe60KXua24NbA
-	5s9t7OmkzjOc6C2SMhJF0vQ6T8WUchcX3XqzJffz9pWfZAqegiqPmASeDrr+maWr4wCSGCadIDUdk
-	W2uvSX1G5jgbSF3Tf6GqYKXL3jSVhYQ6t2DFZtxHdplPnEDc6b2AlWdvqX3N2t6NNA136HIVFmqkq
-	Y7gTJNk/FTHMUXPB6KO9e+WpADnIFZaFc3bhas8lh1h5scGU2O0EzwX2Om3lqzRWxWN1wIB9clkil
-	/PPPnaqU7y52TLlP7HgW7bOMuL6ZcMtdb6Xvm1FuUvpkALg1vZfvEDopzdXuUC3Z2mXgSz3GEJxaO
-	a5hdHaXA==;
+	bh=EMYXFK4E9UiDjmRTN056wP6mFQKcBip6wGIq+gc3dZ8=; b=0/kldJnvTJk5iT48wKnVUq08zT
+	4ZxqorrIng94wGTdIe5J5Utc+3POpFqx0ahHzWzcl1xUDJKp9mb7TaS1moahcTwGF51Bf/gjSjWg6
+	CYkBveH6750tjuvVv8Fp+vdQyvhjzbkZkWilr6pCfsSZXxXgcoYVF8rnG06WQ6iUbWN6YN/5yKvj0
+	YZCKrOcYa5qQWDJM4aWIMUdjQAxmvnOM6kHNXEf+zsXCoHNbw/wmTCQSa4wRXJgHsDrNWe7ioRK8i
+	Od/Vz15d7QQcBSnZdWHw8ZSmXT6LHxRS+eX5E93Df4b9wiE1gJJnWU9e+1UQr5gDHfsH64xcr9ak6
+	M7hBEj8g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWQq6-0000000C3vG-07V5;
-	Thu, 26 Nov 2026 04:12:06 +0000
-Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734])
+	id 1xWQq5-0000000C3ul-3Fbi;
+	Thu, 26 Nov 2026 04:12:05 +0000
+Received: from mail-westus2azlp170100005.outbound.protection.outlook.com ([2a01:111:f403:c005::5] helo=CO1PR03CU002.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWIKi-0000000B5ej-31CH
+	id 1xWB2H-00000009ZX5-3p9v
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Nov 2026 19:07:10 +0000
-Received: by mail-qk1-x734.google.com with SMTP id af79cd13be357-94961bfe1a0so400013385a.3
-        for <linux-nvme@lists.infradead.org>; Wed, 25 Nov 2026 11:07:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1795633627; x=1796238427; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JisVSgs385NGuntA6erRX4QYHX+VR40SrOV715tgnK0=;
-        b=BsG6NVeKsMHLxxatDb7JGQeQO5V76jOa/ckGDceI4O3oEMAzyVYon2FpYP9Ma+C6ZH
-         FKmuq4eqBOGixvHVCeL3Fgw88l6L6AZbKo3lhDL8D4DpFKPSXGsMPCR/XuNZHrDN4zNa
-         7Nr+2KJRZMvfXZkuHPLQM7bHg0Gesgb6h02sGzO8ppy3XWS9+x+norryy9Ia8kbB6UpX
-         In+yW0IB/b1RQywn8wfGT1MfV9ydLy0iKymjqQqmfFR0dAAu2HhL61lD277k4qRFVVYh
-         A5CEzVSIp/+HtLIeg7YyV/7KmPbcU7Ys6T3Dz/vvga/mVzC/EDBHB7KMQhtEiw8zITgz
-         8zSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795633627; x=1796238427;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=JisVSgs385NGuntA6erRX4QYHX+VR40SrOV715tgnK0=;
-        b=MWtJ0CvvKeLIiIE0VT2DVHe1wAeNZx7nkFu863v1P++yhKB4R/VNBcafvY0BpSUyJS
-         SWA45m5bzQO2VL9wGOetFt56+7nhDP+6hxotLcrqrBtsVf/lbrkUhVCCbNVewXOp5erF
-         bBOEyZifLbmh6RARnTodZ+T715WRwYj+PzEp19+PcTyRxbqZWdrlhBDoaRd4wdtFSRrg
-         EGiXLmaki5bwLr3fvHNoVDfvQrQGEjM7xPAwRDPadUNSXLdI5SSBySRf7UEdXxVLSrvS
-         06sayfHIDergnpXuJRH2UA3kn/GDu3KicnbTEHGFiK6I35XgzexZV5hU37vT7kbs7YDn
-         Idvg==
-X-Forwarded-Encrypted: i=1; AL+hErG8p/EPDyZ79RB5bUzjWb4XMYxyvA5hHfZf2StojQyScFl91l+Dm7p2RVp1sCiUrnGpoCo+XaINkTub@lists.infradead.org
-X-Gm-Message-State: APuU4Z+2R2GpaI8w5h1+/BlM2BVD+FctB3cQRh5S+IAjMjJNTuJrjqup
-	e107toqwPPmKfcrjDPaqsOwaxIU4RARw8p8xyzRO+F4lpHrIjdQizYVXIIZZla8g04c=
-X-Gm-Gg: AZFdTZfWDiQ1VSTRLwQVetqPKl2tOoCy0XUj6563J1T+goM46tcOx/7BVXqdvJtedaa
-	kJ7VOtJMET6paUvAHy7OGxBLepWUbFNFyNnA3nX6VcYOxCpoR0uGuFGiJQmq6jcXTK1bNOyAoFM
-	KUc8jB/u7/NOBO+F81mwX+EBiN2YIrXxqruhUTg2o2tBsEHG9lIHArMvKrEqDvFAtVkKxp5E3/U
-	CsqaE7BaBG7FLp35vRpzVrbUyUU+sKXPnWS6MXVqmPG7Ibl3GybNG+87ZzEeTjI76ccC+OSfT0X
-	mDPGfxqcAdp4/G9zhrwjQ6DTrEmd2rn0Rq+SFMQQyRDfGG4sjRXYk8AglUvQme0gU8JxusuOdiy
-	1mT0SHvxpVxDGwObuBY4acKpmOEmwftkjJRtusu1AGGN/m+af03sUliW9e1PvOe/bSmyY18A4Fm
-	AdBmCa5rtpSanG/59ZHt+vfb9NOrFBmdAjoazZs4BF8Gd/5Y+U32P+ZB5MrfaJ2mxsNQT/ELwqR
-	c9ye4rZARsMIJhSVASHEOtY+frTQoCE60zYi0P0GYdKnZmlOX6jhplRiHPMBw9S7QRhaqy7WdiB
-	brjK3/0=
-X-Received: by 2002:a05:620a:4543:b0:949:65fe:b727 with SMTP id af79cd13be357-949ba9b99a7mr3433826285a.26.1795633626929;
-        Wed, 25 Nov 2026 11:07:06 -0800 (PST)
-Received: from ziepe.ca ([142.177.118.84])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-94a017cfb46sm339501085a.28.2026.11.25.11.07.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 11:07:06 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xWIKf-00000002HLZ-3ZQi;
-	Wed, 25 Nov 2026 15:07:05 -0400
-Date: Wed, 25 Nov 2026 15:07:05 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Alistair Popple <apopple@nvidia.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Dongwon Kim <dongwon.kim@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	Baolu Lu <baolu.lu@linux.intel.com>,
-	Felix Kuehling <felix.kuehling@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-	Alexey Kardashevskiy <aik@amd.com>, zhipingz@meta.com,
-	treding@nvidia.com, jhubbard@nvidia.com, chaitanyak@nvidia.com,
-	Leon Romanovsky <leon@kernel.org>
+	Wed, 25 Nov 2026 11:19:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=icdmdKPWDb+4QCKRrGjdU9GWmoldOsSThiw7615IyV1Gv781pc44WOvjVR353OMBJQ05UPjnFS7ah8xKDBl8dWutYNf17selyTXtYpaVFjbxukhRY9HmQGIolJtUKWIiHcq023zkIygDBP83nmtIu328L44/83uUkSir63JiVqZHbmjkHNYyfB/afgqiJj6EJaaNgWzPIKqTN5NSlD0e1Hm3Bp4m/b7DF90fDpPUsmaJQiXLcPEhM2X51bwHx2hrOgbjtBIIk0bpUcBY8rh+61PP2FcC/YosnJ/PjSbJ+PuyKCyxe3/S0HuwqMkOS+xLlSidN6QOXoyUs1jyUb4vyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EMYXFK4E9UiDjmRTN056wP6mFQKcBip6wGIq+gc3dZ8=;
+ b=b3F1yqdcV/hMdmeRgmx4ePWKQqsQtcQWzpuKBeQCf81+R+LRlv871nIoUdWflR9W1t3P/+xyfXt77JDL2CNJEG4t8zlie5aofPmIyy4Pe86R5ci1rTor2eL6HdazZmDmLf+Eu3aPpDvaabq9If7Uqv41Jlv2AszoJsIbUjLalGGE86t87mjk4XlMD3CMsdO4dlu/nHL6YDmtptwMaLsgqpMWQs9sVIp5PkeVxh0KVm8cpFwMLjlwadNpgOYu/7/AkmBr3/OYde8WHhonzRFYADzVs0lzEUfjlEGgNysv6tA5Q54wHtvcnpAdSDOoj97U/z+SKqvcjvQ5Qm2VaHryEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EMYXFK4E9UiDjmRTN056wP6mFQKcBip6wGIq+gc3dZ8=;
+ b=EveQdXXekTA4HlTNvlqeNdX2RQD3dOhhixP2voO3TWhfb5tUT7W6La770Ut7tcWpmqNOEvs3Yzs5IF6bDzJ+hR0tHHHK2yL4BwfQRi6MejNaquBPW7llzZ+YqEQ4bZHTSaECiKhRLO/5DsdzFcgPbK7mWsmHs0g6C99FDWBfunU=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by LV3PR12MB9166.namprd12.prod.outlook.com (2603:10b6:408:19c::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.6; Wed, 25 Nov
+ 2026 11:19:29 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%3]) with mapi id 15.21.0639.012; Wed, 25 Nov 2026
+ 11:19:29 +0000
+Message-ID: <fb9a6b12-c134-4e40-86a5-dbcb59c0b91b@amd.com>
+Date: Wed, 25 Nov 2026 12:19:08 +0100
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 03/24] dma-buf: Add the SGT DMA mapping type
-Message-ID: <20261125190705.GN246011@ziepe.ca>
-References: <7ac7edd0-5c38-440a-b26a-21bcbb6f4702@amd.com>
+To: Alistair Popple <apopple@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Dongwon Kim <dongwon.kim@intel.com>, Kevin Tian <kevin.tian@intel.com>,
+ Xu Yilun <yilun.xu@linux.intel.com>,
+ Karl Mehltretter <kmehltretter@gmail.com>,
+ Baolu Lu <baolu.lu@linux.intel.com>, Felix Kuehling
+ <felix.kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ Alexey Kardashevskiy <aik@amd.com>, zhipingz@meta.com, treding@nvidia.com,
+ jhubbard@nvidia.com, chaitanyak@nvidia.com, Leon Romanovsky <leon@kernel.org>
+References: <20261120-dma_mapping_type_v4-v3-0-c0183a409bdf@nvidia.com>
+ <20261120-dma_mapping_type_v4-v3-3-c0183a409bdf@nvidia.com>
+ <ad46d60a-189d-4dd5-9ad8-ecfd3c90f9d9@amd.com>
+ <20261123165716.GM179082@ziepe.ca>
+ <7ac7edd0-5c38-440a-b26a-21bcbb6f4702@amd.com>
  <awT8prWsj11TBdmP@nvdebian.thelocal>
  <63eb7b6e-e0a8-4443-a434-0301ed59beae@amd.com>
  <20261124142032.GN9566@ziepe.ca>
  <7a5a2d3a-e42e-4dc0-8d22-8dd1bd249501@amd.com>
- <20261124194618.GC114530@ziepe.ca>
- <awZ_Os1pXelOGaFP@nvdebian.thelocal>
- <fb9a6b12-c134-4e40-86a5-dbcb59c0b91b@amd.com>
- <20261125155559.GL246011@ziepe.ca>
- <5fb8bb60-7d9f-49b1-899c-40a890fdc14b@amd.com>
+ <20261124194618.GC114530@ziepe.ca> <awZ_Os1pXelOGaFP@nvdebian.thelocal>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <awZ_Os1pXelOGaFP@nvdebian.thelocal>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BLAP220CA0021.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:208:32c::26) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5fb8bb60-7d9f-49b1-899c-40a890fdc14b@amd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|LV3PR12MB9166:EE_
+X-MS-Office365-Filtering-Correlation-Id: 943d2c3a-1b56-4791-45b1-08df4ae5f8c8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|23010399003|366016|4143699003|6133799003|22082099003|18002099003|10067099003|56012099006|11063799006|261102123227099003|261102130727099003|261022075727099003|261028144727099003|261026121527099003|261026140227099003|261022105027099003|261021121427099003;
+X-Microsoft-Antispam-Message-Info: EoqLlE5+BzmwXgnLTN7ajf6JsXy5Jo4+6ZHP7w16zOOLjD+VhAZcJ5yHG/4rLbxJdgENQUcRhfBGxpbuD00YRy/PrYdMJIKwLPBu2sYSY+Inmuwn12Hx4oezY1VewJLOvsOdFg1C39UgKly8j4bjiOJDIh2iSKFqfWMZJSRlKL+WmBd0asWq5CVAtzi2FVBXEPRTL352de5sD3SVCXlkzes3zzhyBDlJtzQc8a6YosaJEOWG+6z7AeIOX8d5wtQR1ntxC3xEh4priND0VdreKiBK6n4BhSVL+2aqzj4cEV9YKJz/p8tapelT4gwYWXREJmc3wQ5LSdEj2f6rbUMIvsygyxpwwpEzv5WaX4ul5iREXbM9qgPtEl9YuVEf6qjsPGSLUmMny11m/vnx1Pc5VL01w1AJRB3RkwHqaOaSCHpABC42dyEg1tr6pyo+PjdOS1kgWg5sYjvy4sQfJlZ4Sr8vSfIQgT1+zYE1rRNOooFZzCb+o8HZKDT/PVOGA0oC/giRrGmpQJaq+tPL/VBc1h96hy4lzcOTZS/GOZT1QtiRvt1UPsBjKr2qxPAgeV5wuaoHKMDo06FSEgGPAXZV0t5dSUjlWaZ51iD3KjkSCuurh63Xkxt8q/dhiDmEoRJbKasQ5RX/bp/UuD8k/JRy4vo7f1FEJ4/rtFQYSHRglA4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(23010399003)(366016)(4143699003)(6133799003)(22082099003)(18002099003)(10067099003)(56012099006)(11063799006)(261102123227099003)(261102130727099003)(261022075727099003)(261028144727099003)(261026121527099003)(261026140227099003)(261022105027099003)(261021121427099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGpad0w3MmM4UU9HZjhmV3RvN0Nvejl0Sys5SHhqekEraC9TQnU4L29XSzMz?=
+ =?utf-8?B?ZndiQWJadVVTVXh1Sk43bm9BSlBmY0hxbHlmeENyS2xoamJVS1dDRU1oSncz?=
+ =?utf-8?B?YnhicjNLUHVFZEZkdWt0Q0lxSWlkUDVaRU9tSExaS2l6YXhuQzYwRys5OW0y?=
+ =?utf-8?B?cWE4WUpJM202aFdlRGRsUnM4dDVrTVRXVGZKUFpIZWFleUtRZnozNnFnNWZs?=
+ =?utf-8?B?MFR2OEZwRTZaZjlkQjNVT0hNZ3RGRnBQOHFLS2pXTVNWTFVOamZvZk5pWEZt?=
+ =?utf-8?B?Zm40bGp5NVVzM3oxMUpyazRwODJKcnJFTHlNVGllMlVBWkp5cjBXOHZFVnlo?=
+ =?utf-8?B?RVFXRlA4cENVWW0zS0hrM2RmYTNNM0FLUStxYUVkNkVubU1TdVBZQ3R1ZGJ3?=
+ =?utf-8?B?dFo0K0lUYnRnZVpBMkF4dzBkcE1jM0xxNlBoQlZ2bUxOT0N6TzRMRjJRNG41?=
+ =?utf-8?B?NVhkTUNsWUtsYTRZdWtvVVpEOUFxcExjVjh2SnNMclBGUXhtdU1hK3ZrbXZK?=
+ =?utf-8?B?eWtnTjlpZGp1MHgvNkNCbWRydjRIVmlMRjRVV2dDL1o1MVNzbWFkK0dFOGZv?=
+ =?utf-8?B?c0lUVGpWZlZCTzBCRTREMXhNZDZHS1NzZkQ0a0lXdmZpb2FrT2p2cUxHYkF2?=
+ =?utf-8?B?UlZubkNLc1Zvdm93bXpjUWU5bWw1Q3hGQzU4V2xTOEM4OVB5MzdOZkhhQkFE?=
+ =?utf-8?B?S3VRVzhXN2FZT1luOGh2UWlXZm04d2U1MXhqbFp2cmFBQ2hsczY3TTJoUXNs?=
+ =?utf-8?B?YWJmaVJYSkNPRnNZckZDeFlHRkNKWXhkWnYrMXArSDArc3FPb3NrcHJjRGox?=
+ =?utf-8?B?NnNJbmNGZGYyM2FnYVJJdlQyWTEwcXo1WkxmeGFlU3dOYnJVTWlDczJldklW?=
+ =?utf-8?B?dWFKNWtLTDV0dGMxRkRoVms4cndyY244MU5QWGp3ZUYzcXNwYkRULzZFemRW?=
+ =?utf-8?B?RVRFZVFpTEV4eUlmR3FkWklTTjMvbnhmVUlDVW4xaXdObDJLOXlWUTR2akVB?=
+ =?utf-8?B?MWo3YUtZa2lBb1JmRmdxd01ySHpDZnVlQktmOGc4QWxiZWlIMHl1V0ZCRjhI?=
+ =?utf-8?B?VXFJZXBVRktCRGN4UzFkVnRycW40VWtIV1ZzS09hbjdMNkdYdlRWd1Roanli?=
+ =?utf-8?B?STRXbDRMc1VpNDV3aXk1cXE3Tktxd3VLU3hPVzdtS3AzUHNuY1RWanBTakhH?=
+ =?utf-8?B?c01CQmM1YngzeW45WGgyNld2d2F5SlAwRzdsKzFIdGlCYnNsdUhRdGMyRjE4?=
+ =?utf-8?B?U0VRWGZUZ0ZxY1hyMnJNZ3BDRkQvMlc3Y1ROU24vUUdRYW5FSFJacmZla1hK?=
+ =?utf-8?B?Wmw4bVZ0eEtDamMycmplQWs1anYwcmcxVEdiZjFwSGRYNGhZM2czeW9GWWdS?=
+ =?utf-8?B?d2NXVnY0VXUvbVFoRmdSSHFjUTZ0RGtpUGdZWVN0S3ozWW9rY1BoM09IR1l6?=
+ =?utf-8?B?R3ltd2tOQTM3OVI4QUgyNG5GWTg1S05oSnZIcFZTMmtFRGlLWEhwY1UvUnpG?=
+ =?utf-8?B?LzZXSzdWRmkyYjhkKzhMNG0zTTRMUjczeUhwcEI4enFCZE0zUytOZC9CV3ZF?=
+ =?utf-8?B?U1VWci9leDc4b3ZURXpYMm0vc01sOVJqL3lYb0V6YlRpMDBWZUZpTGNjY040?=
+ =?utf-8?B?dkg4bjlWUzdjNUZQU2pyVUJHSm9wWXh0ai9MTWU4dEM0bXVFd09idnJFWVo3?=
+ =?utf-8?B?a0dtRlhtNU0xTWs0Tmk1Qklka3F0c2trSmNjVjVLWU1SM3RpMW9NTjdoR2RP?=
+ =?utf-8?B?NkpsdzNHZnlxdUt4cVVvQlI4dkJ5bVNpY0R6Zjk2VFVqLzFabFViek9uemlv?=
+ =?utf-8?B?TFY3UkR4K2dGWUZtVkpJTUtsdVlTa3o2LythVGFMVDc2Vi9odDllaWthb0JJ?=
+ =?utf-8?B?eVQvOGdvamgrb1ZzSHhUU3ZQd3hvaUxIamZKMkhZM0ZqeWZYNkhpZThuUlZu?=
+ =?utf-8?B?OHdpRG80WXRmRWRCMk1uWURCaDJTR2RkVWgxWlRaWWVEOGlnMkJFVXVtbFQ2?=
+ =?utf-8?B?NHZSSURpR2sxelFxc2NDeFFGbTlZRXBQRXFTakl1b21zQjNnMzZ3dVZtNDV3?=
+ =?utf-8?B?T1p6ZDlmelY4S3NMNVNtTWVwRXBsaFBIazhOS3ZOQk8vV1NpV3YxTFZ5WjVa?=
+ =?utf-8?B?RFhOL2I0Sjk3LzF5dkJPZXRob3NmZExJOE9mSEhVUEVXUjd3Q0JTcGE2V09I?=
+ =?utf-8?B?VkhDeG5LU2lvRGQ1MzBKL3VFNDljdGZKS2E2RXNPaEJXZmhGanNtRGVsZW05?=
+ =?utf-8?B?TGpBUk50YVU3VEp5emg2Mkw1WXVPZzFnVkxJRzNSdXNiUEtNTndtbEgxUmdO?=
+ =?utf-8?Q?YlOPwqY3oZZvoEPuG9?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 943d2c3a-1b56-4791-45b1-08df4ae5f8c8
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 11:19:29.4073
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PBUPN/GqxGJfSkQzQJO6/EdpN2flA5Lmw2GAtTD4ZWj0J5PudNB6wW/RbvhAcjcC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9166
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261125_110708_815769_B83E7C63 
-X-CRM114-Status: GOOD (  32.90  )
+X-CRM114-CacheID: sfid-20261125_031937_978576_D4F00A67 
+X-CRM114-Status: GOOD (  31.09  )
 X-Spam-Score: -2.1 (--)
 X-Mailman-Approved-At: Wed, 25 Nov 2026 20:12:00 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -142,96 +175,111 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Wed, Nov 25, 2026 at 07:17:51PM +0100, Christian König wrote:
-> On 11/25/26 16:55, Jason Gunthorpe wrote:
-> > On Wed, Nov 25, 2026 at 12:19:08PM +0100, Christian König wrote:
-> >> The low level API which talks for example to the IOMMU driver for
-> >> creating the information how to access the buffer is simply not the
-> >> task at hand for that framework. The stuff we already handle is more
-> >> than complicated enough.
-> > 
-> > No matter what name you give it we need something in the middle that
-> > can see the phys_addr_t and the iommu_domain..
+On 11/25/26 08:18, Alistair Popple wrote:
+> On 2026-11-25 at 06:46 +1100, Jason Gunthorpe <jgg@ziepe.ca> wrote...
+>> On Tue, Nov 24, 2026 at 05:02:31PM +0100, Christian König wrote:
+>>> The whole conversion from phys_vec to DMA addresses is something
+>>> some API should provide based on the data the exporter/importer have
+>>> negotiated (e.g. p2pdma_provider for example).
+>>
+>> Yeah, probably, and this is exactly why I think it will take some
+>> time. Building a new something in lib/ like this is not a
+>> straightforward task.
+>>
+>> But also, this:
+>>
+>>>> You need to negotiate the actual C data types too, especially if you
+>>>> want to do that nasty idea where dmabuf populates an iommu domain.
+>>>
+>>> Yeah agree as well, but to be honest that task is negligible. We
+>>> first need to figure out where to put the code.
+>>
+>> Means you need to get the phys_addr_t into the dma-buf code so it can
+>> do this conversion.
 > 
-> No, absolutely not. That should be given to the exporter so that the
-> exporter can call the DMA API to create the DMA addresses for the
-> importer.
+> We all agreed that open-coding DMA mapping of buffers in every exporter is
+> something we don't want to do. The disagreement now seems to be where the code
+> converting between physical locations provided by an exporter to DMA addresses
+> usable by an importer lives.
 
-I think I've said it many times, and I thought you agreed: NAK to
-giving GPU exporter drivers an iommu domain.
+Yes, exactly that.
 
-> The idea here is that the importer give all the information to the
-> exporter so that the exporter can do the mapping on behalves of the
-> importer.
-
-No GPU driver must touch these internal details, they must only use
-standard abstracted APIs that prevent them from abusing things.
-
-My fear of DRM drivers abusing the DMA process is equal and possibly
-greater than your fear of phys_addr_t :P
-
-We are not giving DRM a nightmare API to continue to shoot us in the
-foot with.
-
-> > The primary issue here is the exporter *direct* call to the DMA API!
+>> I'm still absolutely NAKity against allowing any DRM driver visibility
+>> to an importer's iommu_domain if we do this hack.
+>>
+>> I don't see how to meet all these concerns without making dma-buf into
+>> a "converter" framework...
 > 
-> Why?
+> Right, something has to do the conversion and we've agreed that shouldn't be
+> in either the exporters or the importers. The main objection seems to be having
+> dma-buf do that, and instead having some DMA/library code to do it.
 
-Because we need things to be mapped in ways the DMA API will never
-support.
+Right.
 
-DMA API will never support something like dma_buf_iommu_map(). I have
-no idea at all how you expect to build this if exporters are directly
-calling DMA API. It is not possible.
+DMA-buf is the high level API/uAPI importers and exporters talk to interchange information how to access the buffer, handle locking, handle lifetime, handle a generic driver independent uAPI....
 
-> > We cannot disconnect this from the DMA API, ie to use an iommu domain
-> > or ualink, if exporting drivers are hardwiring calls into it.
+The low level API which talks for example to the IOMMU driver for creating the information how to access the buffer is simply not the task at hand for that framework. The stuff we already handle is more than complicated enough.
+
+> If I drop the type/placement negotiation for now and focus on SGT removal I can
+> simplify things a lot. Plan would be something like:
 > 
-> Well the plan is to not disconnect it at all. The exporting drivers
-> just says to the underlying API here is my buffer please map that
-> for this importer and that result is then given back to the importer
-> through the DMA API again.
+> 1) Introduce a new C data type (dma_phys_list?) for exporters to pass physical
+>    location info and context for mapping.
 
-DMA API will only do basic PCI DMA mappings into dma_addr_t.
+Something like this maybe?
 
-It will never handle iommu_domain, it will never handle ualink/etc.
+struct {
+	u32	mapping_type;
+	u32	num_entries;
+	union {
+		dma_addr_t	*dma_addr;
+		u64		*generic_64bit_addr;
+		...
+	};
+}
+....
+	
 
-Give us a plan for those if you don't like any of these ideas.
-
-> > Fundamentally the need is for the driver to get the phys_addr list,
-> > exactly like today, and then pass it to an op which formats that into
-> > the right data structure for the importer. Be it dma_addr[],
-> > iommu_domain, or some ualink_addr[] - or whatever.
+> 2) Introduce two new dma_buf_ops - map_dma_phys_list() and unmap_dma_phys_list()
+>    - which are replacements for {un}map_dma_buf that converted exporters use to
+>    return a dma_phys_list instead of returning a sg_table.
 > 
-> No, the phys_addr type should only ever been seen by the DMA API and
-> not by DMA-buf.
+> 3) Move dma_buf_phys_vec_to_sgt() somewhere other than drivers/dma-buf and
+>    rename it dma_phys_list_to_sgt().
+> 
+> 4) Update dma_buf_{un}map_sgt() to call the new map_dma_phys_list() ops and
+>    dma_phys_list_to_sgt() to create an sg_table for unconverted importers
+>    importing from a converted exporter.
+> 
+> 5) Add dma_buf_iommu_map() taking a IOMMU domain/iova/offset/size to be called
+>    from iommufd for mapping an attachment into an IOMMU domain.
 
-Again, I don't care how you label things or what "library" they live
-in, I can't tell if we are nitpicking names or what.
+I think a whole bunch of other drivers would be really happy to use that interface as well, yes.
 
-But there needs to be some kind of abstraction that takes in
-phys_addr_t and makes sgt, dma_addr_t, or iommu_domain depending on
-what the importer needs.
+> 
+> 6) Add a new C data type (dma_map_list?) containing DMA address regions
+>    an importer should program HW with and new dma-buf functions to replace
+>    dma_buf_{un}map_sgt().
+> 
+> Names are really just placeholders, so easily changed if you don't like them.
+> Let me know what you think, thanks.
 
-Exporters must not open code that.
+That totally sounds like a plan to me.
 
-Obviously DMABUF is involved here *somehow* since it is the only thing
-that knows an importer even exists.
+Regards,
+Christian.
 
-Would you be happy if we made a 'dma mapping for dmabuf' library that
-did all of this and DMABUF just passes its type opaquely and drivers
-just call its tightly abstracted functions?
+> 
+> Regards,
+> 
+> Alistair
 
-That is the component Alistair is proposing, he just prefixed it with
-dmabuf_* as the namespace because, lets be honest, only dmabuf needs
-this weird looking thing.
-
-Jason
 
