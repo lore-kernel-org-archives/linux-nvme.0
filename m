@@ -2,61 +2,58 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E12606A329
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2026 14:20:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F84606A31E
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2026 14:26:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=NCc8x9nZ;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sc5leU+w
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=UcWeAWhQ;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=asP8/PGJ
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=QMKDEQDpnnZom7PZScr8UsEswjYU1+vEljlyVSb0T/E=; b=NCc8x9nZfTkf7ub18hMjIqT/Ka
-	Lxfvn4VYDnxEWGYmpFACt6/oTcVO3dx41OErgZ+XsOyQPpLy/8TRwn4qPf788Sao/c6Bqb0itN35h
-	s9L80yC58vMjsOi+Uxvm7bYvcfqnuSBuvxP1nVWuuA38FVcLcc5bybNHTaWEiQuL4d9D9txyUi3x7
-	w29IRNm4XZ2k1XqjiG18lcML5ptzyE2jECju3ngByRAatOdAyNYAbqiHQiZB4ABMtftjOx9b1uSrY
-	qNaX+5vnn/Ts12+n4FT82fAtwNEp31sT2duftWLj1+h5KORPGrL1RyTng2zHo8ZS2697nKhBcJgm/
-	ob5cEeYg==;
+	bh=yPuYlPBJOpm73JY6+sDUlvAVcHSaw0CIAD9ZIBqsPTY=; b=UcWeAWhQRrPkVlQS6bH4AwMvSN
+	9p5yU7b9GYOACrkBlfd73LKEV+nFBRejcQ6KO/Zhfi/nNs6pDw458xUsA9a1D1rrX17sDD/Cg/c88
+	N6C8J4BLOxcuW7vYn+RwTXanu7d8rjyNbTGuPFId+1cyK/9f1oT+xRlfP9MWkoesfOJLqV6kNeKOG
+	L4QstnvlqG/WaWwoelhu0QLe/Z5Vrd6yXxrAtKznTIRfuVNAEHgS8QAkCOxQ0NO3lb69J8fVgHiUI
+	L8H3H88ymz8El0o8W7hJedPTcWKYyymw6FcwHrw9wS+wNUzQpuLSAc04YURfs5wL84d8KEIOnoHaF
+	boVW+3jg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWDrY-0000000A8Jk-1XNc;
-	Wed, 25 Nov 2026 14:20:44 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xWDwg-0000000A9j6-2qCy;
+	Wed, 25 Nov 2026 14:26:02 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWDrX-0000000A8Ja-2yNX
+	id 1xWDwe-0000000A9iZ-0bA2
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Nov 2026 14:20:43 +0000
+	Wed, 25 Nov 2026 14:26:01 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 6CE5A44E42;
-	Wed, 25 Nov 2026 14:20:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 144351F000C0;
-	Wed, 25 Nov 2026 14:20:41 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 8959443803
+	for <linux-nvme@lists.infradead.org>; Wed, 25 Nov 2026 14:25:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58F391F000ED;
+	Wed, 25 Nov 2026 14:25:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795616443;
-	bh=QMKDEQDpnnZom7PZScr8UsEswjYU1+vEljlyVSb0T/E=;
-	h=From:To:Cc:Subject:Date;
-	b=Sc5leU+wgHyLyXo1KFHTzyB4kgbmA8jBYA6oDhu7EnbHtwpXxnqyGWhY6GxN3PR/d
-	 0fNIsm9MShEo4aQT+O2F9RvqN2gevCK4ZWV3WniHNH/x1mKOb8nAknA9PjBbMHTLu1
-	 hmyGweALY3l+eA8C7YS2IzX+fWic0VNIJjrnOKT8XSj4P4Q5dwUS2i4+f+KINqxIw4
-	 laQoTdlPseYafej1v7SmPfyUqR74/Z24rUXJtzTTq+ZZj0/R01KnbqY+bDkJHWR+Pk
-	 vidbNDSTYbEVN39dAFNZGkXHGUvkBv9Jx6K4mVrAgyAiRVw8C4OZCbTguNI1ApQbmG
-	 HLO5TbiZwOS2g==
-From: Hannes Reinecke <hare@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH] nvme-tcp: use correct network namespace to resolve addresses
-Date: Wed, 25 Nov 2026 15:20:33 +0100
-Message-ID: <20261125142033.4889-1-hare@kernel.org>
-X-Mailer: git-send-email 2.51.0
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1795616759;
+	bh=yPuYlPBJOpm73JY6+sDUlvAVcHSaw0CIAD9ZIBqsPTY=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=asP8/PGJUCdwlbo0B8KjQgftMbXkpLtm9UxnJCPsKScrwwQ98dg+X4aXLkSW9cD8h
+	 f3ohVNR/Jp0w6gREaCFkA2L7wgxQQyPrtsdSyjAe5HVqT7YeUwB1VoY+Uvt2qTFrrN
+	 7J0xwByDdZDYK4W7POqadK0MuJno+mBoWURBm/wpPttho2xEnpN1/n91/Y0Mew4fEO
+	 dUQhf3SdYfK23+tr5ZIbtFypJlN3VNdUqsXOiIdLFTzkvh2IahAAadyIvGV4s1/rDI
+	 IRR5QF4gFXDLV1UBtv9rSdX5aPuTkePPpPlAHia7JnotUGQhMC0YCyeW8Jhzsqu4tZ
+	 vqW8DIYmu7XlA==
+Message-ID: <sashiko-outbox-233553@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] nvme-rdma: use current network namespace
+To: "Hannes Reinecke" <hare@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+In-Reply-To: <20261125141737.2383-1-hare@kernel.org>
+References: <20261125141737.2383-1-hare@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2026 14:25:58 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,83 +63,68 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-Resolving network addresses should use the current network namespace;
-the passed-in addresses might not exist in the default network namespace.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [High] nvme-rdma: netns reference leak in nvme_rdma_free_ctrl()
+--
 
-Fixes: 87a1ac965502 ("nvme-tcp: store and use the caller's network namespace")
+commit ea2302951454868193e26cecb0bf291eea317e73
+Author: Hannes Reinecke <hare@kernel.org>
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
----
- drivers/nvme/host/tcp.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+nvme-rdma: use current network namespace
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index c3149a9151f5..a4ecd0aa6783 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -3308,6 +3308,7 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
- 	ctrl->ctrl.queue_count = NVME_TCP_OPT_NR_QUEUES(opts);
- 	ctrl->ctrl.sqsize = opts->queue_size - 1;
- 	ctrl->ctrl.kato = opts->kato;
-+	ctrl->net = get_net(current->nsproxy->net_ns);
- 
- 	INIT_DELAYED_WORK(&ctrl->connect_work,
- 			nvme_tcp_reconnect_ctrl_work);
-@@ -3324,7 +3325,7 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
- 		opts->mask |= NVMF_OPT_TRSVCID;
- 	}
- 
--	ret = inet_pton_with_scope(&init_net, AF_UNSPEC,
-+	ret = inet_pton_with_scope(ctrl->net, AF_UNSPEC,
- 			opts->traddr, opts->trsvcid, &ctrl->addr);
- 	if (ret) {
- 		pr_err("malformed address passed: %s:%s\n",
-@@ -3333,7 +3334,7 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
- 	}
- 
- 	if (opts->mask & NVMF_OPT_HOST_TRADDR) {
--		ret = inet_pton_with_scope(&init_net, AF_UNSPEC,
-+		ret = inet_pton_with_scope(ctrl->net, AF_UNSPEC,
- 			opts->host_traddr, NULL, &ctrl->src_addr);
- 		if (ret) {
- 			pr_err("malformed src address passed: %s\n",
-@@ -3343,7 +3344,7 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
- 	}
- 
- 	if (opts->mask & NVMF_OPT_HOST_IFACE) {
--		if (!__dev_get_by_name(current->nsproxy->net_ns,
-+		if (!__dev_get_by_name(ctrl->net,
- 				       opts->host_iface)) {
- 			pr_err("invalid interface passed: %s\n",
- 			       opts->host_iface);
-@@ -3367,16 +3368,15 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
- 	for (i = 0; i < ctrl->nr_allocated_queues; i++)
- 		nvme_tcp_init_queue(ctrl, i);
- 
--	ctrl->net = get_net(current->nsproxy->net_ns);
- 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_tcp_ctrl_ops, 0);
- 	if (ret)
- 		goto out_kfree_queues;
- 
- 	return ctrl;
- out_kfree_queues:
--	put_net(ctrl->net);
- 	kfree(ctrl->queues);
- out_free_ctrl:
-+	put_net(ctrl->net);
- 	kfree(ctrl);
- 	return ERR_PTR(ret);
- }
--- 
-2.51.0
+This commit records the caller's network namespace in struct nvme_rdma_ctrl
+and passes it to inet_pton_with_scope() and rdma_create_id() instead of
+init_net.
 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 32189fdfc0f51..76b4cba80b369 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+
+[ ... ]
+
+> @@ -2288,6 +2289,8 @@ static struct nvme_rdma_ctrl *nvme_rdma_alloc_ctrl(=
+struct device *dev,
+>  	if (!ctrl)
+>  		return ERR_PTR(-ENOMEM);
+>  	ctrl->ctrl.opts =3D opts;
+> +	ctrl->net =3D get_net(current->nsproxy->net_ns);
+> +
+>  	/*
+>  	 * Safe to init list while allocating ctrl object.
+>  	 */
+
+[ ... ]
+
+> @@ -2354,6 +2357,7 @@ static struct nvme_rdma_ctrl *nvme_rdma_alloc_ctrl(=
+struct device *dev,
+>  out_kfree_queues:
+>  	kfree(ctrl->queues);
+>  out_free_ctrl:
+> +	put_net(ctrl->net);
+>  	kfree(ctrl);
+>  	return ERR_PTR(ret);
+>  }
+
+[Severity: High]
+Does this leak ctrl->net when a controller is freed after
+nvme_rdma_alloc_ctrl() succeeds?  Once nvme_init_ctrl() succeeds,
+controller teardown goes through nvme_put_ctrl() -> nvme_rdma_free_ctrl(),
+which frees ctrl without calling put_net(ctrl->net), preventing the
+network namespace from ever being destroyed.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261125141737.2383=
+-1-hare@kernel.org?part=3D1
 
