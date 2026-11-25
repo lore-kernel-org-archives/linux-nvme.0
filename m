@@ -2,62 +2,59 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789BA606A32E
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2026 12:25:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B89C606A31E
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2026 12:39:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=WeMcTsC1;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=l5yL5YkG
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mHtXcW5Z;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S5DQGIbG
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=TUvmNpEjL2OGIfZWUlDmLtIp8EJ0dgC2oC8n5gcLikw=; b=WeMcTsC11NcALGEZVXXCzx+jA0
-	xg1qBzJVqY4A+l1RiHnHJsqCz85vjlt3KeTl512zzOXQcZh5AoKl0pwS+bUiy10qWdCNrCIsGR9Uu
-	GRHrUzbP9cNDBI2N7x1k0zA3U5a/joNkAYpGi82jUwEI7UHoBQ6GenGtRZ5n1b6iyyJO4NmIjBmqs
-	g5m+Eo1eIGRLm2zooNN/fTFPxSEu0noExOR7gTHToEPowr2DwfG6O65MeyPyLEWThM6Q58A+iqOvk
-	iuREUq5Igz3KG0whJB3k2TqyRco1a7brA9WE+MJyEqNMDPWiFKVh6CI9Q++a7XcPQ/ogo3or1ltsl
-	BG47Gfrg==;
+	bh=XVOxur87GV70ySVkoJrwg3Gyp56PlLec0yC+KsExP+M=; b=mHtXcW5Zs7bqnAyrqkGcYToiHX
+	uOKL6rmE5VQbBBfh89UL/GnamHi+1ZP2VJPpEZAhSsRbN6+A2zYGShF6pQjTlMXxWjNHU0vBmfdA5
+	qt0c1fdfO0GTaNPt33/7UW4WxLCeML27edG8i3e+hPZ0FHnK/4+7pFbwuznPNp/hol781TxQnRHXi
+	nCrInEfhJax4gr8ylKEhQsrq4P8iNXPSm7cQfSVAhpqp3nXk2CNcqODVb3ayKLLGTki2XaWbru2jb
+	P6LSsVr6iBijJjD2q564n8vLvZAaUFlNAbAwIJea7relL7y66PZw6c0zjToh2bcC0PoBwXk+eY6wD
+	G7m5YG2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWC3Y-00000009oo1-2dsr;
-	Wed, 25 Nov 2026 12:25:00 +0000
-Received: from out30-110.freemail.mail.aliyun.com ([115.124.30.110])
+	id 1xWCHj-00000009rfo-3Ivv;
+	Wed, 25 Nov 2026 12:39:39 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWC3V-00000009omF-2DNY
+	id 1xWCHh-00000009rfE-0Cgh
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Nov 2026 12:24:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1795609493; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=TUvmNpEjL2OGIfZWUlDmLtIp8EJ0dgC2oC8n5gcLikw=;
-	b=l5yL5YkGAcEo27eTEPGpZQQC3ius4YLAimDqeGOo7HoiMTdeXqNS3K2HCdeGMdzJRSzSxpCoqSal0vl3evP6OC8Yoblr5ecXzdotSEHuWbUYMXEhocKwQAR+9EfZJTpol3Trp7lAfIkEHbcYQ7qgtS8TduSJCLEvnIfquu+y9Pg=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XFRi.-x_1795609492;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XFRi.-x_1795609492 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 25 Nov 2026 20:24:53 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	Daniel Wagner <dwagner@suse.de>,
-	Hannes Reinecke <hare@suse.de>
+	Wed, 25 Nov 2026 12:39:37 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 8116242E2A;
+	Wed, 25 Nov 2026 12:39:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 511401F000D2;
+	Wed, 25 Nov 2026 12:39:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795610376;
+	bh=XVOxur87GV70ySVkoJrwg3Gyp56PlLec0yC+KsExP+M=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=S5DQGIbGdiNjXzon6vPFH0/KjkpXANmCKkikzXBAlIBg9FCblD+QpbyVWdVZaqOnU
+	 DjQ6djFUkL7UO7A0g0olbfHcs7ZwHTptDv5sssNGZbvbHmGRatiZYwZlmEoQzMBqaz
+	 4sSTSsfHRsjHYmT2k2tbG5bimY5ExnFDOC/ufARzFj0NealuPXwIxYKa61Q6isY8my
+	 bpjltfnxzwgu9r1zMx6Pt+Ua8nry/MhN0aYP+xPeY2qoRN7Ei24iiSbqMd15E2yvpM
+	 i+YFsgCHM1jHPPmdRzsk7gyH9YRosuVikIFnNiIiviIyHt3uNV3ykI+qZLF/vEnc4z
+	 isGSIWKnes41g==
+Message-ID: <sashiko-outbox-233382@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] nvme-multipath: serialize ana_log_buf lifecycle with
+ ana_lock
+To: "Guixin Liu" <kanie@linux.alibaba.com>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v2] nvme-multipath: serialize ana_log_buf lifecycle with ana_lock
-Date: Wed, 25 Nov 2026 20:24:46 +0800
-Message-ID: <20261125122446.1122253-1-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.7
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261125_042458_088167_94254AD3 
-X-CRM114-Status: GOOD (  19.47  )
-X-Spam-Score: -17.6 (-----------------)
+In-Reply-To: <20261125122446.1122253-1-kanie@linux.alibaba.com>
+References: <20261125122446.1122253-1-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2026 12:39:35 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,137 +64,158 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-26.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-nvme_parse_ana_log() reads ctrl->ana_log_buf and ctrl->ana_log_size
-under ctrl->ana_lock, but the buffer lifecycle is not fully serialized
-against it:
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] nvme-multipath: ana_work re-queued with NULL buffer after
+  nvme_mpath_uninit()
+- [Medium] nvme-multipath: stale ana_log_buf parsed against shrunk size
+  on reset
+--
 
- - nvme_mpath_uninit() frees the buffer without ana_lock, so a
-   concurrent parser in nvme_mpath_add_disk() can use freed memory.
- - nvme_mpath_init_identify() reallocates the buffer and updates
-   ana_log_size outside ana_lock. nvme_mpath_add_disk() tests
-   nvme_ctrl_use_ana() before taking the lock, so it can pass the check
-   and then dereference a NULL buffer after nvme_mpath_uninit() cleared
-   it; and the freshly allocated buffer can be parsed before
-   nvme_read_ana_log() populates it, reading uninitialized memory.
+commit 6951dbeaa851be5d302a81751db149aaf0a1b322
+Author: Guixin Liu <kanie@linux.alibaba.com>
 
-Take ana_lock around the buffer release in nvme_mpath_uninit() and
-around the reallocation in nvme_mpath_init_identify(), updating
-ana_log_buf and ana_log_size together so a parser never observes a
-freed or NULL buffer or a stale size. Allocate the new buffer outside
-the lock and zero it, so a parser running before nvme_read_ana_log()
-populates it sees ngrps == 0. nvme_parse_ana_log() also bails out when
-the buffer is NULL, covering the teardown paths. Keep the ana_work
-drain outside the lock: ana_work itself takes ana_lock, so cancelling
-it under the lock would deadlock.
+nvme-multipath: serialize ana_log_buf lifecycle with ana_lock
 
-Fixes: 0d0b660f214d ("nvme: add ANA support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
-Reported by Sashiko AI review as a pre-existing issue. Confirmed by
-source analysis and reproduced in a KASAN guest with nvmet-tcp loopback
-and ANA enabled.
+This commit serializes ctrl->ana_log_buf and ctrl->ana_log_size updates
+under ctrl->ana_lock across nvme_mpath_init_identify() and
+nvme_mpath_uninit(), and adds a NULL buffer check to nvme_parse_ana_log().
 
-The race is in the reallocation path: nvme_mpath_init_identify() frees
-the old buffer through nvme_mpath_uninit() before taking ana_lock in
-nvme_read_ana_log(). The FROZEN guard does not close the window: a tcp
-reset runs nvme_init_identify() (configure_admin_queue) before
-nvme_start_freeze() (configure_io_queues), and reset does not flush
-scan_work.
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 27facdbb3d4c0..91ba71ab1c614 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -867,6 +867,9 @@ static int nvme_parse_ana_log(struct nvme_ctrl *ctrl,=
+ void *data,
+> =20
+>  	lockdep_assert_held(&ctrl->ana_lock);
+> =20
+> +	if (!ctrl->ana_log_buf)
+> +		return 0;
+> +
+>  	for (i =3D 0; i < le16_to_cpu(ctrl->ana_log_buf->ngrps); i++) {
+>  		struct nvme_ana_group_desc *desc =3D base + offset;
+>  		u32 nr_nsids;
+> @@ -1589,13 +1592,22 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ct=
+rl, struct nvme_id_ctrl *id)
+>  		goto out_uninit;
+>  	}
+>  	if (ana_log_size > ctrl->ana_log_size) {
+> +		void *buf;
+> +
+>  		nvme_mpath_stop(ctrl);
+> -		nvme_mpath_uninit(ctrl);
+> -		ctrl->ana_log_buf =3D kvmalloc(ana_log_size, GFP_KERNEL);
+> -		if (!ctrl->ana_log_buf)
+> +		buf =3D kvzalloc(ana_log_size, GFP_KERNEL);
+> +		if (!buf)
+>  			return -ENOMEM;
+> +		mutex_lock(&ctrl->ana_lock);
+> +		kvfree(ctrl->ana_log_buf);
+> +		ctrl->ana_log_buf =3D buf;
+> +		ctrl->ana_log_size =3D ana_log_size;
+> +		mutex_unlock(&ctrl->ana_lock);
+> +	} else {
+> +		mutex_lock(&ctrl->ana_lock);
+> +		ctrl->ana_log_size =3D ana_log_size;
+> +		mutex_unlock(&ctrl->ana_lock);
+>  	}
+> -	ctrl->ana_log_size =3D ana_log_size;
+>  	error =3D nvme_read_ana_log(ctrl);
+>  	if (error)
+>  		goto out_uninit;
 
-Reproduction (test-only delays + forced ANA-log growth):
- - use-after-free: buffer address tracking shows nvme_mpath_uninit()
-   freeing the old ana_log_buf while nvme_parse_ana_log() still
-   dereferences it (the new buffer lands at a different address).
- - NULL dereference: widening the window between nvme_mpath_uninit()
-   and the reallocation makes nvme_mpath_add_disk() pass
-   nvme_ctrl_use_ana() and then parse a NULL buffer; without the fix
-   this faults in nvme_parse_ana_log() (buf register NULL).
- - uninitialized read: the new buffer is parsed before
-   nvme_read_ana_log() populates it.
-With the fix the buffer pointer and ana_log_size are swapped atomically
-under ana_lock (a parser sees neither a freed nor a NULL buffer), the
-new buffer is zeroed (ngrps == 0 before population), and
-nvme_parse_ana_log() bails out on NULL; none of the three windows fault.
-ANA change/optimized transitions and multipath I/O remain unaffected.
+[Severity: Medium]
+When a controller resets with a smaller ana_log_size (or a smaller
+ctrl->anagrpmax, which is updated above outside ctrl->ana_lock), does this
+else branch leave the pre-reset ANA log in ctrl->ana_log_buf while
+shrinking ctrl->ana_log_size?
 
-Changes since v1:
- - serialize the reallocation swap (buffer pointer and ana_log_size)
-   under ana_lock, allocating the new buffer outside the lock, so a
-   parser never observes a freed or NULL buffer; also bail out of
-   nvme_parse_ana_log() when ana_log_buf is NULL and zero the
-   reallocated buffer. v1 only serialized the free, leaving a NULL
-   dereference window (nvme_mpath_add_disk() tests nvme_ctrl_use_ana()
-   outside ana_lock) and an uninitialized-memory read before
-   nvme_read_ana_log() populates the new buffer (Sashiko AI review)
+A concurrent nvme_parse_ana_log() running before nvme_read_ana_log()
+overwrites the buffer will validate the old descriptors against the newly
+shrunk ctrl->ana_log_size and ctrl->anagrpmax, hitting WARN_ON_ONCE() and
+failing with -EINVAL:
 
-v1: https://lore.kernel.org/all/20261125060153.206699-1-kanie@linux.alibaba.com/
+CPU0                                  CPU1
+nvme_mpath_init_identify()
+  ctrl->anagrpmax =3D ...
+  mutex_lock(&ctrl->ana_lock)
+  ctrl->ana_log_size =3D ana_log_size
+  mutex_unlock(&ctrl->ana_lock)
+                                      nvme_mpath_add_disk()
+                                        mutex_lock(&ctrl->ana_lock)
+                                        nvme_parse_ana_log()
+                                          offset > ctrl->ana_log_size
+                                            <-- WARN_ON_ONCE()
+  nvme_read_ana_log()
 
- drivers/nvme/host/multipath.c | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+Zeroing ctrl->ana_log_buf->ngrps (and updating ctrl->anagrpmax) under
+ctrl->ana_lock would keep concurrent parsers from walking stale pre-reset
+descriptors before nvme_read_ana_log() populates the new log.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 3685c792181b..ee4500dbae5b 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -889,6 +889,9 @@ static int nvme_parse_ana_log(struct nvme_ctrl *ctrl, void *data,
- 
- 	lockdep_assert_held(&ctrl->ana_lock);
- 
-+	if (!ctrl->ana_log_buf)
-+		return 0;
-+
- 	for (i = 0; i < le16_to_cpu(ctrl->ana_log_buf->ngrps); i++) {
- 		struct nvme_ana_group_desc *desc = base + offset;
- 		u32 nr_nsids;
-@@ -1622,13 +1625,22 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 		goto out_uninit;
- 	}
- 	if (ana_log_size > ctrl->ana_log_size) {
-+		void *buf;
-+
- 		nvme_mpath_stop(ctrl);
--		nvme_mpath_uninit(ctrl);
--		ctrl->ana_log_buf = kvmalloc(ana_log_size, GFP_KERNEL);
--		if (!ctrl->ana_log_buf)
-+		buf = kvzalloc(ana_log_size, GFP_KERNEL);
-+		if (!buf)
- 			return -ENOMEM;
-+		mutex_lock(&ctrl->ana_lock);
-+		kvfree(ctrl->ana_log_buf);
-+		ctrl->ana_log_buf = buf;
-+		ctrl->ana_log_size = ana_log_size;
-+		mutex_unlock(&ctrl->ana_lock);
-+	} else {
-+		mutex_lock(&ctrl->ana_lock);
-+		ctrl->ana_log_size = ana_log_size;
-+		mutex_unlock(&ctrl->ana_lock);
- 	}
--	ctrl->ana_log_size = ana_log_size;
- 	error = nvme_read_ana_log(ctrl);
- 	if (error)
- 		goto out_uninit;
-@@ -1648,7 +1660,9 @@ void nvme_mpath_uninit(struct nvme_ctrl *ctrl)
- 	 */
- 	cancel_work_sync(&ctrl->ana_work);
- 
-+	mutex_lock(&ctrl->ana_lock);
- 	kvfree(ctrl->ana_log_buf);
- 	ctrl->ana_log_buf = NULL;
- 	ctrl->ana_log_size = 0;
-+	mutex_unlock(&ctrl->ana_lock);
- }
--- 
-2.43.7
+> @@ -1615,7 +1627,9 @@ void nvme_mpath_uninit(struct nvme_ctrl *ctrl)
+>  	 */
+>  	cancel_work_sync(&ctrl->ana_work);
+> =20
+> +	mutex_lock(&ctrl->ana_lock);
+>  	kvfree(ctrl->ana_log_buf);
+>  	ctrl->ana_log_buf =3D NULL;
+>  	ctrl->ana_log_size =3D 0;
+> +	mutex_unlock(&ctrl->ana_lock);
+>  }
 
+[Severity: High]
+Can nvme_mpath_add_disk() re-queue ctrl->ana_work after
+nvme_mpath_uninit() has already cancelled it and freed ctrl->ana_log_buf?
+
+When nvme_mpath_init_identify() jumps to out_uninit during a reset (for
+example, when ana_log_size > max_transfer_size disables ANA with
+error =3D=3D 0 so the controller still becomes live), nvme_mpath_add_disk()
+can pass its unlocked nvme_ctrl_use_ana() check before ctrl->ana_log_buf
+is cleared:
+
+CPU0                                  CPU1
+nvme_mpath_add_disk()                 nvme_mpath_uninit()
+  if (nvme_ctrl_use_ana(ctrl))          cancel_work_sync(&ctrl->ana_work)
+                                        mutex_lock(&ctrl->ana_lock)
+                                        kvfree(ctrl->ana_log_buf)
+                                        ctrl->ana_log_buf =3D NULL
+                                        ctrl->ana_log_size =3D 0
+                                        mutex_unlock(&ctrl->ana_lock)
+    mutex_lock(&ctrl->ana_lock)
+    nvme_parse_ana_log()
+      if (!ctrl->ana_log_buf)
+        return 0
+    mutex_unlock(&ctrl->ana_lock)
+    if (desc.state) /* 0 */
+    else
+      set_bit(NVME_NS_ANA_PENDING, ...)
+      queue_work(..., &ctrl->ana_work)
+                                      nvme_ana_work()
+                                        nvme_read_ana_log()
+                                          nvme_get_log(..., NULL, 0, 0)
+                                            <-- numd underflows to 0xffffff=
+ff
+
+Because nvme_parse_ana_log() returns 0 with desc.state =3D=3D 0 when
+ctrl->ana_log_buf is NULL, nvme_mpath_add_disk() treats it as a missing
+group descriptor, leaves the namespace stuck with NVME_NS_ANA_PENDING set,
+and queues ctrl->ana_work.  nvme_read_ana_log() then calls nvme_get_log()
+without checking ctrl->ana_log_buf, passing a NULL buffer and size 0;
+nvme_bytes_to_numd(0) underflows to 0xffffffff and submits a 16 GiB
+Admin Get Log Page command with no data buffer mapped.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261125122446.1122=
+253-1-kanie@linux.alibaba.com?part=3D1
 
