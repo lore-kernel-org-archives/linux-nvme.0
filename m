@@ -2,59 +2,71 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC83F606A686
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2026 07:15:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE42606A326
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2026 07:24:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=JFEPfr9D;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=uLUfOO7M
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=hkve0rty;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=rNb4i5Yz
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=ykrETQreiYBppW8vVwZgio8KQ+IVfDcttxGfP4v3HPw=; b=JFEPfr9DmHd2Db
-	S8FoOK4RA2G/Sjwe/lsyxjvWJjVfqtVCcNwsYt8eLKlJFI6xGtPgsJ0jRWp8qTpAqOPN0DoVcM80t
-	truEjcucZ15ULmlib6zmU8TPSOodk3yh3Vzcr44StWJ0S8E9dGmQMcerW5dy1HkTNhBjNp2KyQTFt
-	6z27y0gjQ8FrzOn6UoqCXhaXeuE17n2pArXjfeaDWhTQSnvW5xEapnm8sJb4xtJliuN4aJXQxS9TO
-	Qn/wFKr6Z+619IyagihwJWBjU3ULEQdDoqMXKBrOFq8IuaRhN8/IRSGnRXAxHaQ6PRjfvZD8ouTWr
-	BqIIhjKPWRBiLOHKOKrQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=r0myuFApk3CTYGQTEnFeQDMpROEFi5dgwBJlvox4jFY=; b=hkve0rtyp7m1mfKw8gIZf89NUC
+	Sgi5HSr96O6topI2kvh5dJFkO6dIl7kSdxg/2RTzvD2Yt9br5ZlTWs3tRLgvKnYsFnS7cCL0bO4Qj
+	mjTOlk2QClB1hpO3X7XPTQMA+haiJV+oT7gioalQYRtPubln/1cHhUHxOf/dps2WK9/w2pysHKeyp
+	aOFMdquQU+DKR/USZeP+DbMyXJKG0faLrmGUo1NtQjdNcKl/uIBJZ7PnOBnLcMSy81HaEQtLU3Pri
+	QXBQu0+qvo26fU3gHXDYxL6lPc6kv9uw6oM1gkGbaVIrby7gc15xVCtUszfHdz1sX/7EbAdfq+Agk
+	LCJZc5oA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xW7DZ-00000008pbl-3IQ7;
-	Wed, 25 Nov 2026 07:15:01 +0000
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132])
+	id 1xW7MH-00000008rvf-01Bz;
+	Wed, 25 Nov 2026 07:24:01 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xW7DW-00000008paj-0MRa
+	id 1xW7MF-00000008ruQ-1YbK
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 25 Nov 2026 07:23:59 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=r0myuFApk3CTYGQTEnFeQDMpROEFi5dgwBJlvox4jFY=; b=rNb4i5YzQDwJUkUxZdMhQ+Q1zx
+	BiBYkOrkvdXqPCLso0suVjuXLfQOHJUF7xH6cvCATXfkp3zGlr3VOCyq92MHtoUtIIJmlonH3P7FH
+	n6H4c8OaDHmDd/KuNWNVMFlmjKxoImsMer886APlLHC2T81e9NII1532eho6AsjOrhG+DaB4gn0Z6
+	wzTq30IYLcJL08O8Ap9L5ESPOGDYEfY8M2LR8oZgoXF7oPXcjUqs4CXIZ6osk/e7dlbUXUYAXQZxh
+	zTPSe+dpwwbW/b7QeLLgWdWtp5Kk2YRYOdstV4ECKlc1ckMS6R+OvpWH2wF3LwFby7vjBS/N6DSlC
+	ay2OWQ1Q==;
+Received: from verein.lst.de ([213.95.11.211])
+	by desiato.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xW7M9-00000004yWB-1XYr
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Nov 2026 07:15:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1795590895; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=ykrETQreiYBppW8vVwZgio8KQ+IVfDcttxGfP4v3HPw=;
-	b=uLUfOO7Mx9yzNqQkFZ0a8h1j8EwRyjKTtG3+UeNfJwO7OVR4IVs8Lk0h0JX7BaEpKNTkSAgBfl17Fshd0gNtFKbBd77X55KVRP85RfgonEXbwGbfqdy7nA9T+RoeK2C8zl71VM1EIAc5XIcf1GDL6dq22Cwmc31miDHwVkl/c2U=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=2;SR=0;TI=SMTPD_---0XFQiZhh_1795590894;
-Received: from 30.178.67.246(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XFQiZhh_1795590894 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 25 Nov 2026 15:14:55 +0800
-Message-ID: <c1cc2ed1-1b3b-4462-826f-619f57e7f5c2@linux.alibaba.com>
-Date: Wed, 25 Nov 2026 15:14:54 +0800
+	Wed, 25 Nov 2026 07:23:57 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id D012668AFE; Wed, 25 Nov 2026 08:23:48 +0100 (CET)
+Date: Wed, 25 Nov 2026 08:23:48 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Nilay Shroff <nilay@linux.ibm.com>, Daniel Wagner <dwagner@suse.de>,
+	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme-multipath: protect ana_log_buf teardown with
+ ana_lock
+Message-ID: <20261125072348.GA21866@lst.de>
+References: <20261125060153.206699-1-kanie@linux.alibaba.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet: zero the reservation report tail beyond NUMD
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-nvme@lists.infradead.org
-References: <20261125061453.230238-1-kanie@linux.alibaba.com>
- <sashiko-outbox-232691@kernel.org>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <sashiko-outbox-232691@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261125060153.206699-1-kanie@linux.alibaba.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261124_231459_229436_F16251A9 
-X-CRM114-Status: GOOD (  16.15  )
-X-Spam-Score: -17.6 (-----------------)
+X-CRM114-CacheID: sfid-20261125_072353_618115_90270CC5 
+X-CRM114-Status: GOOD (  12.48  )
+X-Spam-Score: -0.0 (/)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,80 +77,18 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-19.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
+On Wed, Nov 25, 2026 at 02:01:53PM +0800, Guixin Liu wrote:
+> Reported by Sashiko AI review as a pre-existing issue (not introduced by
+> the ANATT timer fix). Confirmed by source analysis and reproduced in a
+> KASAN guest with nvmet-tcp loopback and ANA enabled.
 
-
-在 2026/11/25 14:27, sashiko-bot@kernel.org 写道:
-> Thank you for your contribution! Sashiko AI review found no new issues
-> in this patch, but noticed 1 related pre-existing issue it does not
-> introduce:
-> - [Critical] nvmet: torn read of rkey in nvmet_pr_update_reg_rkey() [1]
-> --
->
-> commit 58bea4d71647eb54c1d0685be4714b3cb40c9a6f
-> Author: Guixin Liu <kanie@linux.alibaba.com>
->
-> nvmet: zero the reservation report tail beyond NUMD
->
-> This commit zeroes any remaining bytes in the command SGL beyond the
-> requested reservation report size in nvmet_execute_pr_report() so that
-> uninitialized kernel memory is not returned to the host.
->
->> diff --git a/drivers/nvme/target/pr.c b/drivers/nvme/target/pr.c
->> index 8c818f24815bd..63ea607d48646 100644
->> --- a/drivers/nvme/target/pr.c
->> +++ b/drivers/nvme/target/pr.c
->> @@ -900,6 +900,9 @@ static void nvmet_execute_pr_report(struct nvmet_req *req)
->>  
->>  	put_unaligned_le16(num_ctrls, data->regctl);
->>  	status = nvmet_copy_to_sgl(req, 0, data, num_bytes);
->> +	if (!status && req->transfer_len > num_bytes)
->> +		status = nvmet_zero_sgl(req, num_bytes,
->> +					req->transfer_len - num_bytes);
->>  	kfree(data);
->>  out:
->>  	nvmet_req_complete(req, status);
-> [Severity: Critical]
-> This problem wasn't introduced by this patch, but can RCU readers such as
-> nvmet_execute_pr_report() observe a torn 64-bit reg->rkey [1] on
-> 32-bit architectures?
->
-> When the target registrant is not the current reservation holder,
-> nvmet_pr_update_reg_attr() updates the live entry in pr->registrant_list
-> in place via nvmet_pr_update_reg_rkey():
->
-> drivers/nvme/target/pr.c:nvmet_pr_update_reg_rkey() {
-> 	reg->rkey = *(u64 *)attr;
-> }
->
-> drivers/nvme/target/pr.c:nvmet_pr_update_reg_attr() {
-> 	...
-> 	if (reg != holder) {
-> 		change_attr(reg, attr);
-> 		return NVME_SC_SUCCESS;
-> 	}
-> 	...
-> }
->
-> On 32-bit systems, the 64-bit store to reg->rkey splits into two 32-bit
-> stores, so a concurrent RCU reader can observe half of the old key and
-> half of the new key, corrupting the reported key or causing reservation
-> validation failures.
->
-> [1] https://sashiko.dev/#/bug/linux-b537252d-fab1-48b2-bcc6-de089d7cd907
-What Sashiko report is another issue, not the bug this patch introduced.
-
-I will take a look to see if we should fix.
-
-Best Regards,
-Guixin Liu
->
+Sashiko thinks this is still not enough, and it's probably right.
 
 
