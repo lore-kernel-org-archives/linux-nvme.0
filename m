@@ -2,145 +2,133 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F447606A323
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2026 08:17:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E05C606A31E
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2026 08:25:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=FIGKaLTG;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=uudtdZfs;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cgcBhKrO;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1b97GWFb;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tFaghQob
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ibv7aj6p;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=f/SGcu8n;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=uHgD3jWu;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=f/SGcu8n;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=uHgD3jWu
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=/eASl6gCLJkn1rYUkIDR4/lRGaeksf2LLzNOhGxvgjc=; b=FIGKaLTGLVTYg8
-	XIZTPYKzdtkkCZxCOSajFdzr4gFI7JdV4g02g7cybekmy5I6ys7NK/apYEM8JlqZhmpYT7qE3OThx
-	I3Oy/FddYixHlEG1Bw1qwJn8v0ZNBxahukcx4KdkgXkR975C36iAcQpWFgoQDSBuNiR7+fLBfUrw+
-	6CWzgBjs2BJ6gxEfiSUu7E7madKA5fzmYYW+7ZTKycU5rQxHlx4ltiY4HGDZPZpbYzIvHARroA5l5
-	gbr1jRUg2lgkBCyDwJhzH5lNyHEuhNa09a2LrfIpm0FPKP3mErESj0a4P9yExEdnTAnQLHUqwVDB0
-	CWr0v8Uv8L4brOJkqjpA==;
+	List-Owner; bh=19S3hFIOgJWNovhmVdj4jkPqvuhRoJw93rSNlsgqY+U=; b=ibv7aj6p53KkkJ
+	pVB5WZyJm9TzQze9Sp7mKT+PTB38g9Uj/eAcAY+bpV119ugW1Yxbpp05TYI9I4ZtdojtK6qRCtD7W
+	7ztHvj/eq7ptZHvaWfNAVrV36zOQKRVbIxw4jWjwAkdLIAMVkp5wHmLBs95t8QoQVcClWbmW1JWH3
+	UCzvVoUhGMsgiAgt+jD2ovMx7A+JXdNNgtMZZR94+dJaMVSgN0nYLEtNmtQ85WXcsdiZoy3G6gILt
+	KAfYEXiNZMVdBRRI8tsSxoGR9Lplx6oOkdvP902L0betxEkJLtyzulXFPBIte+t2LUEBYDf/ruqR8
+	IjpIP0kuwdilb+w3RppA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xW8C5-0000000920u-15K7;
-	Wed, 25 Nov 2026 08:17:33 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1xW8Je-000000094Fo-1PaZ;
+	Wed, 25 Nov 2026 08:25:22 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xW8Bq-000000091xP-3Hap
+	id 1xW8Ja-000000094EY-1f25
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Nov 2026 08:17:24 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Wed, 25 Nov 2026 08:25:19 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8915521BA1;
-	Wed, 25 Nov 2026 08:17:15 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5B8B91F456;
+	Wed, 25 Nov 2026 08:25:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795594636; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795595116; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/eASl6gCLJkn1rYUkIDR4/lRGaeksf2LLzNOhGxvgjc=;
-	b=uudtdZfs4P9ZSd3qSYRhF1Asec1/9bnIJhk56Yuh20qlQ0i6IO/xI2Nlm9NqxtguG3HmK0
-	3EqOdKDJCg3Y+h76DZsZIZcXIwBWfNC3tx4B7ivok9wdhQ8ZC0v+Fk0LI1JM8KYLxtJsoH
-	7dUW3FcyU0HX/0cLRfoZAkYqrVUharI=
+	bh=19S3hFIOgJWNovhmVdj4jkPqvuhRoJw93rSNlsgqY+U=;
+	b=f/SGcu8npW84MqXk460nllOqVQqzuXxUaZVDYw5EP10h/AuVgmiFw/MtWOZA552cNDmJHD
+	GJCl+bHw3P+8j8XHJ2kvZTDW2uWa5MeSpJFmRWbjnsq4OcBasiP/84vxS+MsHCqpQSZQNZ
+	MV5F8qsZLFApLhdppK3ZJFyOXpK6poQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795594636;
+	s=susede2_ed25519; t=1795595116;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/eASl6gCLJkn1rYUkIDR4/lRGaeksf2LLzNOhGxvgjc=;
-	b=cgcBhKrOpOkduQzA0L3klEgKpFOAwb+hLgwVUxP/YMwpOB4DHzyomaOCGTnhXxFDD/6eL9
-	wk4FIlQGELqtS+AA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1b97GWFb;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tFaghQob
+	bh=19S3hFIOgJWNovhmVdj4jkPqvuhRoJw93rSNlsgqY+U=;
+	b=uHgD3jWu/jtWYLMnnctR1q2WmreP126230vHoake+TkKozoijkK00GX8mnw9ae/O3gjxhq
+	kudGZVKlBPJb/GCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795594635; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795595116; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/eASl6gCLJkn1rYUkIDR4/lRGaeksf2LLzNOhGxvgjc=;
-	b=1b97GWFbHyVXlmv8CMLo+8Ue8NxdPsfXOAcJmub5twZx+v/Tyi/Gb4ZoJJc3ybcClUefa3
-	cPFmrdvuAquGgDKpl0KVS51O72NgljoYiHTiJ3hDpe7JTP7LqJGCfVr394vAUaZNmNx80i
-	aEDJhHiJKNODlNqubupSMhVRb2HaL9o=
+	bh=19S3hFIOgJWNovhmVdj4jkPqvuhRoJw93rSNlsgqY+U=;
+	b=f/SGcu8npW84MqXk460nllOqVQqzuXxUaZVDYw5EP10h/AuVgmiFw/MtWOZA552cNDmJHD
+	GJCl+bHw3P+8j8XHJ2kvZTDW2uWa5MeSpJFmRWbjnsq4OcBasiP/84vxS+MsHCqpQSZQNZ
+	MV5F8qsZLFApLhdppK3ZJFyOXpK6poQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795594635;
+	s=susede2_ed25519; t=1795595116;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/eASl6gCLJkn1rYUkIDR4/lRGaeksf2LLzNOhGxvgjc=;
-	b=tFaghQobbFzEpa+sCeRKM95uvZzC3gur9ni5WkMZ9b/sqIqDD0fL+hTuuhIj1xF5gYapsk
-	YhdAxzznG01Rb/AA==
+	bh=19S3hFIOgJWNovhmVdj4jkPqvuhRoJw93rSNlsgqY+U=;
+	b=uHgD3jWu/jtWYLMnnctR1q2WmreP126230vHoake+TkKozoijkK00GX8mnw9ae/O3gjxhq
+	kudGZVKlBPJb/GCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2E572134CA;
-	Wed, 25 Nov 2026 08:17:15 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F0314134E8;
+	Wed, 25 Nov 2026 08:25:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ze8EAouZBmvVXQAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 25 Nov 2026 08:17:15 +0000
-Message-ID: <8a460411-2849-4c1a-b20e-a5465840e6aa@suse.de>
-Date: Wed, 25 Nov 2026 09:17:14 +0100
+	id TDynMmubBmuhZgAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 25 Nov 2026 08:25:15 +0000
+Message-ID: <1940bb1e-0d77-4314-b052-59a0f92b4cc1@suse.de>
+Date: Wed, 25 Nov 2026 09:25:11 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] nvme-auth: fix data race on ctrl->transaction
-To: Keith Busch <kbusch@kernel.org>
-Cc: Guixin Liu <kanie@linux.alibaba.com>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Nilay Shroff <nilay@linux.ibm.com>, Daniel Wagner <dwagner@suse.de>,
- linux-nvme@lists.infradead.org
-References: <20261116081211.1757155-1-kanie@linux.alibaba.com>
- <20261116081211.1757155-3-kanie@linux.alibaba.com>
- <6dc083eb-7286-418b-92fe-f7245f653ba0@suse.de> <avsjKMMlQPPit6IY@kbusch-mbp>
- <0366b9fc-50b4-4739-9564-53c8783bdb0c@suse.de> <av5jzr_dZROU4lH3@kbusch-mbp>
+Subject: Re: [PATCH] nvme-multipath: delete the ANATT timer after draining
+ ana_work
+To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Nilay Shroff <nilay@linux.ibm.com>,
+ Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org
+References: <20261124121349.1861269-1-kanie@linux.alibaba.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <av5jzr_dZROU4lH3@kbusch-mbp>
+In-Reply-To: <20261124121349.1861269-1-kanie@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 8915521BA1
 X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-13.50 / 50.00];
+X-Spamd-Result: default: False [-13.29 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_LONG(-1.00)[-0.998];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	XM_UA_NO_VERSION(0.01)[];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -13.50
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,alibaba.com:email]
+X-Spam-Score: -13.29
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261125_001718_971548_74742A55 
-X-CRM114-Status: GOOD (  17.98  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261125_002518_587079_98B53917 
+X-CRM114-Status: GOOD (  18.82  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -151,49 +139,48 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/19/26 3:49 AM, Keith Busch wrote:
-> On Tue, Nov 17, 2026 at 08:23:38AM +0100, Hannes Reinecke wrote:
->> On 11/16/26 4:37 PM, Keith Busch wrote:
->>
->> It's somewhat ambiguous.
->> Spec says 'carrying the same transaction identifier value for the entire
->> authentication transaction' (for AUTH_negotiate), and later on 'carrying
->> the same transaction identifier' (for any other AUTH message).
->> So actually we just have to make sure they are identical.
->> (The random number is '4' ...)
->>
->> But the overall idea here is to distinguish transactions, so the implication
->> is that each transaction should carry different identifiers.
->> And my issue here is precisely 'each transaction'. Surely within each
->> queue, but I'd really would want to distinguish _across_ queues, too.
->> (And possibly with a random starting value to boot).
->> Just to avoid any fuzzers trying to be clever with guessing the
->> authentication ID (or bugs setting the transaction ID to 0 for every
->> queue ... same reason why we introduced the 'genctr' for the command
->> ID).
->>
->> But if you don't feel that's an issue, fine, I'll be shutting up.
+On 11/24/26 1:13 PM, Guixin Liu wrote:
+> nvme_mpath_stop() deletes the ANATT timer before cancelling ana_work.
+> An ana_work that is already past its controller state check can still
+> read the ANA log and arm the timer after the timer was deleted. The
+> controller is then freed with the timer armed, and nvme_anatt_timeout()
+> dereferences the freed controller when it fires.
 > 
-> I'd normally defer to you on this feature since you've more hands-on
-> experience here. I just think the qid:t_id pair already distinguishes
-> transactions on the wire; each queue is its own connection after all.
+> Cancel ana_work before deleting the timer so it cannot be armed again.
+> Also delete the timer in nvme_mpath_uninit() after draining ana_work:
+> commit 9b657c565984 ("nvme: stop asynchronous event work before ANA
+> teardown") added the work drain there because ana_work has multiple
+> producers and nvme_mpath_stop() is skipped once ana_log_buf is NULL.
+> The timer needs the same treatment before the ANA resources are freed.
 > 
-> Regarding genctr, I thought that was because some intermediary switch
-> was replaying packets, but the commit message doesn't appear to support
-> that recollection. Regardless, the value is per-request, so it's on an
-> even more finer granularity than per-queue.
-
-Indeed, that's true. So let's go with this approach; one global counter
-less is always a good idea.
-
+> Fixes: 0d0b660f214d ("nvme: add ANA support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+> ---
+> Found by code inspection; reproduced in a KASAN guest with nvmet-tcp
+> loopback, two paths and an ANA group in change state. With a test-only
+> delay widening the ana_work window, deleting the controller while
+> ana_work is in flight arms the timer after nvme_mpath_stop() deleted
+> it, and twenty seconds after the controller is freed:
+> 
+>    BUG: KASAN: slab-use-after-free in __run_timers+0x887/0x990
+>    Write of size 8 at addr ffff8884ec888e00 by task swapper/24/0
+> 
+> With the fix the same recipe completes with no splat and both
+> controllers are removed cleanly. ANA change/optimized transitions and
+> multipath I/O were verified unaffected.
+> 
+>   drivers/nvme/host/multipath.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
 Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
 Cheers,
