@@ -2,10 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4290606A31C
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 08:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5654F606A321
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 08:56:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2t+SZITD
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=SOjHYxIE
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -13,42 +13,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=2t+SZITDvLiSw7wCb3XsAJjKoK
-	3YWvvN4a1UprFYwrFfT+5rjX/FtkzDt+DNNq9/A8kFXrQ0ZiZlqAwPlX0DMU+CoUJydFh7+UAgm6t
-	sPTk8+iC0I8CULC9kkFIO1VN7YvYIbbXU09VdYNlfg3dPegoESLSkhPfrL47srPHg80ESqNhXa7QB
-	cZHPto0O+hdk9OE9q2yFTJGTrw5xvZA9U1pDVhwCJuPXWirgbR7vQuDGtO1st00vVIsGnKU9yfdrm
-	QVZzQXBiNXMqGMWPzwpH4paZ2MjY+3cn2VK+kraKnIa4HdRqEPvnlqVJ83Ny1yfJzUW9SlZmKRWUj
-	UHesthGQ==;
+	bh=q88t0pq6+j4JIPvfIujcA+ilbIuTMcI5I1ysuWFv2AM=; b=SOjHYxIEx2IlQ224p+94QIew7r
+	zbECB7J04SsCDZRvbRUMgTixDuP+d5Jy/bIVBshKfafYbONjSeGt8bP67U/bIWwu6T0imQ636kUgM
+	GRHJAUeVL81gcKwODH/AxQTDUfEkPhC4fJ+Tl7xFLVBdLzwlYjK1Q4ArGMASVAUT3UEcpdABvorVl
+	PrNIVMVwY9wHbpWTF59Dxa/+aH0b1aGodK4jMKI/4+6skbI2yNET9mcPPJ3r1iaAm/tKiUpChQvR8
+	kdY5eAWXFme6iARSHUe5/is0pw0wve0BAJW4vv5LlMqGZzvjjhAsmgKmHZ2umCUW/tIS74Kv5M2PH
+	TISf+9ww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWVEr-0000000CRyA-1I1y;
-	Thu, 26 Nov 2026 08:53:57 +0000
+	id 1xWVHM-0000000CSYP-01IM;
+	Thu, 26 Nov 2026 08:56:32 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWVEp-0000000CRwi-1i3q
+	id 1xWVHF-0000000CSVx-2GWE
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Nov 2026 08:53:56 +0000
+	Thu, 26 Nov 2026 08:56:30 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 0DF9568B05; Thu, 26 Nov 2026 09:53:51 +0100 (CET)
-Date: Thu, 26 Nov 2026 09:53:50 +0100
+	id C678F68C4E; Thu, 26 Nov 2026 09:56:20 +0100 (CET)
+Date: Thu, 26 Nov 2026 09:56:20 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Seiji Nishikawa <snishika@redhat.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
-	Chris Leech <cleech@redhat.com>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] nvme-tcp: limit the direct send path to poll queues
-Message-ID: <20261126085350.GC7617@lst.de>
-References: <20261126063255.3240292-1-snishika@redhat.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme-tcp: use correct network namespace to resolve
+ addresses
+Message-ID: <20261126085620.GA7904@lst.de>
+References: <20261125142033.4889-1-hare@kernel.org>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261126063255.3240292-1-snishika@redhat.com>
+In-Reply-To: <20261125142033.4889-1-hare@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261126_005355_594706_1C31F46C 
-X-CRM114-Status: GOOD (  10.10  )
+X-CRM114-CacheID: sfid-20261126_005625_730155_D16EB3EA 
+X-CRM114-Status: GOOD (  10.88  )
 X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -70,5 +69,7 @@ X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 Looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+
+Can you also look into the Sashiko complaint about __dev_get_by_name?
 
 
