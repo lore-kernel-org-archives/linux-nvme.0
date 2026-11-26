@@ -2,10 +2,10 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FDB606A333
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 08:49:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4290606A31C
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 08:53:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=uj0CGuoX
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2t+SZITD
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
@@ -13,43 +13,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=uj0CGuoXirRjzwAq2irQTR8oF9
-	EFpL6cIJA10m3Xa0kj6llgCy8HXbkE8YPI+EDHTy5eeC//j/9/R1QWsj1Cx693frLrqpAEHp+9BzH
-	C5eyUfZav21l3sHqGav4jw+Ue5ISaGgiWU+mIVGt+B1aWM9OIYk0lIhM3zO03mUwtL/+4YID6gHQk
-	GqnJTJBtGPoMV84tCsvqXxyUCIrcNemtZCDaSKPbVW+CIdjOKcaE0luALCFbX92NpWT3GMIPFGLPU
-	EVrEorYlKd7fPJAfwcjapYbF0DzkZW4uS3Hj6OWjrYYI6OPTvx+5IBTKHDmVdiGjiZRleAANne73d
-	PBkAu6Gw==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=2t+SZITDvLiSw7wCb3XsAJjKoK
+	3YWvvN4a1UprFYwrFfT+5rjX/FtkzDt+DNNq9/A8kFXrQ0ZiZlqAwPlX0DMU+CoUJydFh7+UAgm6t
+	sPTk8+iC0I8CULC9kkFIO1VN7YvYIbbXU09VdYNlfg3dPegoESLSkhPfrL47srPHg80ESqNhXa7QB
+	cZHPto0O+hdk9OE9q2yFTJGTrw5xvZA9U1pDVhwCJuPXWirgbR7vQuDGtO1st00vVIsGnKU9yfdrm
+	QVZzQXBiNXMqGMWPzwpH4paZ2MjY+3cn2VK+kraKnIa4HdRqEPvnlqVJ83Ny1yfJzUW9SlZmKRWUj
+	UHesthGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWVAn-0000000CR8z-2LOs;
-	Thu, 26 Nov 2026 08:49:45 +0000
+	id 1xWVEr-0000000CRyA-1I1y;
+	Thu, 26 Nov 2026 08:53:57 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWVAl-0000000CR7h-45su
+	id 1xWVEp-0000000CRwi-1i3q
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Nov 2026 08:49:45 +0000
+	Thu, 26 Nov 2026 08:53:56 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id B6F8668B05; Thu, 26 Nov 2026 09:49:40 +0100 (CET)
-Date: Thu, 26 Nov 2026 09:49:40 +0100
+	id 0DF9568B05; Thu, 26 Nov 2026 09:53:51 +0100 (CET)
+Date: Thu, 26 Nov 2026 09:53:50 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Weiming Shi <bestswngs@gmail.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Xiang Mei <xmei5@asu.edu>, co+018500376d4b835e@bugs.sh,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] nvmet-tcp: reserve connect header digest and align PDUs
-Message-ID: <20261126084940.GB7617@lst.de>
-References: <20261125160418.1518007-3-bestswngs@gmail.com>
+To: Seiji Nishikawa <snishika@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+	Chris Leech <cleech@redhat.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] nvme-tcp: limit the direct send path to poll queues
+Message-ID: <20261126085350.GC7617@lst.de>
+References: <20261126063255.3240292-1-snishika@redhat.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261125160418.1518007-3-bestswngs@gmail.com>
+In-Reply-To: <20261126063255.3240292-1-snishika@redhat.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261126_004944_160935_94FB9E24 
-X-CRM114-Status: UNSURE (   8.91  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20261126_005355_594706_1C31F46C 
+X-CRM114-Status: GOOD (  10.10  )
 X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
