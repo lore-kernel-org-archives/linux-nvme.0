@@ -2,61 +2,59 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3294F606A321
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 11:52:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25FB9606A31E
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 11:58:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Xb7RGBc9;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SkfMnCQJ
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=p1jlv1/j;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J1OIFLo5
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Cc:To:Subject:
+	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=PkWXMv0KRHZXsgF0tyS+OJURDpyQmj9kIRrfzSjVPTc=; b=Xb7RGBc9ngukeHZhPIoqMW1t0N
-	YnCh8GTvvjiSbR01qHZU14SWoIRwjYK9Tz2N7mq6vAU/mApAioe5q2ckqQ+r+HO1IZD/o3f9bBzBR
-	0gdebuSoYlDlzTJEQq/cpS+3hG6MmbH9izR9dGe4rqe+F6VnqF4/hhhAGLOaE+kcBHKQFvriBFOXS
-	3jMjUGXFCD5lOEMMlIWZRh2Pc7wXjdu1ajGXRz9WryWJGSv4/1O+CSi3P1ugpD8AiOStUJqgV9GeI
-	watWvpeTExxAkJiCNj/bCewoAf62VDu6i2IDlBUIK8LkPRQjxIFmoHW+2kpxz80Y0OJ/PD5nt+kjg
-	dka3rIQA==;
+	bh=/SCOrQ6SV1doPNUQs3a3+BFW8vQQCi8I4fOfzweUP3M=; b=p1jlv1/jAMqWbLz9zKMcxQbwHl
+	YuIqq1A6D2zCm9AJakhVffcpdz85rVC6JFwMBb99hK53TRJdhccMoiZ8tD2pxyv7K4Q6SIyf1SEJo
+	8+DqZHa4lq8VW6yr+V82h5t98UQ3oZbmMnAtWNDZdWBbMvEg8y0ro2zzMZn067Gz+7nsruGvJ4WnJ
+	0vr+2xCNLRFXM2sQZL/mjJr/JD3eFreRonUUtxY62R8xpDCRdM2HhIf+CBpdHlCaxQ0E2oHZrQIpp
+	nbshzqNe3ZRaTUPDoQZ8s/h3EUwtFBmYgid7ZKm4zgxxkRwgH3nBS9eYwkfmpkt+S7OlQRqUMGCfH
+	b2V7PyKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWY1C-0000000D4iJ-2gVt;
-	Thu, 26 Nov 2026 11:52:02 +0000
+	id 1xWY7a-0000000D5lq-0z3s;
+	Thu, 26 Nov 2026 11:58:38 +0000
 Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWY0f-0000000D4Zv-164B
+	id 1xWY7Z-0000000D5lU-0fhf
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Nov 2026 11:51:32 +0000
+	Thu, 26 Nov 2026 11:58:37 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id B25A7405D6;
-	Thu, 26 Nov 2026 11:51:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA8511F000D2;
-	Thu, 26 Nov 2026 11:51:26 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 96E7A436E6
+	for <linux-nvme@lists.infradead.org>; Thu, 26 Nov 2026 11:58:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66AC11F000C4;
+	Thu, 26 Nov 2026 11:58:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795693888;
-	bh=PkWXMv0KRHZXsgF0tyS+OJURDpyQmj9kIRrfzSjVPTc=;
-	h=From:To:Cc:Subject:Date;
-	b=SkfMnCQJwmH+Q3TIA9inwAyC7p/Ry36BCcUsIvHuUWwrwfU8Z4oeUB8XU0tyYyH+R
-	 Pbm0Y5Xg62Dk0O+GLDWHCunnSdoxjnNH835w/99PA/fTZxPlETv/6kOJC6FaBU6lN7
-	 rPVOeYhFfEnItaQlnL6wQ1ZMj+5QAys5Ue+G9ghNCdQEWG45k2UGULNYkAbAdRCwcJ
-	 pf4ru0UjhmBx2DZwAN63pB/m6q3RqB9y5lacfsDq91bcERag8fakWwbJ476gaS9BlJ
-	 ZkgfKa3u1sdorP/VJVcfaFROewWetTzkAz7HhauFP4keQPCv51SOlIW49aVKgWjUb8
-	 QGKCpLhmUIapQ==
-From: Hannes Reinecke <hare@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCHv2] nvme-tcp: use correct network namespace to resolve addresses
-Date: Thu, 26 Nov 2026 12:51:21 +0100
-Message-ID: <20261126115121.6032-1-hare@kernel.org>
-X-Mailer: git-send-email 2.51.0
-X-Archived-By: <archiver.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1795694316;
+	bh=/SCOrQ6SV1doPNUQs3a3+BFW8vQQCi8I4fOfzweUP3M=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=J1OIFLo5dR1Z90m2vGMAchGmF1+1V6CpMh3UOlOpDYs27RE6SxEGNUpUMpby+S2nS
+	 OHtCAaWodaiuApHEUnbXMBpVjIGbgC17oPa3QmlD49AmfvK0+xc8Q7pNc9M/fHG5ux
+	 33aflduwEHeBXLb8d5clflrJeO2mD1xaBBva8mQQoV9Ws44Tobb5PjMa1Fq+luYFrm
+	 S/9Z2S+42CBhyKLDRIiYLmUxFmClbHoWVYyDCu4UcwUYj4cv/82qrDTjofwwMnkyGq
+	 D1EBmuFjpw9VOOK1oaIzkNXcYWeBAMDXyHvQLopXnhgmEeEvVz9cKNSycRQPbGCtEF
+	 cxJJYXP/iRr1g==
+Message-ID: <sashiko-outbox-235454@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCHv2] nvme-tcp: use correct network namespace to resolve
+ addresses
+To: "Hannes Reinecke" <hare@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+In-Reply-To: <20261126115121.6032-1-hare@kernel.org>
+References: <20261126115121.6032-1-hare@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 26 Nov 2026 11:58:36 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,90 +64,46 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sashiko-reviews@lists.linux.dev
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
+X-Archived-By: <archiver.kernel.org>
 
-Resolving network addresses should use the current network namespace;
-the passed-in addresses might not exist in the default network namespace.
-And while at use dev_get_by_name_rcu() with proper rcu locks to avoid
-a possible crash on network namespace changes.
- 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
----
- drivers/nvme/host/tcp.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] nvme-tcp: missing Fixes trailer for nvme_tcp_alloc_ctrl() netns
+  and RCU fixes
+--
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index c3149a9151f5..34a8bc2c5af0 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -3308,6 +3308,7 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
- 	ctrl->ctrl.queue_count = NVME_TCP_OPT_NR_QUEUES(opts);
- 	ctrl->ctrl.sqsize = opts->queue_size - 1;
- 	ctrl->ctrl.kato = opts->kato;
-+	ctrl->net = get_net(current->nsproxy->net_ns);
- 
- 	INIT_DELAYED_WORK(&ctrl->connect_work,
- 			nvme_tcp_reconnect_ctrl_work);
-@@ -3324,7 +3325,7 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
- 		opts->mask |= NVMF_OPT_TRSVCID;
- 	}
- 
--	ret = inet_pton_with_scope(&init_net, AF_UNSPEC,
-+	ret = inet_pton_with_scope(ctrl->net, AF_UNSPEC,
- 			opts->traddr, opts->trsvcid, &ctrl->addr);
- 	if (ret) {
- 		pr_err("malformed address passed: %s:%s\n",
-@@ -3333,7 +3334,7 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
- 	}
- 
- 	if (opts->mask & NVMF_OPT_HOST_TRADDR) {
--		ret = inet_pton_with_scope(&init_net, AF_UNSPEC,
-+		ret = inet_pton_with_scope(ctrl->net, AF_UNSPEC,
- 			opts->host_traddr, NULL, &ctrl->src_addr);
- 		if (ret) {
- 			pr_err("malformed src address passed: %s\n",
-@@ -3343,8 +3344,13 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
- 	}
- 
- 	if (opts->mask & NVMF_OPT_HOST_IFACE) {
--		if (!__dev_get_by_name(current->nsproxy->net_ns,
--				       opts->host_iface)) {
-+		struct net_device *found;
-+
-+		rcu_read_lock();
-+		found = dev_get_by_name_rcu(ctrl->net,
-+					    opts->host_iface);
-+		rcu_read_unlock();
-+		if (!found) {
- 			pr_err("invalid interface passed: %s\n",
- 			       opts->host_iface);
- 			ret = -ENODEV;
-@@ -3367,16 +3373,15 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
- 	for (i = 0; i < ctrl->nr_allocated_queues; i++)
- 		nvme_tcp_init_queue(ctrl, i);
- 
--	ctrl->net = get_net(current->nsproxy->net_ns);
- 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_tcp_ctrl_ops, 0);
- 	if (ret)
- 		goto out_kfree_queues;
- 
- 	return ctrl;
- out_kfree_queues:
--	put_net(ctrl->net);
- 	kfree(ctrl->queues);
- out_free_ctrl:
-+	put_net(ctrl->net);
- 	kfree(ctrl);
- 	return ERR_PTR(ret);
- }
--- 
-2.51.0
+commit a9e44348b8fe94c523f1cf508bd4bb1ce6079725
+Author: Hannes Reinecke <hare@kernel.org>
 
+> nvme-tcp: use correct network namespace to resolve addresses
+>
+> Resolving network addresses should use the current network namespace;
+> the passed-in addresses might not exist in the default network namespace.
+> And while at use dev_get_by_name_rcu() with proper rcu locks to avoid
+> a possible crash on network namespace changes.
+>
+> Signed-off-by: Hannes Reinecke <hare@kernel.org>
+
+[Severity: Low]
+Resolving opts->traddr and opts->host_traddr against init_net dates back
+to 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver"), and the
+unlocked __dev_get_by_name() call was introduced in 8b43ced64d2b
+("nvme-tcp: use __dev_get_by_name instead dev_get_by_name for
+OPT_HOST_IFACE").  Should this include:
+
+  Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
+  Fixes: 8b43ced64d2b ("nvme-tcp: use __dev_get_by_name instead dev_get_by_=
+name for OPT_HOST_IFACE")
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126115121.6032=
+-1-hare@kernel.org?part=3D1
 
