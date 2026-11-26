@@ -2,170 +2,98 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19930606A31E
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 04:12:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64A1606A31E
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 05:16:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=MaAU9j0M;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=gDzgqeMf
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=F0zOGAw8;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QJGnj7YZ
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=fVZN/fdJ6gAxdrH6s93CyLZ1X49Wg0BRNkGXljCGlbc=; b=MaAU9j0MF8/k4DmgI67kpJR3Dr
-	id8zRDwy/SWADR4x4onOEHtkI6kR+V1wClSN3OXAP1irEXKRWzIDPG8Kc6/jXfstwWdokXYJfesP7
-	3UmZzcqGIkh1eeMGwvixJC8AFsCDr7JTzV1WGJVNzU8i7Er+msMpcy5du2MB6vWZaL/DKSzv5dy5a
-	rKfQjTp9Hrz5ntF71xbo3VleKTjAFGCrBFf/lE6wFveYX2qpdOxVwBsvc7JYNb4zXn04me+gUBH+0
-	jft3jdXDgViyRx5EuDtz13to8zk7Lwj4uaoEjnQMZy+An++hgiH0WPlUlUxVc347JRoK0gviso5Zh
-	lJ8dbIMA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=ZQ+gIadNjTLlM4rxUOB9ck7wi55dKYVbWaSLBzndbXo=; b=F0zOGAw8d6W1za
+	wDWgIl826f7PYqQ2/FwlTakFFgy6S9R/Dw38cPO+4e4iZQ6sQ+BAXjbyaKL082xMvlc5EQfLS488D
+	kmA5xGfQUIDbSzxMAebmVYPohrP5rfX6WFCWlXUdE40QlrTZoG5+jN+64KM46ktVIJOD4VhOC/3Oq
+	OiLMIAiVcg2x5oYcuLa7vkuqCBinqhCcH1asq2FDOQl5Q9ra0jR7il7nHpntfLznXjLlyxb/sqLOu
+	sgRFf1tQOmYMA+XSU51oA2yUovHL5K435wzuEC4qAOO0gONpiq1Wgy5/W7axslrNoCdUVlBynI6H3
+	ftxP3KxKsUCGaEyd72xg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWQq5-0000000C3vA-3h7V;
-	Thu, 26 Nov 2026 04:12:05 +0000
-Received: from mail-eastusazlp170120007.outbound.protection.outlook.com ([2a01:111:f403:c101::7] helo=BL0PR03CU003.outbound.protection.outlook.com)
+	id 1xWRqY-0000000C7AE-177h;
+	Thu, 26 Nov 2026 05:16:38 +0000
+Received: from mail-dl1-x122e.google.com ([2607:f8b0:4864:20::122e])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWHZN-0000000Ayqc-3OIH
+	id 1xWRqT-0000000C79r-47DR
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Nov 2026 18:18:16 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hVk4CyMeRsQNU0aopVQKwDICODcQx0rdiw2Zq/6LJmDL+NXvTBv9zq395HTWNo4LIp4l2DHNpFV5jZ3lERRYObECUhp8rkq2vaSrtuhlSvbaA7fY558uXp7Iz4Ek8JaIm7NtOqJFRkV15LHAFuXkAiym6pZxp1elT5ksc0nfsRvXhfvndCIcLURgYlhm93RubwJ8drZiG5+rxteOdTjUIHvbLYdJFVuaPLWU7D7jO6Uo+UkWjtV/p/X3Ws36srKTc46EmWleFYsl9p3wFAmLOVhxa8DqQph8fAQSd2FChw4rD2azm7H0h6sOZWxOc5ayFKsWcWoO5CkHFWeAtBWgGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fVZN/fdJ6gAxdrH6s93CyLZ1X49Wg0BRNkGXljCGlbc=;
- b=xFVxjq87z8xot6B93yD2a4rw3h05RkEiLqp25f3efN2S25MUQsUwZiu7NPTPiJ2/wN6NMlNR8QOJWbYZksQ0x2pj5Y287kKDEwKaxQ/DRKm8PfsuAMO+xmqemOf6LkCBltDy0d5JiNEqBFh/j8WuOmpVRGD84ZsvA+n/GaEN3iAQSzseXH0MeIUmt0nkEtoiKGLMffNsYbJC7Yk3PoRhlAK6xRo9+Nm6x174iatexqIlwnAgT9kJyDcPOFSXfCsmqn4XmhEQoIwrVKjir+Fsrdi25m6+3cB3sXl7OUzgKb14PJP+kUYYg2+ACfgX5U6FEZlEM3fsWzm9TAf3yHFYUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fVZN/fdJ6gAxdrH6s93CyLZ1X49Wg0BRNkGXljCGlbc=;
- b=gDzgqeMfN05HN3SBG0+uk2+/sRprdsXEntGRAvmzAFqzyOeFMTu5aJ6cpn8XEzGTjBESydLptGlwXPWKYRlnBClZ+EXhOYdREjDNpODcXUJW5nIOiE6qSnji3wgDJG5egT9K4o0tHWb91IOf4HIsLGBrpP38NXXyAyF/M0iDi5U=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13)
- by PH7PR12MB6609.namprd12.prod.outlook.com (2603:10b6:510:213::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Wed, 25 Nov
- 2026 18:18:05 +0000
-Received: from SJ0PR12MB5673.namprd12.prod.outlook.com
- ([fe80::c3e5:48f8:beb6:ea68]) by SJ0PR12MB5673.namprd12.prod.outlook.com
- ([fe80::c3e5:48f8:beb6:ea68%4]) with mapi id 15.21.0662.001; Wed, 25 Nov 2026
- 18:18:05 +0000
-Message-ID: <5fb8bb60-7d9f-49b1-899c-40a890fdc14b@amd.com>
-Date: Wed, 25 Nov 2026 19:17:51 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 03/24] dma-buf: Add the SGT DMA mapping type
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Alistair Popple <apopple@nvidia.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Dongwon Kim <dongwon.kim@intel.com>, Kevin Tian <kevin.tian@intel.com>,
- Xu Yilun <yilun.xu@linux.intel.com>,
- Karl Mehltretter <kmehltretter@gmail.com>,
- Baolu Lu <baolu.lu@linux.intel.com>, Felix Kuehling
- <felix.kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- Alexey Kardashevskiy <aik@amd.com>, zhipingz@meta.com, treding@nvidia.com,
- jhubbard@nvidia.com, chaitanyak@nvidia.com, Leon Romanovsky <leon@kernel.org>
-References: <ad46d60a-189d-4dd5-9ad8-ecfd3c90f9d9@amd.com>
- <20261123165716.GM179082@ziepe.ca>
- <7ac7edd0-5c38-440a-b26a-21bcbb6f4702@amd.com>
- <awT8prWsj11TBdmP@nvdebian.thelocal>
- <63eb7b6e-e0a8-4443-a434-0301ed59beae@amd.com>
- <20261124142032.GN9566@ziepe.ca>
- <7a5a2d3a-e42e-4dc0-8d22-8dd1bd249501@amd.com>
- <20261124194618.GC114530@ziepe.ca> <awZ_Os1pXelOGaFP@nvdebian.thelocal>
- <fb9a6b12-c134-4e40-86a5-dbcb59c0b91b@amd.com>
- <20261125155559.GL246011@ziepe.ca>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20261125155559.GL246011@ziepe.ca>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0170.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b7::11) To SJ0PR12MB5673.namprd12.prod.outlook.com
- (2603:10b6:a03:42b::13)
+	Thu, 26 Nov 2026 05:16:35 +0000
+Received: by mail-dl1-x122e.google.com with SMTP id a92af1059eb24-1b5786e099cso5138998c88.0
+        for <linux-nvme@lists.infradead.org>; Wed, 25 Nov 2026 21:16:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795670193; x=1796274993; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZQ+gIadNjTLlM4rxUOB9ck7wi55dKYVbWaSLBzndbXo=;
+        b=QJGnj7YZXqU0fj1SU9YSGVcxoFM7BofWcHEqkVnh1LFHNFRgpkWXEsX4mIUxosR7DE
+         qLv+pCB06pZ63+y8f7WliKF91BwnCOzVhKNGKcTvm3Dk1xC66eqr9OTTLxxi6YzSc3eB
+         u2aYVy7yHJ2/iCOwwRtxh7xEMWSTLyaH5WNyyIAqCrrP74z31ftiRXXdls9DV28ihyKK
+         ScvUsHMz/5YzXgpGmadG43kU/6ru97K6uQxKPz/Jvogl6msErpbOG5X1MyaChV19MWab
+         2mn47YpjouxB5kc/55GvIzjCw9/IYT93CfT2vYrRc9AiMvcznif1bQz8WNNQ7H4fkPO0
+         Bw8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795670193; x=1796274993;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZQ+gIadNjTLlM4rxUOB9ck7wi55dKYVbWaSLBzndbXo=;
+        b=c/78hjhYj+LSvCdPLUSFRfPstY5p2HNlvE6/qVXVQ5EFtkv2JtzNQ4yugWyLjuc+5I
+         ENNyEXmt5iGBElFDiEIFqZtbq2VvBn9etLDUaryg0ej9SOTMcambFZrRGPEHP5Tc3lFc
+         xSObgrJMRJJnhnQF6pPB3PUwTvNpQXcalszTmA2Xa2chwp2/vU9Y5b85ZuGX9e6qQb3s
+         S3Q8lTsura/9X1IyAxZXNtEfDbVPqXT23q7Pfh+X91+c1hvLpzySyvL1nFNyWXiRp96j
+         T0+Qxk40Gn5GvdfZNXgiSKSU/ZJeeWOyQDkUdajF5V/KnJ0+UR8iUnhjJZbSXcBXUxFZ
+         uDGw==
+X-Gm-Message-State: APuU4Z9mwYNVAaA9h3Y0IM7YlAz7LvFsVUo2yDctcE9wY9p0ycqvS62c
+	TtXyuoYIYVWsJ5zwcvWCi1FbCL1QQiPScOLUOwQwx/FGNZZm1WiQzDBq5U85i6VsOrmQeSoi
+X-Gm-Gg: AZFdTZfjp1eSE8ZzqktV/NyngPKusEZe8acrVefY/gstzxOTH8slzkknJrolAM4fLVn
+	VUwMBOg2Mm9BVn9g+lRlH6/QIghP8eRW2DjaiO0+OaTan4jH6iN9EQolS5DqT7//yJiFBVVT+xQ
+	GU+g+2bEqKLxxRXsTLZOj7webbCWfMhL+1Xp0LsWqPZ3+bpoGmyiEimKy1OTpu2zIdxoHLNIo4r
+	InhzPDrrstcc/d1Pw8OQ4S3w/o9y1JSYTLONiXhKJZiyZwWXcRwV6Dy3cfXbtVh0n5QC74tofht
+	Z5eZOuaFtbzErLqcvrCj9+QhKX4hOT1Wm0ZJl4sqR+57DQnbBEXFpMdldQlDMI6DfIPKzpMfIwl
+	EFxRW2DnknGWNSgrzrNc4YU9rQQYi11z+aQYVeECpV99vyK7ggun32zpOykjsE2u1Kwp/oEuJEU
+	4O3Bygbw6CgKguAniqXxsdU1qgUWKtQAYpYiwCzVpx/GQ06rmRocUjClsgBkjQvqZwTWe0WsmzS
+	JEx0RL1TYDRNPnwrtNNeZgUDsXobIa8X52BHQHpQPZvZBUYCoqoj/0HlsF0Wcp0aC+4e71AfnCF
+	Q69ufOeZEWaWxJLD9PwW6fI1QKzlkh2MBqcvcpa2JyVJSyUUMHFQYnjb52Wp7vTdl0kZ5o75GY7
+	urD+v60A9aJs2CMfJHJbNb11jOWHRYL2KYzWpEm1r1CuhSfhquoB36DyA9K44iTA9lV0WZfIG83
+	R+J0rlhk1sH71O0EGZhSDgcTDJuQa4hm3acl4=
+X-Received: by 2002:a05:701b:230b:b0:147:a685:9125 with SMTP id a92af1059eb24-1b5567c0421mr16170025c88.2.1795670192793;
+        Wed, 25 Nov 2026 21:16:32 -0800 (PST)
+Received: from LAPTOP-3B99V33A (ec2-3-37-16-99.ap-northeast-2.compute.amazonaws.com. [3.37.16.99])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5566c3052sm45886007c88.1.2026.11.25.21.16.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 21:16:32 -0800 (PST)
+From: Bin Luo <luob87709@gmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: nareshgottumukkala83@gmail.com,
+	paul.ely@broadcom.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	gregkh@linuxfoundation.org
+Subject: [PATCH v2] nvmet-fc: put queue ref after FCP IOD cleanup
+Date: Thu, 26 Nov 2026 13:16:24 +0800
+Message-ID: <20261126051624.601-1-luob87709@gmail.com>
+X-Mailer: git-send-email 2.51.0.windows.1
+In-Reply-To: <20261125115444.783-1-luob87709@gmail.com>
+References: <20261125115444.783-1-luob87709@gmail.com>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB5673:EE_|PH7PR12MB6609:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6663ed0-833a-4f71-8223-08df4b2072e0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|23010399003|366016|261022115727099003|261028144727099003|261026121527099003|261022075727099003|261022105027099003|261026140227099003|4143699003|5023799004|56012099006|10067099003|261102130727099003|11063799006|261021123027099003|261102123227099003|261021121427099003|6133799003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: JmSPTPyL4snGzAzwmSyNoAQA3FggNief9Q+beqh+vxcQw5/BcmdjG3K36jgaWBEyXWQKY1HepbV/uB4FTF7CSfDB8hYbyXtv6blTUiwTjFCh7HuBcOUYuB/LzeDvu0oEcwX7f0VNK5GWXImi7mVN614M0ro153zLlYJGN2znBFATQ+tx9S2+1Socz2x5vnurRlnw4hzj+OAI3Bx1iKwoz8E8WtUUcvpnN6zkZXgGHe5YWfjmuKUZcFWOKXkp7ZoA6Mcf6EoTgpKmYRUxrwvu5SIWXYyaw37QQLW9RUMbqOgiGZYtGNhxF5w0Iu3MCJrrmFQWhWC8A9QFjbnct3dNf4fZPotcRgol94VTiGsv8mrvxdJR5egt77iRaq5gS5xChcCfFc5AQ65xIPOglCsNzTwbXWk8lLTrE1w2dJiFrbk0dkm3MfT2qxHBSHXC4xqf2357CVukSexs8fR4RKbNZNyen1OE1LIPKlRAVPRKZ+/bbIF6rDg51S/3NhwKKDjOnIi0KeRk+235pjnxV78u/hCEY6BWPkC4Lxt/Pr5bixEtsf0fRRbx7pvcviJnVZOQkCQgDw1JFBAGU+fPTEdwcIh/FNHzxdaVymlXLTvtshfOAXVOcjbmkrhhguEvbSWggBhhL74S+DpZXGUfXdX4rPM7DdSGDWjmpVpNUCVGJqY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR12MB5673.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(23010399003)(366016)(261022115727099003)(261028144727099003)(261026121527099003)(261022075727099003)(261022105027099003)(261026140227099003)(4143699003)(5023799004)(56012099006)(10067099003)(261102130727099003)(11063799006)(261021123027099003)(261102123227099003)(261021121427099003)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?di9uYUEvMzM1ZUUvWG11cXo4L0dGN3hTQ1lVU21EWG5GOEhzUGZZUkJ5ZzVN?=
- =?utf-8?B?aWRJaGxnSmd4R3FBSGNNOGZrM1MxMnl0anJKTXFqcWt4U1pxNUQzOWZTc1dG?=
- =?utf-8?B?MTgwdFBuNmVYOTU0TGV0VUNFMFJJNWJlVEtrZU1oZ3h5em5mZUF5NXdJbnNi?=
- =?utf-8?B?OVJUTlF3SmRweWQxaFEySEVlcWFPMGRnbE1Lam1LamZTMUJaUS9DUENFR2NZ?=
- =?utf-8?B?cng2SXV1Qm5iQ240WC8yNjRRRkNLdStRVktoeHNuVUppM0phUHRQT1ZoTzBJ?=
- =?utf-8?B?bm5ka1U4TXVMQURtUmtPNElCQzZDMi9VRjNta1UwTkVqTGVKNG9tdnF2c1d6?=
- =?utf-8?B?UzJpcWRuTVplSTdkMnhMSVROZ0xveFlpR3kzWWhlbXZJNkIzclZORFNYaG1n?=
- =?utf-8?B?R2pHWlRvREpBT3VTbWR2OEpPdDJER01uKzc5QjBNcXJ3R21MZTdiOTFtRWlw?=
- =?utf-8?B?d0JnbUJUbWFCU01QT2ROakVKSHlJOE9xbEJNQncySVVEaERkTGsxKy9hVzJp?=
- =?utf-8?B?UXZlSUdUdlA3Q0ZRa0s5YUJUNzFXeGZSelNGcjJEb1lrWk8zOWppUUV3ekRq?=
- =?utf-8?B?bnJCVXJ0N1BITTQzbjVzT0VNQ1BGaGl1VnBaK0dVZXA2MW01d1BwV3g3WVRW?=
- =?utf-8?B?bmoyT1oxMjJHQU90dUFYeUkyZVBLZUxGZDJ3bWFUMHBmcUdmckJ0VkxCSEJY?=
- =?utf-8?B?MnJrVllsVWpkbjNJN2hFRWF5ZExKTTJ3dC9BQ3ZjWll3VExyR2IwR2Nub2lu?=
- =?utf-8?B?L2RoMGVCRUN5cTgvN21Ya1ZUcFczeVFFRVI2U3ZmMElpWi9rTDVtN293NzhC?=
- =?utf-8?B?REI2UTRydlhINVVRTWorYXoxeVZud1JBcUhWUHVpbGczUjNpMXB0aG96d05p?=
- =?utf-8?B?VGpCWmE1NlRySExpNjRRY1hDVDVVOU1yUXJXeVpoK0dnUWovdUt3ZE1nZERS?=
- =?utf-8?B?V2daaXRnc1A2Z0tzWG13YnM2bEVNaTFjTXZhdWNWTmlPYnExYWYrdTFnMFpR?=
- =?utf-8?B?Q25sa29aYWFBUUU3WnFUR0ZLMzdZZm5lQlBOc2hTSDM0UjJqekF6NmdVU24v?=
- =?utf-8?B?aXVOY2g3YmNKeExVdVVjaDRqdDNmN2pIcllEMEdtZkNlV2hLd3dpODZibXJx?=
- =?utf-8?B?TjNMcU8rVnVCVHBWeXhmZ01vbnFjSnZzYjR0ZVZVWTNTSFNPUm9EaktCdnhz?=
- =?utf-8?B?SzVlazVIRzZ1TFRXQWR6bDFlUU9lS2ZJUWVIbUZvdWd1MmhsSSs2S3QrYzdQ?=
- =?utf-8?B?NmdiRFJLRkdQek53bDl5bW4vekk3MHFMQVorR2lUbjJvK0hDQ016S3J1UHJv?=
- =?utf-8?B?cWpKSmRSa1V3bGdkYUxCNitwQTlDQnk3aU1GQW9hMnRvV3A1N1hQem9LMG5J?=
- =?utf-8?B?c2NDbkNiZ0w0MUNYS0hkU21WUVNub0RROGRlbFVQbFhzcTU1U1RRcEJhZ3N2?=
- =?utf-8?B?ZEs5Q0pJWFFtdmpldHdzaHphaGFOTERjMkxUQjN6Sm81V3RaSWN1eXVQOG9k?=
- =?utf-8?B?cU1LUjZtTmgzZVZBR3pBVnZIbCttRGJtNENDRHdBRWUwYmo0VW9oTHpQb2dW?=
- =?utf-8?B?TmZaOXJuMVdMRVhudXNieXBScFNiYXVOK2pCNXVhMU9qRDd6RHZPYU8wa3NK?=
- =?utf-8?B?dEJBcmp0NldTYzdNZXZ0T29TKzQ4dENBZTh0bWxUbVpZU1NLWEpIcWhzK29J?=
- =?utf-8?B?Z1ZKbk1iQ1BtbkVDcitBWlM3WTlkN3l5TjhTMXcyYTY0UC9UNUplNUlnRU93?=
- =?utf-8?B?amRvcmp2ZnNPYU5CNTZFc1hIWUJFMmdoV05zTnVLZU9TdVVoYmFYM0daRGFK?=
- =?utf-8?B?OXd0Q1NTVFVQVjlSWDZocExMMFZWU0JsR3lSZ0hwY2Jzb2taUG1aMlppdUxS?=
- =?utf-8?B?M0dYdlVQdGVhZFZxcmtsYjJZVWRSVWRyZmh4NHEyU3VTVXR6ZlkxY2JJVmdY?=
- =?utf-8?B?TWZHblhIck41TWVIRVFzamsyUjFQWHFEZDIvQU55ZVVibE1yUWt1WHBpME1q?=
- =?utf-8?B?QSs2a1JPcGtwYmhJT1RMcUMwNkdnaEVMUlZJNDl4OXdIZ3NhTElja0hHRVRH?=
- =?utf-8?B?U29KOFJWdzJRVUZudmVPNFVMRmlDNzJuamxyd3BXRmlIaUpjNy9rMmcvcnNn?=
- =?utf-8?B?QS83U1N1TXNWMzJ5NzR3Wk9TY2E3a1d1NG4xTndZVlEvR3RDOGNhRDZ0eUVL?=
- =?utf-8?B?N2pJaDNBbnczK2Y1QWRyVWdkU3BtUE9TeDdBZmdQWDhkcGNPMHE4Q1c3UEJh?=
- =?utf-8?B?L2FDSHZUK1luVXpkU004UlNtdFNYNHBhMVFtZEJkTGk0cVpEUlNrUUZOR2FY?=
- =?utf-8?Q?lyJSRbwRoDqA4NuSt4?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6663ed0-833a-4f71-8223-08df4b2072e0
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 18:18:05.1243
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LRPOz1HssV9UudqDQuPsXwYtJPdHkmaQeFq9nqYmRUjTPnFAhYVNN+DG69ejg/pd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6609
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261125_101813_921812_1078B13D 
-X-CRM114-Status: GOOD (  39.66  )
-X-Spam-Score: -2.1 (--)
-X-Mailman-Approved-At: Wed, 25 Nov 2026 20:12:00 -0800
+X-CRM114-CacheID: sfid-20261125_211634_046514_8F87DB56 
+X-CRM114-Status: GOOD (  14.08  )
+X-Spam-Score: -1.9 (-)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -176,128 +104,92 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-7.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=4.0.1
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/25/26 16:55, Jason Gunthorpe wrote:
-> On Wed, Nov 25, 2026 at 12:19:08PM +0100, Christian König wrote:
->> The low level API which talks for example to the IOMMU driver for
->> creating the information how to access the buffer is simply not the
->> task at hand for that framework. The stuff we already handle is more
->> than complicated enough.
-> 
-> No matter what name you give it we need something in the middle that
-> can see the phys_addr_t and the iommu_domain..
+In nvmet_fc_free_fcp_iod(), the completing IO's queue lookup reference
+is dropped before locking queue->qlock, checking queue->pending_cmd_list,
+returning or reusing the embedded fod, and queuing defer_work on
+queue->work_q.
 
-No, absolutely not. That should be given to the exporter so that the exporter can call the DMA API to create the DMA addresses for the importer.
+Because nvmet_req_complete() releases the nvme_sq percpu reference as
+soon as queue_response() submits the asynchronous LLDD fcp_op() for
+READDATA or RSP, association teardown in nvmet_fc_delete_target_queue()
+can drop the queue owner reference before the LLDD completion reaches
+nvmet_fc_free_fcp_iod(). In that case, dropping the completing IO's
+reference early frees the queue (and its embedded fod array) before the
+subsequent queue->qlock and list accesses, causing a use-after-free.
 
-The idea here is that the importer give all the information to the exporter so that the exporter can do the mapping on behalves of the importer.
+Move nvmet_fc_tgt_q_put(queue) to the end of nvmet_fc_free_fcp_iod() so
+both the fod-return and deferred-IO reuse paths finish all queue and fod
+accesses before dropping the completing IO's queue reference. On the
+deferred-IO reuse path, the deferred request's own lookup reference
+taken in nvmet_fc_rcv_fcp_req() remains with the recycled fod.
 
-> If you don't want DMABUF to be that thing, then I'm not sure what you
-> have in mind.
+Fixes: 619c62dcc62b ("nvmet-fc: correct ref counting error when deferred rcv used")
+Signed-off-by: Bin Luo <luob87709@gmail.com>
+---
+Changes in v2:
+- Drop the redundant kref_get()/nvmet_fc_tgt_q_put() pair and instead
+  move the existing nvmet_fc_tgt_q_put(queue) to the exit path after all
+  queue and fod accesses complete (Greg KH, Sashiko).
+- Update the stale comment above queue_work() on the deferred-IO reuse
+  path to clarify which queue reference remains with the recycled fod.
+- Remove the invalid Tested: trailer and fix the Fixes:/Signed-off-by:
+  trailer block formatting (Greg KH).
+- Re-tested on v7.4-rc1 x86_64 KASAN_GENERIC QEMU with the owner-drop
+  regression harness: both injected and control runs completed cleanly
+  with no KASAN reports.
 
-A P2P DMA API the exporter can use to create the addresses for the importer.
+ drivers/nvme/target/fc.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
->>> If I drop the type/placement negotiation for now and focus on SGT removal I can
->>> simplify things a lot. Plan would be something like:
->>>
->>> 1) Introduce a new C data type (dma_phys_list?) for exporters to pass physical
->>>    location info and context for mapping.
->>
->> Something like this maybe?
->>
->> struct {
->> 	u32	mapping_type;
->> 	u32	num_entries;
->> 	union {
->> 		dma_addr_t	*dma_addr;
->> 		u64		*generic_64bit_addr;
->> 		...
->> 	};
->> }
->> ....
-> 
-> "phsyical location info" means phys_addr_t and related, not
-> dma_addr_t. Step #3 has it as the *input* to dma_phys_list_to_sgt().
-> 
-> The flow today has the exporter get a phys_addr_t (ie a struct page),
-> build a scatterlist and directly invoke the DMA API.
-
-Yeah and that is completely correct and should stay that way.
-
-> The primary issue here is the exporter *direct* call to the DMA API!
-
-Why?
-
-> We cannot disconnect this from the DMA API, ie to use an iommu domain
-> or ualink, if exporting drivers are hardwiring calls into it.
-
-Well the plan is to not disconnect it at all. The exporting drivers just says to the underlying API here is my buffer please map that for this importer and that result is then given back to the importer through the DMA API again.
-
-> Fundamentally the need is for the driver to get the phys_addr list,
-> exactly like today, and then pass it to an op which formats that into
-> the right data structure for the importer. Be it dma_addr[],
-> iommu_domain, or some ualink_addr[] - or whatever.
-
-No, the phys_addr type should only ever been seen by the DMA API and not by DMA-buf.
-
-Otherwise DMA-buf becomes the middle layer for creating the DMA mapping and that was I want to avoid.
-
-> This is the main issue here, disconnecting the exporters from being
-> hardwired to the DMA API.
-> 
-> That's what Alistair is explaining. This sequence:
-> 
->>> 2) Introduce two new dma_buf_ops - map_dma_phys_list() and unmap_dma_phys_list()
->>>    - which are replacements for {un}map_dma_buf that converted exporters use to
->>>    return a dma_phys_list instead of returning a sg_table.
->>>
->>> 3) Move dma_buf_phys_vec_to_sgt() somewhere other than drivers/dma-buf and
->>>    rename it dma_phys_list_to_sgt().
-> 
->>> 4) Update dma_buf_{un}map_sgt() to call the new map_dma_phys_list() ops and
->>>    dma_phys_list_to_sgt() to create an sg_table for unconverted importers
->>>    importing from a converted exporter.
-> 
-> Effectively converts all the exporters to produce a phys_addr_t, and
-> then moves the DMA mapping action into one single place in common
-> code.
-
-Ok in that case I have misunderstood that and that is still a clear NO-GO from my side.
-
-The exporter should talk to the DMA API and create the mapping on behalves of the importer.
-
-Regards,
-Christian.
-
-> 
-> With one single place we can figure out how to replace it with a call
-> that does an iommu_domain:
-> 
->>> 5) Add dma_buf_iommu_map() taking a IOMMU domain/iova/offset/size to be called
->>>    from iommufd for mapping an attachment into an IOMMU domain.
-> 
-> But that relies on iommu_map having access to the dma_phys_list *which
-> is true physical*
-> 
->> I think a whole bunch of other drivers would be really happy to use
->> that interface as well, yes.
-> 
-> Right, that is clear now, that it is not just iommufd that wants a
-> dma_buf_iommu_map()
-> 
-> But I don't understand at all how you imagine to implement
-> dma_buf_iommu_map() if you don't want this in the DMABUF core code.
-> 
->> That totally sounds like a plan to me.
-> 
-> I'm confused if you agreed to what Alistair said :(
-> 
-> Jason
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 5d6c1c7..15f66ae 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -733,16 +733,13 @@ nvmet_fc_free_fcp_iod(struct nvmet_fc_tgt_queue *queue,
+ 
+ 	tgtport->ops->fcp_req_release(&tgtport->fc_target_port, fcpreq);
+ 
+-	/* release the queue lookup reference on the completed IO */
+-	nvmet_fc_tgt_q_put(queue);
+-
+ 	spin_lock_irqsave(&queue->qlock, flags);
+ 	deferfcp = list_first_entry_or_null(&queue->pending_cmd_list,
+ 				struct nvmet_fc_defer_fcp_req, req_list);
+ 	if (!deferfcp) {
+ 		list_add_tail(&fod->fcp_list, &fod->queue->fod_list);
+ 		spin_unlock_irqrestore(&queue->qlock, flags);
+-		return;
++		goto out_put_queue;
+ 	}
+ 
+ 	/* Re-use the fod for the next pending cmd that was deferred */
+@@ -769,11 +766,14 @@ nvmet_fc_free_fcp_iod(struct nvmet_fc_tgt_queue *queue,
+ 	tgtport->ops->defer_rcv(&tgtport->fc_target_port, fcpreq);
+ 
+ 	/*
+-	 * Leave the queue lookup get reference taken when
+-	 * fod was originally allocated.
++	 * Leave the queue lookup reference taken when the deferred IO was
++	 * received for the recycled fod.
+ 	 */
+-
+ 	queue_work(queue->work_q, &fod->defer_work);
++
++out_put_queue:
++	/* release the queue lookup reference on the completed IO */
++	nvmet_fc_tgt_q_put(queue);
+ }
+ 
+ static struct nvmet_fc_tgt_queue *
+-- 
+2.51.0.windows.1
 
 
