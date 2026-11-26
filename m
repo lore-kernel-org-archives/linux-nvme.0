@@ -2,133 +2,142 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE2D606A321
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 09:52:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D13C606A31C
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 09:53:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=m2+G7Qeb;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=NXYlZ026;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wOfMPPlt;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=NXYlZ026;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wOfMPPlt
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ttd2usCf;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Su+P5e3E;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QWcC8PlN;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Su+P5e3E;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QWcC8PlN
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=gTk8L3Si7BxpNzOeT1YGgtK4G5i56Xng+fRZOmwX63E=; b=m2+G7Qebgk98OK
-	PeZzQktwhowCxHxNOnTDgSvCaBjoOY1zbf5IsU0JCXV32vbtbabRAVYLNpPJ0I3t/0E0ABqcCzlTa
-	urrCU/VzPxdsDDEi/xwsIw66CDnffF9SN6dNMdUuohph9XqxsIzbITeqb85mgH6c0O3wPFDObKHlx
-	rH8U1Jko/iuvx1uqsY61T2IoXMj2tacZo7QkHcyx5Ho3ckRbxmGoaR+wsk0JpSXDob/ByZPrM0Y6K
-	28aKj+2jgggkitwfDRAwRidwo4P7SCej4MxYNNrorza7mKNUM/JXpVkMCggHuRYGCuq4Ar93qlSQO
-	klHPdv6uyTSJSyTb5yfQ==;
+	List-Owner; bh=nVFUNPjBLd3knA7cF5uD5do1cnjXeZIrWqKFIW90WSU=; b=ttd2usCfag+RpS
+	7hxsuab54XYrAevs3ZswISiu0T9xNWuIoYB9cnaoQ2iln7Et6c43TE16KZ1NmZwi3rlcKGm8hFWLa
+	3+/xWlaAIenJGahHu4OXXytzeC9npvlwTKIzCPjyJogU5GjE1+tS4iKxDmWXmisd4o+YGUxRpi7mS
+	UX6bYUBnnT5HMla37VzLg51j9WGgis0q5mdWESR6HXHqdR1e8xh8XXPpKiqIylxT/Bw93zwXJFb9P
+	fOsI7jx/8C2aQYxk/iI80Zbx8mb5kufOGxDpQ8CgH48W3zNCoWjZQa3htV6wQmsnQAI6NL5qjHucL
+	xfG33C5zM5vT/asYEF6Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWW9f-0000000CcdV-3VAk;
-	Thu, 26 Nov 2026 09:52:39 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1xWWAF-0000000Ccj4-0r3I;
+	Thu, 26 Nov 2026 09:53:15 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWW9c-0000000Ccce-1ykW
+	id 1xWWAC-0000000Cci1-1Yw7
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Nov 2026 09:52:38 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Thu, 26 Nov 2026 09:53:14 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 642761F800;
-	Thu, 26 Nov 2026 09:52:34 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E7F051FE7C;
+	Thu, 26 Nov 2026 09:53:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795686754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795686790; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gTk8L3Si7BxpNzOeT1YGgtK4G5i56Xng+fRZOmwX63E=;
-	b=NXYlZ0267oBrNntgn48Slt7y/gvMYzgmqWvSIYRkI8F7M8qFSvQpXuIn9kb4rbkIVfNQug
-	eOrLvatLq80jj4kREH9kKgMsgClzjCstrTf1Ab8IGPL4j2oNUitRdqJyYQCXJJ9mFXLj/X
-	XzErw2Y9qOAphuRmtgHXnMRMewAWguM=
+	bh=nVFUNPjBLd3knA7cF5uD5do1cnjXeZIrWqKFIW90WSU=;
+	b=Su+P5e3ErP86uZbVS0upFNjy1GzvvRQ2LHzgYkfJr3cTRPvrxixpWpMZDFlkixaT0WcxAl
+	jWn+ualMP0TXiOP75NrzxfOtfL9UL2jQtAF3sp0xcymCx+3mE6ILbzSSvuGKLD9PhGqfwp
+	wa1KdJay1kTXm4inpKIMYNx7VTJkt74=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795686754;
+	s=susede2_ed25519; t=1795686790;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gTk8L3Si7BxpNzOeT1YGgtK4G5i56Xng+fRZOmwX63E=;
-	b=wOfMPPltQ5M5DVil2NHCA59Z2QxwOtO0bsxySk68daw1ggHkp7YXUC4s4mjZAGt66MohrM
-	0JQX+9qv3q7W4PAA==
+	bh=nVFUNPjBLd3knA7cF5uD5do1cnjXeZIrWqKFIW90WSU=;
+	b=QWcC8PlNMlMVRlR3pNTS/CCm4xQYk4BaMdsUGR4R6AdE4wEEGzBjDlbnNlLrUT0Hb9R7mp
+	1C+pMys/RpN8NaBQ==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Su+P5e3E;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QWcC8PlN
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795686754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795686790; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gTk8L3Si7BxpNzOeT1YGgtK4G5i56Xng+fRZOmwX63E=;
-	b=NXYlZ0267oBrNntgn48Slt7y/gvMYzgmqWvSIYRkI8F7M8qFSvQpXuIn9kb4rbkIVfNQug
-	eOrLvatLq80jj4kREH9kKgMsgClzjCstrTf1Ab8IGPL4j2oNUitRdqJyYQCXJJ9mFXLj/X
-	XzErw2Y9qOAphuRmtgHXnMRMewAWguM=
+	bh=nVFUNPjBLd3knA7cF5uD5do1cnjXeZIrWqKFIW90WSU=;
+	b=Su+P5e3ErP86uZbVS0upFNjy1GzvvRQ2LHzgYkfJr3cTRPvrxixpWpMZDFlkixaT0WcxAl
+	jWn+ualMP0TXiOP75NrzxfOtfL9UL2jQtAF3sp0xcymCx+3mE6ILbzSSvuGKLD9PhGqfwp
+	wa1KdJay1kTXm4inpKIMYNx7VTJkt74=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795686754;
+	s=susede2_ed25519; t=1795686790;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gTk8L3Si7BxpNzOeT1YGgtK4G5i56Xng+fRZOmwX63E=;
-	b=wOfMPPltQ5M5DVil2NHCA59Z2QxwOtO0bsxySk68daw1ggHkp7YXUC4s4mjZAGt66MohrM
-	0JQX+9qv3q7W4PAA==
+	bh=nVFUNPjBLd3knA7cF5uD5do1cnjXeZIrWqKFIW90WSU=;
+	b=QWcC8PlNMlMVRlR3pNTS/CCm4xQYk4BaMdsUGR4R6AdE4wEEGzBjDlbnNlLrUT0Hb9R7mp
+	1C+pMys/RpN8NaBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 30745134C3;
-	Thu, 26 Nov 2026 09:52:34 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ADFD9134C3;
+	Thu, 26 Nov 2026 09:53:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0GVLA2IBCGskfQAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 26 Nov 2026 09:52:34 +0000
-Message-ID: <a1ddba64-d9b5-476f-b658-99f3e65744c1@suse.de>
-Date: Thu, 26 Nov 2026 10:52:33 +0100
+	id wepDIoUBCGvXfQAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 26 Nov 2026 09:53:09 +0000
+Message-ID: <d812cfe1-f5bb-412b-85d4-a355cc34c848@suse.de>
+Date: Thu, 26 Nov 2026 10:53:09 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvme: reject a controller type change on
- reinitialization
-To: Yehyeong Lee <yhlee@isslab.korea.ac.kr>, hch@lst.de, kbusch@kernel.org,
- sagi@grimberg.me
-Cc: kamaljit.singh@opensource.wdc.com, linux-nvme@lists.infradead.org,
+Subject: Re: [PATCH v2] nvme-tcp: limit the direct send path to poll queues
+To: Seiji Nishikawa <snishika@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: Chris Leech <cleech@redhat.com>, linux-nvme@lists.infradead.org,
  linux-kernel@vger.kernel.org
-References: <20261124133122.4167640-1-yhlee@isslab.korea.ac.kr>
- <20261125145902.254297-1-yhlee@isslab.korea.ac.kr>
+References: <20261126063255.3240292-1-snishika@redhat.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20261125145902.254297-1-yhlee@isslab.korea.ac.kr>
+In-Reply-To: <20261126063255.3240292-1-snishika@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-13.29 / 50.00];
+X-Spamd-Result: default: False [-13.50 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-0.999];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	XM_UA_NO_VERSION(0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Score: -13.29
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -13.50
 X-Spam-Level: 
+X-Rspamd-Queue-Id: E7F051FE7C
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261126_015236_717999_040A16B1 
-X-CRM114-Status: GOOD (  26.92  )
-X-Spam-Score: -2.1 (--)
+X-CRM114-CacheID: sfid-20261126_015312_721703_415872F6 
+X-CRM114-Status: GOOD (  25.20  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,102 +156,74 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/25/26 3:59 PM, Yehyeong Lee wrote:
-> nvme_init_identify() caches id->cntrltype on every initialization, and the
-> Identify Controller data is read again on every reconnect.  A fabrics
-> controller that reported itself as an I/O controller on the first connect
-> can therefore report itself as an administrative controller on a reconnect,
-> after its namespaces are in use.
+On 11/26/26 7:32 AM, Seiji Nishikawa wrote:
+> nvme_tcp_queue_request() sends the request directly from the submitting
+> context when it runs on the io_cpu of the queue, the queue is empty and
+> it can take send_mutex. Commit db5ad6b7f8cd ("nvme-tcp: try to send
+> request in queue_rq context") added this so that an idle queue can send
+> the request without waiting for io_work to run.
 > 
-> nvme_init_ctrl_finish() then overrides queue_count to 1, so the transport
-> skips I/O queue setup and the queues that error recovery freed are never
-> reallocated, leaving queue->sock NULL.  The controller is switched to LIVE
-> anyway with the namespaces still present, and nvme_check_ready() lets any
-> request through once the state is LIVE, so blk-mq dispatches to the freed
-> queue:
+> Since then this path has needed a series of fixes for races and
+> priority inversions between it and io_work. These are
+> commit 5c11f7d9f843 ("nvme-tcp: Fix possible race of io_work and direct
+> send"), commit a0fdd1418007 ("nvme-tcp: rerun io_work if req_list is
+> not empty"), commit 70f437fb4395 ("nvme-tcp: fix io_work priority
+> inversion"), commit 08acb54b063a ("nvme-tcp: defer TLS inline send to
+> io_work") and commit 5db358f3a7f9 ("nvme-tcp: fix io_work priority
+> inversion when send_mutex is held").
 > 
->    Oops: general protection fault, probably for non-canonical address 0xdffffc0000000003: 0000 [#1] SMP KASAN NOPTI
->    KASAN: null-ptr-deref in range [0x0000000000000018-0x000000000000001f]
->    CPU: 0 UID: 0 PID: 81 Comm: kworker/0:1H Not tainted 7.4.0-rc4 #1 PREEMPT(lazy)
->    Workqueue: kblockd blk_mq_run_work_fn
->    RIP: 0010:selinux_socket_sendmsg+0x76/0x2f0
->    RSP: 0018:ffffc900008ef528 EFLAGS: 00010206
->    RAX: dffffc0000000000 RBX: ffffc900008ef730 RCX: ffffffff822ab089
->    RDX: 0000000000000003 RSI: 0000000000000000 RDI: ffffc900008ef738
->    RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
->    R10: 0000000000000001 R11: ffffffff84c14740 R12: 0000000000000000
->    R13: 0000000000000018 R14: 0000000000000000 R15: 0000000000000000
->    FS:  0000000000000000(0000) GS:ffff8880e6931000(0000) knlGS:0000000000000000
->    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->    CR2: 00007f52b4001b78 CR3: 0000000009275003 CR4: 0000000000770ef0
->    PKRU: 55555554
->    Call Trace:
->     <TASK>
->     security_socket_sendmsg+0x6f/0x90
->     sock_sendmsg+0x117/0x390
->     nvme_tcp_try_send_cmd_pdu+0x4b7/0x9d0
->     nvme_tcp_try_send+0x20e/0xbf0
->     nvme_tcp_queue_rq+0x1148/0x1510
->     blk_mq_dispatch_rq_list+0x3e3/0x1e30
->     __blk_mq_sched_dispatch_requests+0x218/0x15c0
->     blk_mq_sched_dispatch_requests+0xd7/0x1b0
->     blk_mq_run_work_fn+0xe4/0x190
->     process_one_work+0x747/0x11c0
->     worker_thread+0x57c/0xcb0
->     kthread+0x327/0x430
->     ret_from_fork+0x394/0x770
->     ret_from_fork_asm+0x1a/0x30
+> On a non-poll queue, the direct send path makes almost no difference to
+> the latency. fio with libaio and 4k random I/O at queue depth 1 over a
+> 1Gb network, with and without the direct send path (average of 3 runs
+> of 60 seconds, latency in usec):
 > 
-> Reject any controller type change on a controller that has already been
-> initialized.
+>                        IOPS   slat   clat    lat
+>    randread   with     4153    7.1  232.3  239.3
+>               without  4154    4.7  234.7  239.4
+>    randwrite  with     2472   24.5  375.6  400.1
+>               without  2460   14.3  387.6  402.0
 > 
-> Fixes: e715b8733df60a ("nvme: add capability to connect to an administrative controller")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+> lat is slat plus clat. It changes by 0.1 usec for randread and by 1.9
+> usec for randwrite.
+> 
+> On a poll queue, the latency becomes worse without the direct send path.
+> The submitting task polls for the completion without sleeping. When it
+> runs on io_cpu, where io_work also runs, the kworker that runs io_work
+> can send the request only after the task is switched out. This happens
+> once per request. fio with io_uring and --hipri at queue depth 1 over
+> the same network, on the io_cpu of a poll queue (ctx is the number of
+> context switches of fio in one run):
+> 
+>                        IOPS   slat    clat     lat      ctx
+>    randread   with     5017   4.72  193.95  198.67      553
+>               without  4179   9.35  229.70  239.05  251,318
+>    randwrite  with     3619   5.60  269.94  275.54      542
+>               without  3621  10.62  264.53  275.16  217,806
+> 
+> For randread, lat goes up by 40 usec (20%) without the direct send
+> path.
+> 
+> So remove the direct send path, except for poll queues. The other
+> queues always send from io_work, as TLS queues already do.
+> 
+> Add a queue flag, NVME_TCP_Q_POLLED, for this. nvme_tcp_alloc_queue()
+> sets the flag when the queue is a poll queue, and
+> nvme_tcp_queue_request() checks it.
+> 
+> Suggested-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Seiji Nishikawa <snishika@redhat.com>
 > ---
-> v1: https://lore.kernel.org/linux-nvme/20261124133122.4167640-1-yhlee@isslab.korea.ac.kr/
+> Changes since RFC:
+> - Keep the direct send path for poll queues. Sashiko pointed out the
+>    cost on poll queues, and the numbers in the RFC thread confirm it.
+> - Drop the patch that removed send_mutex. Poll queues still have 2
+>    senders, so send_mutex is still needed.
 > 
-> Changes in v2, after review feedback:
-> - Generalize the check and move it.  v1 rejected the change from inside
->    the administrative-controller override in nvme_init_ctrl_finish(), and
->    only for the I/O-to-administrative direction.  v2 checks in
->    nvme_init_identify(), immediately before ctrl->cntrltype is overwritten,
->    and rejects any controller type change on an already initialized
->    controller.  That also covers administrative-to-I/O and changes to or
->    from a discovery controller, both of which v1 let through.
-> - Cut the commit message down to the basics: drop the walkthrough of the
->    resulting state, the CVE references and the note about the other fabrics
->    transports.
-> - The subject changed with the generalization ("an administrative
->    controller type" -> "a controller type change"); say so and it goes back
->    to the v1 wording.
+> RFC: https://lore.kernel.org/linux-nvme/20261122011826.1959697-1-snishika@redhat.com/
 > 
->   drivers/nvme/host/core.c | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
+>   drivers/nvme/host/tcp.c | 14 ++++++++++----
+>   1 file changed, 10 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index f43582e5f6c4a9..ffe6a63d24e1dc 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3736,6 +3736,18 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
->   	ctrl->max_namespaces = le32_to_cpu(id->mnan);
->   	ctrl->ctratt = le32_to_cpu(id->ctratt);
->   
-> +	/*
-> +	 * The controller type fixes whether the controller has I/O queues,
-> +	 * so it must not change while the controller is in use.
-> +	 */
-> +	if (ctrl->identified && ctrl->cntrltype != id->cntrltype) {
-> +		dev_err(ctrl->device,
-> +			"controller type changed from %u to %u on reinitialization\n",
-> +			ctrl->cntrltype, id->cntrltype);
-> +		ret = -EINVAL;
-> +		goto out_free;
-> +	}
-> +
->   	ctrl->cntrltype = id->cntrltype;
->   	ctrl->dctype = id->dctype;
->   
 Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
 Cheers,
