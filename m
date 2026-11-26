@@ -2,82 +2,155 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3910606A31E
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 06:33:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E224606A332
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 08:39:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=TNsTnqvT;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=KcTMZqg/
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=KzpXPj3P;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=H0svXCOv
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Unsubscribe-Post:List-Owner;
-	bh=q2Ii0a1d2+aW54hfrb8g8ouCHO/fw0cULVlPeHNl7ys=; b=TNsTnqvTyPRQatDLY+6dprCTEZ
-	PqAnBDBsW1Xlhlxdyb0JqoNdR5z4ZXlaJjPlgX+n8cCj3pDbdHkxwhI7cOEt/WF95ETlPlvV6XGFd
-	PwyhbBk25Ayb06J3TApl+DfEIl+wTrAf8sJzNxSXX8kMxUO59lNPHAf6gwlrx4JoSktTZaj+H4Baw
-	Z4Rj0sYhDLxyv0SHbxHtYPZhsqzzlpTLUoAebDlBphNBR/10ccSMgx8EAYdFJoalKkpA7wfy+wj8b
-	FhoQD0oyNZa7Z6jNJxEntrCJz0gLTrQe6maOM+DjjAn+1/3STfLx4JmXQI3fVuCT5xJLc0hgAazal
-	/rr44EAg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:References:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=KB0A2iqUlLL54bAshaJim6zgQJU9hubeg7AiW2LYnbo=; b=KzpXPj3Pg/Y3Hr
+	2iRDlPzUTrUP/sVZYFJ3IWgeLrLSP2HA+Kt9sQj5fxw/HGmUNHWaUDQ60Uoai0gVZkunjf6XAN+gc
+	8WLmxovOudAAwAMG9DidY0hLFzWqO2fMZw0Bpr9aQZDJeQe0S6S5NRS46NNSledyyLVk4HGZpmQrq
+	Y1BctDtKDv9BxCFZn9yeVmWtOPN5ruLEpM1Ff3b8QPtKtJp37KgocaJD84TgIwIkoZCVGP6g2pHGq
+	XVZ6YFyXebbFcWrFAGpTGg5rHt1nJsgZ78xeBe/ACfATybyNmq8XEhZBGib57mbVwc8/pxWIEaQ73
+	01vPCr8c9X3URKSRL/fw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWT2n-0000000CCiw-009J;
-	Thu, 26 Nov 2026 06:33:21 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1xWV19-0000000CQ5A-2SsL;
+	Thu, 26 Nov 2026 08:39:47 +0000
+Received: from mail-centralusazlp170100005.outbound.protection.outlook.com ([2a01:111:f403:c111::5] helo=DM1PR04CU001.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWT2i-0000000CCiL-2itp
+	id 1xWSuT-0000000CAxX-28kY
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Nov 2026 06:33:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795674793;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=q2Ii0a1d2+aW54hfrb8g8ouCHO/fw0cULVlPeHNl7ys=;
-	b=KcTMZqg/RzDWGuRzMYWrDJTH7fExcarjN4PfqY9mrNDLFGBbunyjIIV+xkBNPkFX/utmpz
-	2dDHe01O4lyZEbJidU8QYf/MY9AEH1xdrzR3js1UrMxzRpwFUNg+KiAbG8TdUDUZ8rObPh
-	3k6pdtzvM7N3r9ox+cYnG0S2z6hNfoI=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-471-3020HFePMyS2P06c2C9gnw-1; Thu,
- 26 Nov 2026 06:33:09 +0000
-X-MC-Unique: 3020HFePMyS2P06c2C9gnw-1
-X-Mimecast-MFC-AGG-ID: 3020HFePMyS2P06c2C9gnw_1795674788
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B2AF01802154;
-	Thu, 26 Nov 2026 06:33:07 +0000 (UTC)
-Received: from snishika-thinkpadp16vgen1.tokyo.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8B891195608B;
-	Thu, 26 Nov 2026 06:33:03 +0000 (UTC)
-From: Seiji Nishikawa <snishika@redhat.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Hannes Reinecke <hare@suse.de>,
-	Chris Leech <cleech@redhat.com>,
-	Seiji Nishikawa <snishika@redhat.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] nvme-tcp: limit the direct send path to poll queues
-Date: Thu, 26 Nov 2026 15:32:55 +0900
-Message-ID: <20261126063255.3240292-1-snishika@redhat.com>
+	Thu, 26 Nov 2026 06:24:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Mwt4VzFKdMzClIOkLJt5h2RFhxx+DJlIRjOFlr439Dw8sOYBIAuRqcgUniaAl0RnFzhKMemNFuJy+B6uMY/DHkAoSVf8iRxgrrzUNakCAoUlyLLxRNK4JOwFoka1/dr24BHtzCuijBZvY7eVO+LwB9Lm8Z+2QA73/4/qE+3eR/Hyesa99UTTiKres92kyYu9rt8McVknfhT6cqIUD6nmyngWgjVbRc2uFFy3K7HsVRlTmuzWTB9N64zSEmK1+841E96AFjU2tykRMGrxQ1hvE2heVJd6UDmn4j1qEx4dEaPQqpAvBQBm9/BM7hfz631pgdJaF/paZJT+KVwxg3OHMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Zsd/HfZmT3eP4nBf7SFL7HLUgodLyiiu3ciyGDZyB6U=;
+ b=sASaM0IVewCDtk3mn3zFEqjahf+4E1NolHsDjQs1TIa9ahMrGoYR4B3WFReHV89iZRebP/vLci3ar5CjitgC+X3pJrsyGLbXu4hOuWWqPl1Z3rvPwPbN7Q6W75NcHmqdlYq2ehjlEpllVN6151Ui2flGdrxcPs3pcOoldJ8EFfaDY2vRG4+K2ZNKGMnLBt0VGDTlg5m+r0DGDYIn2OpWO2Hkov38KbqYgDI7zQXNsJXtVYGDXpYg2UP0NjZUz39kPAu0qEYYd8qGGz39MvzWiWZKREH8sIgDROW291IFF/uS7MRnQ50zzsufn6uuVRTj5dkGIF/3yuFSP319lILl0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Zsd/HfZmT3eP4nBf7SFL7HLUgodLyiiu3ciyGDZyB6U=;
+ b=H0svXCOvMr+/yLLY3JNjVNOGWDKDmziGgSDTDuWJqE82RE2Xa0C7dg4gvr/WdjY/52artFoNO77KfX3899KaIjALPJzXdHnaa/KjjA5OE/sfDg8NtA270JsrYOaKyi4epXWtA7rGB+pxOYH+9L2M+hkh8P/58f3HCFsH7HcRK3MZCzElu6qGjo+u4YhCuEoY5E6vDVY82vyN5vakOX2wq9k8BE9zl5hUJ7C/F9DZY3Mwz5hvJzrz6ejVtdCpXotkZptM7k12RrKQH0/rtQ/If8oz83DGsop6/eSrmYc+Q8UWzeja3m1pXA24vP58Svc3/w0wtawuc+YGEtnX4kDHHg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SA3PR12MB598757.namprd12.prod.outlook.com
+ (2603:10b6:806:52d::14) by SA3PR12MB7859.namprd12.prod.outlook.com
+ (2603:10b6:806:305::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.7; Thu, 26 Nov
+ 2026 06:24:37 +0000
+Received: from SA3PR12MB598757.namprd12.prod.outlook.com
+ ([fe80::e206:100:5946:a777]) by SA3PR12MB598757.namprd12.prod.outlook.com
+ ([fe80::e206:100:5946:a777%5]) with mapi id 15.21.0662.004; Thu, 26 Nov 2026
+ 06:24:37 +0000
+Date: Thu, 26 Nov 2026 17:24:31 +1100
+From: Alistair Popple <apopple@nvidia.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, 
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Matthew Brost <matthew.brost@intel.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+	Dongwon Kim <dongwon.kim@intel.com>, Kevin Tian <kevin.tian@intel.com>, 
+	Xu Yilun <yilun.xu@linux.intel.com>, Karl Mehltretter <kmehltretter@gmail.com>, 
+	Baolu Lu <baolu.lu@linux.intel.com>, Felix Kuehling <felix.kuehling@amd.com>, 
+	Alex Deucher <alexander.deucher@amd.com>, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org, iommu@lists.linux.dev, 
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org, Alexey Kardashevskiy <aik@amd.com>, 
+	zhipingz@meta.com, treding@nvidia.com, jhubbard@nvidia.com, chaitanyak@nvidia.com, 
+	Leon Romanovsky <leon@kernel.org>
+Subject: Re: [PATCH v3 03/24] dma-buf: Add the SGT DMA mapping type
+Message-ID: <awfMy1d8ICL6mr9i@nvdebian.thelocal>
+References: <awT8prWsj11TBdmP@nvdebian.thelocal>
+ <63eb7b6e-e0a8-4443-a434-0301ed59beae@amd.com>
+ <20261124142032.GN9566@ziepe.ca>
+ <7a5a2d3a-e42e-4dc0-8d22-8dd1bd249501@amd.com>
+ <20261124194618.GC114530@ziepe.ca>
+ <awZ_Os1pXelOGaFP@nvdebian.thelocal>
+ <fb9a6b12-c134-4e40-86a5-dbcb59c0b91b@amd.com>
+ <20261125155559.GL246011@ziepe.ca>
+ <5fb8bb60-7d9f-49b1-899c-40a890fdc14b@amd.com>
+ <20261125190705.GN246011@ziepe.ca>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261125190705.GN246011@ziepe.ca>
+X-ClientProxiedBy: SY6PR01CA0096.ausprd01.prod.outlook.com
+ (2603:10c6:10:111::11) To SA3PR12MB598757.namprd12.prod.outlook.com
+ (2603:10b6:806:52d::14)
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-MFC-PROC-ID: FMfHVuzcZRKIKblxJdMN7QoWa8pxIpSO-RoSVic0dYw_1795674788
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA3PR12MB598757:EE_|SA3PR12MB7859:EE_
+X-MS-Office365-Filtering-Correlation-Id: 33b5fc50-a73c-4427-5b5b-08df4b85f1cb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|23010399003|366016|6133799003|22082099003|18002099003|4143699003|11063799006|56012099006|261026121527099003|261026140227099003|261102123227099003|261028144727099003|261021121427099003|261021123027099003|261022105027099003|261102130727099003|10067099003;
+X-Microsoft-Antispam-Message-Info: q/IdOeE+NU8zjA2OBpkWO8I+A++Wg7eSDu60kKDG1QOHZ7CfypQLaAqJfhNOj1S4OHNKwpEB8GXoKy/vr36EHdcUnRYlcmWnV9lo9zwT6PMZzCwXMchPFu0jmSTU61ossYM6Csp1ioIKSlbLJ0ErungCPgmDk8fC13hiECka+lt80/sBgcwintxID1OD+j+K35IB/cGU2g/cwXeJlkRrbMgFVHHAB/Oknwd6oyLdj1qSgHnMc0AW6hmOrlnE+gQf06ogJFv7IUXNfVkTl21KptODDctl4QWeJsCGSJDzWROb3ztsC9X9/b0M/bYfK1uC7LG9TMKLnpHhpa/M/9jahRFDayaxv2+ICH1qD5a4Xvr3tyEanWxIWayJAZa7y8qzxwRNGMJjOjoysZ9x1Pp+9AjxyKxjRj9/M2Xq2dlOaic51BMTf5HGDEFbtSwG/Xvjw5gp+SdoFR4l3QMT6XYTQLcueAYyS4o4AUvhxVIsLvQFdp1qLBaYBv2VvS9MNVu7yj1lzz+NqIiMGa1zC7M9cA9R8vVaUdHSAk2KTUt9TQ8eOiKSF/RItrZmnSgC1Jv95NdH3DoWNLXs9fm0zyverj/0TVUmo5BBeNSywy//BTJ0OH6vl8NHfS3f4PFlzmPIwXXo3qclBxb5hAdVGZuq3QIC2gpHgDU4lZi/KN3V0d8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR12MB598757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(23010399003)(366016)(6133799003)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006)(261026121527099003)(261026140227099003)(261102123227099003)(261028144727099003)(261021121427099003)(261021123027099003)(261022105027099003)(261102130727099003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?ILKMGNNMpxstO9LhptaUtQmgp72FbWZhRqNvYHr9aS0Jk2ISALX2Qi/e9v?=
+ =?iso-8859-1?Q?5l5yGE3lUph0vHxUGrZ8XUuFJz3/Lc+Xq0EJSBuNcVm2VAXZwUND7qXbLA?=
+ =?iso-8859-1?Q?UTROYMaBjgAq9UNAsw+/iZo6rKfWhoY8djXUSs2jSe5gbnhzhY9Yr04tyc?=
+ =?iso-8859-1?Q?XOkJqipll9osFhT9wW/Eyki6IeY6zK/d0uwz0aPcF1tDq4MoM9D+Q8tRQP?=
+ =?iso-8859-1?Q?Q9DGiAwX5rhXLS9lU7yEOiineX/BOh51iKyeNx/Z8NNc0IXkVLVWwOcAU3?=
+ =?iso-8859-1?Q?im44R2qdspHLhbwwLVJDn46o23rV/OzhiE0iFmtN6C6DPM1z40mamoeZrR?=
+ =?iso-8859-1?Q?kOWZ0w+3c6JMp8EYzc0koKHyfEs0oDDaPoEO3XKHCmdWBTbCrisK7eFbWD?=
+ =?iso-8859-1?Q?Yg88Xxd3B1MLpfs6FK2KjbaCymA6nS/YLAAJr+hvz1IcHjZsOPWaft/AHF?=
+ =?iso-8859-1?Q?y4SXko4oBkhGh0OcnE7AA8Er+parVMKDHN5yMK6EcHyQpYAcXJg4qUbKCc?=
+ =?iso-8859-1?Q?Yxf3OeqbgjH23sstJm1MYkH03ri2+qiPmTYy6V7rPH/4ECDjwuib+7sP+V?=
+ =?iso-8859-1?Q?gn76rB7GsMPnAj0McKzIUqf1JkC0Wc3zhkqSoIIZesrf1FAG0GNC0bW5Y8?=
+ =?iso-8859-1?Q?w5GbWVNtu+8EyaIm3NK7JUx+m0L+Co2jA0HS/uuZczbvT81sedEwwLJSap?=
+ =?iso-8859-1?Q?9PT2twv2xprUkY/fb0ZU/7QuS08kaRQFC24sZScrBKbEVfVa514xYbOWol?=
+ =?iso-8859-1?Q?WRbYu7boSM71CLn5BI/yWg/zgBhtIg7BxW40HVvEG+rmhFb7uXNhL9hEOk?=
+ =?iso-8859-1?Q?pKt6jTVlkgcJYPxKN3kyYpfg8GhLhje/WCkaxLacu2q0D7DL0LlvRJjZhC?=
+ =?iso-8859-1?Q?8HuDMq4sFuu6iCFnQzQt7qe0Qnew66SFt/+OWFpxFqFGWy7lXZilaxgFbA?=
+ =?iso-8859-1?Q?URK7gd2XaqH7gdQfch2QC/U1LXOHHcD9Hgo6W8iprL03d7gkeHUTFtUL71?=
+ =?iso-8859-1?Q?doYM18S/L3nDjHwaQQ9JM+EVtwYrUt3jwf7/CalIWOrMvTRPZ9Z+DPt2xs?=
+ =?iso-8859-1?Q?MWbLExU2V9xbjUJ6PWvSa6M2e+eDougOUiT3ONCjFDsn6as6wp11CXWW8q?=
+ =?iso-8859-1?Q?rVyFqLZFWlGQgcOQwJeOCN/RLOiEPM6VqWfc6QSOxaMbaYRkYcBQzEgLWx?=
+ =?iso-8859-1?Q?UsZaoIxRQVazZsj9NPFPf9VS5UMz80uQiIVRSisVpjtjJIHcRdstradsJz?=
+ =?iso-8859-1?Q?z3cI8Q9TBd0I8Q8skR6rsxDsefxlPXwvez/mgyY9EQ0GCdfh5GBfii/hPR?=
+ =?iso-8859-1?Q?2Qw1m4jin44Vks6qLjE35DNpGseDk76njE3BpCNZZVNoweGwmfxCNwu+Z7?=
+ =?iso-8859-1?Q?LWmB3uN3JEepIg845Q4YULyW6f1GDPRg6dqk5IQ6pMXanZ4xRaP4EKUksv?=
+ =?iso-8859-1?Q?elN9spaukmlAJszuiWO8FGjTUTZzBmf5kvq5efMmDIyDjPzikqRVL16vb1?=
+ =?iso-8859-1?Q?2U00/3Rn3KR657ox/rgvbwLcO5GgQI80oL60463T0aVtEpwiFHQjjXGadb?=
+ =?iso-8859-1?Q?RmO9F4HlcB8YabOdOOpagKi6yKxo+dA3z6zU/AkBqVCWuvJHAQNdkqKcR5?=
+ =?iso-8859-1?Q?wJgxWPCYp/nssiPIfY6tVg4ZrDj3fCwT+0ShcliqH/oKcrwAY1mDgMSMRv?=
+ =?iso-8859-1?Q?NL+kGfGxHtlg83EHRl9F+1sy70xQcdD8xycWv9g/UwgGSAOLluSVcvDyOE?=
+ =?iso-8859-1?Q?2Co3b9uVK1PB78s/FZCxekvZnXyeBc2KTFI44kFTWO9HzzeGfqQZq4FANo?=
+ =?iso-8859-1?Q?lackDxr5Iw=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33b5fc50-a73c-4427-5b5b-08df4b85f1cb
+X-MS-Exchange-CrossTenant-AuthSource: SA3PR12MB598757.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2026 06:24:37.2062
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ci3tYcF19VXMlgjFfjmcPzqDIIW49jy7a/4QrzHxpDHYqrZ/GS3TNwmN3uT8KwGiqhPIUfKgJpMkRC/RU3lNUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7859
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261125_223316_830646_43CB79F0 
-X-CRM114-Status: GOOD (  22.98  )
-X-Spam-Score: -2.8 (--)
+X-CRM114-CacheID: sfid-20261125_222445_841004_C8DF0310 
+X-CRM114-Status: GOOD (  32.01  )
+X-Spam-Score: -1.7 (-)
+X-Mailman-Approved-At: Thu, 26 Nov 2026 00:39:45 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,126 +161,74 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-nvme_tcp_queue_request() sends the request directly from the submitting
-context when it runs on the io_cpu of the queue, the queue is empty and
-it can take send_mutex. Commit db5ad6b7f8cd ("nvme-tcp: try to send
-request in queue_rq context") added this so that an idle queue can send
-the request without waiting for io_work to run.
+On 2026-11-26 at 06:07 +1100, Jason Gunthorpe <jgg@ziepe.ca> wrote...
+> On Wed, Nov 25, 2026 at 07:17:51PM +0100, Christian König wrote:
+> > On 11/25/26 16:55, Jason Gunthorpe wrote:
+> > > On Wed, Nov 25, 2026 at 12:19:08PM +0100, Christian König wrote:
 
-Since then this path has needed a series of fixes for races and
-priority inversions between it and io_work. These are
-commit 5c11f7d9f843 ("nvme-tcp: Fix possible race of io_work and direct
-send"), commit a0fdd1418007 ("nvme-tcp: rerun io_work if req_list is
-not empty"), commit 70f437fb4395 ("nvme-tcp: fix io_work priority
-inversion"), commit 08acb54b063a ("nvme-tcp: defer TLS inline send to
-io_work") and commit 5db358f3a7f9 ("nvme-tcp: fix io_work priority
-inversion when send_mutex is held").
+[...]
 
-On a non-poll queue, the direct send path makes almost no difference to
-the latency. fio with libaio and 4k random I/O at queue depth 1 over a
-1Gb network, with and without the direct send path (average of 3 runs
-of 60 seconds, latency in usec):
+ > > We cannot disconnect this from the DMA API, ie to use an iommu domain
+> > > or ualink, if exporting drivers are hardwiring calls into it.
+> > 
+> > Well the plan is to not disconnect it at all. The exporting drivers
+> > just says to the underlying API here is my buffer please map that
+> > for this importer and that result is then given back to the importer
+> > through the DMA API again.
+> 
+> DMA API will only do basic PCI DMA mappings into dma_addr_t.
+> 
+> It will never handle iommu_domain, it will never handle ualink/etc.
+> 
+> Give us a plan for those if you don't like any of these ideas.
+> 
+> > > Fundamentally the need is for the driver to get the phys_addr list,
+> > > exactly like today, and then pass it to an op which formats that into
+> > > the right data structure for the importer. Be it dma_addr[],
+> > > iommu_domain, or some ualink_addr[] - or whatever.
+> > 
+> > No, the phys_addr type should only ever been seen by the DMA API and
+> > not by DMA-buf.
+> 
+> Again, I don't care how you label things or what "library" they live
+> in, I can't tell if we are nitpicking names or what.
+> 
+> But there needs to be some kind of abstraction that takes in
+> phys_addr_t and makes sgt, dma_addr_t, or iommu_domain depending on
+> what the importer needs.
+> 
+> Exporters must not open code that.
+> 
+> Obviously DMABUF is involved here *somehow* since it is the only thing
+> that knows an importer even exists.
+> 
+> Would you be happy if we made a 'dma mapping for dmabuf' library that
+> did all of this and DMABUF just passes its type opaquely and drivers
+> just call its tightly abstracted functions?
+> 
+> That is the component Alistair is proposing, he just prefixed it with
+> dmabuf_* as the namespace because, lets be honest, only dmabuf needs
+> this weird looking thing.
 
-                      IOPS   slat   clat    lat
-  randread   with     4153    7.1  232.3  239.3
-             without  4154    4.7  234.7  239.4
-  randwrite  with     2472   24.5  375.6  400.1
-             without  2460   14.3  387.6  402.0
+Right, I don't really mind where and what things are named. I'm fine with this
+being a separate library somewhere or building it all on top of opaque/private
+types. But I'm having trouble understanding where exactly the objections lie and
+what the path forward is.
 
-lat is slat plus clat. It changes by 0.1 usec for randread and by 1.9
-usec for randwrite.
+So given no one outright rejected the plan I wrote earlier I'm going to go ahead
+and post the series implementing it (I was hoping to do that today, but it's not
+quite ready).
 
-On a poll queue, the latency becomes worse without the direct send path.
-The submitting task polls for the completion without sleeping. When it
-runs on io_cpu, where io_work also runs, the kworker that runs io_work
-can send the request only after the task is switched out. This happens
-once per request. fio with io_uring and --hipri at queue depth 1 over
-the same network, on the io_cpu of a poll queue (ctx is the number of
-context switches of fio in one run):
+Hopefully that will help by giving us actual code to ground the discussion on.
 
-                      IOPS   slat    clat     lat      ctx
-  randread   with     5017   4.72  193.95  198.67      553
-             without  4179   9.35  229.70  239.05  251,318
-  randwrite  with     3619   5.60  269.94  275.54      542
-             without  3621  10.62  264.53  275.16  217,806
+ - Alistair
 
-For randread, lat goes up by 40 usec (20%) without the direct send
-path.
-
-So remove the direct send path, except for poll queues. The other
-queues always send from io_work, as TLS queues already do.
-
-Add a queue flag, NVME_TCP_Q_POLLED, for this. nvme_tcp_alloc_queue()
-sets the flag when the queue is a poll queue, and
-nvme_tcp_queue_request() checks it.
-
-Suggested-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Seiji Nishikawa <snishika@redhat.com>
----
-Changes since RFC:
-- Keep the direct send path for poll queues. Sashiko pointed out the
-  cost on poll queues, and the numbers in the RFC thread confirm it.
-- Drop the patch that removed send_mutex. Poll queues still have 2
-  senders, so send_mutex is still needed.
-
-RFC: https://lore.kernel.org/linux-nvme/20261122011826.1959697-1-snishika@redhat.com/
-
- drivers/nvme/host/tcp.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 62a594b..3725cac 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -124,6 +124,7 @@ enum nvme_tcp_queue_flags {
- 	NVME_TCP_Q_POLLING	= 2,
- 	NVME_TCP_Q_IO_CPU_SET	= 3,
- 	NVME_TCP_Q_TLS_RECORD	= 4,
-+	NVME_TCP_Q_POLLED	= 5,
- };
- 
- #define NVME_TCP_OPT_NR_QUEUES(opts) ((opts)->nr_io_queues + \
-@@ -452,15 +453,18 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
- 		list_empty(&queue->send_list) && !queue->request;
- 
- 	/*
--	 * if we're the first on the send_list and we can try to send
--	 * directly, otherwise queue io_work. Also, only do that if we
--	 * are on the same cpu, so we don't introduce contention.
-+	 * On a poll queue, the submitting task keeps polling on its cpu
-+	 * instead of sleeping. If that cpu is io_cpu, sending from io_work
-+	 * would cause a context switch to the kworker for every request.
-+	 * So send the request directly here if the queue is empty and we
-+	 * are on io_cpu. Otherwise send from io_work.
- 	 *
- 	 * TLS kTLS send takes ctx->tx_lock while blk_mq holds set->srcu.
- 	 * lockdep reports circular locking via elevator_lock.  Defer TLS
- 	 * sends to the io workqueue instead of inline from this path.
- 	 */
--	if (queue->io_cpu == raw_smp_processor_id() &&
-+	if (test_bit(NVME_TCP_Q_POLLED, &queue->flags) &&
-+	    queue->io_cpu == raw_smp_processor_id() &&
- 	    !nvme_tcp_queue_tls(queue) &&
- 	    empty && mutex_trylock(&queue->send_mutex)) {
- 		nvme_tcp_send_all(queue);
-@@ -2190,6 +2194,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- 	queue->sock->sk->sk_allocation = GFP_ATOMIC;
- 	queue->sock->sk->sk_use_task_frag = false;
- 	queue->io_cpu = WORK_CPU_UNBOUND;
-+	assign_bit(NVME_TCP_Q_POLLED, &queue->flags,
-+		   nvme_tcp_poll_queue(queue));
- 	queue->request = NULL;
- 	queue->data_remaining = 0;
- 	queue->ddgst_remaining = 0;
--- 
-2.56.1
-
+> Jason
 
