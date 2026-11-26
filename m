@@ -2,118 +2,160 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FDD606A336
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 10:08:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54036606A33A
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 11:21:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Rr5CeLlM;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=iIE9+hCX
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=jeubyCfS;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=Vw9ueLFH;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=kOMiutDv;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=27XGT/qQ;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=kOMiutDv;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=27XGT/qQ
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=OFLHVUAo3FlFAtehQFPOjKyjhG5VjODsSSnSDvugi8s=; b=Rr5CeLlMo/R+hO
-	LhjWiiGqJ3AHsmI2XW/o7YqL4NHdwwFdUs2pc3BrUUPdUbtfpWoM6nCot18LP4j6Du/Dvsq8lfGtl
-	pF3BMOKmbPZwvqWLz7uLbmEy+AefYMlaQ9ojsmJu8pHes3rCk71zsa/q5jrxlIlS/+y8aCZeyVo10
-	Kkkg2pSstsX3xVBYO89C04kdMYuo2XQBH8u8HHZ7SUx8TaodsRd6U3O/YUZ9Kchwoz3I8HQg/TX91
-	PrYhObZit3dMb9FN8nphuyJ7g5TjMMVfhXpGqcwm9LPQzJn3ceKT7SyzdY0sM6DZeiPmnB1XfclR+
-	Vdzx+HXLZ/U9WSkuwxWQ==;
+	List-Owner; bh=4z1yavWhrCP15OdenIXeqTRT32JkFP8J2SOWQU7YGJQ=; b=jeubyCfS22NEyS
+	MmjGNRrrkQdBfeiaQk3iqqPRsjQI8zjXVvEkatDjIodseOkU/dklxuVc8eSoz2Bk7x1ptUW5ZfZcH
+	Af5jimaUAeeyjqZfoN279AOwbX/ZADDRRt8NquDkjzNHg+53JSt9KOcGlrL84+mGNPTYOsgfAxSpL
+	SEsnwTBsoiprXq54UIkkDmBTkeT1+EJPlcxa0FzffL8u2O2wTbKxt3BPXeuP8iZw4HC8b9E3L+YGn
+	1k3+n8fiYaGunKcOq1YSZt1C7EBwEibYgdJ1UJ+6h8oOPdPiqNfrdkwmI43jvIOiJ81xP/hXeb+cL
+	J57YVpLbADK/ZKgiJiog==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWWOV-0000000Ci4L-2J2z;
-	Thu, 26 Nov 2026 10:07:59 +0000
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+	id 1xWXXp-0000000Cwng-2dlb;
+	Thu, 26 Nov 2026 11:21:41 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWWOS-0000000Ci2t-3ezo
+	id 1xWXWm-0000000CviW-3gcG
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 26 Nov 2026 11:20:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=4z1yavWhrCP15OdenIXeqTRT32JkFP8J2SOWQU7YGJQ=; b=Vw9ueLFHg9GTv+fJrdvusThHWn
+	NTS52b5MlWL9YSPZtO35fmzb6KfmYKbyXzKdc5q2CQ6TjTvaIErKXvUgFUuK9y/qVOaCj1MEOtRWB
+	9/EMENSut76KDPzznZ2X92pLhOE1wXzWHuBwP9wp1FM3L9aTdWNWsdlQuVjMwa5DrJL1TiIPgJAHm
+	l1JUYDtTYSbpJfTQcBs1v1CPe/jS0f7taGfUwX2A1NOxzguXt5XPBc0ot6wApgnh3yTPN5Ue4DSuU
+	Yhhk8ul6dCu7bhCl4ce+/VimmBqcKZdW7vqTw8DJiHFIcgiJO7TIpEragrXhAyaU8XC8UhAJc5bg8
+	r3k/i3IQ==;
+Received: from smtp-out1.suse.de ([195.135.223.130])
+	by desiato.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xWXWk-00000006O3P-0Nkm
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Nov 2026 10:07:58 +0000
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-c50d3ac6b51so1390443066b.1
-        for <linux-nvme@lists.infradead.org>; Thu, 26 Nov 2026 02:07:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795687674; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BzjYRRmBhccje94pJyJ/c9FqxOIqEiqnAJsNPZunUCtxpBNlu9l2Xv41V3DL8R49Fy
-         cwwLYeyHyq9Zll4yoVuYSgkxBNBvunCvJdTM50hYUkXMDQqHQ6x1MK0DvMrOEQQeqOUS
-         qNI9ZVJWjr9OO21jLQhf/tQkSo6486+ESZH43HT8wts4HOvm51wL0Fw8t/onqG+i4LMO
-         JjV1LSv8wbtLEusRUWQv1EGdh8NqM3UpSKgck2WMgADkinRK/orKt96eRIcq0n/0zwXm
-         STNAAMOvwBgbUl+JfqxRvx2yf0QJyL8YW7KNNLgwsr6D/K8gzWih79OekD8hU/mUdVVX
-         v+jQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=OFLHVUAo3FlFAtehQFPOjKyjhG5VjODsSSnSDvugi8s=;
-        fh=lOY3102ceXUBWDbwOzC2tD9veuTzsGr6IV3ieVP/XjE=;
-        b=Cz1CX/5f3jNo+1v9bQHzLK4HN/rYawij/yRm9a5LfR6XeIDX9J2CczhXr2pi1x+HRL
-         zxTFnASwQeVnixrQb60SoFrdsLxCzugZA+vLUss4yl9r0d00GSXK6s/lGMT3mgpSNYBd
-         lyW+WHPP78OfanXqiUtxry3BsynU2xfC7/LgUA7/ZODc1D0mYL1+/n3lhRFyfmsUfep3
-         MXIFHIYbo0PVa351rtynIqbg37bxLkn4eJ+kbq59PyTsV7V/LqlUE7kLlttIANUPqO9R
-         6yGqau4CIEwzNVl8LV/tQtszsRCn/jKBItT6XFIHWqP5n2MLCDd9/ObdBcgcKLH6CVQ2
-         qWlQ==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795687674; x=1796292474; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=OFLHVUAo3FlFAtehQFPOjKyjhG5VjODsSSnSDvugi8s=;
-        b=iIE9+hCXA1rp3HKkQvAEwYrBullwjr3UAmJAwkZHoiNk+J0ToyKuEWGISrqgpflL6E
-         EMNP+spbhHGrTJeMuk1L0fteXc3aTLYgP1BqrPZqv1Qo547Fi/2EP4L15mvWv4QpOL51
-         DeWVS8tSuQtV7PsFvv8AvH14xLJnbxM9v6f/Uun/JAUJPvH4kTI2zKgJzmD6sJDtVLtt
-         DVuVYG0CX60B7xWHrupjadKj36OmsqG4dMnBfotC3ifBlff0y27kopFFpsLzC+H/NEzs
-         DA6Wez0z67Pa/3OISt8A6KoxQIJQdQdKYkuyuNENNWBl3b8Zg1djC4z2BBrxtmLlpPk1
-         Ui2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795687674; x=1796292474;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OFLHVUAo3FlFAtehQFPOjKyjhG5VjODsSSnSDvugi8s=;
-        b=a/jL9Httrvm06havEy9nSKiUZ65WahpScOMofQROLCKIDDWw6j9eK1PwIr7441EYOD
-         rvE5Aq1Yi7nWTbeH7q+wdbhUSGgYe5/xAwIcs3w4J79qeDYdT6JF7B7YE07+HEJv3nGY
-         FEE8vo5U7u62iMAyYCpDCXURKT/MqzbFXgaWTQv7shcE/7xSpuMp7FKzQkwWi74VYhvn
-         hZy935hc6el1Vvk9LlwDOjqAmGn76TqacnwrBp+NWVmMySkX88b8p7GH9F4gyMTftvu6
-         DmvtkfYZVO47iUOTH7tQ64S24/2JtTjtYg51NcgPPGnDzWFoI2cSos9opMPb9iXUQG1H
-         3cDw==
-X-Forwarded-Encrypted: i=1; AL+hErFFan9DhRwgkWlzbk9mciYQAv+jwrxPwGP12SmukoE4qYJ/kFNQWHsqQU4eFeJK3YvpsB6bzw4t+F+2@lists.infradead.org
-X-Gm-Message-State: APuU4Z99m20EcUhsryF9jABh106ITPXWngI/Pxj8MYjfO03BGs/+ZQun
-	twDZmtbVIEy4QUTlOiunSry9dYDmdDgEkc9hd6y8bU89OaAeABuC8Ilk0JzDFsub0DRwosTFNX8
-	GQwnSmuUwx+91QF4hgo7HPbFg2K5jNrE=
-X-Gm-Gg: AZFdTZd23JSb5elNixjCDH0576wx499e2lFbYAbn5ii/Vet3udbt1XJt7shwXoU9Vn7
-	zQ8fjuZvYiSTubM0j2Ij35i/csKYppNIYZihngFU184qcaiL2WUD4ATQlNXoQX11oq6qlZACEcE
-	y0JGwxmUGWcJJJ0m9UhaqOdee/bU/0yJOW+Xj1ZEt0h+j8MC5N4Gx3R/mJd02liIhLBNooQ6CRJ
-	pOe5IfIth2+YOEoUnWYU/rK2s9C8lra0elQfedgBXndVIaKnJ7Qc4v7LvoirGwkZsAjwGQPG3N2
-	G5RfdZzoWqZrGJgF0wihI+B0RcU2FWgu2UIg8FBC9eugJS4Z8/gvpiNV1Ia4EMVNMRiBh3rjst+
-	VCdbdB/Nm19mYbDrtRUg1ld+qckDadxEQmCanluL6g36rQpD3V++DtCn5vQSoAdOCOxQs7g8MyE
-	jy0O2Us5xIcHX/VCwtJw8=
-X-Received: by 2002:a17:907:a88f:b0:c51:45a:1a5a with SMTP id
- a640c23a62f3a-c513a1d1d4dmr1712012466b.0.1795687674332; Thu, 26 Nov 2026
- 02:07:54 -0800 (PST)
+	Thu, 26 Nov 2026 11:20:35 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 50DE12271F;
+	Thu, 26 Nov 2026 11:20:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795692031; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4z1yavWhrCP15OdenIXeqTRT32JkFP8J2SOWQU7YGJQ=;
+	b=kOMiutDv4x0ozX9GPyKtD9+2QcWiiPU+8PMikouC7la6Hx6W25RKek2mCNCHUIjF1X8nCi
+	Yz+Y85dfkJW21Iup35AXgnDiMhoiETvkul7jdBsbrLvTAMRgONVyK6m+KFKrM+3IVh1/lu
+	UjLOBftj+EykNopLyLbTgTNTX+nUtl4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795692031;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4z1yavWhrCP15OdenIXeqTRT32JkFP8J2SOWQU7YGJQ=;
+	b=27XGT/qQp01LmOgD5RzvI9mQTCCWy1Rp36oAXxZUYs/AXKLvHlHfbkK8a1pJO/EP1eVU8o
+	7ixL146gLRtqXZDQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kOMiutDv;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="27XGT/qQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795692031; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4z1yavWhrCP15OdenIXeqTRT32JkFP8J2SOWQU7YGJQ=;
+	b=kOMiutDv4x0ozX9GPyKtD9+2QcWiiPU+8PMikouC7la6Hx6W25RKek2mCNCHUIjF1X8nCi
+	Yz+Y85dfkJW21Iup35AXgnDiMhoiETvkul7jdBsbrLvTAMRgONVyK6m+KFKrM+3IVh1/lu
+	UjLOBftj+EykNopLyLbTgTNTX+nUtl4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795692031;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4z1yavWhrCP15OdenIXeqTRT32JkFP8J2SOWQU7YGJQ=;
+	b=27XGT/qQp01LmOgD5RzvI9mQTCCWy1Rp36oAXxZUYs/AXKLvHlHfbkK8a1pJO/EP1eVU8o
+	7ixL146gLRtqXZDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F02D8134C3;
+	Thu, 26 Nov 2026 11:20:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4tBLMf4VCGsPWwAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 26 Nov 2026 11:20:30 +0000
+Message-ID: <f514b658-bdbd-4797-b2b1-a82fe6e8edc7@suse.de>
+Date: Thu, 26 Nov 2026 12:20:30 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-References: <20261016141208.2641974-1-e.velu@criteo.com> <atJXYHJa4jkUWJmP@kbusch-mbp>
- <CAL2Jzuz1qFwLSA=iivp5qLCTL6-4rvKmvFzJbOQzjPu6j_7Y2A@mail.gmail.com>
- <atJeazM_rJ0uj3vt@kbusch-mbp> <CAL2Jzux8v6zCxfcdd=MY5n0zQMVSa-_8Lki9z-fz7bFShNf7vw@mail.gmail.com>
- <atJk_2FmzjUZYO_Z@kbusch-mbp> <f665dc3e-fc5c-4352-8e41-a46b7ae97946@criteo.com>
- <CAL2JzuwuZp0gg1D7wSn7cdgpnhotnuLP6YpPd-SrdVyqhkeiJw@mail.gmail.com>
- <atqZmctbU0siYmVX@kbusch-mbp> <7fec6534-9e57-4041-8699-72c5950c7e2a@criteo.com>
- <auId5RuBhMFGirJ1@kbusch-mbp>
-In-Reply-To: <auId5RuBhMFGirJ1@kbusch-mbp>
-From: Erwan Velu <erwanaliasr1@gmail.com>
-Date: Thu, 26 Nov 2026 11:07:41 +0100
-X-Gm-Features: Aa3M54olkR-cFqYgfCrRKXNlLLxbmmF0Yq46YOc53exrFo_-QVGBX5tajZfE7sM
-Message-ID: <CAL2JzuyZ9C0pGoBR6kBD1p7Hn8DOBVL_XEkENtNqNmad_GdTGg@mail.gmail.com>
-Subject: Re: [PATCH] nvme: honor the volatile write cache enable state
-To: Keith Busch <kbusch@kernel.org>
-Cc: Erwan Velu <e.velu@criteo.com>, linux-nvme@lists.infradead.org, axboe@kernel.dk, 
-	hch@lst.de, sagi@grimberg.me, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: document the per-subsystem iopolicy sysfs
+ attributes
+To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Nilay Shroff <nilay@linux.ibm.com>,
+ Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org
+References: <20261116114208.2226472-1-kanie@linux.alibaba.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20261116114208.2226472-1-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 50DE12271F
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-14.50 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	XM_UA_NO_VERSION(0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email]
+X-Spam-Score: -14.50
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261126_020756_930107_BE166615 
-X-CRM114-Status: GOOD (  10.17  )
-X-Spam-Score: -1.9 (-)
+X-CRM114-CacheID: sfid-20261126_112034_049738_0E967D08 
+X-CRM114-Status: GOOD (  13.29  )
+X-Spam-Score: -2.5 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,24 +166,36 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-2.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Le mer. 28 oct. 2026 =C3=A0 17:08, Keith Busch <kbusch@kernel.org> a =C3=A9=
-crit :
-[...]
-> > This patch is really about matching the spec and it would be probably a
-> > great positive impact for many stable users to benefit from this patch.
->
-> There's just a gap with the multipath head: if you start up with WCE
-> cleared, then turn it on, the head isn't updated to indicate flush
-> limits. Let's get that fixed, then I'll queue this up.
+On 11/16/26 12:42 PM, Guixin Liu wrote:
+> nvme-multipath.rst only mentions the global nvme_core.iopolicy module
+> parameter. That value is only picked up when a subsystem is created;
+> changing it does not affect subsystems that already exist. The runtime
+> interface is the per-subsystem iopolicy attribute, which applies the
+> new policy to a single subsystem immediately, plus the read-only
+> iopolicies attribute listing the supported policies. Document both,
+> and note that discovery subsystems report "none" and reject writes.
+> 
+> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+> ---
+>   Documentation/admin-guide/nvme-multipath.rst | 35 +++++++++++++++++---
+>   1 file changed, 30 insertions(+), 5 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
-Hey Keith,
-Any update on this additional patch you mentioned and status on mine ?
-Erwan,
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
