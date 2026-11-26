@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49231606A31C
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 14:26:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCC3606A31C
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2026 14:27:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=eSeCju5z;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h8aeXAjz
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=YQvRChnn;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fwwjUc+P
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date:
@@ -14,40 +14,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	From:Message-ID:MIME-Version:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=w2FnkjsorPqnWEbAhKKiOQtC7SO28lR3c0NUHkdn6z0=; b=eSeCju5zcFr+XgJQtpqyxvOfOF
-	kUTnvEGsXLVWoXyPm4Sx65c/4cz8wcCfpQH/JptrE2QZdKr45QxJpKxH6XTGsMztBWnDqrw6G/936
-	U8mLmnw/rNboxCsYqA6kmS68AHndD9IeILSn9WCpWvfvMaRA2QKQnVHrY4OZ/CUbr0DrYFAseN2f1
-	wrBHp+30C4uXG4rwv7IjVrdyopU4R5sQrdg56mTYCLWYpQ6gkphXk2R29grRZly3bzMDrCHENi+nJ
-	5PYAUr+aOFdH30HC/YRxq9j+qE4VOywBzHYb1RwlWkq5gpJFNzEguwG8sBF3UqR3/pXg5lJo5dJ9W
-	M5ZD9XpQ==;
+	bh=bzF7X//bLpCBs6cSPuMmVlyG/tp4lZhnQW2bHEAVofk=; b=YQvRChnnITgJx5PmKlmBkz1W00
+	Ek6sk3kjorFaBBJh2v5jm1pUMuLeNNPdxX8GpqNUEAOSnN+aD3FRrTpuhEYlAtOCeVrA+eTD8MtZ4
+	gtSnhyjWKcAY9us0yGBN9SJNxgjYjw831wgxQIuuZqr/dblvxuwVmGyZ5z8NeMBGah11hyJ3SjuOD
+	sZ7gBKYVUq+87Cw3/nw7zqxjtf1vAvOHFFmP7fd6NUKB7uZl7pwXpxA2tU922aaWfKS49dBhyITCm
+	RazgX3tHHxqMJ3DyMUB4oZaF79e+TgD3s2fkO61eW9Q6TVM5rMfeR9piCGir8JzGWNdaijtVDOto1
+	Vll/6wQA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWaQJ-0000000DXpi-49I7;
-	Thu, 26 Nov 2026 14:26:07 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xWaRV-0000000DXzd-0jBf;
+	Thu, 26 Nov 2026 14:27:21 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWaQI-0000000DXpK-0zDL
+	id 1xWaRT-0000000DXzK-39rO
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Nov 2026 14:26:06 +0000
+	Thu, 26 Nov 2026 14:27:20 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 4B280621E2;
-	Thu, 26 Nov 2026 14:26:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4684F1F000C0;
-	Thu, 26 Nov 2026 14:26:04 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 7FD1543693;
+	Thu, 26 Nov 2026 14:27:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1551D1F000C6;
+	Thu, 26 Nov 2026 14:27:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795703165;
-	bh=w2FnkjsorPqnWEbAhKKiOQtC7SO28lR3c0NUHkdn6z0=;
+	s=k20260515; t=1795703238;
+	bh=bzF7X//bLpCBs6cSPuMmVlyG/tp4lZhnQW2bHEAVofk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=h8aeXAjzFqE4ciymvXEicFjQdJV6tw6b7dPLGGF+BoyhToZUubqjuBqoQMBeSPcXs
-	 xqOAytULhFRcZ5cOrqkXf8EBIlGUTh2G6BghNfXBPaXtqcofVGhgvJn8jByuBunwmS
-	 f5Y7MPf0oc3jL6sXJp2vPwe4IZ1+L1S0G7lW1O6APMnV5rlIxVj0t3MYrlltVliPcI
-	 Atql9HovTqhYlw6vujJXZnlhHLML1hIgrsNGJiNupX+l+mQgeSlYrlTnJOtuTfVCAm
-	 iVSRywqGGTQHSh6Exjk+eBwXHa9WBl+GS2IiQYl2WLa59fUTjHqS4bEC+RIKgXhZMs
-	 Xd49GoQH9opdA==
-Message-ID: <sashiko-outbox-235696@kernel.org>
+	b=fwwjUc+PVuYr/geKSH0AHq5B9/urxue/BLVB8QkSvGU8Fsr9D+O8r6mqnRQQ/ex8X
+	 is8QH3eXo/pUnuW2Cpuzy2ZZOa8Y6YPvFUjsfr1mwJ/MzXAOqJuqXPSe5T1fnx+ALX
+	 qFtsZaHWvHzHDebnz++fFZndVJVCl8TdAk0umCDVRub3O2AnkRF9bHdPRXGfrCToIw
+	 kcmHAZFYrQurvYw2Jf7KvNpB/J2IAnrvScxZ8rw5Ci8J9ZTMW3CBZWzUJQVyFoqzYW
+	 i8cUaBrGqvU3HefLF9Uug0djLsv3jAtk5ESDzMKNaF72wVBOQWdkkKOQ6O5S4Fn76M
+	 F4a68JVB4YOFQ==
+Message-ID: <sashiko-outbox-235701@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 10/14] nvme-auth: allow to specify the key by key
- serial
+Subject: Re: [PATCH v7 09/14] nvme: allow to pass in key description as
+ dhchap secret
 To: "Hannes Reinecke" <hare@kernel.org>, "Keith Busch" <kbusch@kernel.org>, "Jens
  Axboe" <axboe@kernel.dk>, "Christoph Hellwig" <hch@lst.de>, "Sagi Grimberg" <sagi@grimberg.me>, "Hannes
  Reinecke" <hare@suse.de>, "Chaitanya Kulkarni" <kch@nvidia.com>, "Eric
@@ -56,12 +56,12 @@ To: "Hannes Reinecke" <hare@kernel.org>, "Keith Busch" <kbusch@kernel.org>, "Jen
  Khan" <skhan@linuxfoundation.org>, "Randy Dunlap" <rdunlap@infradead.org>, "Kees
  Cook" <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
 Cc: linux-nvme@lists.infradead.org, keyrings@vger.kernel.org
-In-Reply-To: <20261126-dhchap-keyring-v4-v7-10-ee438ffea527@kernel.org>
+In-Reply-To: <20261126-dhchap-keyring-v4-v7-9-ee438ffea527@kernel.org>
 References: <20261126-dhchap-keyring-v4-v7-0-ee438ffea527@kernel.org>
- <20261126-dhchap-keyring-v4-v7-10-ee438ffea527@kernel.org>
+ <20261126-dhchap-keyring-v4-v7-9-ee438ffea527@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 14:26:03 +0000
+Date: Thu, 26 Nov 2026 14:27:17 +0000
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,84 +83,115 @@ X-Archived-By: <archiver.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [High] nvme-auth: missing key type validation in
-  nvme_auth_extract_key()
-- [Low] nvme-auth: key_serial truncation to key_serial_t in
-  nvme_auth_extract_key()
+- [High] nvme-auth: ERR_PTR dereference after key_lookup() in show and
+  init helpers
+- [Medium] nvmet-auth: wrong generated flag updated in
+  nvmet_auth_update_key()
 --
 
-commit 7d31006b6164c1d407e94a069e4daf6dec180cf1
+commit 23f2a5a7beef9101cd52fed1a3096af44469d991
 Author: Hannes Reinecke <hare@kernel.org>
 
-nvme-auth: allow to specify the key by key serial
+nvme: allow to pass in key description as dhchap secret
 
-This commit updates nvme_auth_extract_key() to parse a numeric key serial
-and look up the key via key_lookup() before falling back to key description
-lookup or key generation.
+This commit updates nvme_auth_extract_key() to look up pre-populated
+keys by description in addition to generating keys from raw secret data,
+and tracks whether keys were auto-generated so pre-populated keys are
+not revoked on teardown.
 
-> diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-> index 15e72fe8868af..e336c698437dc 100644
-> --- a/drivers/nvme/common/auth.c
-> +++ b/drivers/nvme/common/auth.c
-> @@ -148,7 +148,7 @@ EXPORT_SYMBOL_GPL(nvme_auth_hmac_hash_len);
->   * @generated: indicate whether a key has been generated
->   *
->   * Extracts or generates a key from @input.
-> - * @input can either be a key description or raw key data; in
-> + * @input can be a key serial, a key description or raw key data; in
->   * the latter case a key is generated from @input and
->   * @generated is set to 'true'.
->   *
-> @@ -158,7 +158,18 @@ struct key *nvme_auth_extract_key(const char *input,=
- size_t input_len,
->  				  bool *generated)
+> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+> index ff0e8569d7067..54e79c8a7cae6 100644
+> --- a/drivers/nvme/target/auth.c
+> +++ b/drivers/nvme/target/auth.c
+> @@ -20,31 +20,38 @@
+>  #include "nvmet.h"
+> =20
+>  static void nvmet_auth_update_key(struct nvmet_host *host, bool set_ctrl,
+> -				  struct key *new_key)
+> +				  struct key *new_key, bool new_generated)
 >  {
->  	struct key *key;
-> -
-> +	unsigned long key_serial;
-> +	int err;
-> +
-> +	/* Check if @input is a key serial */
-> +	err =3D kstrtoul(input, 0, &key_serial);
-> +	if (!err) {
-> +		key =3D key_lookup(key_serial);
+>  	key_serial_t old_key_id =3D 0, new_key_id =3D key_serial(new_key);
+>  	struct key *key =3D NULL;
+> +	bool generated =3D false;
+> =20
+>  	if (set_ctrl) {
+>  		if (host->dhchap_ctrl_key) {
+>  			if (host->dhchap_ctrl_key =3D=3D new_key_id) {
+> -				if (new_key)
+> +				if (new_key && new_generated)
+>  					key_revoke(new_key);
+>  				return;
+>  			}
+>  			old_key_id =3D host->dhchap_ctrl_key;
+> +			generated =3D host->dhchap_ctrl_key_generated;
+> +			host->dhchap_ctrl_key_generated =3D false;
+>  		}
+>  		host->dhchap_ctrl_key =3D new_key_id;
+> +		host->dhchap_key_generated =3D new_generated;
 
-[Severity: Low]
-Can kstrtoul() silently truncate 64-bit values when key_serial is passed to
-key_lookup()?  key_serial_t is int32_t and valid serials are positive, so a
-numeric string larger than INT_MAX on 64-bit platforms is narrowed to its
-lower 32 bits instead of being rejected.  Parsing with kstrtos32() and
-checking key_serial > 0 would avoid this.
+[Severity: Medium]
+Should the set_ctrl branch update host->dhchap_ctrl_key_generated instead
+of host->dhchap_key_generated?
 
-> +		if (!IS_ERR(key)) {
-> +			*generated =3D false;
-> +			return key;
-> +		}
-> +	}
+As written, host->dhchap_ctrl_key_generated remains false, so
+nvmet_host_dhchap_ctrl_key_show() prints the internal UUID description
+instead of the secret for auto-generated controller keys and replacing or
+clearing the controller key never revokes it.  At the same time, setting
+or clearing the controller key overwrites host->dhchap_key_generated,
+which can cause a pre-populated host key to be revoked or an
+auto-generated host key to be leaked.
+
+[ ... ]
+
+> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configf=
+s.c
+> index f6bfda757f076..3defa3f948497 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -2248,13 +2248,15 @@ static ssize_t nvmet_host_dhchap_key_show(struct =
+config_item *item,
+>  		down_read(&key->sem);
+>  		if (key_validate(key))
+>  			ret =3D sprintf(page, "<invalidated>\n");
+> -		else {
+> +		else if (host->dhchap_key_generated) {
+>  			ret =3D key->type->read(key, page, PAGE_SIZE);
+>  			if (ret > 0) {
+>  				page[ret] =3D '\n';
+>  				ret++;
+>  			}
+> -		}
+> +		} else
+> +			ret =3D scnprintf(page, PAGE_SIZE,
+> +					"%s\n", key->description);
+>  		up_read(&key->sem);
+>  		key_put(key);
+>  	}
 
 [Severity: High]
-Can key_lookup() return a key that is not a positively instantiated
-nvme_dhchap_psk_key_type key?
+Can nvmet_host_dhchap_key_show() and nvmet_host_dhchap_ctrl_key_show()
+dereference an error pointer when the key is unset or has been unlinked?
 
-Unlike nvme_dhchap_psk_lookup(), key_lookup() searches the global serial
-tree without checking key->type or instantiation state.  When
-nvme_auth_transform_key() later runs, it unconditionally calls user_read()
-and nvme_dhchap_psk_hash(), which read key->payload.rcu_data0 as a struct
-user_key_payload and access 6 bytes past upayload->datalen:
-
-drivers/nvme/common/keyring.c:nvme_dhchap_psk_hash() {
-	...
-	upayload =3D user_key_payload_locked(key);
-	hmac =3D upayload->data[upayload->datalen + 5];
-	return hmac;
+drivers/nvme/target/configfs.c:nvmet_host_dhchap_key_show() {
+	down_read(&nvmet_config_sem);
+	key =3D key_lookup(host->dhchap_key);
+	if (!key) {
+		page[0] =3D '\0';
+		ret =3D 0;
+	} else {
+		down_read(&key->sem);
+...
 }
 
-Passing the serial of an uninstantiated key, a keyring, or another key type
-(such as user, logon, or NVMe TLS PSK, where user_preparse() only allocates
-upayload->datalen bytes) causes a NULL pointer dereference, type confusion,
-or a 6-byte slab out-of-bounds read.
+key_lookup() returns ERR_PTR(-ENOKEY) rather than NULL when a key serial
+is not found (including when host->dhchap_key is 0), so the !key check
+falls through to the else branch and dereferences ERR_PTR(-ENOKEY) in
+down_read(&key->sem).  nvme_auth_init_ctrl() and nvmet_setup_auth() also
+check !host_key and !ctrl_key instead of IS_ERR() after key_lookup(),
+which can similarly oops if a pre-populated key was unlinked after option
+or configfs parsing dropped its reference.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126-dhchap-key=
-ring-v4-v7-0-ee438ffea527@kernel.org?part=3D10
+ring-v4-v7-0-ee438ffea527@kernel.org?part=3D9
 
