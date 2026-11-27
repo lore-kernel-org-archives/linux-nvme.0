@@ -2,168 +2,152 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3D8606A32A
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Nov 2026 10:20:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC7C606A31E
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Nov 2026 10:48:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=FeYL93lo;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=jQYkqbbd
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=NUk7VwsB;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EFdnpaJH;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=bLn/7QWS;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EFdnpaJH;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=bLn/7QWS
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=cxKfeBjzKlB3MJSl6cZqUdizHzYEFvDI2AiSFcRPJz4=; b=FeYL93lo+EIhTUvLXvhLOXDSDa
-	HH/rCqfYA1eEIhZITA26UGVAuOPDksuRPJrhk5V+d49Txvqn8qmH/AJ91zqaE4TjlJDNvP6Q2r+vu
-	jOxWP/CeYzGO090X4Z4YsOUUhYZHOlzu6AM8a+eTQaY+lTXQpZfIcjXI6S25WxU2ULPCv7LgEM8u9
-	Pr/fumP9tflcZaJXxB8C4JmsVB860gtlpxYBE3FOkXYX52kpuhvNqunsMkBpknbE8sZn6KZPniygg
-	GzAZS+/XV0TJ+0yBY5gvvzEy4XwIk/fYHgH1sTfDxr1lNR0Qx0rZDVt1foXPduHN9RTIDLNP7ioGC
-	hgV2t+zA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=KowgHdxAv0VqgGY3kZnozXRx78oYlqyIyYJ2riEahb0=; b=NUk7VwsBgU+N/P
+	BP1oCn3x7evbhIsxT+mlrLZSncvyb8hPT41Gl++hH/cZPH85k3y9/aMkpF4ILSGe3mt7rfHymKo5N
+	rr97SKbuYhUitRl2wrYcF+QpsyHzzams2DtulmuEdZzS1ti/uHfvPoawlRly0vT4MLJ/aLl6f8uOP
+	wIzPujwgmYE9pdnkzs31Xso81rYVvP2fTnuDwPYMhiGUNyhych730ANKW921jHrbpIQgyTD7OYEO5
+	UTNXnXQZwCc56oZKR2nMAS/QCea9o1iXz50n2L+Wl0iBNrbgRx8KpZ+QR9CIOAxzSfa3JxUi5zONr
+	TPAkD83SDphhEmXNJR9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWt4D-0000000FazH-3VyA;
-	Fri, 27 Nov 2026 10:20:33 +0000
-Received: from mail-southcentralusazon11012024.outbound.protection.outlook.com ([40.93.195.24] helo=SN4PR2101CU001.outbound.protection.outlook.com)
+	id 1xWtVS-0000000FfDC-0YmY;
+	Fri, 27 Nov 2026 10:48:42 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWqwa-0000000FDvq-3rLQ
+	id 1xWtVP-0000000FfBo-2NbM
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Nov 2026 08:04:34 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=APoHYCzMe0ay2dMEieUZrxMIKkoRdAjvUjxXkErNxWi9gkjbYU10T2RbuV17EeioAwOlwem2/24GE4KsBThuHm97tCAKNFk7VwGt8MK2fBsJyDqlljr2fPHj83V78hpBd/iH4wHe0Ja2W/Sr2POjpRA7HngzajK6eEDgmjvBgcr2RgbaOipUPuesh7i1e2PBEX5Py6+LWjYZuDAAOK/EMxpgByIn7ra8FKeKxr8lZ9vzeB/eJzn9/C7dXzZchnwx2AShyHdwb6C55+EgNH1RMc2M8aZlwg0OL4rLIaNbrpq2NkWqwOnABrubnDnKlX3slDc7o7xagnEM5j+NgIRFYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cxKfeBjzKlB3MJSl6cZqUdizHzYEFvDI2AiSFcRPJz4=;
- b=W2F0dT80cW2s1LGohMz/d9KVmGjtrUMEDADnxcwsY8wBLQEmt2MaHfNr2ZnGOdAUh/Xdwd0xgdqAJ0u34tOz1Y5KFD2srAlImseadEEgVWSRvCmtGhsoDozD0sBVzbyC1tjGB3KtpuL6fe0wavfF//2JmsFQP/kps9ozOsDvWlcPkdlDVcDP5dY8v2bc6Tm2DK5GTtuZ4ibfO4Gb0BDvJ4dXg/b3fdFXxnc67zl9zMiJqgr13epPvzOImc7weLCRjTZRUhjEbep9WeGj2vA9s8HvCQdr9IF/x4+gx5JUqWOPrV79WqeP/04sTNUA8Acfp9VdA7Dzs2w4TMWMww89qA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cxKfeBjzKlB3MJSl6cZqUdizHzYEFvDI2AiSFcRPJz4=;
- b=jQYkqbbdRQ13EwhZuM4C+4yirs3FCscQtdJcz8uoPcLFSH6rUfszVtu0I95K7m2sBgOtZhoU0Jc7PiOKyToEQc9nmoanEcgjD+rtgMw68ZvZvrwYX1ikVAsxkTHJ7gP4frcKquZHZOlTgnyZq/qGI5H7OT3KA3QZr86w80v/YD0=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by IA0PR12MB8973.namprd12.prod.outlook.com (2603:10b6:208:48e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.7; Fri, 27 Nov
- 2026 08:04:26 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%3]) with mapi id 15.21.0662.004; Fri, 27 Nov 2026
- 08:04:25 +0000
-Message-ID: <79d62f9a-cea8-4149-a673-7ef86942410d@amd.com>
-Date: Fri, 27 Nov 2026 09:04:15 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 03/24] dma-buf: Add the SGT DMA mapping type
-To: Dave Airlie <airlied@gmail.com>
-Cc: Alistair Popple <apopple@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Dongwon Kim <dongwon.kim@intel.com>, Kevin Tian <kevin.tian@intel.com>,
- Xu Yilun <yilun.xu@linux.intel.com>,
- Karl Mehltretter <kmehltretter@gmail.com>,
- Baolu Lu <baolu.lu@linux.intel.com>, Felix Kuehling
- <felix.kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- Alexey Kardashevskiy <aik@amd.com>, zhipingz@meta.com, treding@nvidia.com,
- jhubbard@nvidia.com, chaitanyak@nvidia.com, Leon Romanovsky <leon@kernel.org>
-References: <20261120-dma_mapping_type_v4-v3-0-c0183a409bdf@nvidia.com>
- <20261120-dma_mapping_type_v4-v3-3-c0183a409bdf@nvidia.com>
- <ad46d60a-189d-4dd5-9ad8-ecfd3c90f9d9@amd.com>
- <20261123165716.GM179082@ziepe.ca>
- <7ac7edd0-5c38-440a-b26a-21bcbb6f4702@amd.com>
- <awT8prWsj11TBdmP@nvdebian.thelocal>
- <63eb7b6e-e0a8-4443-a434-0301ed59beae@amd.com>
- <CAPM=9txheaE3=fp7=n4fYh-xshxOm+Tv=eQn9wvHVAc-b1JKDQ@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAPM=9txheaE3=fp7=n4fYh-xshxOm+Tv=eQn9wvHVAc-b1JKDQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0284.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e6::8) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	Fri, 27 Nov 2026 10:48:41 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 75A991FB78;
+	Fri, 27 Nov 2026 10:48:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795776517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KowgHdxAv0VqgGY3kZnozXRx78oYlqyIyYJ2riEahb0=;
+	b=EFdnpaJHns3RcOCCP39Hb3ZxoENu6F7wxfU3W53Y9Yi5pCyz5382Lsdt7NTNeMU+1GDYB2
+	ejoFp+M4wGZSh09b49z7YEA6m0hZfNwvRoVshxJw+BynMZo0twVcj/LuilQvXyE9zkyJZP
+	XT9EE1PJGARfKFw4m1SXLSzEVYoRg9I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795776517;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KowgHdxAv0VqgGY3kZnozXRx78oYlqyIyYJ2riEahb0=;
+	b=bLn/7QWSRpc+xaOS3AdvmzG64aycNcdAUMIgbeeo7xb+JaCwzAGBNXG18ncKkA+ltzLh5K
+	eW4wuJM1v1fZnrBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EFdnpaJH;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="bLn/7QWS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795776517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KowgHdxAv0VqgGY3kZnozXRx78oYlqyIyYJ2riEahb0=;
+	b=EFdnpaJHns3RcOCCP39Hb3ZxoENu6F7wxfU3W53Y9Yi5pCyz5382Lsdt7NTNeMU+1GDYB2
+	ejoFp+M4wGZSh09b49z7YEA6m0hZfNwvRoVshxJw+BynMZo0twVcj/LuilQvXyE9zkyJZP
+	XT9EE1PJGARfKFw4m1SXLSzEVYoRg9I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795776517;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KowgHdxAv0VqgGY3kZnozXRx78oYlqyIyYJ2riEahb0=;
+	b=bLn/7QWSRpc+xaOS3AdvmzG64aycNcdAUMIgbeeo7xb+JaCwzAGBNXG18ncKkA+ltzLh5K
+	eW4wuJM1v1fZnrBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1E852134E8;
+	Fri, 27 Nov 2026 10:48:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id E9WKAAVgCWvLbgAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 27 Nov 2026 10:48:37 +0000
+Message-ID: <434003e5-9e0d-44dd-a81b-f23f93fa52cd@suse.de>
+Date: Fri, 27 Nov 2026 11:48:36 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA0PR12MB8973:EE_
-X-MS-Office365-Filtering-Correlation-Id: 798c53fd-32b8-4271-904c-08df4c5d0d8b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014|23010399003|261026121527099003|10067099003|5023799004|11063799006|56012099006|4143699003|261009223027099003|261021121427099003|261102130727099003|261102123227099003|261026140227099003|261022105027099003|261028144727099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: lOdQwv0xWbOemuXC5RKRoV0vVFE0fA+RKDKSOcQljsyCf+RI/nvdlhgZ50a7wN2h7h8UBGoW6DjRJsrowMEGpVZKXwLiXM3+Exv2u7RueRuaLwvAbK+WNmrcH8AB2qxPQRn5MM0TNPs6dQVAYQVOFO/8LjejYZQHolniLrBBZpNCRLKlriFKE3bFqGtxo0ajWsnZbMGEJjGIu2gbms6ctRPOgYc78sygLr8DmlZPQ05RKcey/tiyu+qyFj4E9GDfDvEXks6m1Oa0cIAhIRHPusTvXSNlpg/Rx3xtmHiJ877eIPIcfno4+885bQRvZ7tRez9pungKNAyNLD0smzk3WxMshD8OdSLJiICjachcbzpxAb72xPhNnMxwhj4dZ9fwYSpGf5aKTEgLEzXrDbXtW/WVMkvoWl5PQ++SzOd/I7FZBZOE/uJ4PumCrTVvFaQRJzGrjodWvkCyTV5bszHab4eCeW9bmb7fECkGAkcsvqigCa1xqBDFtYav0H0uD5EgQvV6WmilTF7/KdfZM6Y2k936SEh+lgsl/dgiSKKBL9wtlwG/mRMKqCK2TIJCGJNbLb61EymKfkSX2sIA3Kk28KixneuKhoLSVsYh0nQ2pwwtaZcJTTG084QcQ44zRPD5DKSgx2V2U9fC86n+TtpSPz4qOOdmX4Bxv95LuVsF3DY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(23010399003)(261026121527099003)(10067099003)(5023799004)(11063799006)(56012099006)(4143699003)(261009223027099003)(261021121427099003)(261102130727099003)(261102123227099003)(261026140227099003)(261022105027099003)(261028144727099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WUpqN2xOM3FxVityemxQaEI5dTFKOG5Va2ZkWlZmSWs2cjF0SWhJQTRuN3NK?=
- =?utf-8?B?L1pJYkk5cnM0WjJlSzlIaHp0d3F1OVNPTnExdUJoYXByam5UdVVrcSsrZ2xn?=
- =?utf-8?B?dXBBT1JyZUFRdG5EVWtxeUtvZFU3MkNNVWhxOGdTQkNjSGgzR2lzTjRSQ1hs?=
- =?utf-8?B?YlU4NFVLaEVtYWU5cFN3SFB5VnFYeDBNNlcwekhOWi9OZWhrcjQ1UWRIcjR0?=
- =?utf-8?B?U0pSTW5zTVRMcU04Slh0Ym4wRkZZajVJR1JKcFRXU3Fsb01xazJEd3BreHJS?=
- =?utf-8?B?WGQ3Y3RTQWlwUUJNc3U2ejgvUUdQc0RIbkNld2JKRTFMS1ZmSkM2ZUdzME04?=
- =?utf-8?B?ck00QkZNTVUyd0FscVRXNTdZR2cyUWwydk1taW9meURsUDF1SE9RKzE2Q1Fl?=
- =?utf-8?B?S0dMeFAyQis4R3M4dWNRNEkwRlBLNVhhSUV0UXFrZjRjN2VTYThjWjJRb292?=
- =?utf-8?B?dHYydkd4UG4yMUtzUWxlU1VuN2V1eHYwWjVMbGtSZC94L2xVeldWMTQ5M2J4?=
- =?utf-8?B?TEdIdEVldGtoS3pDT2dzeUpZR0lQcm92YkNNUTF3QkFtWllKbUM5dzk5T29r?=
- =?utf-8?B?ckR0TGZ0RVoyMjBsVVAwcUxOMFluaWpzZzJ1cCs3c1diOGp2WXhMOEI5UnNi?=
- =?utf-8?B?emRjaHlabjV1ZEVtai9jUmVjakRvR215SWpnM0lLN2VVeGdxQSt6VDFDeE9L?=
- =?utf-8?B?WnFxKytlQTFGN1NFcy9Eb0hBUnVmdmU4a0k0QjFhQnF3VGlUVnY4U1YrbjlF?=
- =?utf-8?B?QmpyVEx1S2VMTjZxZDlNd0JEUjZySVZEcVNaUkNWWVo2dmNTMm5EY3ArWi9o?=
- =?utf-8?B?empzc2FJZHNsc2J2NEFTcUZYM2RQakRxMWRiMVU1aEswTHU1VEhWWFdSbytr?=
- =?utf-8?B?ZUtZRU14M05kclIwbHRYUFNWS2FYOHJmL2ErbzNnVSt5ZjVaVks4dzV1eHpQ?=
- =?utf-8?B?VUkzM3dOQ3hvdzdTWFNoaXpsUFpuZE1OeTU5YW52RWwxZU9ETXZIbGpSZkM5?=
- =?utf-8?B?WlVxek1pTmZ4NXlHODN0WHNUNXdkZ2hBeU8xZlVlSVN5U1hkU2hFeWRMUEs4?=
- =?utf-8?B?cHBIakdZWlZXcCsrNCtaRlE4cFpWZXlSNTd5RWZmTVkyMFpjMldMMGRwdkpL?=
- =?utf-8?B?TUt4YmpyaVZtQXNUNzFjbUc2NUpKZWhqdHBNUUVwSGhMcWErZWcrY1JCT0pq?=
- =?utf-8?B?K3JDRHFNTUpYT0VSUEo1ZWFYa3lyblpkWlhrdGx2SjgzN1djRGJtZ2duam1o?=
- =?utf-8?B?RzBEZDJZNElVNHlLRFU2NTd5T0NhZWhPM29jNlJzY0ZUb2NYcE9aV3Erbzhn?=
- =?utf-8?B?ZWNwZTJUUmRsNC9EeDN4UEFYRDZmSHRGQlgrczBlTHczRmxQaWpsemVlRDk2?=
- =?utf-8?B?ZlR3WWdiYVU4M3BuajdacnJwaHc1MzdqeHNQMmZjSm1sckh2TWZENFBYTG5J?=
- =?utf-8?B?b1daWThPV09lbmtkMHIxTkxHWTc0R29YRjlXK1hlMldtRVd0bWtrYlVJRmFj?=
- =?utf-8?B?Y2t2MHV6T0w1ek85UnNWZEg3VDkyQTRyMkpHUzV0djRtQ1Mzci9YNENZRmFF?=
- =?utf-8?B?ZzFaUTMzdUJtRXl4WVROOWNINHQ5bXdJM2RFaW8ycjVvbGlpVk9kd2JMWUps?=
- =?utf-8?B?WlhoQ1U3ZytKMDVTWjZ1Tm1FYkxQTHptc00wdGZyVU9qQ2YxN0dFMEs4Vkp2?=
- =?utf-8?B?V0I4Z0NPbFVudHZiWTVoblEyS1dZYkpOUDVIVXBEblVkUi9RZlgxTnIzSXV0?=
- =?utf-8?B?eUJ4aXo0TFBFcE5BR1ljSHBZSXVWSXZ0ZkdRNldvS3Y0ZDVNQ0RrMHVoU2E3?=
- =?utf-8?B?S002b2R5V0dLZHZPc0VFMUtSVjhyd2JtamYxTlFuWmNFRGNjaURSUnhwWk50?=
- =?utf-8?B?bXF5anJOTDQxN3FTU3M4bUpLTkJLalZoWXJuL3dvLzFueHZ0cTdCL3l0K0FF?=
- =?utf-8?B?VlU1SFhrTFhJSit2eXhKYlRUWTZDNGxqUXJja1JGaDJGakw1a0FidmYzcmpY?=
- =?utf-8?B?a0Z3SXprRGxNRG0xUFlHNHBCbmZYK0ViYnJEaWJ5cldmUXI1QktGdlNpRmhK?=
- =?utf-8?B?L1F4Yldoa092aVd3S3gzZDAzRFFmWTVsMHdRWlBva210ZmF3NjZUTEVndGNt?=
- =?utf-8?B?dWY5TEdEWmorZXh0d28yVVBZQ2cwL0NuM1dvZ3JvTzhRYW9mdkd0ZUNZYi91?=
- =?utf-8?B?a1p0Rmh0UXFjOWw4WURiZHhHUEdtck5Ec1MzK2VEaGJrQklqMGw3bEtTOHpk?=
- =?utf-8?B?S0p0ZWI4Vk1OSmtRL3NMSXpOaGF4Kzg0QjhzY2w0RnI5ZGw2QUN1QVovQUdl?=
- =?utf-8?Q?iyTZ5F+KwD9JF8y8Ew?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 798c53fd-32b8-4271-904c-08df4c5d0d8b
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2026 08:04:25.6404
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xgMXY175EuL2i8VlOGwAKyriOLkeaZi3qOKZPKJf6TLfZVf+BJtfY+7yveuPPxpj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8973
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 14/14] nvme-auth: allow to update pre-provisioned keys
+To: sashiko-reviews@lists.linux.dev, Hannes Reinecke <hare@kernel.org>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Eric Biggers <ebiggers@kernel.org>,
+ David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: linux-nvme@lists.infradead.org, keyrings@vger.kernel.org,
+ Martin Belanger <martin.nvme.dev@gmail.com>
+References: <20261126-dhchap-keyring-v4-v7-0-ee438ffea527@kernel.org>
+ <20261126-dhchap-keyring-v4-v7-14-ee438ffea527@kernel.org>
+ <sashiko-outbox-235712@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <sashiko-outbox-235712@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-12.00 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	XM_UA_NO_VERSION(0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[lists.infradead.org,vger.kernel.org,gmail.com];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -12.00
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 75A991FB78
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261127_000432_963030_B56B4753 
-X-CRM114-Status: GOOD (  19.66  )
-X-Spam-Score: -2.1 (--)
-X-Mailman-Approved-At: Fri, 27 Nov 2026 02:20:32 -0800
+X-CRM114-CacheID: sfid-20261127_024839_760943_6681CACB 
+X-CRM114-Status: GOOD (  22.19  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -174,55 +158,109 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-7.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/26/26 23:29, Dave Airlie wrote:
-> On Thu, 26 Nov 2026 at 03:26, Christian König <christian.koenig@amd.com> wrote:
-...
->>> The core then negotiates compatible types and adds converters between them,
->>
->> I have strong objections to that plan and would potentially NAK it.
->>
->> DMA-buf should *NEVER* accept CPU physical addresses nor provide conversion between different address types.
->>
->> Keep in mind that DMA-buf is solely a container for DMA addresses, nothing else and it should not provide any mapping functionality whatsoever.
+On 11/26/26 3:31 PM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 3 potential
+> issues to consider:
+> - [High] nvme-auth: uninitialized old_key dereference in
+>    dhchap_*_secret_store()
+> - [High] nvme-keyring: .update callback added to psk instead of dhchap
+>    key_type
+> - [Medium] nvme-auth: wrong pre-populated key check in
+>    dhchap_*_secret_store()
+> --
 > 
-> Is that because it's called dma-buf, if we just called it's shared-buf
-> would that alleviate things? I just feel like there are use-cases
-> where it containing CPU physical addresses might be what is optimal
-> for a certain scenario, and re-creating a whole parallel
-> infrastructure that ends up being 'I-can't-believe-it's-not-dma-buf'
-> would end up being bad.
-
-Well the problem is not so much transmitting CPU physical addresses between exporter and importer, but rather what the importer and DMA-buf layer should or should not be doing with them.
-
-One of the few things which the DMA-buf design got right from the beginning is to avoid to much middle layering.
-
-In other words the exporter is in control what is done with it's buffers and what isn't, so for example errors which come up while creating the mapping can be handled gracefully by the exporter. The map_attachment() callback either returns a fully populated mapping or an error code, nothing in between.
-
-If we somehow prevent the CPU physical address from being casted to a struct page and/or used with vmf_insert_pfn/page/dma_map_page etc.. then there is not much of a problem with passing around physical addresses.
-
-And if two drivers really need the system memory semantics with fine grained page faults, struct page refcounting etc... we still have memfd for that.
-
-> If we need to shared object backings and have clearly typed and
-> negotiated on what the backing contains then we should allow it.
-> However I mostly agree on the mapping thing, I'd want drivers to
-> negotiate and natively support whatever backings they can rather than
-> having an intermediate trying to handle the conversions Not saying the
-> code doing the conversions can't be a helper, bit it shouldn't ever be
-> autoamtic or outside driver control.
-
-Yes, exactly that's my concern as well. We need to avoid this middle layer trap.
-
-Christian.
-
+> commit 3ccb1f2ff3d815bafe5e4d68e5e266a56f5a6f51
+> Author: Hannes Reinecke <hare@kernel.org>
 > 
-> Dave.
+> nvme-auth: allow to update pre-provisioned keys
+> 
+> This commit attempts to support rotating pre-provisioned DH-HMAC-CHAP keys
+> via keyctl update by adding a key_type .update callback and disallowing
+> sysfs key replacements for pre-populated controller keys.
+> 
+>> diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+>> index bee64c592752a..ffabd37cd090d 100644
+>> --- a/drivers/nvme/common/keyring.c
+>> +++ b/drivers/nvme/common/keyring.c
+>> @@ -100,6 +100,7 @@ static struct key_type nvme_tls_psk_key_type = {
+>>   	.free_preparse  = user_free_preparse,
+>>   	.match_preparse = nvme_tls_psk_match_preparse,
+>>   	.instantiate    = generic_key_instantiate,
+>> +	.update         = user_update,
+>>   	.revoke         = user_revoke,
+>>   	.destroy        = user_destroy,
+>>   	.describe       = nvme_tls_psk_describe,
+> 
+> [Severity: High]
+> Was .update added to nvme_tls_psk_key_type instead of
+> nvme_dhchap_psk_key_type?  Because nvme_dhchap_psk_key_type still has no
+> .update callback, calling keyctl update on a dhchap key fails with
+> -EOPNOTSUPP.
+> 
+Fixed with the next version.
 
+>> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+>> index 0ffea12fcfb6b..0eb68b3973a1e 100644
+>> --- a/drivers/nvme/host/sysfs.c
+>> +++ b/drivers/nvme/host/sysfs.c
+>> @@ -887,9 +887,17 @@ static ssize_t dhchap_secret_store(struct device *dev,
+>>   		kfree_sensitive(dhchap_secret);
+>>   		return ret;
+>>   	}
+>> +	if (!generated &&
+>> +	    key_serial(old_key) != key_serial(key)) {
+> 
+> [Severity: Medium]
+> Should this check !ctrl->host_key_generated under ctrl->dhchap_auth_mutex
+> instead of !generated (and similarly !ctrl->ctrl_key_generated in
+> dhchap_ctrl_secret_store())?
+> 
+> nvme_auth_extract_key() sets generated based on whether the newly written
+> sysfs input is a raw DHHC-1 secret or an existing key lookup, not whether
+> the controller's current key was pre-populated.  Writing a raw DHHC-1
+> secret sets generated = true, bypassing this check and overwriting a
+> pre-populated ctrl->host_key with a newly generated key, while writing a
+> pre-populated key identifier to a controller that currently uses a
+> generated key is rejected with -EPERM.
+> 
+Fixed up in the next version.
+
+>> +		dev_warn(ctrl->device, "cannot change pre-populated key %08x\n",
+>> +			 key_serial(old_key));
+>> +		key_put(key);
+>> +		kfree_sensitive(dhchap_secret);
+>> +		return -EPERM;
+>> +	}
+>>   	mutex_lock(&ctrl->dhchap_auth_mutex);
+>>   	old_key = ctrl->host_key;
+> 
+> [Severity: High]
+> Does key_serial(old_key) dereference an uninitialized old_key pointer in
+> both dhchap_secret_store() and dhchap_ctrl_secret_store()?
+> 
+> old_key is declared on the stack without an initializer and is only
+> assigned from ctrl->host_key (or ctrl->ctrl_key) after acquiring
+> ctrl->dhchap_auth_mutex below.  When writing a pre-populated key to sysfs
+> (generated == false), key_serial(old_key) reads old_key->serial from the
+> uninitialized pointer, or returns 0 when CONFIG_INIT_STACK_ALL_ZERO=y and
+> causes every re-authentication write to fail with -EPERM.
+> 
+Fixed with the next version.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
