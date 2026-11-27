@@ -2,136 +2,149 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070C5606A323
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Nov 2026 07:37:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80076606A31C
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Nov 2026 07:40:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=t7X/NoGD;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=Kp9vwvwD
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=FdkF1jm4;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ECgggU4n;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lojZlJUN;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ECgggU4n;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lojZlJUN
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=BYEpToCdu/Jrl7504w/3VIKWXqy3i8TunCn9olVHqm8=; b=t7X/NoGDV2TgwXTe30BF3vNMUp
-	bLSfSKbgRG1FczOwIF3f9ufX+7wEQtSp7XAeuYyqt3glWGOoJSLmGNVLGcMBC/wfK4BzJZcsmHhzV
-	ZPFeouhy3wGXoT9DDVEs9K18RhBUn+qgUiKpodUPqJZrSyEP0pgfNBW5BlfGREdbgl+lx2m50547l
-	5JhHl2dpnoPrEXWOCFIQ5H5HD3taFxqGhIShtiK7xn19NgkZbI81N0kVkZK1lic27RtztOGf+i9YS
-	MYFAcqJLU5VYIYqeRpOgdYIqPttAVDp7a92R8vNepAzqC+xn9by4V+IBhqIsVMdS3vA6TYLv0H34D
-	GaT/UhHQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
+	List-Owner; bh=Seaj0QlYAAGKFYCPwjvkTKuTijkUp2U+E5U19NldKYg=; b=FdkF1jm4NV7mZP
+	6amSr/SWJ14ZXY52ggYIlObuIHCSdKcPlkE6HIdEiPB+SVD1HXCxKO0wT3P6nAROEgehDqZPgCfhc
+	jBZKBzBknfHJhhGKJjH4AK6QJULAbpVUKwmXA9YAaGKPC0J4Ge3g7i6G9KYqD+DIaUtNE6D+UGtjm
+	j48d8WBqgQMJUzHbw3GB8X98A0FSjnjSuxggVu1s99YymA4vo5SBkrFWMaBT/K+goLKQdn/HNwVJH
+	PQXQoxJCh7by4Swn5TiIBc/62SDfh6g57/Ufy0yYrFqBJp271MqLBlikLTAV6WUu7bjea20KRHeTX
+	BCn7Qe9Qe2JngmdQ8i/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWqWh-0000000F8zB-1I2D;
-	Fri, 27 Nov 2026 07:37:47 +0000
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834])
+	id 1xWqZ5-0000000F9TJ-0tH0;
+	Fri, 27 Nov 2026 07:40:15 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWjxo-0000000EhlR-2qSd
+	id 1xWqZ2-0000000F9Ss-0SJq
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Nov 2026 00:37:22 +0000
-Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-5363c8de563so76138861cf.0
-        for <linux-nvme@lists.infradead.org>; Thu, 26 Nov 2026 16:37:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1795739839; x=1796344639; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BYEpToCdu/Jrl7504w/3VIKWXqy3i8TunCn9olVHqm8=;
-        b=Kp9vwvwDq8BYxZ93oJiOhEWlobiWO76nAo+gO2ZQKD4a8enljX2fpZYLypQaTXjV2c
-         rmG2O8etbdLKAuOzLNKVBdwyBt8fYFGYKX0evdzOmOyBTKYVQq3BRnugB6uTDJ3KwMAu
-         O6RUDy7ByJoaXCaXsnSOmOhv+svyQ0KjTRpeFMUFWj795UMVUiqm9QbAH/+JVSqIm1g/
-         7laJdYXqFJn+aqnyfNOzi1wzgj+cHSKR8wAaMaXEH6hNwLJpRD3UztJA4VG52FvcxA0n
-         ZZqHFY6jR7R3FoA45vkOLjOeDwbeMcdKAGnXxKM0TUs6HA2Ivp0qQR/172pvm6r2yVkG
-         aOgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795739839; x=1796344639;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=BYEpToCdu/Jrl7504w/3VIKWXqy3i8TunCn9olVHqm8=;
-        b=12FvyZwQt/28Ink5YAG1+1BwUuFejZPDbO2V1we2f6CPjLMEqwtAlkP1qffopKdfd6
-         J4f2KxAHPfJje6N+6E7a9oJ9Liv2axVDlm6r4KdS89vvPVOeTPKnOarIhH2angmdYbR6
-         mZ8SiCV/177Is5CnR6FM+FtCf6TlnO4b7o9ZruqOLbrE9WaVF4Lxjmjj9i2RwS8oyKRX
-         X/Mb9GBwG7aKTtRnKs1m9Jp+BG8D421TK+UQfJvDDPn9kRAcKlCelpVHO+aYO0dREYRM
-         KbDtVbhpHtW5Mf6QeEqdOLLPzD4/M1wsWdJBAd93p9IJJpWOlh/now+2EaB/9ZPWVJIv
-         2ePw==
-X-Forwarded-Encrypted: i=1; AL+hErHMSJ2+xntN3iDhH09krsC7axhy+nj3q/UDAAYkr9lvDARfaFVEQYKBCsKTrrlAUmoLzkZFkddmJ5no@lists.infradead.org
-X-Gm-Message-State: APuU4Z+cHuBGNJffUaGCWqYpXKzSVums7ZaZUgiHY6v1Q8pYgIfSFJ4Y
-	kgr1x/oMnFRLI1AuG2iZPbQZKenE4qMvyBe1QMcm8D/3C9CnPGpdGf7prEzR6BwEADQ=
-X-Gm-Gg: AZFdTZeHi+WvYY6FiXOL1zaRwipFWjZZMiXL38jO8VC7z4DaBJqsAJbCAAWWoSz54Lr
-	O0IFgoMFyFFj0WyBLXJmzPtmfprLOQYRwK+jwgrOaA+eYzZ4NOXjMmkGZDtrN0y5eaWbPiD15zR
-	WZKR0uuOhTQjGnBnrfV7LoP/V6xBEnsI16cyyFDJ04K9ZBIR5IhKy3LymRWUS+Hk75f2v1yrWij
-	Gl8vvMfMLUu0gJbkYG7Qu+vtxGyN8tJY3u85lBIlWGnVj6n+D52SG0FaXllm1gUxrfSSgHB812D
-	SMtAX7pbmxFVERpjuAO0WJatuspo5zmmHcSGSy+AVc9juyw1IuQ/lYrol++nbqAvyl82YE4/mnn
-	zuPRGtCFPyra+Q6ALJnxxK0vYDuvFGhp6T6dP4kBc3D0qPTpiddScYMJu0jafJDeAV2OxWEpHjf
-	uHvHjIpi31hjtDYTwzY5n8LtrrZ0A8tMUj6zmAlHwucCHiYNZsqrVMFo6e/Q77OicZkur6chY+A
-	1GU4EnbfxFDJxrxymTDExNkIvlvQ2kZUudG5L8m7yZhTYC/XFLc67zI/KoeAeU/hi8cDKlH+1dw
-	Xvv5zw==
-X-Received: by 2002:a05:622a:1f13:b0:533:8900:4eae with SMTP id d75a77b69052e-55d76a168d0mr403124891cf.13.1795739839275;
-        Thu, 26 Nov 2026 16:37:19 -0800 (PST)
-Received: from ziepe.ca ([142.177.118.84])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d788506b0sm192115611cf.17.2026.11.26.16.37.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 16:37:18 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xWjxm-00000005OdJ-0d4j;
-	Thu, 26 Nov 2026 20:37:18 -0400
-Date: Thu, 26 Nov 2026 20:37:18 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Alistair Popple <apopple@nvidia.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Dongwon Kim <dongwon.kim@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	Baolu Lu <baolu.lu@linux.intel.com>,
-	Felix Kuehling <felix.kuehling@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-	Alexey Kardashevskiy <aik@amd.com>, zhipingz@meta.com,
-	treding@nvidia.com, jhubbard@nvidia.com, chaitanyak@nvidia.com,
-	Leon Romanovsky <leon@kernel.org>
-Subject: Re: [PATCH v3 03/24] dma-buf: Add the SGT DMA mapping type
-Message-ID: <20261127003718.GR246011@ziepe.ca>
-References: <20261124142032.GN9566@ziepe.ca>
- <7a5a2d3a-e42e-4dc0-8d22-8dd1bd249501@amd.com>
- <20261124194618.GC114530@ziepe.ca>
- <awZ_Os1pXelOGaFP@nvdebian.thelocal>
- <fb9a6b12-c134-4e40-86a5-dbcb59c0b91b@amd.com>
- <20261125155559.GL246011@ziepe.ca>
- <5fb8bb60-7d9f-49b1-899c-40a890fdc14b@amd.com>
- <20261125190705.GN246011@ziepe.ca>
- <awfMy1d8ICL6mr9i@nvdebian.thelocal>
- <a8c00bbf-dddb-4207-bcdf-af58d27116c5@amd.com>
+	Fri, 27 Nov 2026 07:40:13 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0112422730;
+	Fri, 27 Nov 2026 07:40:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795765210; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Seaj0QlYAAGKFYCPwjvkTKuTijkUp2U+E5U19NldKYg=;
+	b=ECgggU4nl9i3bvBsUBxSL/BP/CP9EiDhq4CHetH50PmsSNTt/Ijf6doVLrtOXtbQoKUjqO
+	yxKRwFgT4yX777PxlYOSAtJY94pAevPde2c13Ox07vGs5QoE9njNDwvN3Tjh8b4QzhDMtJ
+	HIf38hm5/uMlzkaspqLAB10J4w/swN0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795765210;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Seaj0QlYAAGKFYCPwjvkTKuTijkUp2U+E5U19NldKYg=;
+	b=lojZlJUNUug0DXDEtJ1/TXChzeN7otMLnlvWmQ5djZ05I4b34NawMERk2AzmxIJ6fKMmtf
+	T+vW+vhkfje6s+AA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ECgggU4n;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lojZlJUN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795765210; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Seaj0QlYAAGKFYCPwjvkTKuTijkUp2U+E5U19NldKYg=;
+	b=ECgggU4nl9i3bvBsUBxSL/BP/CP9EiDhq4CHetH50PmsSNTt/Ijf6doVLrtOXtbQoKUjqO
+	yxKRwFgT4yX777PxlYOSAtJY94pAevPde2c13Ox07vGs5QoE9njNDwvN3Tjh8b4QzhDMtJ
+	HIf38hm5/uMlzkaspqLAB10J4w/swN0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795765210;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Seaj0QlYAAGKFYCPwjvkTKuTijkUp2U+E5U19NldKYg=;
+	b=lojZlJUNUug0DXDEtJ1/TXChzeN7otMLnlvWmQ5djZ05I4b34NawMERk2AzmxIJ6fKMmtf
+	T+vW+vhkfje6s+AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6539C13432;
+	Fri, 27 Nov 2026 07:40:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id SXQCEdkzCWtZLQAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 27 Nov 2026 07:40:09 +0000
+Message-ID: <1485af79-af07-4b6f-82dc-f2f442cd9686@suse.de>
+Date: Fri, 27 Nov 2026 08:40:00 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 09/14] nvme: allow to pass in key description as dhchap
+ secret
+To: sashiko-reviews@lists.linux.dev, Hannes Reinecke <hare@kernel.org>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Eric Biggers <ebiggers@kernel.org>,
+ David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: linux-nvme@lists.infradead.org, keyrings@vger.kernel.org
+References: <20261126-dhchap-keyring-v4-v7-0-ee438ffea527@kernel.org>
+ <20261126-dhchap-keyring-v4-v7-9-ee438ffea527@kernel.org>
+ <sashiko-outbox-235701@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <sashiko-outbox-235701@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a8c00bbf-dddb-4207-bcdf-af58d27116c5@amd.com>
+X-Rspamd-Queue-Id: 0112422730
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-13.50 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	XM_UA_NO_VERSION(0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -13.50
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261126_163720_830419_4BF05E36 
-X-CRM114-Status: GOOD (  10.48  )
+X-CRM114-CacheID: sfid-20261126_234012_301262_7EBEAB29 
+X-CRM114-Status: GOOD (  26.98  )
 X-Spam-Score: -2.1 (--)
-X-Mailman-Approved-At: Thu, 26 Nov 2026 23:37:45 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,21 +155,133 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=4.0.1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Thu, Nov 26, 2026 at 10:58:13AM +0100, Christian König wrote:
-> Would it help if have a call on Teams or similar services to discuss the whole thing?
+On 11/26/26 3:27 PM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issues to consider:
+> - [High] nvme-auth: ERR_PTR dereference after key_lookup() in show and
+>    init helpers
+> - [Medium] nvmet-auth: wrong generated flag updated in
+>    nvmet_auth_update_key()
+> --
 > 
-> That might be easier and especially faster than by mail.
+> commit 23f2a5a7beef9101cd52fed1a3096af44469d991
+> Author: Hannes Reinecke <hare@kernel.org>
+> 
+> nvme: allow to pass in key description as dhchap secret
+> 
+> This commit updates nvme_auth_extract_key() to look up pre-populated
+> keys by description in addition to generating keys from raw secret data,
+> and tracks whether keys were auto-generated so pre-populated keys are
+> not revoked on teardown.
+> 
+>> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+>> index ff0e8569d7067..54e79c8a7cae6 100644
+>> --- a/drivers/nvme/target/auth.c
+>> +++ b/drivers/nvme/target/auth.c
+>> @@ -20,31 +20,38 @@
+>>   #include "nvmet.h"
+>>   
+>>   static void nvmet_auth_update_key(struct nvmet_host *host, bool set_ctrl,
+>> -				  struct key *new_key)
+>> +				  struct key *new_key, bool new_generated)
+>>   {
+>>   	key_serial_t old_key_id = 0, new_key_id = key_serial(new_key);
+>>   	struct key *key = NULL;
+>> +	bool generated = false;
+>>   
+>>   	if (set_ctrl) {
+>>   		if (host->dhchap_ctrl_key) {
+>>   			if (host->dhchap_ctrl_key == new_key_id) {
+>> -				if (new_key)
+>> +				if (new_key && new_generated)
+>>   					key_revoke(new_key);
+>>   				return;
+>>   			}
+>>   			old_key_id = host->dhchap_ctrl_key;
+>> +			generated = host->dhchap_ctrl_key_generated;
+>> +			host->dhchap_ctrl_key_generated = false;
+>>   		}
+>>   		host->dhchap_ctrl_key = new_key_id;
+>> +		host->dhchap_key_generated = new_generated;
+> 
+> [Severity: Medium]
+> Should the set_ctrl branch update host->dhchap_ctrl_key_generated instead
+> of host->dhchap_key_generated?
+> 
+> As written, host->dhchap_ctrl_key_generated remains false, so
+> nvmet_host_dhchap_ctrl_key_show() prints the internal UUID description
+> instead of the secret for auto-generated controller keys and replacing or
+> clearing the controller key never revokes it.  At the same time, setting
+> or clearing the controller key overwrites host->dhchap_key_generated,
+> which can cause a pre-populated host key to be revoked or an
+> auto-generated host key to be leaked.
+> 
+Fixed with the next version.
 
-I think that is a good idea, I suggest you and Alistair should pick a
-time and see who else can come. From experience eu/au/eastern na
-doesn't jive :)
+> [ ... ]
+> 
+>> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+>> index f6bfda757f076..3defa3f948497 100644
+>> --- a/drivers/nvme/target/configfs.c
+>> +++ b/drivers/nvme/target/configfs.c
+>> @@ -2248,13 +2248,15 @@ static ssize_t nvmet_host_dhchap_key_show(struct config_item *item,
+>>   		down_read(&key->sem);
+>>   		if (key_validate(key))
+>>   			ret = sprintf(page, "<invalidated>\n");
+>> -		else {
+>> +		else if (host->dhchap_key_generated) {
+>>   			ret = key->type->read(key, page, PAGE_SIZE);
+>>   			if (ret > 0) {
+>>   				page[ret] = '\n';
+>>   				ret++;
+>>   			}
+>> -		}
+>> +		} else
+>> +			ret = scnprintf(page, PAGE_SIZE,
+>> +					"%s\n", key->description);
+>>   		up_read(&key->sem);
+>>   		key_put(key);
+>>   	}
+> 
+> [Severity: High]
+> Can nvmet_host_dhchap_key_show() and nvmet_host_dhchap_ctrl_key_show()
+> dereference an error pointer when the key is unset or has been unlinked?
+> 
+> drivers/nvme/target/configfs.c:nvmet_host_dhchap_key_show() {
+> 	down_read(&nvmet_config_sem);
+> 	key = key_lookup(host->dhchap_key);
+> 	if (!key) {
+> 		page[0] = '\0';
+> 		ret = 0;
+> 	} else {
+> 		down_read(&key->sem);
+> ...
+> }
+> 
+> key_lookup() returns ERR_PTR(-ENOKEY) rather than NULL when a key serial
+> is not found (including when host->dhchap_key is 0), so the !key check
+> falls through to the else branch and dereferences ERR_PTR(-ENOKEY) in
+> down_read(&key->sem).  nvme_auth_init_ctrl() and nvmet_setup_auth() also
+> check !host_key and !ctrl_key instead of IS_ERR() after key_lookup(),
+> which can similarly oops if a pre-populated key was unlinked after option
+> or configfs parsing dropped its reference.
+> 
+Already fixed with updates to the previous patch.
 
-Jason
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
