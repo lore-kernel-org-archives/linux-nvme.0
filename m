@@ -2,96 +2,96 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4101606A31C
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Nov 2026 07:32:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF23606A31C
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Nov 2026 07:35:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=oKGURCp2;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=mSUIgo8M;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=UtzO0A3S;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=oOwNCcGt;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6S9h/1yG
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=vzI2Awy3;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ZTYuFEyp;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=UL4k7IZT;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ZTYuFEyp;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=UL4k7IZT
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=VEdUNR8UjEwRDkCy98TOoPExuCvETfLC6ZCVC0yV6hU=; b=oKGURCp21VFUfB
-	dKkuWHvWiHSeSMcnCcKdYrgutnVQ2JZkbt/N+h68f4dvWviD3AfBFa2/EAC81tcgUKTcSTPxd3dow
-	zKioOcZlqHhgkf5ghtJl7U6ux4dN7uCCgUKQWg1EChS8KZNoJD2AeuURSUuxLlaqciCPitFGURUPq
-	RzAZRnXsicnhX3rP/EhS/oUpEXXbVku48YBHeNa0sYC3theAh51ej7CPczaXfhKtDYauORS7igcu3
-	bvDo98UHYWGtyB8b3sIJGe2wIfGpawLDZ/LyOQwd30UlmkgiHj/rPWjr3TAXmWJEaJXm3nksjr96p
-	dEiuGMAr84QNnwjrKRPA==;
+	List-Owner; bh=n96sOU/5/jnhCO42S+4rsCREmChCaTIsZkg6ljCCD2I=; b=vzI2Awy3iq9Fss
+	CF/N/cKuwrTJjApz4EC5UyUyJoO7I0XgwY5xyP26whInpyBnclpJlXRtc+tq1FqDppGgSrPmInskU
+	2+5u0e368WamE8t9PXP1TgKw0K6GDj0wtVLDE72sKRNQCcrQXT6E6d9ZsST6xsLivBRlZO0/8oxHk
+	b32nerBWGnW3dITyW/G3djl6A9h/QpPvFlmrFQPh1AMn0UgFUKzATAjuZp0hP32C0f0UVUT95KL2h
+	EiFF4JWorGJTMiXxAoo4gU1SIIZcSM6zzWhaorWZMlbxkS5MxYmlzqVbIFxGzk3MvwC2elqnBUDJT
+	aOyFC9ceOajfRtUY1cTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWqRL-0000000F7Iv-48nK;
-	Fri, 27 Nov 2026 07:32:15 +0000
+	id 1xWqU2-0000000F8bF-23CY;
+	Fri, 27 Nov 2026 07:35:02 +0000
 Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWqRI-0000000F7IU-48kr
+	id 1xWqTz-0000000F8Zu-0wnI
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Nov 2026 07:32:14 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Fri, 27 Nov 2026 07:35:00 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DEF0C22850;
-	Fri, 27 Nov 2026 07:32:09 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8724422847;
+	Fri, 27 Nov 2026 07:34:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795764730; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795764897; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VEdUNR8UjEwRDkCy98TOoPExuCvETfLC6ZCVC0yV6hU=;
-	b=mSUIgo8MsPEM4aMBu4aDSWcVjtWnwnz7nymYLbLzuFVy+vaL87V+ZhkwdKY7nu+G3G0Tog
-	JbjzaeAiY6QjpTWj5lwWMw9+NWulxAjXKV6f8kcTjtEBaNz79gkvDRR0A+3bwv4KxT4f8Y
-	kt84565pyJ/Vagsah1+tQMvO3oEVpOQ=
+	bh=n96sOU/5/jnhCO42S+4rsCREmChCaTIsZkg6ljCCD2I=;
+	b=ZTYuFEyp0O6eFBgB/uufgy9Hde4Cuq2M6nFh22BRBoac89MK/Ggn/3f1YXQi9BB21xSw7g
+	myZ5gJR96Ei6d1O1AZQJ+P9G4qzHNnwJqEA9sknfJl0DcSIN6NWaBnsAJ7jwe30byGE2DS
+	aHl3kVCvUZEcY9liXuOhJyCy5K7cFoA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795764730;
+	s=susede2_ed25519; t=1795764897;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VEdUNR8UjEwRDkCy98TOoPExuCvETfLC6ZCVC0yV6hU=;
-	b=UtzO0A3S/Cxhmzvqws3d0nIn66nT6UBE0Y9FLqt14M2LA6iQ25S1Ai6yNe+BpIHzusGQXH
-	e6FPYHKtau19KcAQ==
+	bh=n96sOU/5/jnhCO42S+4rsCREmChCaTIsZkg6ljCCD2I=;
+	b=UL4k7IZTozHVaUV85Gta+JabDHiwk5FwpfCbUOER0vDlU9eI+UKmxibIocQGEVb7zWvef8
+	FxomVih/Ul5WgWAw==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oOwNCcGt;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="6S9h/1yG"
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795764729; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795764897; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VEdUNR8UjEwRDkCy98TOoPExuCvETfLC6ZCVC0yV6hU=;
-	b=oOwNCcGtFQyIAbCGfZLa8KtdeBkumlvr/8dQkYjsXXxATylacnz/bQo2l06xWrW7C1StyJ
-	Djd5mahIitQzqRtYlXUljMjaRdpXkBM9i9v/12h+VcmKW22/ss/yST2IBKLiohC6NhgmzB
-	QU0BTqlaPY42jdTptaAWRi8thAnewy0=
+	bh=n96sOU/5/jnhCO42S+4rsCREmChCaTIsZkg6ljCCD2I=;
+	b=ZTYuFEyp0O6eFBgB/uufgy9Hde4Cuq2M6nFh22BRBoac89MK/Ggn/3f1YXQi9BB21xSw7g
+	myZ5gJR96Ei6d1O1AZQJ+P9G4qzHNnwJqEA9sknfJl0DcSIN6NWaBnsAJ7jwe30byGE2DS
+	aHl3kVCvUZEcY9liXuOhJyCy5K7cFoA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795764729;
+	s=susede2_ed25519; t=1795764897;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VEdUNR8UjEwRDkCy98TOoPExuCvETfLC6ZCVC0yV6hU=;
-	b=6S9h/1yGrVN1KCUuuJsH6kJbXnPEwD9BIgVTjVETMoukf8Tku0CFc3fLlxWiJc+9yt8iyv
-	CBFVCTBCBPp7dbBA==
+	bh=n96sOU/5/jnhCO42S+4rsCREmChCaTIsZkg6ljCCD2I=;
+	b=UL4k7IZTozHVaUV85Gta+JabDHiwk5FwpfCbUOER0vDlU9eI+UKmxibIocQGEVb7zWvef8
+	FxomVih/Ul5WgWAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 481B513432;
-	Fri, 27 Nov 2026 07:32:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E117913432;
+	Fri, 27 Nov 2026 07:34:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8AYuBvkxCWsvJQAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 27 Nov 2026 07:32:09 +0000
-Message-ID: <898747c1-a11e-4f81-be71-34454816eecc@suse.de>
-Date: Fri, 27 Nov 2026 08:32:08 +0100
+	id Y7UfKKAyCWsgKAAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 27 Nov 2026 07:34:56 +0000
+Message-ID: <14ae3e78-ac9b-4bb8-99f1-a29a28d5984d@suse.de>
+Date: Fri, 27 Nov 2026 08:34:56 +0100
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 07/14] nvme: parse dhchap keys during option parsing
+Subject: Re: [PATCH v7 08/14] nvmet-auth: parse dhchap key from configfs
+ attribute
 To: sashiko-reviews@lists.linux.dev, Hannes Reinecke <hare@kernel.org>,
  Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
@@ -102,46 +102,38 @@ To: sashiko-reviews@lists.linux.dev, Hannes Reinecke <hare@kernel.org>,
  "Gustavo A. R. Silva" <gustavoars@kernel.org>
 Cc: linux-nvme@lists.infradead.org, keyrings@vger.kernel.org
 References: <20261126-dhchap-keyring-v4-v7-0-ee438ffea527@kernel.org>
- <20261126-dhchap-keyring-v4-v7-7-ee438ffea527@kernel.org>
- <sashiko-outbox-235706@kernel.org>
+ <20261126-dhchap-keyring-v4-v7-8-ee438ffea527@kernel.org>
+ <sashiko-outbox-235707@kernel.org>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <sashiko-outbox-235706@kernel.org>
+In-Reply-To: <sashiko-outbox-235707@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: DEF0C22850
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-13.50 / 50.00];
+X-Spamd-Result: default: False [-13.29 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_LONG(-1.00)[-0.999];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	XM_UA_NO_VERSION(0.01)[];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -13.50
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -13.29
+X-Spam-Level: 
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261126_233213_176965_1BB3A5B4 
-X-CRM114-Status: GOOD (  18.54  )
+X-CRM114-CacheID: sfid-20261126_233459_419663_AD79884E 
+X-CRM114-Status: GOOD (  19.38  )
 X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -161,91 +153,137 @@ X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On 11/26/26 3:29 PM, sashiko-bot@kernel.org wrote:
+On 11/26/26 3:30 PM, sashiko-bot@kernel.org wrote:
 > Thank you for your contribution! Sashiko AI review found 1 potential
 > issue to consider:
-> - [High] nvme-auth: ERR_PTR dereference on key_lookup() in
->    nvme_auth_init_ctrl()
+> - [High] nvmet-auth: ERR_PTR dereference in key_lookup() callers
 > --
 > 
-> commit 0df67db2f376340a8318c48ba959e7e18c9db8b6
+> commit b41d5ff16da6a60366fa816c551dfd75334950eb
 > Author: Hannes Reinecke <hare@kernel.org>
 > 
-> nvme: parse dhchap keys during option parsing
+> nvmet-auth: parse dhchap key from configfs attribute
 > 
-> This commit creates DH-HMAC-CHAP keys during fabrics option parsing,
-> stores their key serials in struct nvmf_ctrl_options, and adds
-> dhchap_key and dhchap_ctrl_key sysfs attributes.
+> This commit converts the nvmet DH-HMAC-CHAP configfs attributes to store
+> key serial numbers in struct nvmet_host and look up the keys via
+> key_lookup() when needed.
 > 
->> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
->> index d6abdb4f1e21c..285aa1c71f102 100644
->> --- a/drivers/nvme/host/auth.c
->> +++ b/drivers/nvme/host/auth.c
+>> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+>> index e1d92f5455219..ff0e8569d7067 100644
+>> --- a/drivers/nvme/target/auth.c
+>> +++ b/drivers/nvme/target/auth.c
+> 
 > [ ... ]
->> @@ -1028,38 +1023,100 @@ static void nvme_ctrl_auth_work(struct work_struct *work)
-> [ ... ]
->>   int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
->>   {
->>   	struct nvme_dhchap_queue_context *chap;
->> +	struct key *host_key, *ctrl_key = NULL;
->>   	int i, ret;
->>   
->>   	mutex_init(&ctrl->dhchap_auth_mutex);
->>   	INIT_WORK(&ctrl->dhchap_auth_work, nvme_ctrl_auth_work);
->>   	if (!ctrl->opts)
->>   		return 0;
->> -	ctrl->host_key = nvme_auth_extract_key(ctrl->opts->dhchap_secret,
->> -				strlen(ctrl->opts->dhchap_secret));
->> -	if (IS_ERR(ctrl->host_key)) {
->> -		ret = PTR_ERR(ctrl->host_key);
->> -		ctrl->host_key = NULL;
->> -		return ret;
->> +	if (!ctrl->opts->dhchap_key) {
->> +		nvme_auth_clear_host_key(ctrl);
->> +		nvme_auth_clear_ctrl_key(ctrl);
->> +		return 0;
+> 
+>> @@ -186,22 +212,45 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq, bool reset)
+>>   		goto out_unlock;
 >>   	}
 >>   
->> -	ctrl->ctrl_key = nvme_auth_extract_key(ctrl->opts->dhchap_ctrl_secret,
->> -				strlen(ctrl->opts->dhchap_ctrl_secret));
->> -	if (IS_ERR(ctrl->ctrl_key)) {
->> -		ret = PTR_ERR(ctrl->ctrl_key);
->> -		ctrl->ctrl_key = NULL;
->> -		goto err_free_dhchap_secret;
->> +	host_key = key_lookup(ctrl->opts->dhchap_key);
+>> -	if (!host->dhchap_secret) {
+>> +	if (!host->dhchap_key) {
+>>   		pr_debug("No authentication provided\n");
+>>   		goto out_unlock;
+>>   	}
+>>   
+>> -	host_key = nvme_auth_extract_key(host->dhchap_secret,
+>> -					 strlen(host->dhchap_secret));
+>> -	if (IS_ERR(host_key)) {
+>> +	host_key = key_lookup(host->dhchap_key);
 >> +	if (!host_key) {
->> +		pr_warn("dhchap host key %08x not present\n",
->> +			ctrl->opts->dhchap_key);
->> +		return -ENOKEY;
->> +	}
+>> +		pr_warn("%s: host key %08x not found\n",
+>> +			__func__, host->dhchap_key);
+>>   		ret = NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
+>>   		goto out_unlock;
+>>   	}
+>> -	if (host->dhchap_ctrl_secret) {
+>> -		ctrl_key = nvme_auth_extract_key(host->dhchap_ctrl_secret,
+>> -						 strlen(host->dhchap_ctrl_secret));
+>> -		if (IS_ERR(ctrl_key)) {
 >> +	down_read(&host_key->sem);
 >> +	ret = key_validate(host_key);
 >> +	up_read(&host_key->sem);
 >> +	if (ret) {
->> +		pr_warn("dhchap host key %08x invalidated\n",
->> +			key_serial(host_key));
+>> +		pr_warn("host key %08x invalidated\n",
+>> +			host->dhchap_key);
 >> +		key_put(host_key);
->> +		return -ENOKEY;
->>   	}
->>   
->> -	if (!ctrl->opts->dhchap_secret && !ctrl->opts->dhchap_ctrl_secret)
->> -		return 0;
->> +	if (ctrl->opts->dhchap_ctrl_key) {
->> +		ctrl_key = key_lookup(ctrl->opts->dhchap_ctrl_key);
+>> +		ret = NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
+>> +		goto out_unlock;
+>> +	}
+>> +	if (host->dhchap_ctrl_key) {
+>> +		ctrl_key = key_lookup(host->dhchap_ctrl_key);
 >> +		if (!ctrl_key) {
->> +			pr_warn("dhchap ctrl key %08x not present\n",
->> +				ctrl->opts->dhchap_ctrl_key);
+>> +			pr_warn("%s: ctrl key %08x not found\n",
+>> +				__func__, host->dhchap_ctrl_key);
 >> +			key_put(host_key);
->> +			return -ENOKEY;
+>> +			ret = NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
+>> +			goto out_unlock;
 >> +		}
 >> +		down_read(&ctrl_key->sem);
+>>   
+>> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+>> index ff3a8d74de599..f6bfda757f076 100644
+>> --- a/drivers/nvme/target/configfs.c
+>> +++ b/drivers/nvme/target/configfs.c
+> 
+> [ ... ]
+> 
+>> @@ -2234,15 +2235,29 @@ static struct config_group nvmet_ports_group;
+>>   static ssize_t nvmet_host_dhchap_key_show(struct config_item *item,
+>>   		char *page)
+>>   {
+>> -	char *dhchap_secret;
+>> +	struct nvmet_host *host = to_host(item);
+>> +	struct key *key;
+>>   	ssize_t ret;
+>>   
+>>   	down_read(&nvmet_config_sem);
+>> -	dhchap_secret = to_host(item)->dhchap_secret;
+>> -	if (!dhchap_secret)
+>> -		ret = sprintf(page, "\n");
+>> -	else
+>> -		ret = sprintf(page, "%s\n", dhchap_secret);
+>> +	key = key_lookup(host->dhchap_key);
+>> +	if (!key) {
+>> +		page[0] = '\0';
+>> +		ret = 0;
+>> +	} else {
+>> +		down_read(&key->sem);
+> 
+> [ ... ]
+> 
+>> @@ -2267,15 +2292,29 @@ CONFIGFS_ATTR(nvmet_host_, dhchap_key);
+>>   static ssize_t nvmet_host_dhchap_ctrl_key_show(struct config_item *item,
+>>   		char *page)
+>>   {
+>> -	char *dhchap_secret = to_host(item)->dhchap_ctrl_secret;
+>> +	struct nvmet_host *host = to_host(item);
+>> +	struct key *key;
+>>   	ssize_t ret;
+>>   
+>>   	down_read(&nvmet_config_sem);
+>> -	dhchap_secret = to_host(item)->dhchap_ctrl_secret;
+>> -	if (!dhchap_secret)
+>> -		ret = sprintf(page, "\n");
+>> -	else
+>> -		ret = sprintf(page, "%s\n", dhchap_secret);
+>> +	key = key_lookup(host->dhchap_ctrl_key);
+>> +	if (!key) {
+>> +		page[0] = '\0';
+>> +		ret = 0;
+>> +	} else {
+>> +		down_read(&key->sem);
 > 
 > [Severity: High]
-> Should host_key and ctrl_key be checked with IS_ERR() rather than for
-> NULL after key_lookup()?  key_lookup() returns ERR_PTR(-ENOKEY) when a
-> key serial is not found, so if either key is removed before
-> nvme_auth_init_ctrl() runs, down_read() will dereference an error
-> pointer.
+> Should the key_lookup() checks in nvmet_setup_auth(),
+> nvmet_host_dhchap_key_show(), and nvmet_host_dhchap_ctrl_key_show() use
+> IS_ERR() instead of testing for NULL?
+> 
+> key_lookup() returns ERR_PTR(-ENOKEY) when a key serial is not found
+> (including when dhchap_key or dhchap_ctrl_key is 0 because no key is
+> configured).  Checking !key lets ERR_PTR(-ENOKEY) through and crashes at
+> down_read(&key->sem) when reading the configfs attributes on a host
+> without a key configured or when a key is not found during
+> authentication setup.
 > 
 
 Fixed with the next version.
