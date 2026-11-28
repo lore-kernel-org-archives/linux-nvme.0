@@ -2,53 +2,104 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FEBC606A31C
-	for <linux-nvme@archiver.kernel.org>; Sat, 28 Nov 2026 06:20:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353E2606A31C
+	for <linux-nvme@archiver.kernel.org>; Sat, 28 Nov 2026 14:20:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=l4Ttpy1y
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=YpuM4AMy;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VHc9ywVD
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=612l9hGtZR6jYCnlr2HjmvnUPOcGnYBIaLlGvgaiX7o=; b=l4Ttpy1yjyPvAzvilTpYOEtaIg
-	6vUynVO1oo3TlJReIDlCdZsQbzdOOWjcRytrHfw6PCquBNXpHfP/MPZJWqGVtNbvnPDCALhial+Fr
-	IF5+InV2bn9Fv4AJ3Z6rE153Z0yjyNErmhFpx3ItWOAuDPVKUUL/d1FHFvdWZRYYNwgaPVpK/JmpJ
-	iojQXLvpspzOjMVSFT4B9hAASf8vAuNBhKRclZWyG8/AzaHAqhQCkLV3oBsYw1boCib7FeFftU52M
-	51FedLvO/69a4yiRlnIKa0l8aoDBxcjruh0G9aChbZzabrGq0tIo9jN7SD9ZNdx+Xob2F2Uh80gDH
-	OHOO7Jzw==;
+	bh=pawt8oGq6umaf6NmqEM5/lZJgIRl7sY1HdmBuiFOy9M=; b=YpuM4AMyl296cIsawHKZWh3n4W
+	6cusEg1Pz0nE8VUMLhPNxV2q34UwY1AVz/ZTlE4q7aiDARBtXprO0glX2FR6NFJbv6tac91/l/zN/
+	XYLYso/OwrrUdYT/gIlHusDlp/mmsRsQeKWOt1HNgcr//Gvf93mv4bveAs8tlwyoSPspspNGpLVad
+	1pGhb3Lk/+lm4blva0H/jha72WgC1TANWvv+GF2qAMGnh1pfwB1h7bAoEofmA9GGGfcBsXCjhDovB
+	BGXIQbZPbzN/FzipPT0C1gEhe91ALgDdv+gNLE4YtpWsyKvpH/pR9dtHOB+MOmAvIGWiVinjGlnMA
+	9El6JtTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xXBmx-00000000Pmf-1aJ5;
-	Sat, 28 Nov 2026 06:19:59 +0000
-Received: from mail-106111.protonmail.ch ([79.135.106.111])
+	id 1xXJHy-00000000qQe-0wek;
+	Sat, 28 Nov 2026 14:20:30 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xXBmm-00000000PlJ-0YJO
+	id 1xXJHw-00000000qQP-2P4l
 	for linux-nvme@lists.infradead.org;
-	Sat, 28 Nov 2026 06:19:53 +0000
-X-Pm-Submission-Id: 4jc0Vx6l1dz2ScQ9
-From: Luke Macken <luke@phorex.org>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Luke Macken <luke@phorex.org>
-Subject: [PATCH] nvme-pci: add NVME_QUIRK_DMAPOOL_ALIGN_512 for UMIS AM6B0
-Date: Fri, 27 Nov 2026 23:19:28 -0700
-Message-ID: <20261128061928.337587-1-luke@phorex.org>
-X-Mailer: git-send-email 2.43.0
+	Sat, 28 Nov 2026 14:20:28 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id B0E54614AD;
+	Sat, 28 Nov 2026 14:20:27 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795875627;
+	b=oKGZzBCLguwQpGObzLUStMdiF2s2pPjpoC/48+0tDzsgbq3ZReX5jZq1KKAxdJejD74W
+	 C2DSaCtN7eNK87c4PpZqXc54ODLdlSQyHdVKr7zuSUMmbqtVRe9hmy2lsY5/KJIjYXXh2
+	 iVms4zCY/lSxG9KuDH06gPUK62JSdE7p84KYaZK+LR9I9oCr9uIyhXzHGnGeqtsBheh37
+	 cBxE8B4+APvDdnW+1jxue+lD6xpJnVprx9/E/BpTBJKyd5+ufzCBqLw2KOHOKgaRlZQW3
+	 hzYIEOipTIzUh8Ww2/px6BggC/MxYO6LclZGDGYkwLWeeB06AYJCJFYcfavWipf8/Tg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795875627;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=pawt8oGq6umaf6NmqEM5/lZJgIRl7sY1HdmBuiFOy9M=;
+	b=smu3ef2Oa/hsmtI1Ac8x50Ux1+aCt2yj0g9h0NCNOz6oJFzenCi8vb5sJ0m6k72VjLPs
+	 /CTlBCGDm7GBoZ7vvrW0spTGAxrunj7cVN6yEVvVF79KcU9UuZtXF2pT2fOjNixC+LM3V
+	 dN10WaMdaIne1REmUN6vbB2MVYg4KUHzs/bq9Yt5EYkjpe5ybmbyKqrWg4iefEGjTclEY
+	 lzqpQMnFFobnT/EdvqENnoGMosfCRVm3eZcU7FcHTWozhB054joDewgANuGj04+8zw30v
+	 d1TO2vEVhULR0VfbXLHh9sNrg71FBZx1jIDGR0lWmbAT/Gfw/fOKEgjabD6lc1IchrQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id EE1CF1F00893;
+	Sat, 28 Nov 2026 14:20:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795875627;
+	bh=pawt8oGq6umaf6NmqEM5/lZJgIRl7sY1HdmBuiFOy9M=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=VHc9ywVDN++YkBP/lQVuGZ78Re5OnHo4lP7DAHK2rLeWG69Ud8CPydv5l/n70C25c
+	 SYI7F5DH8RRpTQbQgoSyM9Ya9d/eOBsfjEpW6xAtP5NyZY1ccZsTQofjimElg3oSqk
+	 o08kloq9gF/SyLj3DS9sge09mh37w7u8VTSuHYkgvbGKHlIs8KdnhgQDoMOhedYSjo
+	 q04flNanap+fWKl+Ot9+tv1Y+rniwDyVeMbSm81M+BJZ/wCPpHbM55NHwb8lUdRSCa
+	 XDZqGpL9vhxUIxZ4bSmVjH8JPxAFcNNPwC9nBQdkm4t11iYF2qoxjYalx1RXz5gxko
+	 DIX450IRL1goQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 76A684E0F4;
+	Sat, 28 Nov 2026 14:20:26 +0000 (UTC)
+From: Dickson Wu via B4 Relay <devnull+dickson.wu.certik.com@kernel.org>
+Date: Sat, 28 Nov 2026 14:17:55 +0000
+Subject: [PATCH 6.1.y] nvme-tcp: sanitize request list handling
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261127_221948_354949_12BEEDDD 
-X-CRM114-Status: GOOD (  18.49  )
-X-Spam-Score: -2.6 (--)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261128-nvme-r2t-61-v1-1-2c1875964e5c@certik.com>
+X-B4-Tracking: v=1; b=H4sIAJLiCmsC/02NzQ7CIBCEX6XZs1uFRjS+ivHAz9ZiFBoWG5um7
+ 17Qi8f5MvPNAkzJE8OlWSDR5NnHUILYNWAHHe6E3pUM8iCVEPKMYXoRJplRCbTKud4dO3myHZT
+ FmKj3n6/tCqoV7Qy3H+a3eZDN1VSLRjOhSTrYoSKm4HKMT6x8//cA67oBfgNda6IAAAA=
+X-Change-ID: 20261128-nvme-r2t-61-c6ddfd5327c3
+To: stable@vger.kernel.org
+Cc: Hannes Reinecke <hare@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
+ Jens Axboe <axboe@fb.com>, linux-nvme@lists.infradead.org
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795875474; l=2848;
+ i=dickson.wu@certik.com; s=dickson-b4; h=from:subject:message-id;
+ bh=yxyohbLELQu0GqhP3UK8ZEJTUCvWETlmMB05ClrCXEs=;
+ b=bsPmz2p7CTmGGgLW7ptdKV62lGGGqAWVum9OVA+6XTBN47Fgh1ij0ARibbNbJ3lO/F2VngpLt
+ 5jZWI3zKvjfDs+Bb1A/U1UPXN6oBa3XZLY0v4XeXA/2Juf3fWOJ/uA+
+X-Developer-Key: i=dickson.wu@certik.com; a=ed25519;
+ pk=fxH7FS4FdojeJSGLJzgKdfO51Rvr4EW30yinj2mc1vg=
+X-Endpoint-Received: by B4 Relay for dickson.wu@certik.com/dickson-b4 with
+ auth_id=1647
+X-Original-From: Dickson Wu <dickson.wu@certik.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -58,116 +109,102 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: dickson.wu@certik.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-A Lenovo ThinkPad T14s Gen 7 (arm64, arm-smmu-v3) with a UMIS AM6B0 SSD
-(1cc4:6b04, model RPJTJ1T24MMW1QDQ, firmware 1.0Q06B0) hangs under
-write load. One or two CPUs stop taking interrupts. With
-irqchip.gicv3_pseudo_nmi=1 on the command line, they do not respond to
-the backtrace NMI either:
+From: Hannes Reinecke <hare@kernel.org>
 
-  After 10 seconds, these CPUS still haven't responded to the NMI: 2,8
+commit 0bf04c874fcb1ae46a863034296e4b33d8fbd66c upstream.
 
-On writes, the drive accesses the page after a PRP list that ends at a
-page boundary, and the machine hangs if that page is not mapped in the
-IOMMU. Commit c64d9b2c1f4f ("nvme-pci: add NVME_QUIRK_DMAPOOL_ALIGN_512
-for KIOXIA XG10d") describes the same access, but there the IOMMU
-faults and the controller is reset. Here no fault is logged and the
-controller is not reset; why the CPUs stop instead is not known.
+Validate the request in nvme_tcp_handle_r2t() to ensure it's not part of
+any list, otherwise a malicious R2T PDU might inject a loop in request
+list processing.
 
-The drive has no SGL support, so a request that spans 33 pages (4 KiB
-each) gets a PRP list of 32 entries. That fills a 256 byte small pool
-block completely, so in the last block of a dmapool page the list ends
-at the page boundary. The hang starts with commit 2e8e30b3cf9f ("Revert
-"nvme-pci: clamp max_hw_sectors based on DMA optimized limitation"").
-Before that commit, requests behind an IOMMU were limited to 128 KiB on
-kernels with 4 KiB pages. A page aligned 128 KiB request spans 32 pages
-and gets 31 list entries, one short of a full block; only an unaligned
-request could fill one.
-
-A debug patch that puts every 32 entry list at the end of a page shows
-that the next page matters. If it is mapped, writes complete and the
-data is written correctly. If it is not mapped, reads complete, but the
-first write with a 32 entry list hangs the machine.
-
-Use 512 byte aligned small pool blocks for this controller, so that a
-32 entry list no longer ends at a page boundary.
-
-Tested with 32 dd processes doing 132 KiB O_DIRECT writes in parallel:
-with the quirk they complete; without it they hang the machine.
-
-Assisted-by: LLM
-Signed-off-by: Luke Macken <luke@phorex.org>
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+[ adapted to 6.1.y: open-code absent llist node helpers ]
+Signed-off-by: Dickson Wu <dickson.wu@certik.com>
 ---
-Tested on v7.4-rc4 plus the out-of-tree patches this laptop still needs
-(none in block, nvme, iommu or dma code). All v7.4-rc4 kernels below
-share that base and one config; they differ only in this patch, the
-debug patch or a revert of commit 2e8e30b3cf9f.
+This one went into 6.6.y and 6.12.y but never made it to 6.1.y,
+since 6.1 doesn't have init_llist_node() or llist_on_list(). The
+backport open-codes them as node->next = node and node->next != node,
+which is all the helpers do, at the same four sites as upstream.
 
-The hang was traced to commit 2e8e30b3cf9f with a workload that unpacks
-container images. It ran 20 times without a hang on linux-next 20261019
-and hung the machine in the sixth run on 20261020, the first to contain
-that commit. On v7.4-rc4, it hung the machine in the first run on one
-boot and in the second on another; with the commit reverted, it ran 30
-times without a hang.
+Tested on 6.1.193: W=1 build of drivers/nvme/host/tcp.o, base vs
+patched, no new warnings. Both kernels booted under KVM with nvme-tcp
+built in. Build and boot only - I didn't send a malicious R2T, so the
+new check itself wasn't exercised.
 
-Reproducer, on ext4 on dm-crypt on the drive:
+The backport and the test runs were prepared with AI coding tools
+(OpenAI Codex agents, with review by Claude). I went over the result
+before signing off.
+---
+ drivers/nvme/host/tcp.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-  for i in $(seq 32); do
-          dd if=/dev/zero of=w$i bs=132k count=300 oflag=direct &
-  done; wait
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index d434c24e035d..b9abd25d9bff 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -386,7 +386,8 @@ nvme_tcp_fetch_request(struct nvme_tcp_queue *queue)
+ 			return NULL;
+ 	}
+ 
+-	list_del(&req->entry);
++	list_del_init(&req->entry);
++	req->lentry.next = &req->lentry;
+ 	return req;
+ }
+ 
+@@ -494,6 +495,8 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
+ 	req->queue = queue;
+ 	nvme_req(rq)->ctrl = &ctrl->ctrl;
+ 	nvme_req(rq)->cmd = &pdu->cmd;
++	req->lentry.next = &req->lentry;
++	INIT_LIST_HEAD(&req->entry);
+ 
+ 	return 0;
+ }
+@@ -740,6 +743,14 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
+ 		return -EPROTO;
+ 	}
+ 
++	if (req->lentry.next != &req->lentry ||
++	    !list_empty(&req->entry)) {
++		dev_err(queue->ctrl->ctrl.device,
++			"req %d unexpected r2t while processing request\n",
++			rq->tag);
++		return -EPROTO;
++	}
++
+ 	req->pdu_len = 0;
+ 	req->h2cdata_left = r2t_length;
+ 	req->h2cdata_offset = r2t_offset;
+@@ -2376,6 +2387,8 @@ static void nvme_tcp_submit_async_event(struct nvme_ctrl *arg)
+ 	ctrl->async_req.offset = 0;
+ 	ctrl->async_req.curr_bio = NULL;
+ 	ctrl->async_req.data_len = 0;
++	ctrl->async_req.lentry.next = &ctrl->async_req.lentry;
++	INIT_LIST_HEAD(&ctrl->async_req.entry);
+ 
+ 	nvme_tcp_queue_request(&ctrl->async_req, true, true);
+ }
 
-With the quirk, the loop completed five times, and also five times each
-with 1, 2, 4, 8, 16 and 64 parallel dd processes instead of 32. Without
-the quirk, the loop as shown hung the machine on its first run.
+---
+base-commit: 1ca1436ccc68275d0b43b6a730b3940fcc46b7c2
+change-id: 20261128-nvme-r2t-61-c6ddfd5327c3
 
-The debug patch (I can send it) makes nvme_pci_setup_data_prp() put
-every 32 entry list into a separate two page buffer. A list at the end
-of the buffer's first page has the second page after it. For a list in
-the second page, the patch first checks in the IOMMU page table that
-nothing is mapped after the buffer. Results for dd writing or reading
-in 132 KiB O_DIRECT requests ("-" = not run):
+Best regards,
+--  
+Dickson Wu <dickson.wu@certik.com>
 
-  list ends                      next page    writing    reading
-  at a page end                  mapped       complete   -
-  at a page end                  not mapped   hang       complete
-  256 bytes before a page end    not mapped   complete   -
-
-With the list at a page end and the next page not mapped, a single dd
-was enough: its first write with a 32 entry list hung the machine in
-each of three boots. With the list 256 bytes before a page end, the
-closest the quirk allows, more than 20000 such writes completed.
-
-Only this one drive was tested, and only with the IOMMU enabled.
-
-This patch, the analysis, the debug patch and the test scripts were
-produced with Claude.
-
- drivers/nvme/host/pci.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 987ce5f536d6..b11360052c0d 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -4448,6 +4448,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
- 	{ PCI_DEVICE(0x1cc4, 0x6302),   /* UMIS RPJTJ256MGE1QDY 256G */
- 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
-+	{ PCI_DEVICE(0x1cc4, 0x6b04),   /* UMIS AM6B0 */
-+		.driver_data = NVME_QUIRK_DMAPOOL_ALIGN_512, },
- 	{ PCI_DEVICE(0x2646, 0x2262),   /* KINGSTON SKC2000 NVMe SSD */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
- 	{ PCI_DEVICE(0x2646, 0x2263),   /* KINGSTON A2000 NVMe SSD  */
-
-base-commit: 08be423d20e892e2606172cf69015d34ac170786
--- 
-2.43.0
 
 
