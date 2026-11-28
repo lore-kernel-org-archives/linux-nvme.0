@@ -2,153 +2,53 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A8C606A31C
-	for <linux-nvme@archiver.kernel.org>; Sat, 28 Nov 2026 02:35:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FEBC606A31C
+	for <linux-nvme@archiver.kernel.org>; Sat, 28 Nov 2026 06:20:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=gls9F7Vd;
-	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.a=rsa-sha256 header.s=dkim.wdc.com header.b=GYxYjXJH;
-	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-sharedspace-onmicrosoft-com header.b=qmKRTCo7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=l4Ttpy1y
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=Ej7xURvLe7jTT9sLnf1WTICXCgdWDrSnmhU2b7P93VU=; b=gls9F7VdS26OXP2tugRs22wkvN
-	zIwxTQekE5VVnR3HTqQAwYjc/J7fvH/Ku6z/+LrA1KtKpJqxR+IAMn+fK6lUTKbqCy9H+C9fHbJfu
-	uY6prqhRSZEJxzgKBjV7bGh0DLGb9PghtjTR/iMkXT/TzbQlzXDiynNdB1NNNbVFQUG8jpXQvUiTk
-	aDjOUjRwGDv8Raxf/wlXaqUxenEo1Akyy7rZOdnNO61RwcAfkF72Pswi1N9yncMw/KYMtEnHzw4F2
-	2pKO975lm7BkZ1PlzgHurWubDy63/4KPoUBimDtqEkGXyD8uUpqd9pWQ/AlrsG9CJsPqqDehvy/u7
-	gSXqREHw==;
+	bh=612l9hGtZR6jYCnlr2HjmvnUPOcGnYBIaLlGvgaiX7o=; b=l4Ttpy1yjyPvAzvilTpYOEtaIg
+	6vUynVO1oo3TlJReIDlCdZsQbzdOOWjcRytrHfw6PCquBNXpHfP/MPZJWqGVtNbvnPDCALhial+Fr
+	IF5+InV2bn9Fv4AJ3Z6rE153Z0yjyNErmhFpx3ItWOAuDPVKUUL/d1FHFvdWZRYYNwgaPVpK/JmpJ
+	iojQXLvpspzOjMVSFT4B9hAASf8vAuNBhKRclZWyG8/AzaHAqhQCkLV3oBsYw1boCib7FeFftU52M
+	51FedLvO/69a4yiRlnIKa0l8aoDBxcjruh0G9aChbZzabrGq0tIo9jN7SD9ZNdx+Xob2F2Uh80gDH
+	OHOO7Jzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xX8HF-00000000JZA-2mIM;
-	Sat, 28 Nov 2026 02:35:01 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1xXBmx-00000000Pmf-1aJ5;
+	Sat, 28 Nov 2026 06:19:59 +0000
+Received: from mail-106111.protonmail.ch ([79.135.106.111])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xX8HD-00000000JYQ-0vfO
+	id 1xXBmm-00000000PlJ-0YJO
 	for linux-nvme@lists.infradead.org;
-	Sat, 28 Nov 2026 02:35:00 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1795833299; x=1827369299;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=uTck6B43wsT1VYTag8dppjMrij3qmSbZYvoZSNgdiP0=;
-  b=GYxYjXJHzf4A79BWoiErWPnu/CMOuisAvruFxYRnHFBT1+JFRLKHcKCT
-   iVs4wHm8LtHTcANaX5ZEEK6tSCqXFWkbudGTZotdvrtG7zMHdrH1qkXAt
-   uuYDSahG8CJATvZ1+9YIyjEe1J6hChSGCwlaHbeIudoy5Qj2HirkkQkDg
-   l6GT34ONGO3D0fTZdOZpT0MjGiVbeSSz4qIP9rrJHLnzGG33GgMfTHanK
-   eu+nRhVNv7lhdkoMSuu+ukh2pWSaBgLk+rcJRT182dwY6o7PELwaLctcB
-   ZOKSymaw0jmX/wtwhi6xm69Sn7y4Zl9lPeqoCdg5hPDil5ZUhD1x2Z+4y
-   Q==;
-X-CSE-ConnectionGUID: Cv11cOGMTEmwsRH8f/xuNQ==
-X-CSE-MsgGUID: T19f5IJDTZijYfgIwe6B+g==
-X-IronPort-AV: E=Sophos;i="6.27,238,1786982400"; 
-   d="scan'208";a="157702406"
-Received: from mail-westus3azon11011055.outbound.protection.outlook.com (HELO PH0PR06CU001.outbound.protection.outlook.com) ([40.107.208.55])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 28 Nov 2026 10:34:57 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kLUaZPddzMuus4vDnybqFpJnDnxqbC3Gih80HYyYO3aVPHS+80Ac6sp0Zmj8h/uZqE20eD0rfdzhInGSgKtMtTJNtkF+MdoebQyBSOTl6e9e3HUvzm5kXm9yyRH17VzfdnUj53GzNheSTAq4uYx2Kzg2LTQJtvEbrbbBidUg9l9auMAtQ1+ZSbBIi4Qv1Nnb3bDyHvaqwNcob8tTe7lXKka8pxKMBm0JHj4A5xUjZIeuyjtpoLOkyeT34+ZDVspDRkGBq89UO8rFhI7CLzWEeSuHxCtqPBA34+BBe1diQRn7HFwYA65LiFkkWvYKwxbz0kDAnNuL2EA/nbXjUaxy7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ej7xURvLe7jTT9sLnf1WTICXCgdWDrSnmhU2b7P93VU=;
- b=qq9n/F1AmK1u22Tjpnzaz9XNVbaUqf2xp4p/5w+rAYhM1kJRw9hUPpSwmSM4OmN8bZJcR4VtWdgmD4PQOoE7n+vsbFHbvruZOx8PvqXuD+KUiMizFSgxgxevhUg6KFaw3ZcZpPDMD4A3qOBi53GE3MPjLthUYNDSHoxrLw6O/EWoYWYiQHFh499eHipMR6W67ZnE7HLLhCwwPdnRE/406L3gxNh8cLtBLWB/ey0yNmvWn/lf09as7P3UotF5alAyXrzV1HYGz/mnqK5ot/uqoZnxd4G6OOwxIu/EcySz5n9mVJUBE7CCKPy0XrBWdanjM629T+vYBO+Nj+8xsXwj5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ej7xURvLe7jTT9sLnf1WTICXCgdWDrSnmhU2b7P93VU=;
- b=qmKRTCo7RVuR330bKNqVUTzEbGXMX7L8fOMphpn91Y3OkBeFtIC2tHeFDMHzmfiOQmDvD5ODxm0vqtewX//ykj/ryCRvdie3Q6Pzuy9UksbCDy3yeOox3OXiZO7m2zSkKX9CdsljY/W+34ozG/7trO9JUubqtgj/GqmOxllkNMo=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by SA1PR04MB8563.namprd04.prod.outlook.com
- (2603:10b6:806:338::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.10; Sat, 28 Nov
- 2026 02:34:56 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%5]) with mapi id 15.21.0662.007; Sat, 28 Nov 2026
- 02:34:56 +0000
-Date: Sat, 28 Nov 2026 11:34:51 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH blktests v2 0/9] nvme: make NVME_TARGET_CONTROL work with
- remote targets
-Message-ID: <awo9DiUGqtD2JESi@shinmob>
-References: <20261118-nvme-target-control-v2-0-d191bbbf5dd6@suse.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261118-nvme-target-control-v2-0-d191bbbf5dd6@suse.de>
-X-ClientProxiedBy: TYCP301CA0076.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:7b::10) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
+	Sat, 28 Nov 2026 06:19:53 +0000
+X-Pm-Submission-Id: 4jc0Vx6l1dz2ScQ9
+From: Luke Macken <luke@phorex.org>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Luke Macken <luke@phorex.org>
+Subject: [PATCH] nvme-pci: add NVME_QUIRK_DMAPOOL_ALIGN_512 for UMIS AM6B0
+Date: Fri, 27 Nov 2026 23:19:28 -0700
+Message-ID: <20261128061928.337587-1-luke@phorex.org>
+X-Mailer: git-send-email 2.43.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|SA1PR04MB8563:EE_
-X-MS-Office365-Filtering-Correlation-Id: c7151318-f494-402a-b8ef-08df4cf8308b
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|19092799006|366016|376014|1800799024|23010399003|11063799006|22082099003|18002099003|261102130727099003|10067099003|56012099006|261026140227099003|261026121527099003|261028144727099003|261022105027099003|261021123027099003;
-X-Microsoft-Antispam-Message-Info: uEzvzD/gcAEadx0avG6M7gPvnKjB/snkP8vJHrnbEBfFLPDzYxArJfjTg1OnXbv/OKmSCeqY3sd84JjOxWDfwBJ/0oaT+01cAwjoKfX+07r47nElVmir0oQAdV3/2QgQsyPyFgwJlgFtKL6dAcpDL8GEAgxtH4PUJwzyVpDautyj0otSQZCiupibMnzJG3QHGsL2egSHnTEjWoeLdirYM+NTVTR/LSNCWg3SSj4M6bhAIZrxaqO4HQae6lK5f/vaFhLKlNWcrNkf+wZVYOI8n3C/YwzRbIn5C29QZO6a3VnqH9HguKEst6slVcFsQOp/CwGBGBMtpmfxsWqrFI5ijzgyWVHlB8LkV2cHGbb0LksU5X+4XRqom+CPsD3LjkTCVgvWQt2518L5fpTfOX/9iZzR3GVtgCuzgzNiHqt9k8CE7V5+jUb93hbA+6Q3cxeVtWdOdxCfd+NHd8zztkngqqSZdzeRhrBENHaa+YUM0EDR7nQqF+FKDu1j0Y6RaD8dOUXfQn1CHsRLwxzqDhCfxrmri2mkqfzMIgEgeDw9zzuo8OoqNQEDpLqrclf7TXISE2YDTP7UISSMbOTqrreHq9N8W20c0Ijn1ySQVGz66Y6AAzVe7wHFffzI3aVD2yVC9urSlE+w+Yxv60XNApR9mq/malX2qy/DaB6A4CELCmU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(376014)(1800799024)(23010399003)(11063799006)(22082099003)(18002099003)(261102130727099003)(10067099003)(56012099006)(261026140227099003)(261026121527099003)(261028144727099003)(261022105027099003)(261021123027099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KV0lOwP+yIpkKqj21/1HZhTzEXszXZONUXGhAfFmD3SpUOiHo0uT8QfTF4Z5?=
- =?us-ascii?Q?OBBqPTS0wzdxS4arp4F2oNoYq50ZcnRH8wU8LSqEfXqfLBJllU6z2cp8H4OU?=
- =?us-ascii?Q?DN1BqGaAPq18kxYhWtZc98BtOqdMSwYGB7G2bWXTi5AH68F88M4nH9sJM3Oo?=
- =?us-ascii?Q?AOroGhAveLsFNnp9sfrJnw0JbF0el9UmbQmuwJ9LeGkcMviTe25B/L7D1RvP?=
- =?us-ascii?Q?yp6qAjVJx7OzFu1vzZJBzTbu4P495hI4v+7SyP0uUjjP+y26I1LIKCiYnZ2p?=
- =?us-ascii?Q?OmnWwTvl3C25XT0egAKw7U2CdQsOcummcLiZb7ebIBTBOHnDza1I33T34+f/?=
- =?us-ascii?Q?slzhnuHHQnlufdzHsfPDm9ovE+XgqAJzuKttZpF0EYW4ES8k7+JZGpWH+HPX?=
- =?us-ascii?Q?pI+G9eF472BoksgfX6eySCo+WuKzp+I6PUzvzS8inOpb28rycJWx8Smo8usb?=
- =?us-ascii?Q?BiUDT1ghxJyJn0TuwmC0VKdQ312UTyqq2/oKBU3yES3h867S5SQ80sUNz03V?=
- =?us-ascii?Q?HC2uxEBs2AYCl4BP1KM3CKqmPp7gwKbVUAPqTv9gerIvv4+ZmepVh563Eq2a?=
- =?us-ascii?Q?bd0eq7qS6GIU8CSl7uyr9uVl3jJsSOIfe92IALji6l3HEOKlqJ8UZQkxb/kt?=
- =?us-ascii?Q?WXZNgRoZdP+CrAWkEJIBDQO7m9d8b6+su5mK59kyzEpSS2UANtYjVqIIeHCn?=
- =?us-ascii?Q?N18FeSjz27j+Mc6qtmnQ82oVhTf5xrXVcX/9YpDfi9/cynqB/i2e2DC1Y8Mt?=
- =?us-ascii?Q?h0Y52C3Ini2Lg2HliTI/6HJpnjVYbWO0JS5P2/VMoS+pR5HMjxqqgElOkQQS?=
- =?us-ascii?Q?AQZLyjunQrfynPN5a6pPtAdfQwh+vuaAzx6lhWhy+s995O1lurZoR62J/gRd?=
- =?us-ascii?Q?jmOLzTmC7AOFZeJLb8Io9yBc4Vu/2XpbWsGxsnVbuMCaiKIy9KXGkTVnHAK9?=
- =?us-ascii?Q?dUwoyQkjL6ceCUMPKwSdy0D2I5g/ESrGgkEyvaFlSeyQ7kNCNUrYeqcYMQ0u?=
- =?us-ascii?Q?nrazZmzRCA+VW7fpxJGTxctUTfDiCXVr2Hi715S0/7jwsVOv64DYf70a0VNb?=
- =?us-ascii?Q?gnaG9e6n2p0WgDhTCIJ8cO2TLb5V7S+AevOcO83Bxg4a5XC+GaGeGiLo+aGW?=
- =?us-ascii?Q?NjvpLxMrsK6KDjIxlCHIVNU08LD5UzaOKTHjBt4VjqIL+MCUh3sBKVQ6/zmT?=
- =?us-ascii?Q?gYocsIEn101bJmMyX2jjzuu35JBqnDknaqYexCop+Onat2ViaGdJCw/D86ya?=
- =?us-ascii?Q?XlJQDmd/LFXlaK3ErHbbzxfsfF64v6Z6+L/vkh43THyIX2Vv4Um6yhYyaXQg?=
- =?us-ascii?Q?nB2zXoX8SfP1Vkq0LiNaP3M3fq4R0cyncMQ5J8fZhAy7E9yhdWqNAfgWxXtx?=
- =?us-ascii?Q?FbwMgmej+J/SA28fYD4XJ0UhXblIrBTlNreJRWG/IQJEuDWFBumNwZtcHNTa?=
- =?us-ascii?Q?f/rTk9ZDhTdjdfxn9wD51fG4ge25FEOn8mjeLqn0tCicrrEQyUUeOA312Fxz?=
- =?us-ascii?Q?Vfe4vb5Zfzge908bHqnpbICJVXiPpzZUZqzho2iZDMPKr+aiMieab+/WAb6G?=
- =?us-ascii?Q?ApXvTZQASUb2s7LdXgE0Dbr4sWo+OoPaWeessVvbBfpPJpgIeHzptHliVBVc?=
- =?us-ascii?Q?ZUhE29q6XdtzBLhuY6fVdhrDeO1+/Pv78vMD6LF19F29iIgEqI8wku1xKN3N?=
- =?us-ascii?Q?zS82WIFXtz4Y3iMcEk85khdDOnyhKih8kSkmlHzxmaIngWiC5Btav/y/hMqI?=
- =?us-ascii?Q?0JvKAy7gt425wBE5hBflp0q2d8LYQ+A=3D?=
-X-Exchange-RoutingPolicyChecked: Lm5g1HeSiQvOu4uamZ/hvYXHO6umEipJPoj48xorrSnfCoI9Fl0D2DhFOXf4PAS/oKQRDJkmEbkwxINud/vAAYdkViXBYaPPKM7MbDmseZnR2dzaa+DBO0R31zMF4hu9XGpudqn4fAffFkrfHxEGNzDMa1VNQWpLO1PJWcoOiqXl3n/JvlpgGRojZhL4gGRzgBCyIBX+UoH2nGWg2wlJf/3wkbkujlxpaJHw2TE1bjCbKEI+xvagBc0g7OGYqEYYpoQaTzR0/31fanf0u/t+mWdasPPkdrdJvvkVZ8XTYsVcYf9lVKrO7Ze4tA3aN+V/uykihzUxjejmV2jrFJIq0w==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: ru7f1P8u+AKsKPzrL+GemP/GIy2yUU4F1zb2TFVhevNClhX9UbL16Wn6RXGpqSHKOujSqennSW4p46pFKjnqEJw21fFiKg0wJOXpf7feihrhpoMUObPxIvnmVva3hPH8OTXaMGwtX0eXf/00tW2tq8rPcaMDygiw2pFn87qsK0L7SoiVwGUbgjEA4CFYzza1f1rYhchL3/nrwbfARgqBcsZ2yw3sf3WC2x00YDYsLqzfBfKLiCVvSra7uPj9gpONQpUj03Q3McFfpszgxl2MiU6kecM5c+K96SupoxgpFv9xxYnuAr4idCHzoG84Kth4A8ieUC+Nj5ljYjLSDaNSdg1wcbQr5+2lnGBkRvLu6HDk5E4t7hwZQ6OAWusEeb9dHJP8pwgr/DzxGKQdXZJZB2EfW33197a0uc0wZVKstml9ES77N/wc8XYpWzteibdld4XS8Mcm/RdxUm6Z/qLHZ6FuTG2cyGLxXP0VVebKkDZdTZLhvntssgleV06YNR0hQWOMv3S2oQxcljh8rf2GYeDurlJCUxwFAcyzEaBU4mM7isyj5XwlciH2rS2zZ6b+SanmyZVM3DSuSn9l2aBOTb0j2QXgUisauWkojg8Ad4cfA4PtSXe96s3xncTtEJJZ
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7151318-f494-402a-b8ef-08df4cf8308b
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2026 02:34:56.0848
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HNLsvVwVjV14cN7KN66K/miaV/qVhHpw8/2rNJewHrWqAvk+4skXT7ic/XY96mJYsx/kLmcnUeCAmAAFmapVyPfHhJdvwNypinitHfaTPy0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR04MB8563
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261127_183459_326576_E78A6C9F 
-X-CRM114-Status: GOOD (  25.24  )
-X-Spam-Score: -4.4 (----)
+X-CRM114-CacheID: sfid-20261127_221948_354949_12BEEDDD 
+X-CRM114-Status: GOOD (  18.49  )
+X-Spam-Score: -2.6 (--)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -159,49 +59,115 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Nov 18, 2026 / 10:26, Daniel Wagner wrote:
-> Hi all,
-> 
-> this series makes running the nvme tests against a remote target with
-> NVME_TARGET_CONTROL actually work. The first six patches of v1 have been
-> applied, this is the rest. It applies on top of the series that makes
-> tests skip when a program they need is missing.
-> 
-> The first two patches are fixes: nvme/047 looks up the namespace again
-> after reconnecting, and the nvmet target picks free service IDs for its
-> ports. The third is a cleanup, nvme/042 and nvme/043 iterate over the
-> DH-HMAC-CHAP hashes by name.
-> 
-> The remaining patches let tests skip instead of failing when the remote
-> target lacks a feature they need, including the DH-HMAC-CHAP hashes and
-> DH groups the target doesn't support, add port and host key support for
-> remote targets, and add a NetApp ONTAP target as an example of a target
-> that can do less than nvmet.
-> 
-> Tested against nvmet in a second VM, which also exported other
-> subsystems on its own ports, and against a NetApp ONTAP array. All tests
-> that can run against a remote target pass, except nvme/077 against
-> nvmet, which checks attr_qid_max in the local nvmet configfs. Against
-> the array, nvme/061 and nvme/070 fail because it refuses the reconnect
-> after a subsystem is deleted and doesn't support Identify CNS 07h, and
-> nvme/068 because the host runs a 6.4 kernel. The tests that need the
-> kernel target still pass with the local target.
-> 
-> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+A Lenovo ThinkPad T14s Gen 7 (arm64, arm-smmu-v3) with a UMIS AM6B0 SSD
+(1cc4:6b04, model RPJTJ1T24MMW1QDQ, firmware 1.0Q06B0) hangs under
+write load. One or two CPUs stop taking interrupts. With
+irqchip.gicv3_pseudo_nmi=1 on the command line, they do not respond to
+the backtrace NMI either:
 
-Daniel, thank you for the series. I think this series is almost ready to apply.
+  After 10 seconds, these CPUS still haven't responded to the NMI: 2,8
 
-Hannes made one comment on the 1st patch. I see the point, but IMO, it can be
-put out of the scope of the series.
+On writes, the drive accesses the page after a PRP list that ends at a
+page boundary, and the machine hangs if that page is not mapped in the
+IOMMU. Commit c64d9b2c1f4f ("nvme-pci: add NVME_QUIRK_DMAPOOL_ALIGN_512
+for KIOXIA XG10d") describes the same access, but there the IOMMU
+faults and the controller is reset. Here no fault is logged and the
+controller is not reset; why the CPUs stop instead is not known.
 
-I made a few minor comments. Let me wait a few more days to wait for some more
-comments before I apply this series with some commit message edits and with a
-follow-up commit.
+The drive has no SGL support, so a request that spans 33 pages (4 KiB
+each) gets a PRP list of 32 entries. That fills a 256 byte small pool
+block completely, so in the last block of a dmapool page the list ends
+at the page boundary. The hang starts with commit 2e8e30b3cf9f ("Revert
+"nvme-pci: clamp max_hw_sectors based on DMA optimized limitation"").
+Before that commit, requests behind an IOMMU were limited to 128 KiB on
+kernels with 4 KiB pages. A page aligned 128 KiB request spans 32 pages
+and gets 31 list entries, one short of a full block; only an unaligned
+request could fill one.
+
+A debug patch that puts every 32 entry list at the end of a page shows
+that the next page matters. If it is mapped, writes complete and the
+data is written correctly. If it is not mapped, reads complete, but the
+first write with a 32 entry list hangs the machine.
+
+Use 512 byte aligned small pool blocks for this controller, so that a
+32 entry list no longer ends at a page boundary.
+
+Tested with 32 dd processes doing 132 KiB O_DIRECT writes in parallel:
+with the quirk they complete; without it they hang the machine.
+
+Assisted-by: LLM
+Signed-off-by: Luke Macken <luke@phorex.org>
+---
+Tested on v7.4-rc4 plus the out-of-tree patches this laptop still needs
+(none in block, nvme, iommu or dma code). All v7.4-rc4 kernels below
+share that base and one config; they differ only in this patch, the
+debug patch or a revert of commit 2e8e30b3cf9f.
+
+The hang was traced to commit 2e8e30b3cf9f with a workload that unpacks
+container images. It ran 20 times without a hang on linux-next 20261019
+and hung the machine in the sixth run on 20261020, the first to contain
+that commit. On v7.4-rc4, it hung the machine in the first run on one
+boot and in the second on another; with the commit reverted, it ran 30
+times without a hang.
+
+Reproducer, on ext4 on dm-crypt on the drive:
+
+  for i in $(seq 32); do
+          dd if=/dev/zero of=w$i bs=132k count=300 oflag=direct &
+  done; wait
+
+With the quirk, the loop completed five times, and also five times each
+with 1, 2, 4, 8, 16 and 64 parallel dd processes instead of 32. Without
+the quirk, the loop as shown hung the machine on its first run.
+
+The debug patch (I can send it) makes nvme_pci_setup_data_prp() put
+every 32 entry list into a separate two page buffer. A list at the end
+of the buffer's first page has the second page after it. For a list in
+the second page, the patch first checks in the IOMMU page table that
+nothing is mapped after the buffer. Results for dd writing or reading
+in 132 KiB O_DIRECT requests ("-" = not run):
+
+  list ends                      next page    writing    reading
+  at a page end                  mapped       complete   -
+  at a page end                  not mapped   hang       complete
+  256 bytes before a page end    not mapped   complete   -
+
+With the list at a page end and the next page not mapped, a single dd
+was enough: its first write with a 32 entry list hung the machine in
+each of three boots. With the list 256 bytes before a page end, the
+closest the quirk allows, more than 20000 such writes completed.
+
+Only this one drive was tested, and only with the IOMMU enabled.
+
+This patch, the analysis, the debug patch and the test scripts were
+produced with Claude.
+
+ drivers/nvme/host/pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 987ce5f536d6..b11360052c0d 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -4448,6 +4448,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+ 	{ PCI_DEVICE(0x1cc4, 0x6302),   /* UMIS RPJTJ256MGE1QDY 256G */
+ 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
++	{ PCI_DEVICE(0x1cc4, 0x6b04),   /* UMIS AM6B0 */
++		.driver_data = NVME_QUIRK_DMAPOOL_ALIGN_512, },
+ 	{ PCI_DEVICE(0x2646, 0x2262),   /* KINGSTON SKC2000 NVMe SSD */
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
+ 	{ PCI_DEVICE(0x2646, 0x2263),   /* KINGSTON A2000 NVMe SSD  */
+
+base-commit: 08be423d20e892e2606172cf69015d34ac170786
+-- 
+2.43.0
+
 
