@@ -2,104 +2,154 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F4A606A31E
-	for <linux-nvme@archiver.kernel.org>; Sat, 28 Nov 2026 01:59:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3E7606A323
+	for <linux-nvme@archiver.kernel.org>; Sat, 28 Nov 2026 02:30:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=vecAVcfc;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PEQgfy3h
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=A367qDTi;
+	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.a=rsa-sha256 header.s=dkim.wdc.com header.b=E08oDRk8;
+	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-sharedspace-onmicrosoft-com header.b=sVgBpY/x
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:References:
-	In-Reply-To:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Subject:Date:From:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Unsubscribe-Post:
-	List-Owner; bh=oNGH8CkQEAHyP4UwSbh8lNhTyJIeqpdcyD+h2VeLbFw=; b=vecAVcfcjwU6tY
-	UU6puZi/3ylfYqLZdljMcQinUmiU9qy/a7Ygh5F9pcIF9bEt6Jq8QF0ZMPRK51H/GvYu1XP73Q7Rc
-	lLQ+u0ivTeNsyjJZFh/ydzSaVrDBTB7E5W3EG/aK1JkTXt+huD19nlp10J3YlQAvkEWq0CwXp7t/D
-	oJoT/kzqQa6P5w7IuUBM+5tKDT3HmRluqLIL57QcvkYNkvhAf05mAn5gX1QYKW6def+PvzFO0HSZJ
-	doFs1IBCz3G8LUpi0cI8m49uK34lCeCFtWwYFZeRI2O3R0hHkQPpGNYtXeYXnB415/dVmI31uPfu2
-	KehNPPUH2SIgUW22Xlmg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=/npjpJwdiiPjqPyVOpI+rLq5dAuKJ9Gsmu9khwAwt6E=; b=A367qDTi0lh1yDlDObltBFAbUb
+	KlJQqcynwp0EcvKSD3nF5XnxwD1DZ1Nma+zY6cRUzdQzk8loDfBYeU3E5s3ZWGKnbYbEHmFUMljO7
+	zAQtz80m03u0mUjhC+uLImeOe3JrZiLcgOqINy2NzJjW5AUD/9G4EhJgqZOm942LpPG6mjbKglJxw
+	ZjNyWLnb4dAbEAS7zrjqlh07Dn0LocVIfs3uJJQt73d4V3krR19PTZ0V8HTt/g2kQdb9BnJuJ7fuX
+	pdpAkjRzMZOv6m50wAcotBnlPUaSlv4G7Ff5q5lG2940txs+unIeHi8XQaXgGIfzsZOAA7cTvLPG9
+	Hf+Aorbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xX7iZ-00000000HYg-0egQ;
-	Sat, 28 Nov 2026 01:59:11 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xX8D0-00000000JAC-2HYl;
+	Sat, 28 Nov 2026 02:30:38 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xX7iY-00000000HYa-0fS4
+	id 1xX8Cw-00000000J9q-1Qz2
 	for linux-nvme@lists.infradead.org;
-	Sat, 28 Nov 2026 01:59:10 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 4E07460232;
-	Sat, 28 Nov 2026 01:59:09 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795831149;
-	b=n7Fw8DyZcY4pzMJnLNZ86f3ECXEmpcDswS6X0sjkH3Qar6oSjo9vy/niIONZ+OWF6Wqh
-	 2zSzP/DjP1rpZlGQS+lFppa4s7uovqgTmgpoTudEAmcM241oBpeuNyG2WNyzuOZ4d6l1j
-	 Wsh2nanQEIHoHkR9aksi/mcq5FXhfASfgaHp2XfXKR4wtWAoe63bXvjCnPVyS/X3O16Z0
-	 h+Gs+UCZYWoiGiqFMYxQEFFXzTkJiyilmzdjS/i6/o0glF+2KnKOIN0o/smJtHE2cMGLc
-	 j+dy7V0T8ypHxfLjiOiApTFcTUBGteZ3+fw4fR3w1MVE0CdnrraebTjNfzwzwWZ46uA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795831149;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:
-	 In-Reply-To:References:To:Cc:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=oNGH8CkQEAHyP4UwSbh8lNhTyJIeqpdcyD+h2VeLbFw=;
-	b=vyY9AhbG5nTiY9MSHhWPpjWncXq3sQxH5Wtdt3u8kIxo/9+Taqqij2ywqmTprfIiw948
-	 LOHA8eYDKcwZpwds4D/iExSgwy6dPwtiFTTZvUP81n3yH9YpxKElDH0Ga+QxRyOFBFdOy
-	 YEiyGp5OY+cqfzPkle+EjMEq7099NL4xTsM9nC93b99ul0IYG2ARtS1TU8pcXUAStl2My
-	 sfW0C4YQUj8LYugZ78pg+hF6Ae8LzXwGbdQMQxU+6h0w/27uI7UNDoMZNqRB5wbQNTw1z
-	 uTzI7/sn9Iy4YA2bN9GfhX1u6zXrKVNi7CVysWYIjb9NpD3kRDi1WIoyy6MeLymhnLw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 83A3E1F000C1;
-	Sat, 28 Nov 2026 01:59:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795831148;
-	bh=oNGH8CkQEAHyP4UwSbh8lNhTyJIeqpdcyD+h2VeLbFw=;
-	h=From:Date:Subject:In-Reply-To:References:To:Cc:Reply-To;
-	b=PEQgfy3h8YwYZHK2wZoC2EriVkPWw0D543jWy8LO+fWd9yfpOQ+v3EtL6KS4jYCMy
-	 ejTISI+/82iXFGZ+aOjSgbsDDzSTYQTL81Ak/i4P1dzTIgJEg+1B/EjayfrJyihVAd
-	 31PI3KpCTUT/HjN9bVjjduhGAyc6ie8Zl1DiLiluI1A7guv5CpdSnj9zy01zpeQ03y
-	 biD3jsxnjx0ogaBlk7L/xmA5pO+lCgXWUEojEgLsD1FK507MF30uEjZ1s8aVaOsQah
-	 hqLGshWwHz2jcKxzbw+xR6u3zjr85PmaUL3liIEhBxun3WNMwBdLMSzDVdAeqDZpUx
-	 Ig/J6L2cmgEPg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 167FB4DF09;
-	Sat, 28 Nov 2026 01:59:08 +0000 (UTC)
-From: Dickson Wu via B4 Relay <devnull+dickson.wu.certik.com@kernel.org>
-Date: Sat, 28 Nov 2026 01:53:37 +0000
-Subject: [PATCH 6.6.y] nvme-tcp: fix usage of page_frag_cache
+	Sat, 28 Nov 2026 02:30:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1795833034; x=1827369034;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=3tqgCM8GMzK0ATyAT+w5IMJ/wiLdxCM5+P3LmHtO/VM=;
+  b=E08oDRk8W7X1lzgTZnMdgqCHbM2+1UI2jZG2EELu2wi/jx9HlzE6kQlw
+   SEot1g4qXLJqQ0eWeauOI/pR6byhcD6rddxgcSFs5PAdQiFHvhQS811/U
+   qCvKEzc7qcSA+DdHOU32uNfmUZZ7kHD27wnNsEg12wTIH3rmiNJaj4VkU
+   sX8E4w0GJz4vwTSJu1TZQns4lPkn4RLs0wBD7nDunnfMvzO/YcAwjNaij
+   jMzmj4YDpRubK8o08KPeUoyiDx49s5JsZO0WRUUT2HAFrD7jlsm6h/R+p
+   wPS8jekKxIqYgKIPjf5M1vVSH1CDOeJmg+KPfxCUDtrCUaeoxLIdwiex/
+   Q==;
+X-CSE-ConnectionGUID: sI821BFpQMSQ0mn4+v4PWg==
+X-CSE-MsgGUID: 9rsKty59RiWeq/6h5fz9qg==
+X-IronPort-AV: E=Sophos;i="6.27,238,1786982400"; 
+   d="scan'208";a="161943681"
+Received: from mail-southcentralusazon11013039.outbound.protection.outlook.com (HELO SA9PR02CU001.outbound.protection.outlook.com) ([40.93.196.39])
+  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 28 Nov 2026 10:30:33 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k2L1YNWLf2waQh4SymSpXvpL8KYRAKk2BfekRICShroVfzRQAzrrtLYRWlkqM+iszbNF+cQYGnuzhi9y669VoRw0UKrmOru5KHezMm5E7oIvRm2ZpBnDtcjjscaDw4bf5UEv2p7dP60GHm42+BmZKJxlDra449oX9Ln5mHLWcxnIjgfxp48NYaokAlSVxdwLL0AiPLIy2OTVhVebbxz4OnZqtc++7hJ0BPUvuwZVnX0rxjXRY4qIg+WU7LrNXAlHScha1O8TlZvRbo8NW/GeXk4OVTl/TVN+8B4cGlFirlZA9e7hAoEr8J9YXTsFLDetFM3Lmr4OX3DdnMHWPDXfQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/npjpJwdiiPjqPyVOpI+rLq5dAuKJ9Gsmu9khwAwt6E=;
+ b=B4JJZphWVd7lA2ePivEhVLF1U71UCnNXf6ApCq/tp2livsFDm6WjVrCu/XYy4LVNDUzxbqEnlLVhkaELAd5ETTaDuWVIF6BeZ5LsoxVeXXgG95AryhoGJVjQtkwKuJVY6pP4xJaC+4BITSoK3ZtdQm2EDTLwpToOVo9tjy2iZuKWrdjV6IBIOj+FQ7Ui4PtlcmPY1st39CFdHXNqqZe23x6rrtpCnnwrAuOHSlg0+4RH8lJEauoucSGNa8AJThCYg6Ldr95bGOPAT8o8PcZ9fNUTXxIS680YvW4PX+ShTtWsl0A2z0zfFpzDpATldY1fumenNfUsaJp9oMTfI6sNtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/npjpJwdiiPjqPyVOpI+rLq5dAuKJ9Gsmu9khwAwt6E=;
+ b=sVgBpY/xV7E+3szcIKhX1T3tPD9hVM11SGfJSH48ZsZio0RXcQeopbYtha+Fz2PblL0bFA4UgSuK6sznJshYtXh2xa18k+36KzDBMqEEYcbGgY6ssNV7ESDUrze0XXpc0PTDSwg1P/sZGYbb38+a5wYt+zWucjp7OUa3JVNJ+G8=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14) by SA1PR04MB8563.namprd04.prod.outlook.com
+ (2603:10b6:806:338::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.10; Sat, 28 Nov
+ 2026 02:30:29 +0000
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85%5]) with mapi id 15.21.0662.007; Sat, 28 Nov 2026
+ 02:30:28 +0000
+Date: Sat, 28 Nov 2026 11:30:23 +0900
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH blktests v2 6/9] nvme: skip the DH-HMAC-CHAP algorithms
+ the target doesn't support
+Message-ID: <awo7lbuEbPHHuIm-@shinmob>
+References: <20261118-nvme-target-control-v2-0-d191bbbf5dd6@suse.de>
+ <20261118-nvme-target-control-v2-6-d191bbbf5dd6@suse.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261118-nvme-target-control-v2-6-d191bbbf5dd6@suse.de>
+X-ClientProxiedBy: TY4PR01CA0032.jpnprd01.prod.outlook.com
+ (2603:1096:405:2bd::13) To SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14)
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261128-nvme-pfc-66b-v1-1-1e9e62f279aa@certik.com>
-X-B4-Tracking: v=1; b=H4sIACA0CmsC/02NwQ7CIBBEf6XZs1uFRFL9FdMDLFuLUWjY2mia/
- rugF4/zMvNmBeEcWODcrJB5CRJSLEHtGqDRxitj8CWDPmijlO4wLg/GaSA0xqH2dOzsoE9sCMp
- kyjyE11d3AdOa9g39D8vT3ZjmqqpFZ4XRZRtprEg4+jmlO1a+/7+AbfsAOJ3hdKQAAAA=
-X-Change-ID: 20261128-nvme-pfc-66b-2dc58af29e6c
-In-Reply-To: <2026093029-shadily-cattle-6976@gregkh>
-References: <2026093029-shadily-cattle-6976@gregkh>
-To: stable@vger.kernel.org
-Cc: Dmitry Bogdanov <d.bogdanov@yadro.com>, Daniel Wagner <wagi@kernel.org>, 
- Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795830816; l=4082;
- i=dickson.wu@certik.com; s=dickson-b4; h=from:subject:message-id;
- bh=CdE6yazXdSUljdqOaRYpG4gOpo7h4tspV/2rkKEFY6s=;
- b=NYsneGD3NMbEmIgR07SkJTCdj2M5Up0H0/CiIhVf7ecGOMBmFFI7NtYc4YfgCoO6TLEUh1cd6
- 9hAVeGA+PpAAWdzRT/N+FI1ObvPNbspk+OkxJI3XDiEWz4hlYLDXsN/
-X-Developer-Key: i=dickson.wu@certik.com; a=ed25519;
- pk=fxH7FS4FdojeJSGLJzgKdfO51Rvr4EW30yinj2mc1vg=
-X-Endpoint-Received: by B4 Relay for dickson.wu@certik.com/dickson-b4 with
- auth_id=1647
-X-Original-From: Dickson Wu <dickson.wu@certik.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|SA1PR04MB8563:EE_
+X-MS-Office365-Filtering-Correlation-Id: 03576eaf-c77a-4810-cb30-08df4cf7912e
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|19092799006|366016|376014|1800799024|23010399003|11063799006|4143699003|261009223027099003|22082099003|18002099003|3023799007|10067099003|56012099006|261026140227099003|261026121527099003|261028144727099003|261102123227099003|261022105027099003|261021121427099003|261021123027099003;
+X-Microsoft-Antispam-Message-Info: X0FsL1A338AZqi/36kKm7Q10+a2Us9UdCK87rdsQ6lGom3APrpGPZ/ugCGMohskSGeG86Tx5oDIp5vnVdM1Az3OjXRW7K2EZSCVPT9I5U21DHuhmSzZlD4+AMwjRAFeIRX9t/QAd4LDAh8izoiOOrpwE9JU9QVfDRDkyopytU6MSuz+piot4kRRdMOZs+EZU7XFKLs7m7Yooy5ejkZtS/XG8CkSWJnT07E0FkYnu6kZUg/Hnsza/ofkfF9uwe8slleUVQofwRmKvgt186u/otn6pkcu8IGkEcG1PuE64Ik9vitVa0OWNyWJlov9V5baO3uepcWBpD4Yae6gCWEOGbVbxYxHwL3EGRPJ4kZ3/H1w+hwBUYBPCqQmUuYieO2PVgu+/VayYQA+GNJ8yaZFvAII+z3G3UIS6HYu/CCUGgbDWjJCe+GtcM+T2mZ3xq69M7vH0xdJZsEPnRM3IIIXXWfVM7eJDqauAAfDsB1yXoI65DGjb7Ark327tH7dS6be7dCiFJiC8ofc4IWAbfcHdNhEgZCPXHN8DEyf4JqM25Y9ve1RCNL1+P4ggHSoCz8TT1JyqF79eS/wSid+jkG/TogQo8awB6B2QDL94wpQkmecab/3LhmVqpQr2V6m+hvHZQQgy+M4rgqwS7/SQwaPB0RlP3Ftyyl6vnvjy33Y1BGg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(376014)(1800799024)(23010399003)(11063799006)(4143699003)(261009223027099003)(22082099003)(18002099003)(3023799007)(10067099003)(56012099006)(261026140227099003)(261026121527099003)(261028144727099003)(261102123227099003)(261022105027099003)(261021121427099003)(261021123027099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zT6oWjaNcmD7p3p/2ze2oaH7VInZ4+5QhNGoxUuO8G4XDbnylWnkDh+bAl1z?=
+ =?us-ascii?Q?bPQwqn+DuZlBVjTIasNdqsRmpSQPmsTj0VNdcZqvQ6MUwbarO5UE3u1lJLli?=
+ =?us-ascii?Q?8qt+nt3cn7beZ7BHAK00M1L52HmPgXk6NWBKfrv7inQSzok19drdc1i0DrY0?=
+ =?us-ascii?Q?39RIKZZzAUWF1w7DstacZqoUKeL9P3nWDKqJ9LVfD5oGKWaXrCl16xwjQZfz?=
+ =?us-ascii?Q?lrTsRqgbXvMKazm6URXHvtuQwH/rei8a8+9oXgVvPZYzbD6N888vuIsO5kdx?=
+ =?us-ascii?Q?bzB87OZYWIvCn2LpLJEL6JnKp2y/Bs/HUjKhtc6oLU2+s5F5IUYihr077OeL?=
+ =?us-ascii?Q?9Go80/47rDQukjN6C+d12oNNX8I8X19rkgMJ5dCgGG7nbcjcIHWUHaoQMP1F?=
+ =?us-ascii?Q?knyuGv2/ORYkv5kYwQuevdU2qw9U0WRjoy1THqu5v1MOM8ND+l4Rs4jXAgD7?=
+ =?us-ascii?Q?XExE4Vj628TqCt3a/Zrj+kuRvJggIng+BgqDmbZXBicyxRnyyMu1jwFQXyr3?=
+ =?us-ascii?Q?RZc9WrLprwkOOTjL8POhmo49Bp3GOWR1aUmj8ufjOpqU7x+vLNb0WA5mAl9+?=
+ =?us-ascii?Q?yyYIj+Nm3cYOmei6sEnpAtaLMgYmF55Zck8QmLw9g2mlaqhBJB634bRzTHQt?=
+ =?us-ascii?Q?0KubVMw4Tj+b2gsGyYlYPe91uq9844QLPLRNI+/54xTb3JNemSD2ZJQA+rlC?=
+ =?us-ascii?Q?5LUXGOtNP14yqwCDLPVgld39cjFcTFgj07BXZWKYdzV4sqy2Ww/BrXyk/B2h?=
+ =?us-ascii?Q?ebn+9gqdCgZ/kZRxEOliRAg6qpuUUK58rW3KNxRG0mmeXzEx2o0Fgi2dX2FT?=
+ =?us-ascii?Q?JjuXSaCMjznv517hs0LDbKnLN4nqp9qQHjeixZdRMVgNIDal+lCYvqmP7s+y?=
+ =?us-ascii?Q?ekvyIlwiNREaehp1sQcQGQTWZ1zf685Jro+HtZAKDTr0W9Yw8KYotSZiN2DY?=
+ =?us-ascii?Q?r4qTQhKnXr18ubUwlFnvt2wJCotjY8y5ko/9UE/mxntmjHYvkZl4hw8Hca8l?=
+ =?us-ascii?Q?P21lna9wAMgbVbBnyc8EfP5Cp6WHoPsyMkO3oRTdQ2q+w4sLPDtqVdBcOdN/?=
+ =?us-ascii?Q?MDXSUWQic/gITU0FgI3OUkltDYc7lDejqSjS84Hjl4EGPkcTuTRSnzDs4lfK?=
+ =?us-ascii?Q?LBlEWq2nDAHa4t4Ugx+tFsJgtTEl5Yydnm/zKVqkURRbWNYXfGFAvf3+uRxW?=
+ =?us-ascii?Q?aSasUaVO0NB3rXjglx43SwWhktaqZ0rUKWbUqDcrRdyRghLIoSBgik/9aRmi?=
+ =?us-ascii?Q?neOi/fZIlhRLvH17pdA93tUrz5bCJkYNM4u3ol/HBEtQwbvExEu3lVtxwxG4?=
+ =?us-ascii?Q?ZF+SxcVCWWlLwFdW1Vnpt5YptzSdz1MyxgHqa6s0TWiGnQ9Kq3tUy9VHPs4s?=
+ =?us-ascii?Q?nn+qlJy5b/fq2UyJEDg8EhYMRinNfdJJs/VuZC+kbvMMNJU0+CmT6BvaJF62?=
+ =?us-ascii?Q?lD/JHo1l9wkXpWN96QMYVxxoZLbDVIdnLCWSrCO8V8+aCRP6+XSTbQAsgMxW?=
+ =?us-ascii?Q?tE6R+XF3/7HGsgCVIZ727JC9FfDOdQysK+zpepc9IBG8eH8Z2uxfRZnUNpe8?=
+ =?us-ascii?Q?QPCYp/U7rv8MnLfytt8PIkRdhiHcvbwh8UG21VneEWdamtO7tu8+GxOL89dX?=
+ =?us-ascii?Q?fwvsWFYtD6MwsspUfHNhc54GljjXsP9WtYK58cX6tcaMU0ItYMJj2TcAuaKM?=
+ =?us-ascii?Q?MhTFjXFiU5KZMV49hfhyitPIonRm4i2xWkzEc7qVLEkU4Gum0fDqHNYM2O11?=
+ =?us-ascii?Q?HcLqkyY4AZlaD0v2IjZdc9kvyqZ7hPA=3D?=
+X-Exchange-RoutingPolicyChecked: NEAwc/6Oz/oKzhq1qUxAg0YyIhgppPfjgUSjWvKG776QbrjsyZ7et49WfMFM5hfc52VpnPokCULQg2RwYddqITLLK6HTtd/bxFFMhmYP6DnOwOO4ECjZM/JA5FiOUe8/w1kDAN12V7KCPtUpizzS5uJdUNNQ1S5RBQv+BsbZmwBMo/Gjv3wNojc1teAUAwKMKIvrUJgqCArPjXqy3iiEEmuzWzmkwb8+3G3dVH7IA0iBDBxWB9oVOSUZwnz0MlkhRh/fOHGrxFqgeUu9RLC8wep0X/kJtNy2XRd295ezsUP/ZTfpW8ffKayFzInLmSuhP82uNEG7GdhOJcOPwJ8F+g==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 6akfU1ofcK50MSYfxOtWJCoVNx/OYl2Da6pLVznRY2F9c8TouvurjIj7Tnc+Q3nVrcg1IRyyz+G55pb5DulDLtaTXMpMrTdjG479K2BE/QoaIF8PFHjFz1QsLI3FQAVf//OWAMv2hv12OZ1LdjjudS9vdvYgB0/CyRnnxnpxyXoZgmQSwW6tqFhnX8z7DXv7u4zXKI3LzRtdoj+disvf6wave0EKRwOi5Q1Hzax1L6pqZHq+4qtVKigxwQ4gQixen2rIRJC0JVqes0xSySF0Bwn3BXmJQEOKBCvinl41MuG9hXS/hK6ZNFOP8igHVhStT3M8GWS+Y1VCc/C54f2+dbaX8sI3Nl9ueQWZJ/rWkvyn0enYUip7BLyG6TXASGc09TRHU5vRItKIG7t/JKIr1J+0QPs60NrZOzzQfR631T0Ir+Tw+wZ1vNpWtsa+UIYYsU2kRFA97qSaWypCo4hz2xxd15QhFSo0wH3EswkzgMD0pS9OZHxNzNtplJVoDFDRcjOeOOCBBoefDT+yReb9fBn4UOqtd91zl5e93JOBkDPmAqIuhBq5oTA/Edu/80/01xneWD+i0oq0YDquP5ORKTHVqa/7pHaMuUZAmxXn6ifUV9F+bpp3FXmf9pWP8ixK
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03576eaf-c77a-4810-cb30-08df4cf7912e
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2026 02:30:28.8966
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ErgDXl8+C7UqdVQsxTdINHqR+W+8D+U8LzYS37FjEEmmqaDYQLl0DgPqYZ9cxRJJ5sCCRCfGKOlhiFchlhVYPxzPTLs86rBC5xJcUkFTcbw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR04MB8563
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261127_183034_530925_F4133E99 
+X-CRM114-Status: GOOD (  24.40  )
+X-Spam-Score: -4.4 (----)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,128 +159,209 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: dickson.wu@certik.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=4.0.1
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-From: Dmitry Bogdanov <d.bogdanov@yadro.com>
+On Nov 18, 2026 / 10:26, Daniel Wagner wrote:
+> The authentication tests fail against a target that can't do
+> DH-HMAC-CHAP, and nvme/042 and nvme/043 fail on every hash or DH group
+> the target doesn't support.
+> 
+> Skip the authentication tests if the target doesn't list dhchap-sha256,
+> the hash every DH-HMAC-CHAP target supports, and skip just the steps of
+> nvme/042 and nvme/043 for the other algorithms the target doesn't list.
+> 
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+>  Documentation/running-tests.md |  7 +++++--
+>  tests/nvme/041                 |  1 +
+>  tests/nvme/042                 |  3 ++-
+>  tests/nvme/043                 |  4 +++-
+>  tests/nvme/044                 |  2 +-
+>  tests/nvme/045                 |  2 +-
+>  tests/nvme/063                 |  2 +-
+>  tests/nvme/rc                  | 31 +++++++++++++++++++++++++------
+>  8 files changed, 39 insertions(+), 13 deletions(-)
 
-commit 36ac05f7cfd59d90c597071304b14e98090d5dd1 upstream.
+The commit message mentions the test cases nvme/042 and nvme/043 only, but
+this patch touches more test cases listed above. I guess all those test cases
+are modified for the same reason, right? If so, I can edit the commit message
+when I apply this patch.
 
-nvme uses page_frag_cache to preallocate PDU for each preallocated request
-of block device. Block devices are created in parallel threads,
-consequently page_frag_cache is used in not thread-safe manner.
-That leads to incorrect refcounting of backstore pages and premature free.
+> 
+> diff --git a/Documentation/running-tests.md b/Documentation/running-tests.md
+> index b66bdf9cb2e8..d556f1d3b7cc 100644
+> --- a/Documentation/running-tests.md
+> +++ b/Documentation/running-tests.md
+> @@ -261,8 +261,11 @@ The blktests expects that the script interface implements following
+>    --subsysnqn SUBSYSNQN
+>  
+>  config --show-features prints the optional commands the script supports,
+> -e.g. add-port, set-ana or set-host, and tls if the target can set up TLS.
+> -blktests skips the tests which need a feature the list lacks.
+> +e.g. add-port, set-ana or set-host, the DH-HMAC-CHAP hashes and DH groups
+> +the target supports, e.g. dhchap-sha256 or dhchap-ffdhe2048, and tls if
+> +the target can set up TLS. blktests skips the tests which need a feature
+> +the list lacks: the authentication tests without dhchap-sha256, and
+> +nvme/042 and nvme/043 only the steps for the other missing algorithms.
+>  
+>  contrib/nvme-target-control implements this interface. It configures a Linux
+>  nvmet target over ssh and can be extended for other targets, see
+> diff --git a/tests/nvme/041 b/tests/nvme/041
+> index 9c3d9aaf4e12..2571c851be4d 100755
+> --- a/tests/nvme/041
+> +++ b/tests/nvme/041
+> @@ -16,6 +16,7 @@ requires() {
+>  	_require_kernel_nvme_fabrics_feature dhchap_ctrl_secret
+>  	_require_nvme_trtype_is_fabrics
+>  	_require_nvme_cli_auth
+> +	_require_nvme_target_control_feature dhchap-sha256
+>  }
+>  
+>  set_conditions() {
+> diff --git a/tests/nvme/042 b/tests/nvme/042
+> index e771cb6ca4aa..f9019e9640c4 100755
+> --- a/tests/nvme/042
+> +++ b/tests/nvme/042
+> @@ -16,7 +16,7 @@ requires() {
+>  	_require_kernel_nvme_fabrics_feature dhchap_ctrl_secret
+>  	_require_nvme_trtype_is_fabrics
+>  	_require_nvme_cli_auth
+> -	_require_nvme_target_control_feature set-host
+> +	_require_nvme_target_control_feature set-host dhchap-sha256
+>  }
+>  
+>  set_conditions() {
+> @@ -37,6 +37,7 @@ test() {
+>  
+>  	for hash in none sha256 sha384 sha512; do
+>  		echo "Testing hash ${hash}"
+> +		_have_nvme_target_dhchap "${hash}" || continue
+>  		hostkey="$(_nvme_gen_kxchap_secret --hash="${hash}" 2> /dev/null)"
+>  		if [ -z "$hostkey" ] ; then
+>  			echo "couldn't generate host key for hash ${hash}"
+> diff --git a/tests/nvme/043 b/tests/nvme/043
+> index eb8f8b035f6d..695edaab9741 100755
+> --- a/tests/nvme/043
+> +++ b/tests/nvme/043
+> @@ -17,7 +17,7 @@ requires() {
+>  	_require_nvme_trtype_is_fabrics
+>  	_require_nvme_cli_auth
+>  	_have_crypto_algorithm dh-generic
+> -	_require_nvme_target_control_feature set-host
+> +	_require_nvme_target_control_feature set-host dhchap-sha256
+>  }
+>  
+>  set_conditions() {
+> @@ -45,6 +45,7 @@ test() {
+>  	for hash in sha256 sha384 sha512; do
+>  
+>  		echo "Testing hash ${hash}"
+> +		_have_nvme_target_dhchap "${hash}" || continue
+>  
+>  		_set_nvmet_hash "${def_hostnqn}" "hmac(${hash})"
+>  
+> @@ -56,6 +57,7 @@ test() {
+>  	for dhgroup in ffdhe2048 ffdhe3072 ffdhe4096 ffdhe6144 ffdhe8192; do
+>  
+>  		echo "Testing DH group ${dhgroup}"
+> +		_have_nvme_target_dhchap "${dhgroup}" || continue
+>  
+>  		_set_nvmet_dhgroup "${def_hostnqn}" "${dhgroup}"
+>  
+> diff --git a/tests/nvme/044 b/tests/nvme/044
+> index c1a48f1e3d86..01a153e1f2a0 100755
+> --- a/tests/nvme/044
+> +++ b/tests/nvme/044
+> @@ -17,7 +17,7 @@ requires() {
+>  	_require_nvme_trtype_is_fabrics
+>  	_require_nvme_cli_auth
+>  	_have_crypto_algorithm dh-generic
+> -	_require_nvme_target_control_feature set-host
+> +	_require_nvme_target_control_feature set-host dhchap-sha256
+>  }
+>  
+>  set_conditions() {
+> diff --git a/tests/nvme/045 b/tests/nvme/045
+> index 14f4949e198e..52d04ce40860 100755
+> --- a/tests/nvme/045
+> +++ b/tests/nvme/045
+> @@ -18,7 +18,7 @@ requires() {
+>  	_require_nvme_trtype_is_fabrics
+>  	_require_nvme_cli_auth
+>  	_have_crypto_algorithm dh-generic
+> -	_require_nvme_target_control_feature set-host
+> +	_require_nvme_target_control_feature set-host dhchap-sha256
+>  }
+>  
+>  set_conditions() {
+> diff --git a/tests/nvme/063 b/tests/nvme/063
+> index 20aabd91ca80..578cb8799a6d 100755
+> --- a/tests/nvme/063
+> +++ b/tests/nvme/063
+> @@ -19,7 +19,7 @@ requires() {
+>  	_require_nvme_trtype tcp
+>  	_require_nvme_cli_auth
+>  	_have_systemd_tlshd_service
+> -	_require_nvme_target_control_feature set-host tls
+> +	_require_nvme_target_control_feature set-host tls dhchap-sha256
+>  }
+>  
+>  set_conditions() {
+> diff --git a/tests/nvme/rc b/tests/nvme/rc
+> index 41811c033069..0d74c427313c 100644
+> --- a/tests/nvme/rc
+> +++ b/tests/nvme/rc
+> @@ -155,18 +155,37 @@ _require_remote_nvme_target() {
+>  	return 0
+>  }
+>  
+> -# Skip the test if the NVME_TARGET_CONTROL target lacks one of the features,
+> -# the optional commands and e.g. tls, see Documentation/running-tests.md.
+> -_require_nvme_target_control_feature() {
+> -	local features feature
+> +# Check if the NVME_TARGET_CONTROL target lists the feature, one of the
+> +# optional commands or e.g. tls, see Documentation/running-tests.md. The
+> +# local target has all of them.
+> +_have_nvme_target_control_feature() {
+> +	local features
+>  
+>  	if [[ -z "${nvme_target_control}" ]]; then
+>  		return 0
+>  	fi
+>  	features=" $("${nvme_target_control}" config --show-features) "
+> +	# shellcheck disable=SC2076 # match the feature literally
+> +	[[ "${features}" =~ " $1 " ]]
+> +}
 
-That can be catched by !sendpage_ok inside network stack:
+Nit: I think the shellcehck exception above can be avoided by a local variable.
+I will add another follow-up commit as below. Just in case you think wrong,
+please let me know.
 
-WARNING: CPU: 7 PID: 467 at ../net/core/skbuff.c:6931 skb_splice_from_iter+0xfa/0x310.
-	tcp_sendmsg_locked+0x782/0xce0
-	tcp_sendmsg+0x27/0x40
-	sock_sendmsg+0x8b/0xa0
-	nvme_tcp_try_send_cmd_pdu+0x149/0x2a0
-Then random panic may occur.
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index e4fa9e0..879eb40 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -159,14 +159,14 @@ _require_remote_nvme_target() {
+ # optional commands or e.g. tls, see Documentation/running-tests.md. The
+ # local target has all of them.
+ _have_nvme_target_control_feature() {
+-       local features
++       local features feature
 
-Fix that by serializing the usage of page_frag_cache.
-
-Fixes: 4e893ca81170 ("nvme_core: scan namespaces asynchronously")
-Signed-off-by: Dmitry Bogdanov <d.bogdanov@yadro.com>
-Signed-off-by: Daniel Wagner <wagi@kernel.org>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-[ adapted to 6.6.y: no lockdep key cleanup in the queue teardown ]
-Signed-off-by: Dickson Wu <dickson.wu@certik.com>
----
-This failed to apply to 6.6.y. The fix is the same: a per-queue mutex
-around the two page_frag_alloc() callers, initialized in
-nvme_tcp_alloc_queue() and destroyed on the free and error paths. Only
-the context differs, since the 6.6 queue teardown has no lockdep keys.
-
-Tested on 6.6.163: W=1 build of drivers/nvme/host/tcp.o, base vs
-patched, no new warnings. Both kernels booted under QEMU, connected to
-a loopback NVMe/TCP target, read a block and disconnected. I didn't
-reproduce the page_frag_cache race itself.
-
-The backport and the test runs were prepared with AI coding tools
-(OpenAI Codex agents, with review by Claude). I went over the result
-before signing off.
----
- drivers/nvme/host/tcp.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 83347e01929f..673253762c83 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -121,6 +121,7 @@ struct nvme_tcp_queue {
- 
- 	struct mutex		queue_lock;
- 	struct mutex		send_mutex;
-+	struct mutex		pf_cache_lock;
- 	struct llist_head	req_list;
- 	struct list_head	send_list;
- 
-@@ -498,9 +499,11 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
- 	struct nvme_tcp_queue *queue = &ctrl->queues[queue_idx];
- 	u8 hdgst = nvme_tcp_hdgst_len(queue);
- 
-+	mutex_lock(&queue->pf_cache_lock);
- 	req->pdu = page_frag_alloc(&queue->pf_cache,
- 		sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
- 		GFP_KERNEL | __GFP_ZERO);
-+	mutex_unlock(&queue->pf_cache_lock);
- 	if (!req->pdu)
- 		return -ENOMEM;
- 
-@@ -1438,9 +1441,11 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
- 	struct nvme_tcp_request *async = &ctrl->async_req;
- 	u8 hdgst = nvme_tcp_hdgst_len(queue);
- 
-+	mutex_lock(&queue->pf_cache_lock);
- 	async->pdu = page_frag_alloc(&queue->pf_cache,
- 		sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
- 		GFP_KERNEL | __GFP_ZERO);
-+	mutex_unlock(&queue->pf_cache_lock);
- 	if (!async->pdu)
- 		return -ENOMEM;
- 
-@@ -1469,6 +1474,7 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
- 	kfree(queue->pdu);
- 	mutex_destroy(&queue->send_mutex);
- 	mutex_destroy(&queue->queue_lock);
-+	mutex_destroy(&queue->pf_cache_lock);
+        if [[ -z "${nvme_target_control}" ]]; then
+                return 0
+        fi
+        features=" $("${nvme_target_control}" config --show-features) "
+-       # shellcheck disable=SC2076 # match the feature literally
+-       [[ "${features}" =~ " $1 " ]]
++       feature=" $1 "
++       [[ "${features}" =~ $feature ]]
  }
- 
- static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
-@@ -1644,6 +1650,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
- 	INIT_LIST_HEAD(&queue->send_list);
- 	mutex_init(&queue->send_mutex);
- 	INIT_WORK(&queue->io_work, nvme_tcp_io_work);
-+	mutex_init(&queue->pf_cache_lock);
- 
- 	if (qid > 0)
- 		queue->cmnd_capsule_len = nctrl->ioccsz * 16;
-@@ -1771,6 +1778,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
- err_destroy_mutex:
- 	mutex_destroy(&queue->send_mutex);
- 	mutex_destroy(&queue->queue_lock);
-+	mutex_destroy(&queue->pf_cache_lock);
- 	return ret;
- }
- 
-
----
-base-commit: e2bb30811e063ce0db964484357973b855b06572
-change-id: 20261128-nvme-pfc-66b-2dc58af29e6c
-
-Best regards,
---  
-Dickson Wu <dickson.wu@certik.com>
-
 
 
